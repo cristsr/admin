@@ -1,0 +1,49 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: var(--nav-height);
+  box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
+}
+
+header {
+  width: 100vw;
+  padding: 1.25rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+
+  .menu {
+    cursor: pointer;
+    margin-right: 1.25rem;
+    color: var(--gray);
+  }
+
+  .logo {
+    border-left: 1px solid #edf1f7;
+    padding: 0 1.25rem;
+    font-size: 1.75rem;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--gray);
+  }
+
+  .items {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    margin: 0 0 0 auto;
+
+    .link {
+      border-left: 1px solid #edf1f7;
+      padding: 0 20px;
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
+
+}
+

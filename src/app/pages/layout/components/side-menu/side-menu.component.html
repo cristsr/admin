@@ -1,0 +1,37 @@
+<aside class="menu scrollable-y">
+  <ul [ngClass]="(isExpandedMenu | async) ? 'is-expanded' : 'is-collapsed'">
+    <li class="menu-item" *ngFor="let menuItem of menuExample; index as i">
+      <a
+        class="menu-content"
+        *ngIf="!menuItem.subMenu"
+        (click)="setSelectedSubmenu(null)"
+        [routerLink]="menuItem.url"
+        routerLinkActive="is-active">
+        <span class="material-icons-outlined">{{menuItem.icon}}</span>
+        <span class="text">{{menuItem.title}}</span>
+      </a>
+
+      <a
+        class="menu-content"
+        [ngClass]="(selectedSubmenu === i) && 'is-active'"
+        *ngIf="menuItem.subMenu"
+        (click)="showSubMenu(i)">
+        <span class="material-icons-outlined">{{menuItem.icon}}</span>
+        <span class="text">{{menuItem.title}}</span>
+      </a>
+
+      <ul *ngIf="menuItem.subMenu && canShowSubmenu(i)" class="menu-items">
+        <li class="menu-item" *ngFor="let subMenuItem of menuItem.subMenu">
+          <a
+            [routerLink]="subMenuItem.url"
+            (click)="setSelectedSubmenu(i)"
+            routerLinkActive="is-active"
+            class="menu-content">
+            <span>{{subMenuItem.title}}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</aside>
+
