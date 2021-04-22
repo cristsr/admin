@@ -1,23 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-pages',
   template: `
-    <app-nav></app-nav>
-    <div class="grid">
-      <app-side-menu></app-side-menu>
-      <section class="container">
-        <router-outlet></router-outlet>
-      </section>
-    </div>
+    <app-layout>
+      <router-outlet></router-outlet>
+    </app-layout>
   `,
-  styleUrls: ['./pages.component.scss']
 })
-export class PagesComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class PagesComponent { }

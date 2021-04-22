@@ -1,5 +1,7 @@
 .menu {
   height: calc(100vh - var(--nav-height));
+  background: var(--foreground);
+  color: var(--text-color);
   box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
 }
 

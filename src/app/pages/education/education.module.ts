@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { EducationRoutingModule } from './education-routing.module';
 import { EducationComponent } from './education.component';
-import { CardModule } from '../../core/ui/card/card.module';
 import { DirectivesModule } from '../../core/directives/directives.module';
+import { CardModule } from '../../core/components/card/card.module';
 
 
 @NgModule({
@@ -14,7 +14,6 @@ import { DirectivesModule } from '../../core/directives/directives.module';
   imports: [
     CommonModule,
     EducationRoutingModule,
-    CardModule,
     CardModule,
     DirectivesModule,
   ],

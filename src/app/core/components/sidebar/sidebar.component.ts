@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { SideMenuService } from '../../services/side-menu.service';
+import { SidebarService } from '../../services/sidebar/sidebar.service';
 
 
 @Component({
-  selector: 'app-side-menu',
-  templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.scss']
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss']
 })
-export class SideMenuComponent implements OnInit {
+export class SidebarComponent implements OnInit {
   public menuExample = [
     {
       icon: 'school',
@@ -43,21 +43,21 @@ export class SideMenuComponent implements OnInit {
     }
   ];
 
-  public isExpandedMenu = this.sideMenuService.getExpandedMenu();
+  public isExpandedMenu = this.sidebarService.getExpandedMenu();
   public selectedSubmenu: number | null;
 
-  constructor(private sideMenuService: SideMenuService) {
+  constructor(private sidebarService: SidebarService) {
   }
 
   public ngOnInit(): void {
   }
 
   public showSubMenu(index): void {
-    this.sideMenuService.showSubmenu(index);
+    this.sidebarService.showSubmenu(index);
   }
 
   public canShowSubmenu(i: number): boolean {
-    return this.sideMenuService.canShowSubmenu(i);
+    return this.sidebarService.canShowSubmenu(i);
   }
 
   setSelectedSubmenu(i: number | null): void {

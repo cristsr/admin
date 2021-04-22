@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SideMenuService } from '../../services/side-menu.service';
+import { SidebarService } from '../../services/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-nav',
@@ -8,12 +8,12 @@ import { SideMenuService } from '../../services/side-menu.service';
 })
 export class NavComponent implements OnInit {
 
-  constructor(private sideMenuService: SideMenuService) { }
+  constructor(private sidebarService: SidebarService) { }
 
   public ngOnInit(): void {
   }
 
   public onToggleSideMenu(): void {
-    this.sideMenuService.expandOrCollapseMenu();
+    this.sidebarService.expandOrCollapseMenu();
   }
 }

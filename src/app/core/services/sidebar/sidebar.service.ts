@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SideMenuService {
+export class SidebarService {
   private isExpandedMenu = new BehaviorSubject(true);
   private subMenuItemsExpanded: Array<number> = [];
 
@@ -19,22 +19,19 @@ export class SideMenuService {
   }
 
   public showSubmenu(index: number): void {
-    const result = this.subMenuItemsExpanded.find(v => v === index);
+    const isExpanded = this.subMenuItemsExpanded.find(v => v === index);
 
-    // si esta oculto y se requiere expandir
-    if (!result) {
+    if (!isExpanded) {
       this.subMenuItemsExpanded.push(index);
       this.isExpandedMenu.next(true);
     }
 
-    // si el submenu esta expandido y el menu esta colapsado
-    if (result && !this.isExpandedMenu.value) {
+    if (isExpanded && !this.isExpandedMenu.value) {
       this.isExpandedMenu.next(true);
       return;
     }
 
-    // si se encuentra expandido y se requiere ocultar
-    if (result) {
+    if (isExpanded) {
       this.subMenuItemsExpanded = this.subMenuItemsExpanded.filter(v => v !== index);
     }
   }

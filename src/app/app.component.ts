@@ -3,22 +3,24 @@ import { ThemeService } from './core/services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `
+    <router-outlet></router-outlet>
+    <button (click)="changeTheme()">change theme</button>
+  `
 })
 export class AppComponent {
-  togle = false;
+  toggle = false;
 
   constructor(private themeService: ThemeService) {
   }
 
   changeTheme(): void {
-    if (this.togle) {
+    if (this.toggle) {
       this.themeService.changeTheme('light');
     } else {
       this.themeService.changeTheme('dark');
     }
 
-    this.togle = !this.togle;
+    this.toggle = !this.toggle;
   }
 }
