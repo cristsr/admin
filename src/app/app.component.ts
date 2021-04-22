@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThemeService } from './core/services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'admin';
+  togle = false;
+
+  constructor(private themeService: ThemeService) {
+  }
+
+  changeTheme(): void {
+    if (this.togle) {
+      this.themeService.changeTheme('light');
+    } else {
+      this.themeService.changeTheme('dark');
+    }
+
+    this.togle = !this.togle;
+  }
 }

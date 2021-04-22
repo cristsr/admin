@@ -20,7 +20,7 @@ export class SideMenuComponent implements OnInit {
       subMenu: [
         {
           title: 'Resumen',
-          url: 'finances/overview'
+          url: 'finances'
         },
         {
           title: 'Registro de movimientos',

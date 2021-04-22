@@ -1,0 +1,27 @@
+.light-theme {
+  --primary: #4b7bec;  // #4b7bec, #3867d6
+  --secondary: #4b6584;
+  --success: #26de81;
+  --info: #45aaf2;
+  --warning: #fed330;
+  --danger: #fc5c65;
+  --foreground: #fff;
+  --background: #edf1f7;
+  --text-color: #222b45;
+  --border: #e4e9f2;
+  --nav-height: 4.75rem;
+}
+
+.dark-theme {
+  --primary: #4b7bec;
+  --secondary: #4b6584;
+  --success: #26de81;
+  --info: #45aaf2;
+  --warning: #fed330;
+  --danger: #fc5c65;
+  --foreground: #222b45;
+  --background: #151a30;
+  --text-color: #fff;
+  --border: #101426;
+  --nav-height: 4.75rem;
+}

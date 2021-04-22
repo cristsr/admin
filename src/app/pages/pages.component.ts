@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
     <app-nav></app-nav>
     <div class="grid">
       <app-side-menu></app-side-menu>
-      <section>
+      <section class="container">
         <router-outlet></router-outlet>
       </section>
     </div>

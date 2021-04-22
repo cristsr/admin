@@ -1,0 +1,43 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  width: 500px;
+  height: 6rem;
+  background: white;
+  border: .0625rem solid #e4e9f2;
+  border-radius: .25rem;
+  cursor: pointer;
+
+  .icon-container {
+    padding: .625rem;
+
+    .icon-background {
+      width: 5.75rem;
+      height: 4.75rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--green);
+      border-radius: .25rem;
+
+      > span {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: lighter;
+      }
+    }
+  }
+
+  .text-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 .5rem;
+    color: var(--gray);
+  }
+}

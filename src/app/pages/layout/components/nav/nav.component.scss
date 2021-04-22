@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  background: var(--foreground);
+  color: var(--text-color);
   height: var(--nav-height);
   box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
 }
