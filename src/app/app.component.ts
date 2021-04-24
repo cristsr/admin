@@ -11,8 +11,7 @@ import { ThemeService } from './core/services/theme/theme.service';
 export class AppComponent {
   toggle = false;
 
-  constructor(private themeService: ThemeService) {
-  }
+  constructor(private themeService: ThemeService) { }
 
   changeTheme(): void {
     if (this.toggle) {

@@ -1,0 +1,74 @@
+[
+  {
+    "id": 0,
+    "icon": "",
+    "color": "",
+    "name": "Hogar"
+  },
+  {
+    "id": 1,
+    "icon": "",
+    "color": "",
+    "name": "Alimentos"
+  },
+  {
+    "id": 2,
+    "icon": "",
+    "color": "",
+    "name": "Entretenimiento"
+  },
+  {
+    "id": 3,
+    "icon": "",
+    "color": "",
+    "name": "Salud y Belleza"
+  },
+  {
+    "id": 4,
+    "icon": "",
+    "color": "",
+    "name": "Auto y Transporte"
+  },
+  {
+    "id": 5,
+    "icon": "",
+    "color": "",
+    "name": "Educación y Trabajo"
+  },
+  {
+    "id": 6,
+    "icon": "",
+    "color": "",
+    "name": "Regalos y Ayuda"
+  },
+  {
+    "id": 7,
+    "icon": "",
+    "color": "",
+    "name": "Viajes"
+  },
+  {
+    "id": 8,
+    "icon": "",
+    "color": "",
+    "name": "Finanzas e Impuestos"
+  },
+  {
+    "id": 9,
+    "icon": "",
+    "color": "",
+    "name": "Ropa y Calzado"
+  },
+  {
+    "id": 10,
+    "icon": "",
+    "color": "",
+    "name": "Transacciones Bancarias"
+  },
+  {
+    "id": 11,
+    "icon": "",
+    "color": "",
+    "name": "Ingresos"
+  }
+]

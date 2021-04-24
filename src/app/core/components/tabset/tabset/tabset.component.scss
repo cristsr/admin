@@ -1,0 +1,46 @@
+:host {
+  .tabset {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: var(--foreground);
+    border-bottom: 1px solid #edf1f7;
+
+    ::ng-deep .content-active {
+      margin: 2rem 1rem !important;
+    }
+
+    .tab {
+      text-align: center;
+      padding: 1.25rem 2rem;
+
+      .tab-link {
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        text-align: center;
+        cursor: pointer;
+        font-size: .875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        vertical-align: middle;
+        color: #8f9bb3
+      }
+
+      &.active {
+        .tab-link {
+          color: var(--primary) !important;
+
+        }
+      }
+    }
+  }
+
+  .tab-wrap {
+    background: var(--foreground);
+    padding: 1rem 2rem;
+  }
+}
+
