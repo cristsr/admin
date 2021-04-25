@@ -4,8 +4,6 @@ import { CardComponent } from './card/card.component';
 import { CardHeaderComponent } from './card-header/card-header.component';
 import { CardBodyComponent } from './card-body/card-body.component';
 import { CardFooterComponent } from './card-footer/card-footer.component';
-import { DirectivesModule } from '../../directives/directives.module';
-
 
 
 @NgModule({
@@ -20,7 +18,6 @@ import { DirectivesModule } from '../../directives/directives.module';
   ],
   imports: [
     CommonModule,
-    DirectivesModule
   ]
 })
 export class CardModule { }

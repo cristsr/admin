@@ -8,10 +8,6 @@
     background: var(--foreground);
     border-bottom: 1px solid #edf1f7;
 
-    ::ng-deep .content-active {
-      margin: 2rem 1rem !important;
-    }
-
     .tab {
       text-align: center;
       padding: 1.25rem 2rem;
@@ -32,7 +28,6 @@
       &.active {
         .tab-link {
           color: var(--primary) !important;
-
         }
       }
     }

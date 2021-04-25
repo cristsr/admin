@@ -20,20 +20,16 @@ export class SidebarComponent implements OnInit {
       subMenu: [
         {
           title: 'Resumen',
-          url: 'finances'
+          url: 'finances/summary'
         },
         {
-          title: 'Registro de movimientos',
+          title: 'Movimientos',
           url: 'finances/movements'
         },
         {
-          title: 'Facturas',
-          url: 'finances/invoices',
+          title: 'Presupuestos',
+          url: 'finances/budgets',
         },
-        {
-          title: 'Compras',
-          url: 'finances/purchases'
-        }
       ]
     },
     {

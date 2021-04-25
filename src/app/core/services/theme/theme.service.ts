@@ -9,6 +9,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 })
 export class ThemeService implements OnDestroy {
   private destroy$ = new Subject();
+
   private themeChanges$ = new BehaviorSubject({
     name:  this.localStorage.getString('theme', 'light'),
     previous: null,

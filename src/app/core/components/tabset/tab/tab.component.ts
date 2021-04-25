@@ -1,4 +1,5 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { convertToBool } from '../../../utils/utils';
 
 @Component({
   selector: 'app-tab',
@@ -19,7 +20,7 @@ export class TabComponent implements OnInit {
     return this.activeValue;
   }
   set active(val: boolean) {
-    this.activeValue = convertToBoolProperty(val);
+    this.activeValue = convertToBool(val);
   }
 
   @HostBinding('class.content-active')
@@ -32,12 +33,3 @@ export class TabComponent implements OnInit {
   }
 }
 
-export function convertToBoolProperty(val: any): boolean {
-  if (typeof val === 'string') {
-    val = val.toLowerCase().trim();
-
-    return (val === 'true' || val === '');
-  }
-
-  return !!val;
-}

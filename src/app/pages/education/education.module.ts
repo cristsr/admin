@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { EducationRoutingModule } from './education-routing.module';
 import { EducationComponent } from './education.component';
-import { DirectivesModule } from '../../core/directives/directives.module';
 import { CardModule } from '../../core/components/card/card.module';
 
 
@@ -15,7 +14,6 @@ import { CardModule } from '../../core/components/card/card.module';
     CommonModule,
     EducationRoutingModule,
     CardModule,
-    DirectivesModule,
   ],
 })
 export class EducationModule { }

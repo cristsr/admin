@@ -17,7 +17,7 @@ import { TabComponent } from '../tab/tab.component';
           (click)="selectTab(tab)"
           [class.active]="tab.active"
           class="tab">
-        <a (click)="$event.preventDefault()" class="tab-link">
+        <a href="#" (click)="$event.preventDefault()" class="tab-link">
           <app-icon *ngIf="tab.icon" [name]="tab.icon"></app-icon>
           <span *ngIf="tab.tabTitle">{{ tab.tabTitle }}</span>
         </a>
@@ -26,11 +26,10 @@ import { TabComponent } from '../tab/tab.component';
     <div class="tab-wrap">
       <ng-content select="app-tab"></ng-content>
     </div>
-
   `,
   styleUrls: ['./tabset.component.scss']
 })
-export class TabsetComponent implements OnInit, AfterViewInit {
+export class TabsetComponent implements OnInit {
   @ContentChildren(TabComponent)
   tabs: QueryList<TabComponent>;
 
@@ -42,11 +41,6 @@ export class TabsetComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.tabs);
-    this.tabs.forEach(console.log);
   }
 
   selectTab(selectedTab: TabComponent): void {

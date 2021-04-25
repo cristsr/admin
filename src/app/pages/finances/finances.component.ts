@@ -1,14 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-finances',
-  templateUrl: './finances.component.html',
-  styleUrls: ['./finances.component.scss']
+  template: `<router-outlet></router-outlet>`,
 })
-export class FinancesComponent implements OnInit {
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class FinancesComponent { }
