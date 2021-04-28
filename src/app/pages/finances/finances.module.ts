@@ -9,6 +9,7 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { MovementsComponent } from './components/movements/movements.component';
 import { BudgetsComponent } from './components/budgets/budgets.component';
 import { ChartModule } from '../../core/components/chart/chart.module';
+import { ListModule } from '../../core/components/list/list.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ChartModule } from '../../core/components/chart/chart.module';
     TabsetModule,
     CardModule,
     ChartModule,
+    ListModule,
   ]
 })
 export class FinancesModule { }

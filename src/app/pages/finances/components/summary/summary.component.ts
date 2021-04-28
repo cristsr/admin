@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SummaryComponent implements OnInit {
 
   doughnut = {
-    label: 'My First Dataset',
+    label: 'Ingresos',
     data: [
       {
         label: 'Sueldo',
@@ -32,8 +32,9 @@ export class SummaryComponent implements OnInit {
       }
     ],
     options: {
-      cutout: 80,
-      padding: 50
+      hoverOffset: 0,
+      cutout: 100,
+      padding: 30
     }
   };
 

@@ -19,7 +19,7 @@ export class AppComponent {
     } else {
       this.themeService.changeTheme('dark');
     }
-
     this.toggle = !this.toggle;
+
   }
 }

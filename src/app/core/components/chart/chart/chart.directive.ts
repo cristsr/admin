@@ -1,22 +1,17 @@
-import { Directive, ElementRef, Input, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
-import Chart from 'chart.js/auto';
+import { Directive, ElementRef, Input, OnInit} from '@angular/core';
+import { Chart, ChartConfiguration } from 'chart.js';
+
 
 @Directive({
   selector: '[appChart]'
 })
 export class ChartDirective implements OnInit {
-  @Input() config: any;
+  @Input() config: ChartConfiguration;
 
-  @Output() chartEv = new EventEmitter<any>();
-
-  private chart: Chart;
-
-  constructor(private elementRef: ElementRef) {
-  }
-
+  constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
     const context = this.elementRef.nativeElement.getContext('2d');
-    this.chart = new Chart(context, this.config);
+    const result = new Chart(context, this.config);
   }
 }

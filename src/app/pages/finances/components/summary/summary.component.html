@@ -1,8 +1,12 @@
 <app-card>
   <app-tabset>
-    <app-tab [active]="true" tabTitle="Ingresos" icon="trending_up">
+    <app-tab [active]="true" class="flex" tabTitle="Ingresos" icon="trending_up">
       <div class="section">
-        <app-chart-pie [config]="doughnut" width="100%"></app-chart-pie>
+        <app-chart-bar class="chart" [config]="doughnut" width="300px"></app-chart-bar>
+        <app-chart-pie class="chart" [config]="doughnut" width="300px"></app-chart-pie>
+      </div>
+      <div class="section">
+
       </div>
     </app-tab>
     <app-tab tabTitle="Gastos" icon="trending_down">
@@ -13,3 +17,27 @@
     </app-tab>
   </app-tabset>
 </app-card>
+
+<div>asdasda</div>
+<app-card>
+  <app-card-header>
+    Hello
+  </app-card-header>
+  <app-list>
+    <app-list-item>
+      world
+    </app-list-item>
+    <app-list-item>
+      world
+    </app-list-item>
+    <app-list-item>
+      world
+    </app-list-item>
+    <app-list-item>
+      world
+    </app-list-item>
+  </app-list>
+</app-card>
+
+<br>
+<br>

@@ -1,16 +1,18 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-chart-pie',
   template: `
     <canvas appChart [config]="config"></canvas>
     <div class="center">
-      {{ '300000' | currency }}
+      <span>Total</span>
+      <h4>{{ '300000' | currency }}</h4>
     </div>
   `,
   styleUrls: ['./chart-pie.component.scss']
 })
-export class ChartPieComponent implements OnInit {
+export class ChartPieComponent {
   @Input()
   get config(): any {
     return this.chartConfig;
@@ -23,26 +25,21 @@ export class ChartPieComponent implements OnInit {
   @HostBinding('style.width')
   width: string;
 
-  chartConfig: any;
+  @Output() chartClick = new EventEmitter();
 
-  constructor() { }
+  chartConfig: ChartConfiguration<'doughnut'>;
 
   configureChart(config: any): void {
-    const labels = [... new Set(config.data.map(v => v.label))];
-    const data =  [... new Set(config.data.map(v => v.value))];
-    const backgroundColor = [... new Set(config.data.map(v => v.color))];
-
     this.chartConfig = {
       type: 'doughnut',
       data: {
-        labels,
+        labels: config.data.map(v => v.label),
         datasets: [{
           label: config.label,
-          data,
-          backgroundColor,
-          hoverOffset: 6,
-        },
-        ]
+          data: config.data.map(v => v.value),
+          backgroundColor: config.data.map(v => v.color),
+          hoverOffset: config.options.hoverOffset,
+        }]
       },
       options: {
         borderColor: 'transparent',
@@ -53,18 +50,16 @@ export class ChartPieComponent implements OnInit {
           },
         },
         layout: {
-          padding: config.options.cutout
+          padding: config.options.padding
         },
         onClick: (e, arr, chart) => {
-          chart.getDatasetMeta(arr[0].datasetIndex);
-          console.log(chart.getDatasetMeta(arr[0].datasetIndex));
-          console.log(arr);
+          this.onChartClick([e, arr, chart]);
         }
       },
     };
-    console.log(this.chartConfig);
   }
 
-  ngOnInit(): void {
+  onChartClick(e): void {
+    console.log(e);
   }
 }

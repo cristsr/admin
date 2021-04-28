@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-card-header',
+  selector: 'app-list-item',
   template: '<ng-content></ng-content>',
-  styleUrls: ['./card-header.component.scss']
+  styleUrls: ['./list-item.component.scss']
 })
-export class CardHeaderComponent implements OnInit {
+export class ListItemComponent implements OnInit {
 
   constructor() { }
 
