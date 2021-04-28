@@ -15,11 +15,10 @@ export class AppComponent {
 
   changeTheme(): void {
     if (this.toggle) {
-      this.themeService.changeTheme('light');
-    } else {
       this.themeService.changeTheme('dark');
+    } else {
+      this.themeService.changeTheme('light');
     }
     this.toggle = !this.toggle;
-
   }
 }

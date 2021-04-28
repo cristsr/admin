@@ -1,15 +1,33 @@
 app-tab {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 
-  .section {
-    display: flex;
+  .tab-item {
+    width: calc(100vh / 3);
+    padding: 2rem 0;
+  }
+}
+
+@media (max-width: 600px) {
+  app-tab {
     flex-direction: column;
-    width: 50%;
 
-    .chart {
-      padding: 2rem;
+    .tab-item {
+      width: 100vh;
     }
   }
 }
 
+
+@media (max-width: 1400px) {
+  app-tab {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .tab-item {
+      width: 50vh;
+    }
+  }
+}

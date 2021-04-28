@@ -27,7 +27,7 @@ export class ChartBarComponent implements OnInit {
     this.chartConfig = {
       type: 'bar',
       data: {
-        labels: ['enero', 'febrero', 'marzo', 'abril'],
+        labels: ['Noviembre', 'diciembre', 'enero', 'febrero', 'marzo', 'abril'],
         datasets: [
           {
             barThickness: 20,

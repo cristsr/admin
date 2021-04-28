@@ -1,43 +1,34 @@
 <app-card>
   <app-tabset>
-    <app-tab [active]="true" class="flex" tabTitle="Ingresos" icon="trending_up">
-      <div class="section">
-        <app-chart-bar class="chart" [config]="doughnut" width="300px"></app-chart-bar>
-        <app-chart-pie class="chart" [config]="doughnut" width="300px"></app-chart-pie>
-      </div>
-      <div class="section">
-
+    <app-tab [active]="true" tabTitle="Gastos" icon="trending_down">
+      <app-chart-pie class="tab-item" [config]="doughnut" width="250px"></app-chart-pie>
+      <app-chart-bar class="tab-item" [config]="doughnut" width="400px"></app-chart-bar>
+      <div class="tab-item">
+        <app-card >
+          <app-card-header>
+            Hello
+          </app-card-header>
+          <app-list>
+            <app-list-item>
+              world
+            </app-list-item>
+            <app-list-item>
+              world
+            </app-list-item>
+            <app-list-item>
+              world
+            </app-list-item>
+            <app-list-item>
+              world
+            </app-list-item>
+          </app-list>
+        </app-card>
       </div>
     </app-tab>
-    <app-tab tabTitle="Gastos" icon="trending_down">
-      <div>hello 2</div>
+    <app-tab  tabTitle="Ingresos" icon="trending_up">
     </app-tab>
     <app-tab tabTitle="Balance" icon="assessment">
       <div>hello 3</div>
     </app-tab>
   </app-tabset>
 </app-card>
-
-<div>asdasda</div>
-<app-card>
-  <app-card-header>
-    Hello
-  </app-card-header>
-  <app-list>
-    <app-list-item>
-      world
-    </app-list-item>
-    <app-list-item>
-      world
-    </app-list-item>
-    <app-list-item>
-      world
-    </app-list-item>
-    <app-list-item>
-      world
-    </app-list-item>
-  </app-list>
-</app-card>
-
-<br>
-<br>

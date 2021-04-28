@@ -33,8 +33,8 @@ export class SummaryComponent implements OnInit {
     ],
     options: {
       hoverOffset: 0,
-      cutout: 100,
-      padding: 30
+      cutout: 90,
+      padding: 0
     }
   };
 
