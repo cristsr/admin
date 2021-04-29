@@ -33,12 +33,53 @@ export class SummaryComponent implements OnInit {
     ],
     options: {
       hoverOffset: 0,
-      cutout: 90,
+      cutout: 110,
       padding: 0
     }
   };
 
-  constructor() { }
+  bar2 = {
+    type: 'bar',
+    data: {
+      labels: ['Noviembre', 'diciembre', 'enero', 'febrero', 'marzo', 'abril'],
+      datasets: [
+        {
+          barThickness: 25,
+          label: 'My First Dataset',
+          data: [3000000, 300000, 2678000, 3000000, 3000000, 300000, 150000],
+          backgroundColor: [
+            'rgba(255, 99, 132 )',
+            'rgba(255, 159, 64 )',
+            'rgba(255, 205, 86 )',
+            'rgba(75, 192, 192 )',
+            'rgba(54, 162, 235 )',
+            'rgba(153, 102, 255)',
+            'rgba(201, 203, 207)'
+          ],
+          borderColor: 'transparent',
+          borderWidth: 1
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      onClick: (e, arr, chart) => {
+        console.log([e, arr, chart]);
+      }
+    },
+  };
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
@@ -46,4 +87,5 @@ export class SummaryComponent implements OnInit {
   onclick(event: any): void {
     console.log(event);
   }
+
 }

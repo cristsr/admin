@@ -12,7 +12,8 @@ export class ChartBarComponent implements OnInit {
     return this.chartConfig;
   }
   set config(config: any) {
-    this.configureChart(config);
+    this.chartConfig = config;
+    // this.configureChart(config);
   }
 
   @Input()
@@ -30,7 +31,7 @@ export class ChartBarComponent implements OnInit {
         labels: ['Noviembre', 'diciembre', 'enero', 'febrero', 'marzo', 'abril'],
         datasets: [
           {
-            barThickness: 20,
+            barThickness: 30,
             label: 'My First Dataset',
             data: [65, 59, 80, 81, 56, 55, 40],
             backgroundColor: [

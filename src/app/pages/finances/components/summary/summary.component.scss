@@ -1,33 +1,36 @@
 app-tab {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
 
   .tab-item {
-    width: calc(100vh / 3);
-    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
-
-@media (max-width: 600px) {
-  app-tab {
-    flex-direction: column;
-
-    .tab-item {
-      width: 100vh;
-    }
-  }
-}
-
-
-@media (max-width: 1400px) {
-  app-tab {
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    .tab-item {
-      width: 50vh;
-    }
-  }
-}
+//
+//@media (max-width: 600px) {
+//  app-tab {
+//    flex-direction: column;
+//
+//    .tab-item {
+//      width: 100vh;
+//    }
+//  }
+//}
+//
+//
+//@media (max-width: 1400px) {
+//  app-tab {
+//    flex-direction: row;
+//    flex-wrap: wrap;
+//
+//    .tab-item {
+//      width: 50vh;
+//    }
+//  }
+//}

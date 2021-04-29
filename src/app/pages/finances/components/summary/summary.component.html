@@ -1,8 +1,12 @@
 <app-card>
   <app-tabset>
     <app-tab [active]="true" tabTitle="Gastos" icon="trending_down">
-      <app-chart-pie class="tab-item" [config]="doughnut" width="250px"></app-chart-pie>
-      <app-chart-bar class="tab-item" [config]="doughnut" width="400px"></app-chart-bar>
+      <div class="tab-item">
+        <app-chart-bar class="tab-item" [config]="bar2" width="100%"></app-chart-bar>
+      </div>
+      <div  class="tab-item">
+        <app-chart-pie [config]="doughnut" width="300px"></app-chart-pie>
+      </div>
       <div class="tab-item">
         <app-card >
           <app-card-header>
