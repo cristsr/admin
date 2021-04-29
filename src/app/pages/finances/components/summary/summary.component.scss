@@ -1,17 +1,24 @@
-app-tab {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
+:host {
+  app-card {
+    grid-column: span 12;
 
-  .tab-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    app-tab {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-items: center;
+
+      .tab-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+    }
   }
 }
+
 //
 //@media (max-width: 600px) {
 //  app-tab {

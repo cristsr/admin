@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SidebarService {
-  private isExpandedMenu = new BehaviorSubject(true);
+  private isExpandedMenu = new BehaviorSubject(false);
   private subMenuItemsExpanded: Array<number> = [];
 
 

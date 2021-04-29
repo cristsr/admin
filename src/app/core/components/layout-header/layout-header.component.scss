@@ -1,0 +1,37 @@
+:host {
+  background: var(--foreground);
+
+  .page-heading {
+    margin-bottom: 20px;
+    h2 {
+      font-size: 34px;
+    }
+  }
+
+  .page-tabs {
+    display: flex;
+    flex-direction: row;
+
+    .tab {
+      padding: 1.25rem 0;
+
+      .tab-link {
+        margin-right: 30px;
+        cursor: pointer;
+        //font-size: .875rem;
+        font-weight: 600;
+        color: var(--text-color);
+        text-transform: capitalize;
+      }
+
+      &.active {
+        .tab-link {
+          color: var(--primary) !important;
+        }
+      }
+    }
+  }
+
+
+
+}

@@ -4,11 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-layout',
   template: `
     <app-nav></app-nav>
-    <div class="grid">
-      <app-sidebar></app-sidebar>
-      <section class="container">
-        <ng-content></ng-content>
-      </section>
+    <app-sidebar></app-sidebar>
+    <app-layout-header></app-layout-header>
+    <div class="main-layout">
+      <ng-content></ng-content>
     </div>
   `,
   styleUrls: ['./layout.component.scss']

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { NavModule } from '../nav/nav.module';
 import { SidebarModule } from '../sidebar/sidebar.module';
+import { LayoutHeaderModule } from '../layout-header/layout-header.module';
 
 
 
@@ -13,7 +14,8 @@ import { SidebarModule } from '../sidebar/sidebar.module';
   imports: [
     CommonModule,
     NavModule,
-    SidebarModule
+    SidebarModule,
+    LayoutHeaderModule
   ],
   exports: [
     LayoutComponent

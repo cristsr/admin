@@ -1,9 +1,21 @@
-.grid {
+:host {
   display: grid;
   grid-template-columns: auto 1fr;
-}
+  grid-template-rows: auto auto 1fr;
 
-.container {
-  padding: 2.25rem 2.25rem 0 2.25rem;
-  background: var(--background);
+  app-nav {
+    grid-column: span 2;
+  }
+
+  app-sidebar {
+    grid-column: span 1;
+    grid-row: span 4;
+  }
+
+  .main-layout {
+    box-sizing: border-box;
+    grid-column: 2 / 3;
+    grid-row: span 3;
+    background: var(--background);
+  }
 }
