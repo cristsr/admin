@@ -1,62 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { SidebarService } from '../../services/sidebar/sidebar.service';
+import { Component } from '@angular/core';
+import { PageService } from '../../services/sidebar/page.service';
 
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
+  template: `
+    <aside class="menu scrollable-y">
+      <ul [ngClass]="(isExpandedMenu$ | async) ? 'is-expanded' : 'is-collapsed'">
+        <li class="menu-item" *ngFor="let menuItem of menu$ | async; index as i">
+          <a
+            class="menu-content"
+            (click)="setSubmenuFromUrl(menuItem.url)"
+            [routerLink]="menuItem.url"
+            routerLinkActive="is-active">
+            <span class="material-icons-outlined">{{ menuItem.icon }}</span>
+            <span class="text">{{ menuItem.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+  `,
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
-  public menuExample = [
-    {
-      icon: 'school',
-      title: 'Educación',
-      url: 'education',
-    },
-    {
-      icon:  'account_balance',
-      title: 'Finanzas',
-      subMenu: [
-        {
-          title: 'Resumen',
-          url: 'finances/summary'
-        },
-        {
-          title: 'Movimientos',
-          url: 'finances/movements'
-        },
-        {
-          title: 'Presupuestos',
-          url: 'finances/budgets',
-        },
-      ]
-    },
-    {
-      icon:  'health_and_safety',
-      title: 'Salud',
-      url: '/3',
-    }
-  ];
+export class SidebarComponent {
+  isExpandedMenu$ = this.pageService.isExpandedMenu$;
+  menu$ = this.pageService.menu$;
 
-  public isExpandedMenu = this.sidebarService.getExpandedMenu();
-  public selectedSubmenu: number | null;
+  constructor(private pageService: PageService) { }
 
-  constructor(private sidebarService: SidebarService) {
-  }
-
-  public ngOnInit(): void {
-  }
-
-  public showSubMenu(index): void {
-    this.sidebarService.showSubmenu(index);
-  }
-
-  public canShowSubmenu(i: number): boolean {
-    return this.sidebarService.canShowSubmenu(i);
-  }
-
-  setSelectedSubmenu(i: number | null): void {
-    this.selectedSubmenu = i;
+  setSubmenuFromUrl(submenu: any): void {
+    this.pageService.setSubmenu(submenu);
   }
 }

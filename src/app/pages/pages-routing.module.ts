@@ -9,7 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: 'education',
-        loadChildren: () => import('./education/education.module').then(m => m.EducationModule)
+        loadChildren: () => import('./education/education.module').then(m => m.EducationModule),
       },
       {
         path: 'finances',
@@ -17,8 +17,12 @@ const routes: Routes = [
       },
       {
         path: 'health',
-        loadChildren: () => import('./health/health.module').then(m => m.HealthModule)
+        loadChildren: () => import('./health/health.module').then(m => m.HealthModule),
       },
+      {
+        path: '',
+        redirectTo: 'education'
+      }
     ]
   }
 ];
@@ -27,4 +31,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {
+}

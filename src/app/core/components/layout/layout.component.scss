@@ -1,7 +1,7 @@
 :host {
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto 1fr;
 
   app-nav {
     grid-column: span 2;
@@ -9,13 +9,23 @@
 
   app-sidebar {
     grid-column: span 1;
-    grid-row: span 4;
+    grid-row: span 5;
+  }
+
+  app-page-title {
+    grid-column: 2 / 3;
+    grid-row: 2;
+  }
+
+  app-page-tabs {
+    grid-column: 2 / 3;
+    grid-row:  3;
   }
 
   .main-layout {
     box-sizing: border-box;
     grid-column: 2 / 3;
-    grid-row: span 3;
+    grid-row: 4;
     background: var(--background);
   }
 }

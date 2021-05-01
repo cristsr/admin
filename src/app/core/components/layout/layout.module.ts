@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { NavModule } from '../nav/nav.module';
 import { SidebarModule } from '../sidebar/sidebar.module';
-import { LayoutHeaderModule } from '../layout-header/layout-header.module';
+import { ContainerModule } from '../container/container.module';
+import { PageTabsModule } from '../page-tabs/page-tabs.module';
+import { PageTitleModule } from '../page-title/page-title.module';
 
 
 
@@ -15,7 +17,9 @@ import { LayoutHeaderModule } from '../layout-header/layout-header.module';
     CommonModule,
     NavModule,
     SidebarModule,
-    LayoutHeaderModule
+    ContainerModule,
+    PageTabsModule,
+    PageTitleModule
   ],
   exports: [
     LayoutComponent

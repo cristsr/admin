@@ -15,16 +15,18 @@
     display: flex;
     width: 100%;
     padding: .75rem 1rem;
-    color: var(--gray);
+    color: var(--text-color);
     font-weight: 600;
     font-size: .8125rem;
     line-height: 1.5rem;
     cursor: pointer;
+
+    &.is-active {
+      color: var(--primary);
+    }
   }
 
-  .is-active {
-    color: var(--blue);
-  }
+
 }
 
 .menu-items {

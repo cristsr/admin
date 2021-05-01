@@ -1,0 +1,26 @@
+:host {
+  app-container {
+    flex-direction: row;
+
+    .tab-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-color);
+      padding: 12px 30px 10px 0;
+      margin-right: 2px;
+      font-size: medium;
+      font-weight: 500;
+
+      span {
+        padding-left: 3px;
+        text-transform: capitalize;
+      }
+
+      &.active {
+        color: var(--primary);
+        border-bottom: solid 2px var(--primary);
+      }
+    }
+  }
+}

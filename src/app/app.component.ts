@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ThemeService } from './core/services/theme/theme.service';
 
 @Component({
@@ -8,17 +8,17 @@ import { ThemeService } from './core/services/theme/theme.service';
     <button (click)="changeTheme()">change theme</button>
   `
 })
-export class AppComponent {
-  toggle = false;
+export class AppComponent implements OnInit {
+  constructor(
+    private themeService: ThemeService
+  ) {
+  }
 
-  constructor(private themeService: ThemeService) { }
+  ngOnInit(): void {
+    // this.layoutService.listenPageChanges();
+  }
 
   changeTheme(): void {
-    if (this.toggle) {
-      this.themeService.changeTheme('dark');
-    } else {
-      this.themeService.changeTheme('light');
-    }
-    this.toggle = !this.toggle;
+    this.themeService.toggleTheme();
   }
 }

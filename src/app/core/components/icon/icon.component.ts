@@ -1,23 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-icon',
   template: `<span class="material-icons-outlined">{{ name }}</span>`,
   styles: [`
-    span {
-      padding: .5rem;
+    :host {
+      display: flex;
+      justify-items: center;
     }
   `]
 })
-export class IconComponent implements OnInit {
+export class IconComponent {
   @Input() name: string;
-
-  private outlineValue: boolean;
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
 }

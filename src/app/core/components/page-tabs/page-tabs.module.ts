@@ -1,22 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutHeaderComponent } from './layout-header.component';
+import { PageTabsComponent } from './page-tabs.component';
 import { ContainerModule } from '../container/container.module';
 import { IconModule } from '../icon/icon.module';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
   declarations: [
-    LayoutHeaderComponent
+    PageTabsComponent
   ],
   exports: [
-    LayoutHeaderComponent
+    PageTabsComponent
   ],
   imports: [
     CommonModule,
     ContainerModule,
-    IconModule
+    IconModule,
+    RouterModule
   ]
 })
-export class LayoutHeaderModule { }
+export class PageTabsModule { }

@@ -1,46 +1,37 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '../local-storage/local-storage.service';
+import { pluck } from 'rxjs/operators';
+import { LayoutService } from '../layout/layout.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ThemeService implements OnDestroy {
-  private destroy$ = new Subject();
-
-  private themeChanges$ = new BehaviorSubject({
-    name:  this.localStorage.getString('theme', 'light'),
-    previous: null,
-  });
-
+export class ThemeService {
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private localStorage: LocalStorageService
+    private layoutService: LayoutService,
   ) {
-    this.onThemeChanges();
+    this.initializeTheme();
+    this.listenThemeChanges();
   }
 
-  public changeTheme(name: 'light' | 'dark'): void {
-    const previous = this.themeChanges$.value.name;
-    this.themeChanges$.next({name, previous});
+  initializeTheme(): void {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      this.layoutService.setTheme(theme);
+    }
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  listenThemeChanges(): void {
+    this.layoutService.state$.pipe(
+      pluck('theme'),
+    ).subscribe(theme => {
+      this.document.body.className = `${theme}-theme`;
+      localStorage.setItem('theme', theme);
+    });
   }
 
-  private onThemeChanges(): void {
-    this.themeChanges$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((theme) => {
-        if (theme.previous) {
-          document.body.classList.remove(theme.previous + '-theme');
-        }
-        document.body.classList.add(theme.name + '-theme');
-        this.localStorage.set('theme', theme.name);
-      });
+  toggleTheme(): void {
+    this.layoutService.toggleTheme();
   }
 }

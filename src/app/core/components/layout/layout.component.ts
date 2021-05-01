@@ -5,11 +5,12 @@ import { Component } from '@angular/core';
   template: `
     <app-nav></app-nav>
     <app-sidebar></app-sidebar>
-    <app-layout-header></app-layout-header>
+    <app-page-title></app-page-title>
+    <app-page-tabs></app-page-tabs>
     <div class="main-layout">
       <ng-content></ng-content>
     </div>
   `,
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent { }
+export class LayoutComponent {}

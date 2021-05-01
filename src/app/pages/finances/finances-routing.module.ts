@@ -22,8 +22,13 @@ const routes: Routes = [
         path: 'budgets',
         component: BudgetsComponent
       },
+      {
+        path: '',
+        redirectTo: 'summary'
+      }
     ]
-  }
+  },
+
 ];
 
 @NgModule({
