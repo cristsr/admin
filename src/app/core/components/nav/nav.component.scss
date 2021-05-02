@@ -31,6 +31,8 @@ header {
     white-space: nowrap;
     text-decoration: none;
     color: var(--gray);
+    cursor: pointer;
+    user-select: none;
   }
 
   .items {

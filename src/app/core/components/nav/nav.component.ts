@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PageService } from '../../services/sidebar/page.service';
+import { ThemeService } from '../../services/theme/theme.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,18 +10,18 @@ import { PageService } from '../../services/sidebar/page.service';
         <div class="menu" (click)="onToggleSideMenu()">
           <span class="material-icons-outlined">menu_open</span>
         </div>
-        <a href="#" class="logo">Admin</a>
-        <ul class="items">
-          <li>
-            <span class="link">Instagram</span>
-          </li>
-          <li>
-            <span class="link">Pinterest</span>
-          </li>
-          <li>
-            <a class="link">Movies</a>
-          </li>
-        </ul>
+        <span (click)="changeTheme()" class="logo">Admin</span>
+<!--        <ul class="items">-->
+<!--          <li>-->
+<!--            <span class="link">Instagram</span>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <span class="link">Pinterest</span>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a class="link">Movies</a>-->
+<!--          </li>-->
+<!--        </ul>-->
       </header>
     </nav>
   `,
@@ -28,9 +29,16 @@ import { PageService } from '../../services/sidebar/page.service';
 })
 export class NavComponent {
 
-  constructor(private pageService: PageService) { }
+  constructor(
+    private pageService: PageService,
+    private themeService: ThemeService
+  ) { }
 
   public onToggleSideMenu(): void {
     this.pageService.toggleSidebar();
+  }
+
+  changeTheme(): void {
+    this.themeService.toggleTheme();
   }
 }

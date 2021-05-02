@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { PageService } from '../core/services/sidebar/page.service';
 
 @Component({
   selector: 'app-pages',
   template: `
-    <app-layout>
+    <app-layout [class]="isExpandedMenu$ | async">
       <router-outlet></router-outlet>
     </app-layout>
   `,
 })
-export class PagesComponent { }
+export class PagesComponent {
+  isExpandedMenu$ = this.pageService.isExpandedMenu$.pipe(
+    map(v => v ? 'is-expanded' : 'is-collapsed')
+  );
+  constructor(private pageService: PageService) {
+  }
+}

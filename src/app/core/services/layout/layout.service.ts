@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '../../interfaces/Action';
 import { Menu } from '../../interfaces/Menu';
-import { menu } from '../../../app.config';
+import { layoutInitialState } from '../../../app.config';
 import { Store } from '../../clasess/store.class';
 
 
@@ -20,13 +20,7 @@ export type LayoutAction = Action<LayoutState>;
 })
 export class LayoutService {
   store = new Store<LayoutAction, LayoutState>(
-    {
-      theme: 'light',
-      expandSidebar: true,
-      pageTitle: '',
-      menu,
-      submenu: []
-    },
+    layoutInitialState,
     LayoutService.reducer
   );
 

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ThemeService } from './core/services/theme/theme.service';
 
 
 @NgModule({
@@ -14,10 +15,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
   ],
   providers: [
-    {
-      provide: Window,
-      useValue: window
-    }
+    ThemeService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,40 +1,42 @@
 <app-container>
   <app-card>
-    <app-tabset>
-      <app-tab [active]="true" tabTitle="Gastos" icon="trending_down">
-        <div class="tab-item">
-          <app-chart-bar class="tab-item" [config]="bar2" width="100%"></app-chart-bar>
-        </div>
-        <div  class="tab-item">
-          <app-chart-pie [config]="doughnut" width="300px"></app-chart-pie>
-        </div>
-        <div class="tab-item">
-          <app-card >
-            <app-card-header>
-              Hello
-            </app-card-header>
-            <app-list>
-              <app-list-item>
-                world
-              </app-list-item>
-              <app-list-item>
-                world
-              </app-list-item>
-              <app-list-item>
-                world
-              </app-list-item>
-              <app-list-item>
-                world
-              </app-list-item>
-            </app-list>
-          </app-card>
-        </div>
-      </app-tab>
-      <app-tab  tabTitle="Ingresos" icon="trending_up">
-      </app-tab>
-      <app-tab tabTitle="Balance" icon="assessment">
-        <div>hello 3</div>
-      </app-tab>
-    </app-tabset>
+    <div class="tab-item">
+      <app-chart-bar class="tab-item" [config]="bar2" width="100%"></app-chart-bar>
+    </div>
+    <div  class="tab-item">
+      <app-chart-pie [config]="doughnut" width="300px"></app-chart-pie>
+    </div>
+    <div class="tab-item">
+      <app-card >
+        <app-card-header>
+          Hello
+        </app-card-header>
+        <app-list>
+          <app-list-item>
+            world
+          </app-list-item>
+          <app-list-item>
+            world
+          </app-list-item>
+          <app-list-item>
+            world
+          </app-list-item>
+          <app-list-item>
+            world
+          </app-list-item>
+        </app-list>
+      </app-card>
+    </div>
   </app-card>
 </app-container>
+
+<!--<app-tabset>-->
+<!--  <app-tab [active]="true" tabTitle="Gastos" icon="trending_down">-->
+
+<!--  </app-tab>-->
+<!--  <app-tab  tabTitle="Ingresos" icon="trending_up">-->
+<!--  </app-tab>-->
+<!--  <app-tab tabTitle="Balance" icon="assessment">-->
+<!--    <div>hello 3</div>-->
+<!--  </app-tab>-->
+<!--</app-tabset>-->

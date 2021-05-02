@@ -1,31 +1,63 @@
 :host {
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto 1fr;
 
   app-nav {
+    grid-row: span 1;
     grid-column: span 2;
   }
 
   app-sidebar {
-    grid-column: span 1;
-    grid-row: span 5;
+    grid-column-start: 1;
+    grid-row-start: 2;
   }
 
-  app-page-title {
-    grid-column: 2 / 3;
-    grid-row: 2;
+  .content {
+    min-height: calc(100vh - var(--nav-height));
+    grid-column-start: 2;
+    grid-row-start: 2;
+
+    .main-layout {
+      height: auto;
+      box-sizing: border-box;
+      grid-column: 2 / 3;
+      grid-row: 4;
+      background-color: #f6f7f9;
+    }
+  }
+}
+
+:host(.is-collapsed) {
+  app-sidebar {
+    width: 0;
+  }
+}
+
+:host(.is-expanded) {
+  app-sidebar {
+    width: 100vw;
   }
 
-  app-page-tabs {
-    grid-column: 2 / 3;
-    grid-row:  3;
+  .content {
+    display: none;
+  }
+}
+
+@media (min-width: 600px) {
+  :host(.is-collapsed) {
+    app-sidebar {
+      width: 3.5rem;
+    }
   }
 
-  .main-layout {
-    box-sizing: border-box;
-    grid-column: 2 / 3;
-    grid-row: 4;
-    background: var(--background);
+  :host(.is-expanded) {
+    app-sidebar {
+      width: 16rem;
+    }
+
+    .content {
+      display: unset;
+    }
   }
 }

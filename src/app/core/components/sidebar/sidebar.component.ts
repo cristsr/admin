@@ -6,7 +6,7 @@ import { PageService } from '../../services/sidebar/page.service';
   selector: 'app-sidebar',
   template: `
     <aside class="menu scrollable-y">
-      <ul [ngClass]="(isExpandedMenu$ | async) ? 'is-expanded' : 'is-collapsed'">
+      <ul>
         <li class="menu-item" *ngFor="let menuItem of menu$ | async; index as i">
           <a
             class="menu-content"
@@ -23,7 +23,6 @@ import { PageService } from '../../services/sidebar/page.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  isExpandedMenu$ = this.pageService.isExpandedMenu$;
   menu$ = this.pageService.menu$;
 
   constructor(private pageService: PageService) { }
