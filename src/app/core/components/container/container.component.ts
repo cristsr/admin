@@ -1,17 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-container',
   template: '<ng-content></ng-content>',
-  styles: [`
-    :host {
-      display: flex;
-      flex-direction: column;
-      margin-right: auto;
-      margin-left: auto;
-      padding: 40px 4% 0;
-      max-width: 1200px;
-    }
-  `]
+  styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent {}
+export class ContainerComponent implements OnInit {
+
+  constructor() {
+  }
+
+  ngOnInit(): void {
+  }
+
+}
