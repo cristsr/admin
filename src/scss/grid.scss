@@ -4,29 +4,19 @@ $breakpoint-md: 1024px !default;
 $breakpoint-sm: 768px !default;
 
 $breakpoints: (
-  '' '(max-width: ' + ($breakpoint-sm + 1) + ')',
+  'sm' '(max-width: ' + ($breakpoint-sm + 1) + ')',
   'md' '(min-width: ' + ($breakpoint-sm + 1) + ')'
 ) !default;
-
-@mixin column($percentage) {
-  box-sizing: border-box;
-  flex-basis: $percentage;
-  max-width: $percentage;
-  width: 100%;
-}
 
 @mixin grid-loop($name) {
   @for $i from 1 through $grid-columns {
     $percentage: percentage($i/$grid-columns);
 
-    @if($name == '') {
-      .col-#{$i} {
-        @include column($percentage)
-      }
-    }
-
     .col-#{$name}-#{$i}  {
-      @include column($percentage)
+      box-sizing: border-box;
+      flex-basis: $percentage;
+      max-width: $percentage;
+      width: 100%;
     }
   }
 }
