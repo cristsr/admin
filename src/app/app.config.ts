@@ -9,6 +9,28 @@ export const layoutInitialState: LayoutState = {
       icon: 'school',
       title: 'Educación',
       url: 'education',
+      submenu: [
+        {
+          icon: 'description',
+          title: 'Resumen',
+          url: 'finances/summary'
+        },
+        {
+          icon: 'timeline',
+          title: 'Movimientos',
+          url: 'finances/movements'
+        },
+        {
+          icon: 'attach_money',
+          title: 'Presupuestos',
+          url: 'finances/budgets',
+        },
+        {
+          icon: 'attach_money',
+          title: 'Presupuetos',
+          url: 'finances/budgets',
+        },
+      ]
     },
     {
       icon:  'account_balance',

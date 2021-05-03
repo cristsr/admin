@@ -1,8 +1,10 @@
 :host {
   display: flex;
   flex-direction: column;
-  width: 100%;
   background: var(--foreground);
   border: .0625rem solid var(--border);
   border-radius: .25rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 1.875rem;
 }

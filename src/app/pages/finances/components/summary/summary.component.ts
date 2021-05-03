@@ -62,6 +62,7 @@ export class SummaryComponent implements OnInit {
       ],
     },
     options: {
+      responsive: true,
       plugins: {
         legend: {
           display: false,

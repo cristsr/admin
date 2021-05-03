@@ -1,0 +1,118 @@
+/**
+* Space between columns
+*/
+
+$grid-gutter: 20px !default;;
+
+
+/**
+ * Max width of container
+ */
+
+$grid-max-width: 1200px + ($grid-gutter * 2) !default;
+
+
+/**
+ * Number of total columns
+ */
+
+$grid-columns: 12 !default;
+
+
+/**
+ * Breakpoints
+ */
+
+$breakpoint-lg: 1280px !default;
+$breakpoint-md: 1024px !default;
+$breakpoint-sm: 768px !default;
+$breakpoint-xs: 480px !default;
+
+$breakpoints: (
+  'lg' '(min-width: ' + ($breakpoint-md + 1) + ')', // large
+  'md' '(min-width: ' + ($breakpoint-sm + 1) + ') and (max-width: ' + $breakpoint-md + ')', // medium
+  'sm' '(min-width: ' + ($breakpoint-xs + 1) + ') and (max-width:'  + $breakpoint-sm + ')', // small
+  'xs' '(max-width: ' + $breakpoint-xs + ')' // extra small
+) !default;
+
+
+@mixin grid-loop($name) {
+  @for $i from 0 through $grid-columns {
+    @if $i != 0 {
+      .col--#{$name}-#{$i} {
+        width: percentage($i/$grid-columns);
+        .row--flex & {
+          flex-basis: percentage($i/$grid-columns);
+          max-width: percentage($i/$grid-columns);
+          width: auto;
+          float: none;
+        }
+      }
+    }
+    .col--#{$name}-offset-#{$i} {
+      margin-left: percentage($i/$grid-columns);
+    }
+  }
+}
+
+
+/**
+ * Clearfix
+ */
+
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.container {
+  @include clearfix;
+  max-width: $grid-max-width;
+  margin: 0 auto;
+  padding: 0 $grid-gutter;
+}
+
+.row {
+  list-style: none;
+  margin-left: -$grid-gutter;
+  &:not(.row--flex) {
+    @include clearfix;
+  }
+  &.row--gutterless {
+    margin-left: 0;
+  }
+  &.row--flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.col {
+  float: left;
+  padding-left: $grid-gutter;
+  box-sizing: border-box;
+  .row--gutterless & {
+    padding-left: 0;
+  }
+}
+
+
+
+/**
+ * Columns generator
+ */
+
+@each $breakpoint in $breakpoints {
+  $name: nth($breakpoint, 1);
+  $declaration: nth($breakpoint, 2);
+
+  @media only screen and #{$declaration} {
+    @include grid-loop($name);
+  }
+}

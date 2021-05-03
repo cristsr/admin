@@ -1,0 +1,56 @@
+$grid-columns: 12 !default;
+
+$breakpoint-md: 1024px !default;
+$breakpoint-sm: 768px !default;
+
+$breakpoints: (
+  '' '(max-width: ' + ($breakpoint-sm + 1) + ')',
+  'md' '(min-width: ' + ($breakpoint-sm + 1) + ')'
+) !default;
+
+@mixin column($percentage) {
+  box-sizing: border-box;
+  flex-basis: $percentage;
+  max-width: $percentage;
+  width: 100%;
+}
+
+@mixin grid-loop($name) {
+  @for $i from 1 through $grid-columns {
+    $percentage: percentage($i/$grid-columns);
+
+    @if($name == '') {
+      .col-#{$i} {
+        @include column($percentage)
+      }
+    }
+
+    .col-#{$name}-#{$i}  {
+      @include column($percentage)
+    }
+  }
+}
+
+.container {
+  margin: 0 auto;
+  padding: 25px 4% 0;
+
+  @media (min-width: 600px) {
+    padding: 30px 4% 0;
+    max-width: 1200px;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@each $breakpoint in $breakpoints {
+  $name: nth($breakpoint, 1);
+  $declaration: nth($breakpoint, 2);
+
+  @media only screen and #{$declaration} {
+    @include grid-loop($name);
+  }
+}

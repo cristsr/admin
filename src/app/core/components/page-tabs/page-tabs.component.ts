@@ -6,14 +6,13 @@ import { PageService } from '../../services/sidebar/page.service';
   template: `
     <app-container>
       <ng-container *ngIf="(submenu$ | async) as submenu">
-        <a
-          *ngFor="let item of submenu"
-          [routerLink]="item.url"
-          routerLinkActive="active"
-          href="#" (click)="$event.preventDefault()"
-          class="tab-link">
+        <a class="tab-link"
+           *ngFor="let item of submenu"
+           [routerLink]="item.url"
+           routerLinkActive="active"
+           href="#" (click)="$event.preventDefault()">
           <app-icon [name]="item.icon"></app-icon>
-          <span>{{item.title}}</span>
+          <span class="tab-title">{{item.title}}</span>
         </a>
       </ng-container>
     </app-container>

@@ -1,42 +1,48 @@
-<app-container>
-  <app-card>
-    <div class="tab-item">
-      <app-chart-bar class="tab-item" [config]="bar2" width="100%"></app-chart-bar>
-    </div>
-    <div  class="tab-item">
-      <app-chart-pie [config]="doughnut" width="300px"></app-chart-pie>
-    </div>
-    <div class="tab-item">
-      <app-card >
-        <app-card-header>
-          Hello
-        </app-card-header>
-        <app-list>
-          <app-list-item>
-            world
-          </app-list-item>
-          <app-list-item>
-            world
-          </app-list-item>
-          <app-list-item>
-            world
-          </app-list-item>
-          <app-list-item>
-            world
-          </app-list-item>
-        </app-list>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <app-card>
+        <app-card-header>Finances</app-card-header>
+        <app-card-body>
+          <app-chart-bar
+            class="tab-item"
+            [config]="bar2"
+            width="100%">
+          </app-chart-bar>
+        </app-card-body>
       </app-card>
     </div>
-  </app-card>
-</app-container>
-
-<!--<app-tabset>-->
-<!--  <app-tab [active]="true" tabTitle="Gastos" icon="trending_down">-->
-
-<!--  </app-tab>-->
-<!--  <app-tab  tabTitle="Ingresos" icon="trending_up">-->
-<!--  </app-tab>-->
-<!--  <app-tab tabTitle="Balance" icon="assessment">-->
-<!--    <div>hello 3</div>-->
-<!--  </app-tab>-->
-<!--</app-tabset>-->
+    <div class="col-12 col-md-4">
+      <app-card>
+        <app-card-header>Finances</app-card-header>
+        <app-card-body>
+          <app-chart-pie
+            [config]="doughnut"
+            width="100%">
+          </app-chart-pie>
+        </app-card-body>
+      </app-card>
+    </div>
+    <div class="col-12 col-md-4">
+      <app-card>
+        <app-card-header>Finances</app-card-header>
+        <app-card-body>
+          <app-list>
+            <app-list-item>
+              world
+            </app-list-item>
+            <app-list-item>
+              world
+            </app-list-item>
+            <app-list-item>
+              world
+            </app-list-item>
+            <app-list-item>
+              world
+            </app-list-item>
+          </app-list>
+        </app-card-body>
+      </app-card>
+    </div>
+  </div>
+</div>

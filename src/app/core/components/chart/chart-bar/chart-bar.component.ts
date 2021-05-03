@@ -3,7 +3,7 @@ import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-chart-bar',
-  template: `<canvas appChart [config]="config"></canvas>`,
+  template: `<canvas appChart width="100%" [config]="config"></canvas>`,
   styleUrls: ['./chart-bar.component.scss']
 })
 export class ChartBarComponent implements OnInit {
@@ -17,7 +17,7 @@ export class ChartBarComponent implements OnInit {
   }
 
   @Input()
-  @HostBinding('style.width')
+  // @HostBinding('style.width')
   width: string;
 
   @Output() chartClick = new EventEmitter();

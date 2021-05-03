@@ -15,7 +15,8 @@ import { CardFooterComponent } from './card-footer/card-footer.component';
   ],
   exports: [
     CardComponent,
-    CardHeaderComponent
+    CardHeaderComponent,
+    CardBodyComponent
   ],
   imports: [
     CommonModule,

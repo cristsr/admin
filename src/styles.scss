@@ -2,20 +2,5 @@
 @import "scss/reset";
 @import "scss/globals";
 @import "scss/theme";
-
-::-webkit-scrollbar {
-  width: 3px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+@import "scss/grid";
 
