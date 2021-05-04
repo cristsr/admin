@@ -1,0 +1,13 @@
+{
+  "appId": "com.admin.cristian",
+  "appName": "admin",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/admin",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}
