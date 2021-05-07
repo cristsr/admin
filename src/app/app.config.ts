@@ -6,6 +6,28 @@ export const layoutInitialState: LayoutState = {
   pageTitle: '',
   menu: [
     {
+      icon:  'account_balance',
+      title: 'Finanzas',
+      url: 'finances',
+      submenu: [
+        {
+          icon: 'description',
+          title: 'Resumen',
+          url: 'finances/summary'
+        },
+        {
+          icon: 'timeline',
+          title: 'Movimientos',
+          url: 'finances/movements'
+        },
+        {
+          icon: 'attach_money',
+          title: 'Presupuestos',
+          url: 'finances/budgets',
+        },
+      ]
+    },
+    {
       icon: 'school',
       title: 'Educación',
       url: 'education',
@@ -28,28 +50,6 @@ export const layoutInitialState: LayoutState = {
         {
           icon: 'attach_money',
           title: 'Presupuetos',
-          url: 'finances/budgets',
-        },
-      ]
-    },
-    {
-      icon:  'account_balance',
-      title: 'Finanzas',
-      url: 'finances',
-      submenu: [
-        {
-          icon: 'description',
-          title: 'Resumen',
-          url: 'finances/summary'
-        },
-        {
-          icon: 'timeline',
-          title: 'Movimientos',
-          url: 'finances/movements'
-        },
-        {
-          icon: 'attach_money',
-          title: 'Presupuestos',
           url: 'finances/budgets',
         },
       ]

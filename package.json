@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
     "build": "ng build",
+    "sync": "npm run build && npx cap sync",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

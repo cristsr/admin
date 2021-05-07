@@ -5,14 +5,15 @@ import { ChartConfiguration } from 'chart.js';
   selector: 'app-chart-pie',
   template: `
     <canvas appChart [config]="config"></canvas>
-    <div class="center">
-      <span>Total</span>
+    <div class="center" *ngIf="showCenter">
       <h4>{{ '300000' | currency }}</h4>
     </div>
   `,
   styleUrls: ['./chart-pie.component.scss']
 })
 export class ChartPieComponent {
+  @Input() showCenter: boolean;
+
   @Input()
   get config(): any {
     return this.chartConfig;

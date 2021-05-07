@@ -33,8 +33,41 @@ export class SummaryComponent implements OnInit {
     ],
     options: {
       hoverOffset: 0,
-      cutout: 85,
-      padding: 30
+      cutout: 55,
+      padding: 0,
+      textCenter: false
+    }
+  };
+
+  doughnut2 = {
+    label: 'Ingresos',
+    data: [
+      {
+        label: 'Sueldo',
+        value: 3000000,
+        color: '#26de81'
+      },
+      {
+        label: 'Acciones',
+        value: 300000,
+        color: '#fed330'
+      },
+      {
+        label: 'Acciones2',
+        value: 200000,
+        color: '#fc5c65'
+      },
+      {
+        label: 'otra',
+        value: 200001,
+        color: '#fc5c65'
+      }
+    ],
+    options: {
+      hoverOffset: 0,
+      cutout: 50,
+      padding: 0,
+      textCenter: false
     }
   };
 

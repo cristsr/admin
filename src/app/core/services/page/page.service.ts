@@ -19,6 +19,10 @@ export class PageService {
     pluck('submenu')
   );
 
+  pageTitle$ = this.layoutService.state$.pipe(
+    pluck('pageTitle')
+  );
+
   constructor(
     private router: Router,
     private layoutService: LayoutService

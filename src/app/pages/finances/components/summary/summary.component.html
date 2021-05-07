@@ -1,64 +1,65 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-12 col-md-8">
+    <div class="col-12 col-sm-6 col-md-8">
       <app-card>
         <app-card-header>Balance</app-card-header>
         <app-card-body>
           <div class="row">
-            <div class="col-sm-12 col-md-5">
+            <div class="chart col-12 col-sm-12 col-md-12 col-lg-4">
               <app-chart-pie
                 [config]="doughnut"
-                width="100%">
+                width="150px">
               </app-chart-pie>
+              <h4>Gastos</h4>
+              <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
             </div>
-            <table class="col-sm-12 col-md-7">
-              <tr>
-                <th>Categoria</th>
-                <th>Total</th>
-              </tr>
-              <tr>
-                <td>Gastos</td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>Gastos</td>
-                <td>50000</td>
-              </tr>
-            </table>
-
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+              <table>
+                <tr>
+                  <th>Categoria</th>
+                  <th>Total</th>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="row">
+                      <app-icon name="check_circle"></app-icon>
+                      <span class="category">Gastos</span>
+                    </div>
+                  </td>
+                  <td>50000</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="row">
+                      <app-icon name="check_circle"></app-icon>
+                      <span class="category">Gastos</span>
+                    </div>
+                  </td>
+                  <td>50000</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </app-card-body>
       </app-card>
     </div>
-    <div class="col-sm-12 col-md-4">
+    <div class="col-12 col-sm-6 col-md-4">
       <app-card>
         <app-card-header>Finances</app-card-header>
         <app-card-body>
-          <app-chart-pie
-            [config]="doughnut"
-            width="100%">
-          </app-chart-pie>
-        </app-card-body>
-      </app-card>
-    </div>
-    <div class="col-sm-12 col-md-4">
-      <app-card>
-        <app-card-header>Finances</app-card-header>
-        <app-card-body>
-          <app-list>
-            <app-list-item>
-              world
-            </app-list-item>
-            <app-list-item>
-              world
-            </app-list-item>
-            <app-list-item>
-              world
-            </app-list-item>
-            <app-list-item>
-              world
-            </app-list-item>
-          </app-list>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <app-chart-pie
+                [config]="doughnut2"
+                width="60%">
+              </app-chart-pie>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="budgets">
+
+              </div>
+            </div>
+          </div>
         </app-card-body>
       </app-card>
     </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { PageService } from '../core/services/sidebar/page.service';
+import { PageService } from '../core/services/page/page.service';
 
 @Component({
   selector: 'app-pages',

@@ -11,6 +11,7 @@ import { BudgetsComponent } from './components/budgets/budgets.component';
 import { ChartModule } from '../../core/components/chart/chart.module';
 import { ListModule } from '../../core/components/list/list.module';
 import { ContainerModule } from '../../core/components/container/container.module';
+import { IconModule } from '../../core/components/icon/icon.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { ContainerModule } from '../../core/components/container/container.modul
     ChartModule,
     ListModule,
     ContainerModule,
+    IconModule,
   ]
 })
 export class FinancesModule { }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LayoutService } from '../../services/layout/layout.service';
 import { map } from 'rxjs/operators';
+import { PageService } from '../../services/page/page.service';
 
 @Component({
   selector: 'app-page-title',
@@ -12,11 +13,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./page-title.component.scss'],
 })
 export class PageTitleComponent {
-  pageTitle$ = this.layoutService.state$.pipe(
-    map(state => state.pageTitle)
-  );
+  pageTitle$ = this.pageService.pageTitle$;
 
-  constructor(private layoutService: LayoutService) {
-    // console.log(this.pageTitle$);
-  }
+  constructor(private pageService: PageService) { }
 }

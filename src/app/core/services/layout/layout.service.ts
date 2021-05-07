@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action } from '../../interfaces/Action';
 import { Menu } from '../../interfaces/Menu';
 import { layoutInitialState } from '../../../app.config';
-import { Store } from '../../clasess/store.class';
+import { Store } from '../../classes/store.class';
 
 
 export interface LayoutState {
@@ -19,12 +19,12 @@ export type LayoutAction = Action<LayoutState>;
   providedIn: 'root'
 })
 export class LayoutService {
-  store = new Store<LayoutAction, LayoutState>(
+  store$ = new Store<LayoutAction, LayoutState>(
     layoutInitialState,
     LayoutService.reducer
   );
 
-  state$ = this.store.state$;
+  state$ = this.store$.state$;
 
   private static reducer(state: LayoutState, action: LayoutAction): LayoutState {
     switch (action.type) {
@@ -65,33 +65,33 @@ export class LayoutService {
   }
 
   setTheme(theme: string): void {
-    this.store.next({
+    this.store$.next({
       type: 'SET_THEME',
       payload: theme
     });
   }
 
   toggleTheme(): void {
-    this.store.next({
+    this.store$.next({
       type: 'TOGGLE_THEME'
     });
   }
 
   toggleSidebar(): void {
-    this.store.next({
+    this.store$.next({
       type: 'TOGGLE_SIDEBAR'
     });
   }
 
   setPageTitle(url: string): void {
-    this.store.next({
+    this.store$.next({
       type: 'SET_TITLE',
       payload: url
     });
   }
 
   setSubmenu(url): void {
-    this.store.next({
+    this.store$.next({
       type: 'SET_SUBMENU',
       payload: url
     });

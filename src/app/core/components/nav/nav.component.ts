@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageService } from '../../services/sidebar/page.service';
+import { PageService } from '../../services/page/page.service';
 import { ThemeService } from '../../services/theme/theme.service';
 
 @Component({
