@@ -1,64 +1,92 @@
 <div class="container">
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-8">
+  <div appFlex row>
+    <div class="xs-12 sm-6 md-8">
       <app-card>
         <app-card-header>Balance</app-card-header>
-        <app-card-body>
-          <div class="row">
-            <div class="chart col-12 col-sm-12 col-md-12 col-lg-4">
-              <app-chart-pie
-                [config]="doughnut"
-                width="150px">
-              </app-chart-pie>
-              <h4>Gastos</h4>
-              <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
-            </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-8">
-              <table>
-                <tr>
-                  <th>Categoria</th>
-                  <th>Total</th>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="row">
-                      <app-icon name="check_circle"></app-icon>
-                      <span class="category">Gastos</span>
-                    </div>
-                  </td>
-                  <td>50000</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="row">
-                      <app-icon name="check_circle"></app-icon>
-                      <span class="category">Gastos</span>
-                    </div>
-                  </td>
-                  <td>50000</td>
-                </tr>
-              </table>
-            </div>
+        <app-card-body appFlex row>
+          <div appFlex column justify="center" align="center" class="chart xs-12 lg-4">
+            <app-chart-pie
+              [config]="doughnut"
+              width="150px">
+            </app-chart-pie>
+            <h4>Gastos</h4>
+            <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
+          </div>
+          <div appFlex column justify="center" class="xs-12 lg-8">
+            <table>
+              <tr>
+                <th>Categoria</th>
+                <th>Total</th>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+            </table>
           </div>
         </app-card-body>
       </app-card>
     </div>
-    <div class="col-12 col-sm-6 col-md-4">
-      <app-card>
-        <app-card-header>Finances</app-card-header>
-        <app-card-body>
-          <div class="row">
-            <div class="col-12 col-sm-12">
-              <app-chart-pie
-                [config]="doughnut2"
-                width="60%">
-              </app-chart-pie>
-            </div>
-            <div class="col-12 col-sm-12">
-              <div class="budgets">
-
-              </div>
-            </div>
+    <div class="xs-12 sm-6 md-4">
+      <app-card class="budget">
+        <app-card-header>Presupuesto Mensual</app-card-header>
+        <app-card-body appFlex column>
+          <div appFlex column class="xs-12">
+            <app-chart-pie
+              [config]="doughnut"
+              width="150px">
+            </app-chart-pie>
+          </div>
+          <div appFlex column justify="center" align="center" class="xs-12">
+            <app-label-icon
+              icon="outbound"
+              name="Hola mundo">
+            </app-label-icon>
+            <app-label-icon
+              icon="outbound"
+              name="Hola mundo">
+            </app-label-icon>
           </div>
         </app-card-body>
       </app-card>

@@ -6,9 +6,6 @@
   }
 
   .chart {
-    justify-content: center;
-    align-items: center;
-
     h4 {
       padding-top: 15px;
       padding-bottom: 5px;
@@ -46,5 +43,9 @@
 
   .category {
     padding-left: .3rem;
+  }
+
+  .budget {
+    height: 100%;
   }
 }

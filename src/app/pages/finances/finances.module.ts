@@ -12,6 +12,8 @@ import { ChartModule } from '../../core/components/chart/chart.module';
 import { ListModule } from '../../core/components/list/list.module';
 import { ContainerModule } from '../../core/components/container/container.module';
 import { IconModule } from '../../core/components/icon/icon.module';
+import { LabelIconModule } from '../../core/components/label-icon/label-icon.module';
+import { FlexModule } from '../../core/directives/flex/flex.module';
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { IconModule } from '../../core/components/icon/icon.module';
     ListModule,
     ContainerModule,
     IconModule,
+    LabelIconModule,
+    FlexModule,
   ]
 })
 export class FinancesModule { }
