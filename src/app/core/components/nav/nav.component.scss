@@ -1,3 +1,7 @@
+:host {
+  position: sticky;
+}
+
 .navbar {
   display: flex;
   align-items: center;
@@ -5,9 +9,15 @@
   background: var(--foreground);
   color: var(--text-color);
   height: var(--nav-height);
-  border-bottom: 1px solid rgba(0,0,0,.05);
-  position: sticky;
-  z-index: 1;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+  }
 }
 
 header {

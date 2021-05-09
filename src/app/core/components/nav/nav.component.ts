@@ -11,17 +11,6 @@ import { ThemeService } from '../../services/theme/theme.service';
           <span class="material-icons-outlined">menu_open</span>
         </div>
         <span (click)="changeTheme()" class="logo">Admin</span>
-<!--        <ul class="items">-->
-<!--          <li>-->
-<!--            <span class="link">Instagram</span>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <span class="link">Pinterest</span>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a class="link">Movies</a>-->
-<!--          </li>-->
-<!--        </ul>-->
       </header>
     </nav>
   `,
