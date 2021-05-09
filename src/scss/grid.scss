@@ -3,18 +3,12 @@ $grid-columns: 12 !default;
 $breakpoint-md: 1024px !default;
 $breakpoint-sm: 768px !default;
 
-//$breakpoints: (
-//  'xs' '(max-width: 575px)',
-//  'sm' '(min-width: 576px)',
-//  'md' '(min-width: 768px)',
-//  'lg' '(min-width: 992px)',
-//) !default;
-
 $breakpoints: (
   'xs' '(min-width: 0px)',
   'sm' '(min-width: 576px)',
   'md' '(min-width: 768px)',
   'lg' '(min-width: 992px)',
+  'xl' '(min-width: 1200px)',
 ) !default;
 
 @mixin grid-loop($name) {
