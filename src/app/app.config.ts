@@ -11,7 +11,7 @@ export const layoutInitialState: LayoutState = {
       url: 'finances',
       submenu: [
         {
-          icon: 'description',
+          icon: 'analytics',
           title: 'Resumen',
           url: 'finances/summary'
         },

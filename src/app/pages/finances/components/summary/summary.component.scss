@@ -18,9 +18,13 @@
     }
   }
 
-
   app-chart-pie {
     margin: auto;
+  }
+
+  .table {
+    max-height: 200px;
+    overflow-y: scroll;
   }
 
   tr :nth-of-type(1) {
@@ -47,5 +51,15 @@
 
   .budget {
     height: 100%;
+  }
+
+  .heritage {
+    span {
+      padding: 10px;
+    }
+  }
+
+  app-chart-bar {
+    padding-top: 25px;
   }
 }

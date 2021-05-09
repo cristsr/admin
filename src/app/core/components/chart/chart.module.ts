@@ -16,6 +16,7 @@ import {
 import { ChartDirective } from './chart/chart.directive';
 import { ChartPieComponent } from './chart-pie/chart-pie.component';
 import { ChartBarComponent } from './chart-bar/chart-bar.component';
+import { ThousandSuffixesModule } from '../../pipes/thousand-suffixes/thousand-suffixes.module';
 
 Chart.register(
   Legend,
@@ -38,6 +39,7 @@ Chart.register(
   ],
   imports: [
     CommonModule,
+    ThousandSuffixesModule
   ],
   exports: [
     ChartDirective,

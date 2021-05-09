@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit} from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Chart, ChartConfiguration } from 'chart.js';
 
 
@@ -7,11 +7,15 @@ import { Chart, ChartConfiguration } from 'chart.js';
 })
 export class ChartDirective implements OnInit {
   @Input() config: ChartConfiguration;
+  @Output() create = new EventEmitter();
 
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
     const context = this.elementRef.nativeElement.getContext('2d');
-    const result = new Chart(context, this.config);
+    const chart = new Chart(context, this.config);
+    this.create.emit(chart);
   }
+
+
 }

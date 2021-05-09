@@ -1,18 +1,18 @@
 <div class="container">
   <div appFlex row>
-    <div class="xs-12 sm-6 md-8">
+    <div class="xs-12 sm-6">
       <app-card>
-        <app-card-header>Balance</app-card-header>
+        <app-card-header>Ingresos</app-card-header>
         <app-card-body appFlex row>
-          <div appFlex column justify="center" align="center" class="chart xs-12 lg-4">
+          <div appFlex column justify="center" align="center" class="chart xs-12 xl-5">
             <app-chart-pie
               [config]="doughnut"
               width="150px">
             </app-chart-pie>
-            <h4>Gastos</h4>
+            <h4>He recibido</h4>
             <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
           </div>
-          <div appFlex column justify="center" class="xs-12 lg-8">
+          <div appFlex column class="table xs-12 xl-7">
             <table>
               <tr>
                 <th>Categoria</th>
@@ -54,6 +54,34 @@
                 </td>
                 <td>50000</td>
               </tr>
+
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
               <tr>
                 <td>
                   <app-label-icon
@@ -68,26 +96,114 @@
         </app-card-body>
       </app-card>
     </div>
-    <div class="xs-12 sm-6 md-4">
-      <app-card class="budget">
-        <app-card-header>Presupuesto Mensual</app-card-header>
-        <app-card-body appFlex column>
-          <div appFlex column class="xs-12">
+    <div class="xs-12 sm-6">
+      <app-card>
+        <app-card-header>Gastos</app-card-header>
+        <app-card-body appFlex row>
+          <div appFlex column justify="center" align="center" class="chart xs-12 xl-5">
             <app-chart-pie
               [config]="doughnut"
               width="150px">
             </app-chart-pie>
+            <h4>He gastado</h4>
+            <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
           </div>
-          <div appFlex column justify="center" align="center" class="xs-12">
-            <app-label-icon
-              icon="outbound"
-              name="Hola mundo">
-            </app-label-icon>
-            <app-label-icon
-              icon="outbound"
-              name="Hola mundo">
-            </app-label-icon>
+          <div appFlex column class="table xs-12 xl-7">
+            <table>
+              <tr>
+                <th>Categoria</th>
+                <th>Total</th>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+              <tr>
+                <td>
+                  <app-label-icon
+                    icon="outbound"
+                    name="Hola mundo">
+                  </app-label-icon>
+                </td>
+                <td>50000</td>
+              </tr>
+            </table>
           </div>
+        </app-card-body>
+      </app-card>
+    </div>
+    <div class="xs-12">
+      <app-card>
+        <app-card-header>Patrimonio</app-card-header>
+        <app-card-body appFlex column justify="center" align="center">
+          <div class="chart">
+            <h4>Mi patrimonio total: </h4>
+            <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
+          </div>
+          <app-chart-bar
+            class="xs-12 md-10"
+            [config]="doughnut">
+          </app-chart-bar>
         </app-card-body>
       </app-card>
     </div>
