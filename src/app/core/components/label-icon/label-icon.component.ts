@@ -5,12 +5,12 @@ import { Component, Input } from '@angular/core';
   template: `
     <div class="row">
       <app-icon [name]="icon"></app-icon>
-      <span>{{name}}</span>
+      <span>{{label}}</span>
     </div>
   `,
   styleUrls: ['./label-icon.component.scss']
 })
 export class LabelIconComponent {
   @Input() icon;
-  @Input() name;
+  @Input() label;
 }
