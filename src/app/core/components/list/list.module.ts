@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { ListItemComponent } from './list-item/list-item.component';
+import { FlexModule } from '../../directives/flex/flex.module';
+import { IconModule } from '../icon/icon.module';
 
 
 
@@ -15,7 +17,9 @@ import { ListItemComponent } from './list-item/list-item.component';
     ListItemComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FlexModule,
+    IconModule
   ]
 })
 export class ListModule { }
