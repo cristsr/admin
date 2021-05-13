@@ -14,6 +14,7 @@ import { ContainerModule } from '../../core/components/container/container.modul
 import { IconModule } from '../../core/components/icon/icon.module';
 import { LabelIconModule } from '../../core/components/label-icon/label-icon.module';
 import { FlexModule } from '../../core/directives/flex/flex.module';
+import { MovementModule } from '../../core/pipes/movement/movement.module';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { FlexModule } from '../../core/directives/flex/flex.module';
     IconModule,
     LabelIconModule,
     FlexModule,
+    MovementModule,
   ]
 })
 export class FinancesModule { }

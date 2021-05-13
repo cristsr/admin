@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-list-item',
   template: `
     <div appFlex row align="center">
-      <app-icon name="favorite"></app-icon>
-      <div appFlex column align="start" class="labels" >
+      <app-icon icon="favorite"></app-icon>
+      <div appFlex column align="start" class="labels">
         <span>Test</span>
         <span>Médico</span>
       </div>

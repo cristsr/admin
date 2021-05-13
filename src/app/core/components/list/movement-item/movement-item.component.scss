@@ -1,0 +1,34 @@
+:host {
+  padding: .8rem 0;
+  border-bottom: 1px solid var(--border);
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  app-icon {
+    border-radius: 50%;
+    background: var(--danger);
+    padding: 5px;
+  }
+
+  .labels {
+    margin-left: .8rem;
+    font-size: .8rem;
+
+    :nth-of-type(1) {
+      padding-bottom: .2rem;
+    }
+
+    :nth-of-type(2) {
+      font-weight: 500;
+      padding: .1rem;
+      border-radius: 10%;
+      background: var(--danger);
+    }
+  }
+
+  .currency {
+    margin-left: auto;
+  }
+}

@@ -1,15 +1,32 @@
 <div class="container">
-  <div appFlex row>
-    <div class="xs-12">
-      <app-card>
-        <app-card-header>Mis Movimientos</app-card-header>
-        <app-card-body appFlex column>
-          <app-list-item></app-list-item>
-          <app-list-item></app-list-item>
-          <app-list-item></app-list-item>
-          <app-list-item></app-list-item>
-        </app-card-body>
-      </app-card>
-    </div>
+  <div appFlex column class="xs-12">
+    <app-card>
+      <app-card-header appFlex row justify="between" align="center">
+        <span>
+           Mis Movimientos
+        </span>
+        <button class="add-btn" (click)="addMovement()">
+          <app-icon icon="add_circle" color="success" size="2"></app-icon>
+        </button>
+      </app-card-header>
+      <app-card-body appFlex column>
+        <ng-container *ngFor="let movements of data | movement">
+          <app-movements-list [date]="movements.date">
+            <app-movement-item
+              *ngFor="let movement of movements.values"
+              [icon]="movement.category.icon"
+              [category]="movement.category.name"
+              [color]="movement.category.color"
+              [quantity]="movement.quantity"
+              [description]="movement.description">
+            </app-movement-item>
+          </app-movements-list>
+        </ng-container>
+      </app-card-body>
+    </app-card>
   </div>
 </div>
+
+<button (click)="takePicture()">tomar foto</button>
+
+<img id="image" />
