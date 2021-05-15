@@ -12,20 +12,22 @@ import { TabComponent } from '../tab/tab.component';
 @Component({
   selector: 'app-tabset',
   template: `
-      <ul class="tabset">
-          <li *ngFor="let tab of tabs"
-              (click)="selectTab(tab)"
-              [class.active]="tab.active"
-              class="tab">
-              <a href="#" (click)="$event.preventDefault()" class="tab-link">
-                  <app-icon *ngIf="tab.icon" [icon]="tab.icon"></app-icon>
-                  <span *ngIf="tab.tabTitle">{{ tab.tabTitle }}</span>
-              </a>
-          </li>
-      </ul>
-      <div class="tab-wrap">
-          <ng-content select="app-tab"></ng-content>
-      </div>
+    <app-card>
+      <app-card-header appFlex row justify="between">
+        <ng-container  *ngFor="let tab of tabs">
+          <div
+            (click)="selectTab(tab)"
+            [class.active]="tab.active"
+            class="tab-link">
+            <app-icon *ngIf="tab.icon" [icon]="tab.icon"></app-icon>
+            <span *ngIf="tab.tabTitle">{{ tab.tabTitle }}</span>
+          </div>
+        </ng-container>
+      </app-card-header>
+      <app-card-body>
+        <ng-content select="app-tab"></ng-content>
+      </app-card-body>
+    </app-card>
   `,
   styleUrls: ['./tabset.component.scss']
 })

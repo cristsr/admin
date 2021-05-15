@@ -16,6 +16,7 @@ export class FlexDirective {
     this.columnValue = false;
     this.rowValue = typeof v === 'string' || !!v;
   }
+
   get row(): boolean {
     return this.rowValue;
   }
@@ -26,6 +27,7 @@ export class FlexDirective {
     this.rowValue = false;
     this.columnValue = typeof v === 'string' || !!v;
   }
+
   get column(): boolean {
     return this.columnValue;
   }
@@ -35,6 +37,7 @@ export class FlexDirective {
   set justify(v: string) {
     this.justifyContent = FlexDirective.switchJustify(v);
   }
+
   get justify(): string {
     return this.justifyContent;
   }
@@ -44,32 +47,44 @@ export class FlexDirective {
   set align(v: string) {
     this.alignItems = FlexDirective.switchAlign(v);
   }
+
   get align(): string {
     return this.alignItems;
   }
 
-  constructor() { }
-
   private static switchJustify(v: string): string {
     switch (v) {
-      case 'start': return 'flex-start';
-      case 'end': return 'flex-end';
-      case 'center': return 'center';
-      case 'between': return 'space-between';
-      case 'around': return 'space-around';
-      case 'evenly': return 'space-evenly';
-      default: return 'flex-start';
+      case 'start':
+        return 'flex-start';
+      case 'end':
+        return 'flex-end';
+      case 'center':
+        return 'center';
+      case 'between':
+        return 'space-between';
+      case 'around':
+        return 'space-around';
+      case 'evenly':
+        return 'space-evenly';
+      default:
+        return 'flex-start';
     }
   }
 
   private static switchAlign(v: string): string {
     switch (v) {
-      case 'stretch': return 'stretch';
-      case 'start': return 'flex-start';
-      case 'end': return 'flex-end';
-      case 'center': return 'center';
-      case 'baseline': return 'baseline';
-      default: return 'stretch';
+      case 'stretch':
+        return 'stretch';
+      case 'start':
+        return 'flex-start';
+      case 'end':
+        return 'flex-end';
+      case 'center':
+        return 'center';
+      case 'baseline':
+        return 'baseline';
+      default:
+        return 'stretch';
     }
   }
 

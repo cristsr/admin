@@ -4,6 +4,7 @@ import { FinancesComponent } from './finances.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { MovementsComponent } from './components/movements/movements.component';
 import { BudgetsComponent } from './components/budgets/budgets.component';
+import { AddMovementComponent } from './components/add-movement/add-movement.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'budgets',
         component: BudgetsComponent
+      },
+      {
+        path: 'add-movement',
+        component: AddMovementComponent
       },
       {
         path: '',

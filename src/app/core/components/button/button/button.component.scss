@@ -1,0 +1,19 @@
+:host {
+  button {
+    display: block;
+    background: transparent;
+
+    app-icon {
+      display: block;
+      padding-right: .2rem;
+    }
+
+    span {
+      display: flex;
+    }
+
+    &.rounded {
+      border-radius: 50%;
+    }
+  }
+}

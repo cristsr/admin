@@ -16,6 +16,4 @@ export class ChartDirective implements OnInit {
     const chart = new Chart(context, this.config);
     this.create.emit(chart);
   }
-
-
 }

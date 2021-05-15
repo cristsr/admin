@@ -4,6 +4,7 @@ import { CardModule } from '../card/card.module';
 import { TabsetComponent } from './tabset/tabset.component';
 import { TabComponent } from './tab/tab.component';
 import { IconModule } from '../icon/icon.module';
+import { FlexModule } from '../../directives/flex/flex.module';
 
 
 
@@ -15,7 +16,8 @@ import { IconModule } from '../icon/icon.module';
   imports: [
     CommonModule,
     CardModule,
-    IconModule
+    IconModule,
+    FlexModule
   ],
   exports: [
     TabsetComponent,

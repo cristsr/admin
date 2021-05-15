@@ -15,6 +15,9 @@ import { IconModule } from '../../core/components/icon/icon.module';
 import { LabelIconModule } from '../../core/components/label-icon/label-icon.module';
 import { FlexModule } from '../../core/directives/flex/flex.module';
 import { MovementModule } from '../../core/pipes/movement/movement.module';
+import { AddMovementComponent } from './components/add-movement/add-movement.component';
+import { ButtonModule } from '../../core/components/button/button.module';
+import { InputModule } from '../../core/components/input/input.module';
 
 
 @NgModule({
@@ -22,7 +25,8 @@ import { MovementModule } from '../../core/pipes/movement/movement.module';
     FinancesComponent,
     SummaryComponent,
     MovementsComponent,
-    BudgetsComponent
+    BudgetsComponent,
+    AddMovementComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +40,8 @@ import { MovementModule } from '../../core/pipes/movement/movement.module';
     LabelIconModule,
     FlexModule,
     MovementModule,
+    ButtonModule,
+    InputModule,
   ]
 })
 export class FinancesModule { }
