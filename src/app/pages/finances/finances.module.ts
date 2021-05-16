@@ -17,7 +17,7 @@ import { FlexModule } from '../../core/directives/flex/flex.module';
 import { MovementModule } from '../../core/pipes/movement/movement.module';
 import { AddMovementComponent } from './components/add-movement/add-movement.component';
 import { ButtonModule } from '../../core/components/button/button.module';
-import { InputModule } from '../../core/components/input/input.module';
+import { SelectModule } from '../../core/components/select/select.module';
 
 
 @NgModule({
@@ -41,7 +41,7 @@ import { InputModule } from '../../core/components/input/input.module';
     FlexModule,
     MovementModule,
     ButtonModule,
-    InputModule,
+    SelectModule,
   ]
 })
 export class FinancesModule { }

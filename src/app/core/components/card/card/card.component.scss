@@ -1,9 +1,9 @@
 :host {
   display: flex;
   flex-direction: column;
-  background: var(--foreground);
-  border: .0625rem solid var(--border);
-  border-radius: .25rem;
+  background: var(--bg-primary);
+  border: 0.0625rem solid var(--border);
+  border-radius: 0.25rem;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 1.875rem;

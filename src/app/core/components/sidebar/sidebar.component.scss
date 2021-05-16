@@ -1,7 +1,7 @@
 .menu {
   position: relative;
   height: calc(100vh - var(--nav-height));
-  background: var(--foreground);
+  background: var(--bg-primary);
   color: var(--text-color);
   box-shadow: 0 0.5rem 1rem 0 rgb(44 51 73 / 10%);
 }
@@ -22,7 +22,7 @@
     cursor: pointer;
 
     .text {
-      padding-left: .8rem;;
+      padding-left: 0.8rem;
       overflow: hidden;
     }
 
@@ -31,4 +31,3 @@
     }
   }
 }
-

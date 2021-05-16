@@ -1,3 +1,4 @@
+@import "src/scss/variables";
 :host {
   position: sticky;
 }
@@ -6,17 +7,17 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background: var(--foreground);
+  background: var(--bg-primary);
   color: var(--text-color);
-  height: var(--nav-height);
+  height: $nav-height;
   position: relative;
 
-  &:before {
+  &::before {
     content: "";
     position: absolute;
     bottom: 0;
     width: 100%;
-    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    border-bottom: 1px solid var(--border)
   }
 }
 
@@ -60,4 +61,3 @@ header {
     }
   }
 }
-

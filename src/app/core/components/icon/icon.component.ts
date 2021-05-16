@@ -33,7 +33,7 @@ export class IconComponent {
     if (!v) {
       return;
     }
-    this.sizeValue = `${v}rem`;
+    this.sizeValue = `${v} !important`;
   }
   get size(): string {
     return this.sizeValue;

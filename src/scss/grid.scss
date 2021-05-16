@@ -1,8 +1,5 @@
 $grid-columns: 12 !default;
 
-$breakpoint-md: 1024px !default;
-$breakpoint-sm: 768px !default;
-
 $breakpoints: (
   'xs' '(min-width: 0px)',
   'sm' '(min-width: 576px)',
@@ -15,7 +12,7 @@ $breakpoints: (
   @for $i from 1 through $grid-columns {
     $percentage: percentage($i/$grid-columns);
 
-    .#{$name}-#{$i}  {
+    .#{$name}-#{$i} {
       max-width: $percentage;
       width: 100%;
     }
@@ -52,5 +49,3 @@ $breakpoints: (
     @include grid-loop($name);
   }
 }
-
-

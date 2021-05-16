@@ -1,5 +1,5 @@
 :host {
-  padding: .8rem 0;
+  padding: 0.8rem 0;
   border-bottom: 1px solid var(--border);
 
   &:first-child {
@@ -13,16 +13,16 @@
   }
 
   .labels {
-    margin-left: .8rem;
-    font-size: .8rem;
+    margin-left: 0.8rem;
+    font-size: 0.8rem;
 
     :nth-of-type(1) {
-      padding-bottom: .2rem;
+      padding-bottom: 0.2rem;
     }
 
     :nth-of-type(2) {
       font-weight: 500;
-      padding: .1rem;
+      padding: 0.1rem;
       border-radius: 10%;
       background: var(--danger);
     }

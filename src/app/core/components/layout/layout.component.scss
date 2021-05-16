@@ -14,17 +14,17 @@
   }
 
   .content {
-    height: calc(100vh - var(--nav-height));
     overflow-y: auto;
     grid-column-start: 2;
     grid-row-start: 2;
+    background-color: var(--bg-primary);
 
     .main-layout {
       height: auto;
       box-sizing: border-box;
       grid-column: 2 / 3;
       grid-row: 4;
-      background-color: #f6f7f9;
+      background-color: var(--bg-secondary);
     }
   }
 }

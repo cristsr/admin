@@ -14,13 +14,13 @@
 
       .tab-title {
         padding-top: 5pt;
-        font-size: .7rem;
+        font-size: 0.7rem;
         text-transform: capitalize;
       }
 
       &.active {
         color: var(--primary);
-        border-bottom: solid 2px var(--primary);
+        border-bottom: solid 2px var(--primary)
       }
     }
   }

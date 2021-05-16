@@ -1,0 +1,28 @@
+.control {
+  border-radius: .25rem;
+  background: var(--bg-secondary);
+  color: var(--text-color);
+  width: 100%;
+  padding: 10px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+
+  border: 1px solid transparent;
+
+  //&:hover {
+  //  border: 1px solid var(--primary);
+  //}
+
+  &:focus  {
+    border: 1px solid var(--primary);
+  }
+
+  &.right-icon {
+    padding: 10px 6px 10px 20px;
+  }
+
+  &.left-icon {
+    padding: 10px 20px 10px 6px;
+  }
+}
+

@@ -1,30 +1,40 @@
-.light-theme {
-  --primary: #4b7bec;  // #4b7bec, #3867d6
-  --secondary: #4b6584;
-  --success: #26de81;
-  --info: #45aaf2;
-  --warning: #fed330;
-  --danger: #fc5c65;
-  --foreground: #fff;
-  --background: #edf1f7;
-  --text-color: #222b45;
-  --border: #edf1f7;
-  --shadow: rgb(44 51 73 / 10%);
-  --nav-height: 3rem;
+$colors: (
+  "primary":            #4b7bec,
+  "secondary":          #4b6584,
+  "success":            #26de81,
+  "info":               #45aaf2,
+  "warning":            #fed330,
+  "danger":             #fc5c65,
+) !default;
+
+$themes: (
+  "light": (
+    "bg-primary":       #fff,
+    "bg-secondary":     #edf1f7,
+    "text-color":       #222b45,
+    "border":           #edf1f7,
+    "shadow":           rgb(44 51 73 / 10%),
+  ),
+  "dark": (
+    "bg-primary":       #222b45,
+    "bg-secondary":     #151a30,
+    "text-color":       #fff,
+    "border":           #101426,
+    "shadow":           #1a1f33,
+  )
+) !default;
+
+:root {
+  @each $color, $value in $colors {
+    --#{$color}: #{$value};
+  }
 }
 
-.dark-theme {
-  --primary: #4b7bec;
-  --secondary: #4b6584;
-  --success: #26de81;
-  --info: #45aaf2;
-  --warning: #fed330;
-  --danger: #fc5c65;
-  --foreground: #222b45;
-  --background: #151a30;
-  --text-color: #fff;
-  --border: #101426;
-  //--border: #151a30;
-  --shadow: #1a1f33;
-  --nav-height: 3rem;
+
+@each $theme, $map in $themes {
+  .#{$theme}-theme {
+    @each $color, $value in $map {
+      --#{$color}: #{$value};
+    }
+  }
 }
