@@ -15,6 +15,8 @@ export type SelectCategoryAction = Action<SelectCategoryState>;
 })
 export class SelectCategoryService {
 
+  data = 0;
+
   store$ = new Store<SelectCategoryAction, SelectCategoryState>(
     {
       isDisabled: true,

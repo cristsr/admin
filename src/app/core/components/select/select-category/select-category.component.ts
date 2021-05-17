@@ -1,6 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SelectCategoryService } from '../../../services/select-category/select-category.service';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-select-category',
@@ -19,65 +25,104 @@ import { Observable } from 'rxjs';
         <ng-container *ngIf="showCategories && !showSubcategories">
           <div appFlex row align="center" class="control left-icon right-icon">
             <app-icon size="17px" icon="search"></app-icon>
-            <input type="text" placeholder="Buscar" (keyup)="search($event.target)">
+            <input type="text" placeholder="Buscar" (keyup)="onSearch($event.target)">
             <app-icon (click)="closeList()" size="17px" icon="expand_less"></app-icon>
-          </div>
-
-          <div appFlex column class="options">
-            <div
-              *ngFor="let item of categories | async"
-              (click)="selectCategory(item)">
-              {{ item.name }} cat
-            </div>
           </div>
         </ng-container>
 
-        <ng-container *ngIf="!showCategories || showSubcategories">
+        <ng-container *ngIf="!showCategories && showSubcategories">
           <div appFlex row align="center" class="control left-icon right-icon">
             <app-icon (click)="displayCategories()" size="17px" icon="chevron_left"></app-icon>
             <input type="text" disabled [placeholder]="'subcategory subcat'">
             <app-icon (click)="closeList()" size="17px" icon="expand_less"></app-icon>
           </div>
+        </ng-container>
 
+        <ng-container *ngIf="showCategories && !showSubcategories && !search">
           <div appFlex column class="options">
             <div
-              *ngFor="let item of subcategories"
-              (click)="selectSubcategory(item)">
-              {{ item.name }}
+              *ngFor="let category of categories"
+              (click)="selectCategory(category)">
+              {{ category.name }} cat
             </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="showSubcategories || search">
+          <div appFlex column class="options">
+            <div
+              *ngFor="let subcategory of searchList"
+              (click)="selectSubcategory(subcategory)">
+              {{ subcategory.name }} search
+            </div>
+            <ng-container *ngIf="!searchList.length">
+              No hay resultados
+            </ng-container>
           </div>
         </ng-container>
       </ng-container>
     </div>
   `,
   styleUrls: ['./select-category.component.scss'],
-  providers: [SelectCategoryService]
 })
-export class SelectCategoryComponent implements OnInit {
-  @Input() categories: Observable<any[]>;
+export class SelectCategoryComponent implements OnInit, OnChanges {
+  @Input() readonly categories: any[];
+
+  @Input() readonly subcategories: any[];
+
+  @Input()
+  set value(value: any) {
+    this.subcategory = value;
+  }
+
+  @Output() changes = new EventEmitter();
 
   isActive = false;
 
   showCategories = true;
 
-  subcategories = [];
-
   subcategory: any;
 
   showSubcategories = false;
 
+  searchList: any[];
+
+  search = false;
+
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.initializeSearchList(changes);
+  }
+
+  initializeSearchList(changes: SimpleChanges): void {
+    // when value is assigned synchronously
+    if (changes.subcategories?.currentValue) {
+      if (this.subcategory) {
+        this.subcategoryWasAssigned();
+      }
+    }
+
+    // when value is assigned asynchronously
+    if (changes.value?.currentValue) {
+      if (this.subcategories) {
+        this.subcategoryWasAssigned();
+      }
+    }
+  }
+
   selectCategory(category): void {
-    this.subcategories = category.subcategories;
+    this.searchList = this.subcategories
+      .filter(v => v.categoryId === category.id);
+
     this.displaySubcategories();
   }
 
   selectSubcategory(subcategory: any): void {
-    this.isActive = false;
-    this.showCategories = true;
     this.subcategory = subcategory;
+    this.changes.emit(subcategory);
+    this.closeList();
   }
 
   displayCategories(): void {
@@ -92,16 +137,36 @@ export class SelectCategoryComponent implements OnInit {
 
   closeList(): void {
     this.isActive = false;
+    this.search = false;
+
     if (this.subcategory) {
-      this.showCategories = false;
-      this.showSubcategories = true;
+      this.subcategoryWasAssigned();
     } else {
       this.showCategories = true;
       this.showSubcategories = false;
     }
   }
 
-  search(target: EventTarget): void {
-    console.log((target as HTMLInputElement).value);
+  subcategoryWasAssigned(): void {
+    this.showCategories = false;
+    this.showSubcategories = true;
+    this.searchList = this.subcategories
+      .filter(v => v.categoryId === this.subcategory.categoryId);
+  }
+
+  onSearch(target: EventTarget): void {
+    const needle = (target as HTMLInputElement).value.toLowerCase();
+
+    if (needle.length < 3) {
+      this.search = false;
+      return;
+    }
+
+    if (!this.search) {
+      this.search = true;
+    }
+
+    this.searchList = this.subcategories
+      .filter(v => v.name.toLowerCase().includes(needle));
   }
 }
