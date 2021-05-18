@@ -36,54 +36,67 @@ export class CategoryService {
 
   subcategoriesData = [
     {
+      id: 0,
       categoryId: 0,
       name: 'CONSTRUCCIÓN Y REMODELACIÓN'
     },
     {
+      id: 1,
       categoryId: 0,
       name: 'ARTÍCULOS PARA EL HOGAR'
     },
     {
+      id: 2,
       categoryId: 0,
       name: 'MASCOTAS'
     },
     {
+      id: 3,
       categoryId: 1,
       name: 'DESPENSA'
     },
     {
+      id: 4,
       categoryId: 1,
       name: 'RESTAURANTE'
     },
     {
+      id: 5,
       categoryId: 1,
       name: 'OTROS ALIMENTOS'
     },
     {
+      id: 6,
       categoryId: 2,
       name: 'CINE Y MÚSICA'
     },
     {
+      id: 7,
       categoryId: 2,
       name: 'JUGUETES Y VIDEOJUEGOS'
     },
     {
+      id: 8,
       categoryId: 2,
       name: 'MUSEOS Y PARQUES'
     },
     {
+      id: 9,
       categoryId: 2,
       name: 'SUSCRIPCIONES Y APPS'
     },
     {
+      id: 10,
       categoryId: 3,
       name: 'PERFUMES Y COSMÉTICOS'
     },
     {
+      id: 11,
       categoryId: 3,
       name: 'SALÓN DE BELLEZA'
     },
     {
+      id: 12,
       categoryId: 3,
       name: 'DENTISTA'
     },
@@ -103,5 +116,4 @@ export class CategoryService {
 
   constructor(private httpClient: HttpClient) {
   }
-
 }

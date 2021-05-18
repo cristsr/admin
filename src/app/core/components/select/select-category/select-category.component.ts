@@ -12,54 +12,71 @@ import {
   selector: 'app-select-category',
   template: `
     <div class="select-category" appFlex column>
-      <div *ngIf="!isActive" (click)="isActive = true">
-        <fieldset disabled>
-          <div appFlex row align="center" class="control right-icon pointer">
-            <input type="text" class="pointer" [placeholder]="subcategory?.name || 'category'">
-            <app-icon size="17px" icon="expand_more"></app-icon>
-          </div>
-        </fieldset>
-      </div>
+      <ng-container *ngIf="!isActive">
+        <div (click)="isActive = true" appFlex row align="center" class="control-group right-icon pointer">
+          <input disabled type="text" class="control pointer" [class.subcategory]="subcategory" [placeholder]="subcategory?.name || 'Categoria'">
+          <app-icon size="17px" icon="expand_more"></app-icon>
+        </div>
+      </ng-container>
 
       <ng-container *ngIf="isActive">
         <ng-container *ngIf="showCategories && !showSubcategories">
-          <div appFlex row align="center" class="control left-icon right-icon">
+          <div appFlex row align="center" class="control-group left-icon right-icon">
             <app-icon size="17px" icon="search"></app-icon>
-            <input type="text" placeholder="Buscar" (keyup)="onSearch($event.target)">
+            <input
+              class="control"
+              [class.focus]="showCategories"
+              type="text"
+              placeholder="Buscar"
+              (keyup)="onSearch($event.target)">
             <app-icon (click)="closeList()" size="17px" icon="expand_less"></app-icon>
           </div>
         </ng-container>
 
         <ng-container *ngIf="!showCategories && showSubcategories">
-          <div appFlex row align="center" class="control left-icon right-icon">
+          <div (click)="displayCategories()" appFlex row align="center" class="control-group left-icon right-icon">
             <app-icon (click)="displayCategories()" size="17px" icon="chevron_left"></app-icon>
-            <input type="text" disabled [placeholder]="'subcategory subcat'">
+            <input
+              type="text"
+              class="control subcategory pointer"
+              [class.focus]="showSubcategories"
+              [placeholder]="subcategory?.name || 'Subcategoria'"
+              disabled>
             <app-icon (click)="closeList()" size="17px" icon="expand_less"></app-icon>
           </div>
         </ng-container>
 
-        <ng-container *ngIf="showCategories && !showSubcategories && !search">
-          <div appFlex column class="options">
+        <div appFlex column class="options">
+          <ng-container *ngIf="showCategories && !showSubcategories && !search">
             <div
+              appFlex row align="center"
+              class="option-item"
               *ngFor="let category of categories"
               (click)="selectCategory(category)">
-              {{ category.name }} cat
+              <app-icon icon="done"></app-icon>
+              <span>
+                {{ category.name }}
+              </span>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
 
-        <ng-container *ngIf="showSubcategories || search">
-          <div appFlex column class="options">
+          <ng-container *ngIf="showSubcategories || search">
             <div
-              *ngFor="let subcategory of searchList"
-              (click)="selectSubcategory(subcategory)">
-              {{ subcategory.name }} search
+              appFlex row align="center"
+              class="option-item"
+              *ngFor="let item of searchList"
+              [class.active]="subcategory?.id === item.id"
+              (click)="selectSubcategory(item)">
+              <app-icon icon="done"></app-icon>
+              <span>
+                {{ item.name | lowercase}}
+              </span>
             </div>
-            <ng-container *ngIf="!searchList.length">
+            <div class="option-item" *ngIf="!searchList.length">
               No hay resultados
-            </ng-container>
-          </div>
-        </ng-container>
+            </div>
+          </ng-container>
+        </div>
       </ng-container>
     </div>
   `,

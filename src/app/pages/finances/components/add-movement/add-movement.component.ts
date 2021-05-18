@@ -18,12 +18,14 @@ import { CategoryService } from '../../services/category/category.service';
       </ng-container>
       <input class="control" type="text" placeholder="Descripción"/>
       <input class="control" type="number" pattern="[0-9]*" inputmode="number" placeholder="Monto"/>
+
+      <input class="control" type="date" [value]="currentDate()">
     </div>
   `,
   styleUrls: ['./add-movement.component.scss']
 })
 export class AddMovementComponent implements OnInit {
-  selectedCat;
+  // selectedCat = {categoryId: 1, name: 'RESTAURANTE'};
 
   categories$ = this.categoryService.categories$;
 
@@ -33,10 +35,13 @@ export class AddMovementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedCat = {categoryId: 1, name: 'RESTAURANTE'};
   }
 
   onCategoryChanges(category: any): void {
     console.log('Category selected', category);
+  }
+
+  currentDate(): string {
+    return new Date().toISOString().substr(0, 10);
   }
 }
