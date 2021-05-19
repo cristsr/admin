@@ -19,28 +19,6 @@ $breakpoints: (
   }
 }
 
-.container {
-  margin: 0 auto;
-  padding: 25px 4% 0;
-
-  @media (min-width: 600px) {
-    padding: 30px 4% 0;
-    max-width: 1200px;
-  }
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
 @each $breakpoint in $breakpoints {
   $name: nth($breakpoint, 1);
   $declaration: nth($breakpoint, 2);

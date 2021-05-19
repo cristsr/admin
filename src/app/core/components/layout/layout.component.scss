@@ -17,16 +17,42 @@
     overflow-y: auto;
     grid-column-start: 2;
     grid-row-start: 2;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
+    min-height: calc(100vh - var(--nav-height));
+
+    .sub-header {
+      background: var(--bg-primary);
+
+      .page-title {
+        h2 {
+          font-size: 34px;
+          text-transform: capitalize;
+          font-weight: normal;
+          padding-bottom: 25px;
+
+          @media (min-width: 600px) {
+
+          }
+        }
+      }
+    }
 
     .main-layout {
-      height: auto;
       box-sizing: border-box;
       grid-column: 2 / 3;
       grid-row: 4;
       background-color: var(--bg-secondary);
     }
   }
+}
+
+.page-title {
+  h2 {
+    display: block;
+    width: 100%;
+    background: white;
+  }
+
 }
 
 :host(.is-collapsed) {

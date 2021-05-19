@@ -1,63 +1,63 @@
-@import "src/scss/variables";
 :host {
   position: sticky;
-}
+  top: 0;
+  z-index: 1;
+  height: var(--nav-height);
 
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  background: var(--bg-primary);
-  color: var(--text-color);
-  height: $nav-height;
-  position: relative;
+  .navbar {
+    background: var(--bg-primary);
+    color: var(--text-color);
+    position: relative;
+    height: 100%;
 
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    border-bottom: 1px solid var(--border)
-  }
-}
-
-header {
-  width: 100vw;
-  padding: 1.25rem;
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  align-items: center;
-
-  .menu {
-    cursor: pointer;
-    margin-right: 1.25rem;
-    color: var(--gray);
-    user-select: none;
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-bottom: 1px solid var(--border)
+    }
   }
 
-  .logo {
-    border-left: 1px solid #edf1f7;
+  header {
+    width: 100vw;
     padding: 0 1.25rem;
-    font-size: 1.75rem;
-    white-space: nowrap;
-    text-decoration: none;
-    color: var(--gray);
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .items {
     display: grid;
-    grid-template-columns: repeat(3, auto);
-    margin: 0 0 0 auto;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
 
-    .link {
-      border-left: 1px solid #edf1f7;
-      padding: 0 20px;
-      color: var(--gray);
-      text-decoration: none;
-      font-weight: bold;
+    .menu {
       cursor: pointer;
+      margin-right: 1.25rem;
+      color: var(--gray);
+      user-select: none;
+    }
+
+    .logo {
+      border-left: 1px solid #edf1f7;
+      padding: 0 1.25rem;
+      font-size: 1.75rem;
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--gray);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .items {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      margin: 0 0 0 auto;
+
+      .link {
+        border-left: 1px solid #edf1f7;
+        padding: 0 20px;
+        color: var(--gray);
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
     }
   }
 }
+

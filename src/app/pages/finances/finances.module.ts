@@ -18,6 +18,7 @@ import { MovementModule } from '../../core/pipes/movement/movement.module';
 import { AddMovementComponent } from './components/add-movement/add-movement.component';
 import { ButtonModule } from '../../core/components/button/button.module';
 import { SelectModule } from '../../core/components/select/select.module';
+import { ProgressModule } from '../../core/components/progress/progress.module';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { SelectModule } from '../../core/components/select/select.module';
     MovementModule,
     ButtonModule,
     SelectModule,
+    ProgressModule,
   ]
 })
 export class FinancesModule { }

@@ -1,4 +1,10 @@
-h2 {
-  font-size: 34px;
-  text-transform: capitalize;
+:host {
+  background: var(--bg-primary);
+
+  h2 {
+    font-size: 34px;
+    text-transform: capitalize;
+    font-weight: normal;
+    padding-bottom: 10px;
+  }
 }

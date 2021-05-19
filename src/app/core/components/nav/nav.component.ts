@@ -5,7 +5,7 @@ import { ThemeService } from '../../services/theme/theme.service';
 @Component({
   selector: 'app-nav',
   template: `
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="row j-start a-center navbar">
       <header>
         <div class="menu" (click)="onToggleSideMenu()">
           <span class="material-icons-outlined">menu_open</span>
