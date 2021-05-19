@@ -1,0 +1,13 @@
+:host {
+  width: 100%;
+  height: 1.2rem;
+  border-radius: 1rem;
+  background: var(--bg-secondary);
+
+  div {
+    background: var(--primary);
+    border-radius: 1rem;
+    text-align: center;
+    color: var(--text-color);
+  }
+}

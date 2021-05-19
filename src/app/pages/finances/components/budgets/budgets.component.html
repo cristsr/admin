@@ -1,7 +1,30 @@
 <div class="container">
-  <div class="row">
-    <div class="col-4">1</div>
-    <div class="col-4">2</div>
-    <div class="col-4">3</div>
-  </div>
+  <app-card>
+    <app-card-header class="row j-between xs-12">
+      <span>Total Presupuesto</span>
+      <span>$400000</span>
+    </app-card-header>
+    <app-card-body>
+      <app-progress progress="40"></app-progress>
+      <div class="row j-between">
+        <div class="column a-start xs-6">
+          <h4>Gastado</h4>
+          <small class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</small>
+        </div>
+        <div class="column a-end xs-6">
+          <h4>Disponible</h4>
+          <small class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</small>
+        </div>
+      </div>
+    </app-card-body>
+  </app-card>
+
+  <app-card>
+    <app-card-header class="row j-between xs-12">
+      Presupuestos
+    </app-card-header>
+    <app-card-body>
+      <app-progress progress="50"></app-progress>
+    </app-card-body>
+  </app-card>
 </div>
