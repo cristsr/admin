@@ -1,10 +1,22 @@
-.scrollable-y {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+
 
 body {
   color: var(--text-color);
+}
+
+span, b {
+  font-size: 0.7rem;
+}
+
+h4 {
+  font-size: 0.8rem;
+}
+
+
+@media (min-width: 600px) {
+  span, b {
+    font-size: 1rem;
+  }
 }
 
 .container {
