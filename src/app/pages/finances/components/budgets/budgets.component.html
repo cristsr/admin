@@ -1,19 +1,16 @@
 <div class="container">
   <app-card>
     <app-card-header class="row j-between">
-      <span>Total Presupuesto</span>
-      <span>$400000</span>
+      Presupuesto Total
     </app-card-header>
     <app-card-body>
-      <app-progress progress="40"></app-progress>
-      <div class="row j-between">
-        <div class="column a-start xs-6">
-          <h4 class="label">Gastado</h4>
-          <small class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</small>
-        </div>
-        <div class="column a-end xs-6">
-          <h4 class="label">Disponible</h4>
-          <small class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</small>
+      <div class="row budget">
+        <div class="progress column j-center">
+          <app-progress progress="40"></app-progress>
+          <div class="header row j-between">
+            <span>Gastado: <b>${{350000 | thousandSuffixes }}</b></span>
+            <span>Total: <b>${{350000 | thousandSuffixes }}</b></span>
+          </div>
         </div>
       </div>
     </app-card-body>
@@ -54,7 +51,6 @@
             <div class="row a-center">
               <span><b>${{350000 | thousandSuffixes }}</b> de <b>${{485360 | thousandSuffixes}}</b></span>
             </div>
-
           </div>
           <app-progress progress="40"></app-progress>
         </div>

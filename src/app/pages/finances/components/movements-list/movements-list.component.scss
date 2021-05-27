@@ -1,0 +1,45 @@
+:host {
+  .date-group {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      overflow-wrap: break-word;
+
+      app-icon {
+        border-radius: 50%;
+        background: var(--danger);
+        padding: 5px;
+      }
+
+      .labels {
+        margin-left: 0.8rem;
+
+        &:nth-of-type(1) {
+          padding: 0.1rem;
+          border-radius: 10%;
+        }
+
+        &:nth-of-type(2) {
+          padding-bottom: 0.2rem;
+          word-wrap: break-word;
+        }
+      }
+
+      .currency {
+        margin-left: auto;
+      }
+    }
+  }
+}
+

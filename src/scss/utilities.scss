@@ -6,3 +6,13 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.container {
+  margin: 0 auto;
+  padding: 25px 4% 0;
+
+  @media (min-width: 600px) {
+    padding: 30px 4% 0;
+    max-width: 1024px;
+  }
+}

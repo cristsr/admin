@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Movement } from '../../../../core/interfaces/Movement';
-
 import { Plugins, CameraResultType } from '@capacitor/core';
 
 const { Camera } = Plugins;
@@ -8,64 +6,23 @@ const { Camera } = Plugins;
 
 @Component({
   selector: 'app-movements',
-  templateUrl: './movements.component.html',
+  template:  `
+    <div class="container">
+      <div appFlex column class="xs-12">
+        <app-tabset>
+          <app-tab tabTitle="Movimientos">
+            <app-movements-list></app-movements-list>
+          </app-tab>
+          <app-tab tabTitle="Agregar" active>
+            <app-add-movement></app-add-movement>
+          </app-tab>
+        </app-tabset>
+      </div>
+    </div>
+  `,
   styleUrls: ['./movements.component.scss']
 })
 export class MovementsComponent implements OnInit {
-
-  data: Movement[] = [
-    {
-      date: '11-05-2021',
-      category: {
-        icon: 'favorite',
-        color: 'red',
-        name: 'Medico'
-      },
-      description: 'test',
-      quantity: 130000
-    },
-    {
-      date: '10-05-2021',
-      category: {
-        icon: 'favorite',
-        color: 'red',
-        name: 'Medico'
-      },
-      description: 'rest',
-      quantity: 120000
-    },
-    {
-      date: '10-05-2021',
-      category: {
-        icon: 'favorite',
-        color: 'red',
-        name: 'Medico'
-      },
-      description: 'test',
-      quantity: 8000
-    },
-    {
-      date: '9-05-2021',
-      category: {
-        icon: 'favorite',
-        color: 'red',
-        name: 'Medico'
-      },
-      description: 'test',
-      quantity: 4000
-    },
-    {
-      date: '9-05-2021',
-      category: {
-        icon: 'favorite',
-        color: 'red',
-        name: 'Medico'
-      },
-      description: 'test',
-      quantity: 120000
-    },
-  ];
-
   constructor() {
   }
 

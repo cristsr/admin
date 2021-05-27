@@ -5,10 +5,15 @@
     justify-items: center;
     text-align: center;
     cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 700;
     vertical-align: middle;
-    color: #8f9bb3;
+    color: var(--text-color);
+
+    > span {
+      font-family: Open Sans, sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+    }
 
     &.active {
       color: var(--primary);

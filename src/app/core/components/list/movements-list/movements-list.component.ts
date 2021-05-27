@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-movements-list',
   template: `
-    <div appFlex column>
-      <span>{{ date | date }}</span>
+    <div class="column">
+      <b>{{ date | date }}</b>
       <ng-content></ng-content>
     </div>
   `,

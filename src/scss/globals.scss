@@ -1,7 +1,6 @@
-
-
 body {
   color: var(--text-color);
+  font-family: 'Roboto', sans-serif !important;
 }
 
 span, b {
@@ -12,19 +11,17 @@ h4 {
   font-size: 0.8rem;
 }
 
+input {
+  font-size: 0.7rem;
+}
+
 
 @media (min-width: 600px) {
   span, b {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
-}
 
-.container {
-  margin: 0 auto;
-  padding: 25px 4% 0;
-
-  @media (min-width: 600px) {
-    padding: 30px 4% 0;
-    max-width: 1200px;
+  input {
+    font-size: 0.9rem;
   }
 }

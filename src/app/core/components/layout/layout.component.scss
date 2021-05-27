@@ -18,7 +18,7 @@
     grid-column-start: 2;
     grid-row-start: 2;
     background-color: var(--bg-secondary);
-    min-height: calc(100vh - var(--nav-height));
+    height: calc(100vh - var(--nav-height));
 
     .sub-header {
       background: var(--bg-primary);
@@ -38,6 +38,7 @@
     }
 
     .main-layout {
+      overflow-y: auto;
       box-sizing: border-box;
       grid-column: 2 / 3;
       grid-row: 4;

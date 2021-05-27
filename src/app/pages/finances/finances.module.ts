@@ -9,7 +9,6 @@ import { SummaryComponent } from './components/summary/summary.component';
 import { MovementsComponent } from './components/movements/movements.component';
 import { BudgetsComponent } from './components/budgets/budgets.component';
 import { ChartModule } from '../../core/components/chart/chart.module';
-import { ListModule } from '../../core/components/list/list.module';
 import { IconModule } from '../../core/components/icon/icon.module';
 import { LabelIconModule } from '../../core/components/label-icon/label-icon.module';
 import { FlexModule } from '../../core/directives/flex/flex.module';
@@ -18,6 +17,7 @@ import { AddMovementComponent } from './components/add-movement/add-movement.com
 import { SelectModule } from '../../core/components/select/select.module';
 import { ProgressModule } from '../../core/components/progress/progress.module';
 import { ThousandSuffixesModule } from '../../core/pipes/thousand-suffixes/thousand-suffixes.module';
+import { MovementsListComponent } from './components/movements-list/movements-list.component';
 
 
 @NgModule({
@@ -26,7 +26,8 @@ import { ThousandSuffixesModule } from '../../core/pipes/thousand-suffixes/thous
     SummaryComponent,
     MovementsComponent,
     BudgetsComponent,
-    AddMovementComponent
+    AddMovementComponent,
+    MovementsListComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +35,6 @@ import { ThousandSuffixesModule } from '../../core/pipes/thousand-suffixes/thous
     TabsetModule,
     CardModule,
     ChartModule,
-    ListModule,
     IconModule,
     LabelIconModule,
     FlexModule,
