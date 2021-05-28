@@ -18,8 +18,12 @@ import { CategoryService } from '../../services/category/category.service';
       </ng-container>
       <input class="control" type="text" placeholder="Descripción"/>
       <input class="control" type="number" pattern="[0-9]*" inputmode="number" placeholder="Monto"/>
-
       <input class="control" type="date" [value]="currentDate()">
+    </div>
+    <div class="row j-center">
+      <button>
+        Agregar
+      </button>
     </div>
   `,
   styleUrls: ['./add-movement.component.scss']

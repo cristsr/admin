@@ -10,10 +10,10 @@ const { Camera } = Plugins;
     <div class="container">
       <div appFlex column class="xs-12">
         <app-tabset>
-          <app-tab tabTitle="Movimientos">
+          <app-tab tabTitle="Movimientos" active>
             <app-movements-list></app-movements-list>
           </app-tab>
-          <app-tab tabTitle="Agregar" active>
+          <app-tab tabTitle="Agregar">
             <app-add-movement></app-add-movement>
           </app-tab>
         </app-tabset>
