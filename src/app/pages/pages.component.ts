@@ -5,7 +5,7 @@ import { PageService } from '../core/services/page/page.service';
 @Component({
   selector: 'app-pages',
   template: `
-    <app-layout [class]="isExpandedMenu$ | async">
+    <app-layout>
       <router-outlet></router-outlet>
     </app-layout>
   `,

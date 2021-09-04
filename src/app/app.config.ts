@@ -6,7 +6,7 @@ export const layoutInitialState: LayoutState = {
   pageTitle: '',
   menu: [
     {
-      icon:  'account_balance',
+      icon: 'account_balance',
       title: 'Finanzas',
       url: 'finances',
       submenu: [
@@ -55,9 +55,19 @@ export const layoutInitialState: LayoutState = {
       ]
     },
     {
-      icon:  'health_and_safety',
+      icon: 'description',
+      title: 'Resumen',
+      url: 'education2',
+    },
+    {
+      icon: 'health_and_safety',
       title: 'Salud',
       url: 'health',
+    },
+    {
+      icon: 'settings',
+      title: 'Ajustes',
+      url: 'settings',
     }
   ],
   submenu: []

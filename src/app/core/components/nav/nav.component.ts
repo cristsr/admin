@@ -4,7 +4,13 @@ import { ThemeService } from '../../services/theme/theme.service';
 
 @Component({
   selector: 'app-nav',
+  host: {
+    class: 'flex h-12 items-center bg-white'
+  },
   template: `
+
+
+
     <nav class="row j-start a-center navbar">
       <header>
         <div class="menu" (click)="onToggleSideMenu()">

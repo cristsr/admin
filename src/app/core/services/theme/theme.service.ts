@@ -16,6 +16,7 @@ export class ThemeService {
   }
 
   initializeTheme(): void {
+    console.log('called initialize theme');
     const theme = localStorage.getItem('theme');
     if (theme) {
       this.layoutService.setTheme(theme);
