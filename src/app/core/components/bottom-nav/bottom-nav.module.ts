@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavComponent } from './nav.component';
+import { BottomNavComponent } from './bottom-nav.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    NavComponent
+    BottomNavComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   exports: [
-    NavComponent
+    BottomNavComponent
   ]
 })
-export class NavModule { }
+export class BottomNavModule { }

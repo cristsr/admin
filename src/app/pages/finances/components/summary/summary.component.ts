@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApexOptions } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-summary',
@@ -6,6 +7,174 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
+
+  expenseView: 'daily' | 'weekly' | 'monthly' = 'daily';
+
+  chartOptions: ApexOptions = {
+    series: [
+      {
+        name: 'Gastos',
+        data: [200, 330, 648, 270, 640, 380, 1000]
+      },
+    ],
+    chart: {
+      fontFamily: 'inherit',
+      foreColor : 'inherit',
+      height: 250,
+      width     : '100%',
+      type: 'bar',
+      background: 'white',
+      animations: {
+        speed           : 400,
+        animateGradually: {
+          enabled: false
+        }
+      },
+      sparkline : {
+        enabled: false
+      },
+      toolbar   : {
+        show: false
+      },
+      zoom      : {
+        enabled: false
+      }
+    },
+    colors     : ['#EF4444', '#0b3af5', ],
+    dataLabels : {
+      textAnchor: 'middle',
+      enabled : true,
+      style: {
+        colors: ['black'],
+        fontSize: '10px',
+      },
+      offsetY: -18
+      // enabledOnSeries: [0],
+    },
+    fill: {
+      colors: undefined,
+      opacity: 0.4,
+      type: 'solid',
+    },
+    grid       : {
+      show: false,
+      borderColor: 'gray',
+      // padding    : {
+      //   top   : 0,
+      //   bottom: 0,
+      //   left  : 0,
+      //   right : 0
+      // },
+      // position: 'back',
+      // xaxis: {
+      //   lines: {
+      //     offsetX: 0.5,
+      //     offsetY: 0.5
+      //   }
+      // }
+    },
+    labels  : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    legend     : {
+      show: true
+    },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          position: 'top'
+        },
+        borderRadius: 5,
+        // horizontal: false
+        columnWidth: '50%'
+      }
+    },
+    states     : {
+      hover: {
+        filter: {
+          type : 'darken',
+          value: 0.75
+        }
+      }
+    },
+    stroke     : {
+      curve: 'smooth',
+      show: false,
+      width: [6, 4]
+    },
+    tooltip    : {
+      enabled: true,
+      followCursor: true,
+      theme       : 'dark'
+    },
+    xaxis: {
+      axisBorder: {
+        show: true
+      },
+      axisTicks : {
+        show: false,
+        color: 'green'
+      },
+      labels    : {
+        style: {
+          colors: 'gray',
+          fontWeight: 500,
+        },
+      },
+      tooltip   : {
+        enabled: false
+      },
+    },
+    yaxis      : {
+      show: false,
+      axisBorder: {
+        show: true
+      },
+      labels: {
+        // offsetX: -16,
+        style  : {
+          colors: 'gray'
+        }
+      }
+    },
+    responsive: [
+      {
+        breakpoint: 640,
+        options: {
+          plotOptions: {
+            bar: {
+              dataLabels: {
+                position: 'top'
+              },
+              // borderRadius: 5
+              // horizontal: false
+              // columnWidth: '50%'
+            }
+          },
+        }
+      }
+    ]
+  };
+
+  chartDonutOptions: ApexOptions = {
+    series: [44, 55, 13, 43, 22],
+    chart: {
+      type: 'donut',
+      height: 200
+    },
+    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    ]
+  };
 
   doughnut = {
     label: 'Ingresos',
@@ -77,5 +246,4 @@ export class SummaryComponent implements OnInit {
   onclick(event: any): void {
     console.log(event);
   }
-
 }

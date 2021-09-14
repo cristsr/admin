@@ -18,6 +18,13 @@ import { SelectModule } from '../../core/components/select/select.module';
 import { ProgressModule } from '../../core/components/progress/progress.module';
 import { ThousandSuffixesModule } from '../../core/pipes/thousand-suffixes/thousand-suffixes.module';
 import { MovementsListComponent } from './components/movements-list/movements-list.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -42,6 +49,13 @@ import { MovementsListComponent } from './components/movements-list/movements-li
     SelectModule,
     ProgressModule,
     ThousandSuffixesModule,
+    NgApexchartsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatCardModule,
+    MatDividerModule,
+    MatListModule,
   ]
 })
 export class FinancesModule { }

@@ -3,6 +3,8 @@ import { Action } from '../../interfaces/Action';
 import { Menu } from '../../interfaces/Menu';
 import { layoutInitialState } from '../../../app.config';
 import { Store } from '../../classes/store.class';
+import { fromEvent } from 'rxjs';
+import { debounceTime, pluck } from 'rxjs/operators';
 
 
 export interface LayoutState {
@@ -19,6 +21,17 @@ export type LayoutAction = Action<LayoutState>;
   providedIn: 'root'
 })
 export class LayoutService {
+  /**
+   * Determinate if device is mobile or desktop
+   */
+  isMobile = window.innerWidth < 640;
+
+  /**
+   * Hide sidebar by default if is mobile
+   * or show if is desktop
+   */
+  showSidebar = !this.isMobile;
+
   store$ = new Store<LayoutAction, LayoutState>(
     layoutInitialState,
     LayoutService.reducer
@@ -26,7 +39,7 @@ export class LayoutService {
 
   state$ = this.store$.state$;
 
-  private static reducer(state: LayoutState, action: LayoutAction): LayoutState {
+  static reducer(state: LayoutState, action: LayoutAction): LayoutState {
     switch (action.type) {
       case 'SET_THEME': {
         return {

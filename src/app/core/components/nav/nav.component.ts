@@ -1,36 +1,33 @@
 import { Component } from '@angular/core';
-import { PageService } from '../../services/page/page.service';
 import { ThemeService } from '../../services/theme/theme.service';
+import { NavigationService } from '../../services/navigation/navigation.service';
 
 @Component({
   selector: 'app-nav',
   host: {
-    class: 'flex h-12 items-center bg-white'
+    class: 'flex h-12 items-center shadow-sm z-10'
   },
   template: `
-
-
-
-    <nav class="row j-start a-center navbar">
-      <header>
-        <div class="menu" (click)="onToggleSideMenu()">
-          <span class="material-icons-outlined">menu_open</span>
-        </div>
-        <span (click)="changeTheme()" class="logo">Admin</span>
-      </header>
-    </nav>
+    <button mat-icon-button aria-label="Menu" (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="text-md font-medium" (click)="changeTheme()">Menu</div>
+    <div class="flex-grow"></div>
+    <button mat-icon-button aria-label="Notifications">
+      <mat-icon>notifications</mat-icon>
+    </button>
   `,
-  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
 
   constructor(
-    private pageService: PageService,
+    private navigation: NavigationService,
     private themeService: ThemeService
-  ) { }
+  ) {
+  }
 
-  public onToggleSideMenu(): void {
-    this.pageService.toggleSidebar();
+  toggleSidebar(): void {
+    this.navigation.toggleSidebar();
   }
 
   changeTheme(): void {

@@ -1,211 +1,138 @@
-<div class="container">
-  <div appFlex row>
-    <div class="xs-12 sm-6">
-      <app-card>
-        <app-card-header>Ingresos</app-card-header>
-        <app-card-body appFlex row>
-          <div appFlex column justify="center" align="center" class="chart xs-12 xl-5">
-            <app-chart-pie
-              [config]="doughnut"
-              width="150px">
-            </app-chart-pie>
-            <h4>He recibido</h4>
-            <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
-          </div>
-          <div appFlex column class="table xs-12 xl-7">
-            <table>
-              <tr>
-                <th>Categoria</th>
-                <th>Total</th>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
+<div class="p-6 md:p-8 flex flex-col m-auto max-w-7xl">
 
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-            </table>
-          </div>
-        </app-card-body>
-      </app-card>
-    </div>
-    <div class="xs-12 sm-6">
-      <app-card>
-        <app-card-header>Gastos</app-card-header>
-        <app-card-body appFlex row>
-          <div appFlex column justify="center" align="center" class="chart xs-12 xl-5">
-            <app-chart-pie
-              [config]="doughnut"
-              width="150px">
-            </app-chart-pie>
-            <h4>He gastado</h4>
-            <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
-          </div>
-          <div appFlex column class="table xs-12 xl-7">
-            <table>
-              <tr>
-                <th>Categoria</th>
-                <th>Total</th>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
+  <div class="grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-8">
 
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-              <tr>
-                <td>
-                  <app-label-icon
-                    icon="outbound"
-                    label="Hola mundo">
-                  </app-label-icon>
-                </td>
-                <td>50000</td>
-              </tr>
-            </table>
-          </div>
-        </app-card-body>
-      </app-card>
+    <div class="flex flex-col col-span-4 md:col-span-2 rounded-xl shadow p-6 bg-white">
+      <div class="flex mb-3">
+        <mat-icon class="text-purple-500">task_alt</mat-icon>
+        <div class="pl-2 text-lg font-medium">Balance Total</div>
+      </div>
+      <div class="text-3xl font-bold text-purple-500">${{ 2600000 | number }}</div>
     </div>
-    <div class="xs-12">
-      <app-card>
-        <app-card-header>Patrimonio</app-card-header>
-        <app-card-body appFlex column justify="center" align="center">
-          <div class="chart">
-            <h4>Mi patrimonio total: </h4>
-            <span class="chart-label">{{3000000 | currency:'USD':true:'1.0'}}</span>
+
+    <div class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow p-4 bg-white">
+      <div class="flex mb-3">
+        <mat-icon class="text-green-500">trending_up</mat-icon>
+        <div class="pl-2 text font-medium">Ingresos</div>
+      </div>
+      <div class="text-xl font-medium text-green-500">${{ 2600000 | number }}</div>
+    </div>
+
+    <div class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow p-4 bg-white">
+      <div class="flex mb-3">
+        <mat-icon class="text-red-500">trending_down</mat-icon>
+        <div class="pl-2 text font-medium">Gastos</div>
+      </div>
+      <div class="text-xl font-medium text-red-500">${{ 2600000 | number }}</div>
+    </div>
+
+    <div class="flex flex-col md:p-6 col-span-4 bg-white rounded-xl p-6 shadow">
+      <!-- Card header -->
+      <div class="flex justify-between">
+        <div class="text-lg font-medium pb-2 md:pb-0">Gastos {{ expenseView }}</div>
+        <div class="ml-2 -mt-2 -mr-3">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="expenseView = 'daily'">
+              <mat-icon>done</mat-icon>
+              <span>Diario</span>
+            </button>
+            <button mat-menu-item (click)="expenseView = 'weekly'">
+              <mat-icon>notifications_on</mat-icon>
+              <span>Semanal</span>
+            </button>
+            <button mat-menu-item (click)="expenseView = 'monthly'">
+              <mat-icon>notifications_off</mat-icon>
+              <span>Mensual</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <!-- Card chart -->
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [colors]="chartOptions.colors"
+        [dataLabels]="chartOptions.dataLabels"
+        [grid]="chartOptions.grid"
+        [labels]="chartOptions.labels"
+        [legend]="chartOptions.legend"
+        [plotOptions]="chartOptions.plotOptions"
+        [states]="chartOptions.states"
+        [stroke]="chartOptions.stroke"
+        [tooltip]="chartOptions.tooltip"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis">
+      </apx-chart>
+
+      <div class="text-center text-sm font-medium"></div>
+    </div>
+
+    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
+      <div class="flex justify-between pb-2">
+        <div class="text-lg font-medium">Movimientos</div>
+        <div class="ml-2 -mt-1 -mr-3">
+          <button class="text-purple-500" mat-button>
+            Ver todo
+          </button>
+        </div>
+      </div>
+
+      <ul class="flex flex-col divide-y divide-gray-200">
+        <li class="flex justify-between items-center py-2">
+          <div class="flex items-center">
+            <mat-icon>trending_down</mat-icon>
+            <div class="pl-3 flex flex-col">
+              <div class="text font-medium">Transaction 1</div>
+              <div class="text-sm">smaller</div>
+            </div>
           </div>
-          <app-chart-bar
-            class="bar xs-12 md-10"
-            [config]="doughnut">
-          </app-chart-bar>
-        </app-card-body>
-      </app-card>
+          <div class="text-lg font-medium text-green-500">${{ 60000 | number }}</div>
+        </li>
+        <li class="flex justify-between items-center py-2">
+          <div class="flex items-center">
+            <mat-icon>trending_up</mat-icon>
+            <div class="pl-3 flex flex-col">
+              <div class="text font-medium">Transaction 1</div>
+              <div class="text-sm">smaller</div>
+            </div>
+          </div>
+          <div class="text-lg font-medium text-red-500">${{ 60000 | number }}</div>
+        </li>
+        <li class="flex justify-between items-center py-2">
+          <div class="flex items-center">
+            <mat-icon>trending_down</mat-icon>
+            <div class="pl-3 flex flex-col">
+              <div class="text font-medium">Transaction 1</div>
+              <div class="text-sm">smaller</div>
+            </div>
+          </div>
+          <div class="text-lg font-medium text-green-500">${{ 60000 | number }}</div>
+        </li>
+        <li class="flex justify-between items-center py-2">
+          <div class="flex items-center">
+            <mat-icon>trending_up</mat-icon>
+            <div class="pl-3 flex flex-col">
+              <div class="text font-medium">Transaction 1</div>
+              <div class="text-sm">smaller</div>
+            </div>
+          </div>
+          <div class="text-lg font-medium text-red-500">${{ 60000 | number }}</div>
+        </li>
+        <li class="flex justify-between items-center py-2">
+          <div class="flex items-center">
+            <mat-icon>trending_up</mat-icon>
+            <div class="pl-3 flex flex-col">
+              <div class="text font-medium">Transaction 1</div>
+              <div class="text-sm">smaller</div>
+            </div>
+          </div>
+          <div class="text-lg font-medium text-red-500">${{ 60000 | number }}</div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
