@@ -3,9 +3,6 @@ import { Action } from '../../interfaces/Action';
 import { Menu } from '../../interfaces/Menu';
 import { layoutInitialState } from '../../../app.config';
 import { Store } from '../../classes/store.class';
-import { fromEvent } from 'rxjs';
-import { debounceTime, pluck } from 'rxjs/operators';
-
 
 export interface LayoutState {
   theme: 'light' | 'dark';
@@ -21,24 +18,28 @@ export type LayoutAction = Action<LayoutState>;
   providedIn: 'root'
 })
 export class LayoutService {
-  /**
-   * Determinate if device is mobile or desktop
-   */
-  isMobile = window.innerWidth < 640;
+  constructor() { }
 
   /**
-   * Hide sidebar by default if is mobile
-   * or show if is desktop
+   * Show or hide bottom nav
    */
-  showSidebar = !this.isMobile;
+  showBottonNav = true;
 
+  /**
+   *
+   */
+  navTitle = '';
+
+  /**
+   * TODO
+   * OLD IMPLEMENTATION
+   * Remove this code after layout refactor
+   */
   store$ = new Store<LayoutAction, LayoutState>(
     layoutInitialState,
     LayoutService.reducer
   );
-
   state$ = this.store$.state$;
-
   static reducer(state: LayoutState, action: LayoutAction): LayoutState {
     switch (action.type) {
       case 'SET_THEME': {
@@ -77,6 +78,11 @@ export class LayoutService {
     }
   }
 
+  /**
+   * TODO
+   * OLD IMPLEMENTATION
+   * Remove this code after layout refactor
+   */
   setTheme(theme: string): void {
     this.store$.next({
       type: 'SET_THEME',
@@ -87,12 +93,6 @@ export class LayoutService {
   toggleTheme(): void {
     this.store$.next({
       type: 'TOGGLE_THEME'
-    });
-  }
-
-  toggleSidebar(): void {
-    this.store$.next({
-      type: 'TOGGLE_SIDEBAR'
     });
   }
 

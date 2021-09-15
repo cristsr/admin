@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { PageService } from '../../services/page/page.service';
-import { NavigationService } from '../../services/navigation/navigation.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime, pluck } from 'rxjs/operators';
+import { Menu } from '../../interfaces/menu';
 
 
 @Component({
@@ -32,7 +33,7 @@ import { NavigationService } from '../../services/navigation/navigation.service'
 
       <!-- Menu -->
       <ul class="pt-6">
-        <li *ngFor="let menuItem of menu$ | async; index as i">
+        <li *ngFor="let menuItem of menu; index as i">
           <a
             class="flex items-center py-3 my-2 text-gray-800"
             (click)="onLinkClick()"
@@ -54,35 +55,57 @@ import { NavigationService } from '../../services/navigation/navigation.service'
   `,
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
-  menu$ = this.pageService.menu$;
+export class SidebarComponent implements OnInit {
+  /**
+   * Menu configuration
+   */
+  @Input() menu: Menu[];
 
-  get showSidebar(): boolean {
-    return this.navigation.showSidebar;
+  /**
+   * Determinate if device is mobile or desktop
+   */
+  isMobile = window.innerWidth < 640;
+
+  /**
+   * Hide sidebar by default if is mobile
+   * or show if is desktop
+   */
+  showSidebar = !this.isMobile;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.listenWindowResize();
   }
 
-  get isMobile(): boolean {
-    return this.navigation.isMobile;
-  }
+  listenWindowResize(): void {
+    const stream = fromEvent(window, 'resize').pipe(
+      debounceTime(50),
+      pluck<Event, number>('target', 'innerWidth')
+    );
 
-  constructor(
-    private pageService: PageService,
-    private navigation: NavigationService
-  ) {
-  }
+    stream.subscribe((width: number) => {
+      if (width < 640 && !this.isMobile) {
+        this.isMobile = true;
+        this.showSidebar = false;
+        return;
+      }
 
-  setSubmenuFromUrl(submenu: any): void {
-    this.pageService.setSubmenu(submenu);
+      if (width >= 640 && this.isMobile) {
+        this.isMobile = false;
+        this.showSidebar = true;
+      }
+    });
   }
 
   toggleSidebar(): void {
-    this.navigation.toggleSidebar();
+    this.showSidebar = !this.showSidebar;
   }
 
   onLinkClick(): void {
     // Hide sidebar if device is mobile
-    if (this.navigation.isMobile) {
-      this.navigation.showSidebar = false;
+    if (this.isMobile) {
+      this.showSidebar = false;
     }
   }
 }

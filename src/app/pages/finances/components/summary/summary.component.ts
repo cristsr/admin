@@ -14,13 +14,13 @@ export class SummaryComponent implements OnInit {
     series: [
       {
         name: 'Gastos',
-        data: [200, 330, 648, 270, 640, 380, 1000]
+        data: [50000, 150000, 60000, 30000, 100000, 12300, 8000]
       },
     ],
     chart: {
       fontFamily: 'inherit',
       foreColor : 'inherit',
-      height: 250,
+      // height: 200,
       width     : '100%',
       type: 'bar',
       background: 'white',
@@ -115,7 +115,7 @@ export class SummaryComponent implements OnInit {
       },
       labels    : {
         style: {
-          colors: 'gray',
+          colors: 'rgba(14,20,28,0.68)',
           fontWeight: 500,
         },
       },

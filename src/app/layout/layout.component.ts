@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { NavigationService } from '../core/services/navigation/navigation.service';
+import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-layout',
@@ -9,11 +9,13 @@ import { NavigationService } from '../core/services/navigation/navigation.servic
   },
   template: `
     <!-- Sidebar -->
-    <app-sidebar></app-sidebar>
+    <app-sidebar [menu]="menu"></app-sidebar>
 
     <div class="flex flex-col h-screen w-full">
       <!-- Navbar -->
-      <app-nav></app-nav>
+      <app-nav
+        (menuToggle)="toggleSidebar()"
+        [title]="navTitle"></app-nav>
 
       <!-- Content -->
       <div class="flex flex-col h-screen overflow-y-auto bg-gray-50">
@@ -21,22 +23,128 @@ import { NavigationService } from '../core/services/navigation/navigation.servic
       </div>
 
       <!-- BottomNav -->
-      <app-bottom-nav></app-bottom-nav>
+      <app-bottom-nav
+        linkActiveClass="text-red-500"
+        [config]="bottomNavConfig"
+        (action)="onAction($event)">
+      </app-bottom-nav>
     </div>
   `,
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-  get isMobile(): boolean {
-    return this.navigation.isMobile;
-  }
+
+  @ViewChild(SidebarComponent)
+  sidebarRef: SidebarComponent;
+
+  bottomNavConfig: any[] = [
+    {
+      icon: 'home',
+      url: '',
+      type: 'link',
+    },
+    {
+      icon: 'home',
+      url: '/movements',
+      type: 'link'
+    },
+    {
+      icon: 'home',
+      type: 'action'
+    },
+    {
+      icon: 'home',
+      url: '',
+      type: 'link'
+    },
+    {
+      icon: 'home',
+      url: '',
+      type: 'link'
+    }
+  ];
+
+  navTitle = 'Menu 1';
+
+  menu = [
+    {
+      icon: 'account_balance',
+      title: 'Finanzas',
+      url: 'finances',
+      submenu: [
+        {
+          icon: 'analytics',
+          title: 'Resumen',
+          url: 'finances/summary'
+        },
+        {
+          icon: 'timeline',
+          title: 'Movimientos',
+          url: 'finances/movements'
+        },
+        {
+          icon: 'attach_money',
+          title: 'Presupuestos',
+          url: 'finances/budgets',
+        },
+      ]
+    },
+    {
+      icon: 'school',
+      title: 'Educación',
+      url: 'education',
+      submenu: [
+        {
+          icon: 'description',
+          title: 'Resumen',
+          url: 'finances/summary'
+        },
+        {
+          icon: 'timeline',
+          title: 'Movimientos',
+          url: 'finances/movements'
+        },
+        {
+          icon: 'attach_money',
+          title: 'Presupuestos',
+          url: 'finances/budgets',
+        },
+        {
+          icon: 'attach_money',
+          title: 'Presupuetos',
+          url: 'finances/budgets',
+        },
+      ]
+    },
+    {
+      icon: 'description',
+      title: 'Resumen',
+      url: 'education2',
+    },
+    {
+      icon: 'health_and_safety',
+      title: 'Salud',
+      url: 'health',
+    },
+    {
+      icon: 'settings',
+      title: 'Ajustes',
+      url: 'settings',
+    }
+  ];
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private navigation: NavigationService
   ) { }
 
   ngOnInit(): void {
-    this.navigation.listenWindowResize();
+  }
+
+  onAction(event: any): void {
+    console.log(event);
+  }
+
+  toggleSidebar(): void {
+    this.sidebarRef.toggleSidebar();
   }
 }

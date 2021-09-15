@@ -30,10 +30,6 @@ export class PageService {
     this.listenPageChanges();
   }
 
-  toggleSidebar(): void {
-    this.layoutService.toggleSidebar();
-  }
-
   setSubmenu(path): void {
     this.layoutService.setSubmenu(path);
   }

@@ -1,36 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ThemeService } from '../../services/theme/theme.service';
 import { NavigationService } from '../../services/navigation/navigation.service';
 
 @Component({
   selector: 'app-nav',
   host: {
-    class: 'flex h-12 items-center shadow-sm z-10'
+    class: 'flex h-12 justify-between items-center shadow-sm z-10 px-2'
   },
   template: `
-    <button mat-icon-button aria-label="Menu" (click)="toggleSidebar()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <div class="text-md font-medium" (click)="changeTheme()">Menu</div>
-    <div class="flex-grow"></div>
-    <button mat-icon-button aria-label="Notifications">
+    <div class="flex items-center">
+      <button mat-icon-button (click)="menuToggle.emit()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="pl-2 text-md font-medium" (click)="changeTheme()">{{ title }}</div>
+    </div>
+    <button mat-icon-button (click)="notification.emit($event.target)">
       <mat-icon>notifications</mat-icon>
     </button>
   `,
 })
 export class NavComponent {
+  @Input() title: string;
+
+  @Output() menuToggle = new EventEmitter();
+
+  @Output() notification = new EventEmitter();
 
   constructor(
     private navigation: NavigationService,
     private themeService: ThemeService
-  ) {
-  }
+  ) { }
 
   toggleSidebar(): void {
     this.navigation.toggleSidebar();
   }
 
   changeTheme(): void {
-    this.themeService.toggleTheme();
+    // this.themeService.toggleTheme();
   }
 }
