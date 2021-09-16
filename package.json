@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --open",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build -c production",
     "build:stats": "ng build -c production --stats-json",
     "analyze": "webpack-bundle-analyzer dist/admin/stats.json",

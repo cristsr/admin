@@ -25,6 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     MatDividerModule,
     MatListModule,
+    MatRippleModule,
   ]
 })
 export class FinancesModule { }

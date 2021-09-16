@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ThemeService } from '../../services/theme/theme.service';
-import { NavigationService } from '../../services/navigation/navigation.service';
 
 @Component({
   selector: 'app-nav',
@@ -27,13 +26,8 @@ export class NavComponent {
   @Output() notification = new EventEmitter();
 
   constructor(
-    private navigation: NavigationService,
     private themeService: ThemeService
   ) { }
-
-  toggleSidebar(): void {
-    this.navigation.toggleSidebar();
-  }
 
   changeTheme(): void {
     // this.themeService.toggleTheme();

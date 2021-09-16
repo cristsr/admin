@@ -1,8 +1,8 @@
-<div class="p-6 md:p-8 flex flex-col m-auto max-w-7xl">
+<div class="p-4 md:p-8 flex flex-col m-auto max-w-7xl">
 
   <div class="grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-8">
 
-    <div class="flex flex-col col-span-4 md:col-span-2 rounded-xl shadow p-6 bg-white">
+    <div matRipple class="flex flex-col col-span-4 md:col-span-2 rounded-xl shadow p-6 bg-white">
       <div class="flex mb-3">
         <mat-icon class="text-purple-500">task_alt</mat-icon>
         <div class="pl-2 text-lg font-medium">Balance Total</div>
@@ -10,7 +10,7 @@
       <div class="text-3xl font-bold text-purple-500">${{ 2600000 | number }}</div>
     </div>
 
-    <div class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow p-4 bg-white">
+    <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow p-4 bg-white">
       <div class="flex mb-3">
         <mat-icon class="text-green-500">trending_up</mat-icon>
         <div class="pl-2 text font-medium">Ingresos</div>
@@ -18,7 +18,7 @@
       <div class="text-xl font-medium text-green-500">${{ 2600000 | number }}</div>
     </div>
 
-    <div class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow p-4 bg-white">
+    <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow p-4 bg-white">
       <div class="flex mb-3">
         <mat-icon class="text-red-500">trending_down</mat-icon>
         <div class="pl-2 text font-medium">Gastos</div>
@@ -91,7 +91,7 @@
       </div>
 
       <ul class="flex flex-col divide-y divide-gray-200">
-        <li class="flex justify-between items-center py-2">
+        <li matRipple class="flex justify-between items-center py-2">
           <div class="flex items-center">
             <mat-icon>trending_down</mat-icon>
             <div class="pl-3 flex flex-col">
@@ -101,7 +101,7 @@
           </div>
           <div class="text-lg font-medium text-green-500">${{ 60000 | number }}</div>
         </li>
-        <li class="flex justify-between items-center py-2">
+        <li matRipple class="flex justify-between items-center py-2">
           <div class="flex items-center">
             <mat-icon>trending_up</mat-icon>
             <div class="pl-3 flex flex-col">
@@ -111,7 +111,7 @@
           </div>
           <div class="text-lg font-medium text-red-500">${{ 60000 | number }}</div>
         </li>
-        <li class="flex justify-between items-center py-2">
+        <li matRipple class="flex justify-between items-center py-2">
           <div class="flex items-center">
             <mat-icon>trending_down</mat-icon>
             <div class="pl-3 flex flex-col">
@@ -121,7 +121,7 @@
           </div>
           <div class="text-lg font-medium text-green-500">${{ 60000 | number }}</div>
         </li>
-        <li class="flex justify-between items-center py-2">
+        <li matRipple class="flex justify-between items-center py-2">
           <div class="flex items-center">
             <mat-icon>trending_up</mat-icon>
             <div class="pl-3 flex flex-col">
@@ -131,7 +131,7 @@
           </div>
           <div class="text-lg font-medium text-red-500">${{ 60000 | number }}</div>
         </li>
-        <li class="flex justify-between items-center py-2">
+        <li matRipple class="flex justify-between items-center py-2">
           <div class="flex items-center">
             <mat-icon>trending_up</mat-icon>
             <div class="pl-3 flex flex-col">

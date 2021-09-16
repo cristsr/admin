@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Action } from '../../interfaces/Action';
-import { Menu } from '../../interfaces/Menu';
 import { layoutInitialState } from '../../../app.config';
 import { Store } from '../../classes/store.class';
 
@@ -8,8 +7,8 @@ export interface LayoutState {
   theme: 'light' | 'dark';
   expandSidebar: boolean;
   pageTitle: string;
-  menu: Menu[];
-  submenu: Menu[];
+  menu: any[];
+  submenu: any[];
 }
 
 export type LayoutAction = Action<LayoutState>;
@@ -18,17 +17,13 @@ export type LayoutAction = Action<LayoutState>;
   providedIn: 'root'
 })
 export class LayoutService {
-  constructor() { }
+  navTitle: string;
 
-  /**
-   * Show or hide bottom nav
-   */
-  showBottonNav = true;
+  showBottomNav = true;
 
-  /**
-   *
-   */
-  navTitle = '';
+  constructor() {
+  }
+
 
   /**
    * TODO
@@ -39,7 +34,9 @@ export class LayoutService {
     layoutInitialState,
     LayoutService.reducer
   );
+
   state$ = this.store$.state$;
+
   static reducer(state: LayoutState, action: LayoutAction): LayoutState {
     switch (action.type) {
       case 'SET_THEME': {
@@ -78,11 +75,6 @@ export class LayoutService {
     }
   }
 
-  /**
-   * TODO
-   * OLD IMPLEMENTATION
-   * Remove this code after layout refactor
-   */
   setTheme(theme: string): void {
     this.store$.next({
       type: 'SET_THEME',

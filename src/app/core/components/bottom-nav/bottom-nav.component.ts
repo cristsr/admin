@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { BottomNav } from '../../interfaces/bottom-nav';
+import { Submenu } from '../../interfaces/menu';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -25,7 +25,7 @@ import { BottomNav } from '../../interfaces/bottom-nav';
   styleUrls: ['./bottom-nav.component.scss']
 })
 export class BottomNavComponent implements OnInit {
-  @Input() config: BottomNav[];
+  @Input() config: Submenu[];
 
   @Input() linkActiveClass: string;
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime, pluck } from 'rxjs/operators';
 import { Menu } from '../../interfaces/menu';
@@ -34,14 +34,14 @@ import { Menu } from '../../interfaces/menu';
       <!-- Menu -->
       <ul class="pt-6">
         <li *ngFor="let menuItem of menu; index as i">
-          <a
-            class="flex items-center py-3 my-2 text-gray-800"
-            (click)="onLinkClick()"
+          <div matRipple
+            class="rounded-xl flex items-center py-3 my-2 text-gray-800"
+            (click)="onLinkClick(menuItem)"
             [routerLink]="menuItem.url"
             routerLinkActive="active">
             <span class="pl-3 pr-4 material-icons-outlined">{{ menuItem.icon }}</span>
             <span class="text-base font-medium">{{ menuItem.title }}</span>
-          </a>
+          </div>
         </li>
       </ul>
     </div>
@@ -60,6 +60,8 @@ export class SidebarComponent implements OnInit {
    * Menu configuration
    */
   @Input() menu: Menu[];
+
+  @Output() selected = new EventEmitter();
 
   /**
    * Determinate if device is mobile or desktop
@@ -102,8 +104,10 @@ export class SidebarComponent implements OnInit {
     this.showSidebar = !this.showSidebar;
   }
 
-  onLinkClick(): void {
+  onLinkClick(e: any): void {
     // Hide sidebar if device is mobile
+    this.selected.emit(e);
+
     if (this.isMobile) {
       this.showSidebar = false;
     }

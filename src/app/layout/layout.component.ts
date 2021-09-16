@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
+import { LayoutService } from '../core/services/layout/layout.service';
+import { Menu, Submenu } from '../core/interfaces/menu';
 
 @Component({
   selector: 'app-layout',
@@ -9,13 +11,17 @@ import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
   },
   template: `
     <!-- Sidebar -->
-    <app-sidebar [menu]="menu"></app-sidebar>
+    <app-sidebar
+      [menu]="menu"
+      (selected)="onLinkClick($event)">
+    </app-sidebar>
 
     <div class="flex flex-col h-screen w-full">
       <!-- Navbar -->
       <app-nav
         (menuToggle)="toggleSidebar()"
-        [title]="navTitle"></app-nav>
+        [title]="navTitle">
+      </app-nav>
 
       <!-- Content -->
       <div class="flex flex-col h-screen overflow-y-auto bg-gray-50">
@@ -24,8 +30,9 @@ import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
 
       <!-- BottomNav -->
       <app-bottom-nav
-        linkActiveClass="text-red-500"
-        [config]="bottomNavConfig"
+        *ngIf="showBottomNav"
+        linkActiveClass="text-blue-500"
+        [config]="currentSubmenu"
         (action)="onAction($event)">
       </app-bottom-nav>
     </div>
@@ -34,58 +41,38 @@ import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
 })
 export class LayoutComponent implements OnInit {
 
-  @ViewChild(SidebarComponent)
-  sidebarRef: SidebarComponent;
+  @ViewChild(SidebarComponent) sidebarRef: SidebarComponent;
 
-  bottomNavConfig: any[] = [
-    {
-      icon: 'home',
-      url: '',
-      type: 'link',
-    },
-    {
-      icon: 'home',
-      url: '/movements',
-      type: 'link'
-    },
-    {
-      icon: 'home',
-      type: 'action'
-    },
-    {
-      icon: 'home',
-      url: '',
-      type: 'link'
-    },
-    {
-      icon: 'home',
-      url: '',
-      type: 'link'
-    }
-  ];
-
-  navTitle = 'Menu 1';
-
-  menu = [
+  menu: Menu[] = [
     {
       icon: 'account_balance',
       title: 'Finanzas',
       url: 'finances',
+      default: true,
       submenu: [
         {
-          icon: 'analytics',
+          icon: 'pie_chart_outline',
           title: 'Resumen',
-          url: 'finances/summary'
+          url: 'finances/summary',
+          type: 'link'
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
-          url: 'finances/movements'
+          url: 'finances/movements',
+          type: 'link'
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
+          type: 'link'
+        },
+        {
+          icon: 'add',
+          title: 'Presupuestos',
+          url: 'finances/budgets',
+          type: 'action'
         },
       ]
     },
@@ -97,22 +84,26 @@ export class LayoutComponent implements OnInit {
         {
           icon: 'description',
           title: 'Resumen',
-          url: 'finances/summary'
+          url: 'finances/summary',
+          type: 'link'
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
-          url: 'finances/movements'
+          url: 'finances/movements',
+          type: 'link'
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
+          type: 'link'
         },
         {
           icon: 'attach_money',
           title: 'Presupuetos',
           url: 'finances/budgets',
+          type: 'link'
         },
       ]
     },
@@ -133,15 +124,44 @@ export class LayoutComponent implements OnInit {
     }
   ];
 
+  currentSubmenu: Submenu[];
+
+  get navTitle(): string {
+    return this.layout.navTitle;
+  }
+
+  get showBottomNav(): boolean {
+    return this.layout.showBottomNav;
+  }
+
   constructor(
-    @Inject(DOCUMENT) private document: Document,
+    @Inject(DOCUMENT)
+    private document: Document,
+    private layout: LayoutService
   ) { }
 
   ngOnInit(): void {
+    const defaultMenu = this.menu.find(v => v.default);
+    this.showOrHideBottomNav(defaultMenu);
   }
 
   onAction(event: any): void {
     console.log(event);
+  }
+
+  onLinkClick(menu: Menu): void {
+    console.log(menu);
+    this.showOrHideBottomNav(menu);
+    this.toggleSidebar();
+  }
+
+  showOrHideBottomNav(menu: Menu): void {
+    if (menu.submenu) {
+      this.layout.showBottomNav = true;
+      this.currentSubmenu = menu.submenu;
+    } else {
+      this.layout.showBottomNav = false;
+    }
   }
 
   toggleSidebar(): void {
