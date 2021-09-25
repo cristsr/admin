@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugins, CameraResultType } from '@capacitor/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MovementDetailComponent } from './movement-detail/movement-detail.component';
+import { ActivatedRoute } from '@angular/router';
 
 const { Camera } = Plugins;
 
@@ -7,27 +10,35 @@ const { Camera } = Plugins;
 @Component({
   selector: 'app-movements',
   templateUrl: 'movements.component.html',
-  // template:  `
-  //   <div class="container">
-  //     <div appFlex column class="xs-12">
-  //       <app-tabset>
-  //         <app-tab tabTitle="Movimientos" active>
-  //           <app-movements-list></app-movements-list>
-  //         </app-tab>
-  //         <app-tab tabTitle="Agregar">
-  //           <app-add-movement></app-add-movement>
-  //         </app-tab>
-  //       </app-tabset>
-  //     </div>
-  //   </div>
-  // `,
   styleUrls: ['./movements.component.scss']
 })
 export class MovementsComponent implements OnInit {
-  constructor() {
+  expenseView: string;
+
+  constructor(
+    public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute
+  ) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(console.log)
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(MovementDetailComponent, {
+      data: {
+        hello: 'world'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+    dialogRef.componentInstance.data2 = {
+      hello: 'world'
+    };
   }
 
   async takePicture(): Promise<void> {

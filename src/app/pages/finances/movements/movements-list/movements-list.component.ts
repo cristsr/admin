@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Movement } from '../../../../core/interfaces/Movement';
+import { MovementOld } from '../../../../core/interfaces/movementOld';
 
 @Component({
   selector: 'app-movements-list',
@@ -20,7 +20,7 @@ import { Movement } from '../../../../core/interfaces/Movement';
 })
 export class MovementsListComponent implements OnInit {
 
-  data: Movement[] = [
+  data: MovementOld[] = [
     {
       date: '11-05-2021',
       category: {

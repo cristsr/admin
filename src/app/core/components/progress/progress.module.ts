@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProgressComponent } from './progress.component';
+import { MatRippleModule } from '@angular/material/core';
 
 
 
@@ -9,7 +10,8 @@ import { ProgressComponent } from './progress.component';
     ProgressComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatRippleModule
   ],
   exports: [
     ProgressComponent

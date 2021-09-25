@@ -61,7 +61,7 @@ export class SidebarComponent implements OnInit {
    */
   @Input() menu: Menu[];
 
-  @Output() selected = new EventEmitter();
+  @Output() menuChange = new EventEmitter();
 
   /**
    * Determinate if device is mobile or desktop
@@ -106,7 +106,7 @@ export class SidebarComponent implements OnInit {
 
   onLinkClick(e: any): void {
     // Hide sidebar if device is mobile
-    this.selected.emit(e);
+    this.menuChange.emit(e);
 
     if (this.isMobile) {
       this.showSidebar = false;

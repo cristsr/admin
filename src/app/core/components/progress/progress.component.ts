@@ -2,24 +2,32 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-progress',
-  host: { class: 'row' },
+  host: { class: 'flex bg-gray-100 rounded-full' },
   template: `
-    <div class="column" [style.width]="progress">
-      <span>{{progress}}</span>
+    <div
+      matRipple
+      class="flex flex-col rounded-full text-center"
+      [class]="color"
+      [style.width]="progress">
+
+      <b class="text-xs">{{progress}}</b>
+
     </div>
   `,
-  styleUrls: ['./progress.component.scss']
 })
 export class ProgressComponent implements OnInit {
+  private progressValue: string;
+
+  @Input() color: string;
+
   @Input()
-  set progress(value: string | number) {
+  set progress(value: string) {
     this.progressValue = `${value}%`;
   }
-  get progress(): string | number {
+
+  get progress(): string {
     return this.progressValue;
   }
-
-  private progressValue: string;
 
   constructor() { }
 

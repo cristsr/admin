@@ -1,12 +1,1 @@
-$variables: (
-  'nav-height'    : 3rem,
-  'max-width'     : 1200px,
-);
-
-:root {
-  @each $var, $value in $variables {
-    --#{$var}: #{$value};
-  }
-}
-
 

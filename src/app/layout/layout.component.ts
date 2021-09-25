@@ -13,7 +13,7 @@ import { Menu, Submenu } from '../core/interfaces/menu';
     <!-- Sidebar -->
     <app-sidebar
       [menu]="menu"
-      (selected)="onLinkClick($event)">
+      (menuChange)="onLinkClick($event)">
     </app-sidebar>
 
     <div class="flex flex-col h-screen w-full">
@@ -71,8 +71,8 @@ export class LayoutComponent implements OnInit {
         {
           icon: 'add',
           title: 'Presupuestos',
-          url: 'finances/budgets',
-          type: 'action'
+          url: 'finances/add-movement',
+          type: 'link'
         },
       ]
     },

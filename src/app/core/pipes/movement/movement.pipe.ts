@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormatMovement, Movement } from '../../interfaces/Movement';
+import { FormatMovement, MovementOld } from '../../interfaces/movementOld';
 
 @Pipe({
   name: 'movement'
 })
 export class MovementPipe implements PipeTransform {
-  transform(movements: Movement[]): FormatMovement[] {
-    return movements.reduce((state: FormatMovement[], current: Movement) => {
+  transform(movements: MovementOld[]): FormatMovement[] {
+    return movements.reduce((state: FormatMovement[], current: MovementOld) => {
       const {date, ...item} = current;
       const exist = state.find(v => v.date === date);
 

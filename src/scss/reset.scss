@@ -1,12 +1,17 @@
 * {
-  font-family: sans-serif;
-  font-family:
-    -apple-system,
-    system-ui,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+  /* Text rendering */
+  text-rendering: optimizeLegibility;
+
+  -webkit-tap-highlight-color: transparent;
+
+  /* Remove the focus ring */
+  &:focus {
+    outline: none !important;
+  }
+}
+
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
