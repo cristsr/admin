@@ -12,22 +12,15 @@
           <input matInput placeholder="Placeholder" value="">
         </mat-form-field>
 
-        <mat-form-field appearance="legacy" floatLabel="always" class="relative">
-          <mat-label>Choose one</mat-label>
-          <mat-icon matPrefix class="text-purple-600">mode_edit</mat-icon>
-<!--          <div class="absolute inset-y-1.5">example</div>-->
-          <mat-select (click)="showCategories()" placeholder="adssedf"></mat-select>
-          <mat-error *ngIf="selected.hasError('required')">You must make a selection</mat-error>
-          <mat-error *ngIf="selected.hasError('pattern') && !selected.hasError('required')">
-            Your selection is invalid
-          </mat-error>
 
-        </mat-form-field>
 
-        <mat-form-field appearance="legacy" floatLabel="always">
-          <mat-label>Form field</mat-label>
-          <mat-icon matPrefix class="text-purple-600">mode_edit</mat-icon>
-          <input matInput class="pointer-events-none" placeholder="Placeholder">
+        <mat-form-field  appearance="legacy" floatLabel="always">
+          <mat-label (click)="showCategories()">Form field</mat-label>
+          <mat-icon (click)="showCategories()"  matPrefix class="text-purple-600">mode_edit</mat-icon>
+          <div (click)="showCategories()">
+            <input matInput readonly value="new value" class="pointer-events-none" placeholder="Placeholder">
+          </div>
+
         </mat-form-field>
 
         <div class="m-auto pt-2">
