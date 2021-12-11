@@ -6,7 +6,8 @@ import { MovementsComponent } from './movements.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
-import { MovementDetailComponent } from './movement-detail/movement-detail.component';
+import { MovementDetailComponent } from './detail/movement-detail.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { MovementDetailComponent } from './movement-detail/movement-detail.compo
     MovementsRoutingModule,
     MatButtonModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDialogModule
   ],
 })
 export class MovementsModule { }

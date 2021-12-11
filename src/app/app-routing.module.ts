@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './core/auth/auth.guard';
+import { AppResolver } from './app.resolver';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'finances',
+    redirectTo: 'finances/summary',
   },
 
   // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
@@ -16,7 +17,7 @@ const routes: Routes = [
   {
     path: 'signed-in-redirect',
     pathMatch : 'full',
-    redirectTo: 'finances'
+    redirectTo: 'finances/summary'
   },
 
   {
@@ -24,13 +25,35 @@ const routes: Routes = [
     component: LayoutComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
+    resolve: {
+      initialData: AppResolver
+    },
     data: {
       layout: 'default'
     },
     children: [
       {
         path: 'finances',
-        loadChildren: () => import('./modules/finances/finances.module').then(m => m.FinancesModule)
+        children: [
+          {
+            path: 'summary',
+            loadChildren: () => import('./modules/finances/summary/summary.module').then(m => m.SummaryModule)
+          },
+          {
+            path: 'movements',
+            loadChildren: () => import('./modules/finances/movements/movements.module').then(m => m.MovementsModule)
+          },
+          {
+            path: 'budgets',
+            loadChildren: () => import('./modules/finances/budgets/budgets.module').then(m => m.BudgetsModule)
+          },
+          {
+            path: 'add-movement',
+            loadChildren: () => import('./modules/finances/add-movement/add-movement.module').then(m => m.AddMovementModule)
+          },
+        ],
+
+        // loadChildren: () => import('./modules/finances/finances.module').then(m => m.FinancesModule)
       },
       {
         path: 'education',

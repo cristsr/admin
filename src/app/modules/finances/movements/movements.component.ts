@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugins, CameraResultType } from '@capacitor/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MovementDetailComponent } from './movement-detail/movement-detail.component';
+import { MovementDetailComponent } from './detail/movement-detail.component';
 import { ActivatedRoute } from '@angular/router';
 
 const { Camera } = Plugins;
