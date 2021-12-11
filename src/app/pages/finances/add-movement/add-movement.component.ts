@@ -38,6 +38,7 @@ export class AddMovementComponent implements OnInit {
     Validators.required,
     Validators.pattern('valid'),
   ]);
+  getDate: any = new Date();
 
   constructor(private categoryService: CategoryService, public dialog: MatDialog) {
   }
@@ -54,6 +55,8 @@ export class AddMovementComponent implements OnInit {
   }
 
   showCategories(): void {
+    console.log('click');
+
     this.dialog.open(DialogDataComponent, {
       data: {
         animal: 'panda'

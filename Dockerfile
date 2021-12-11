@@ -1,13 +1,13 @@
 # Stage 0, based on Node.js, to build and compile Angular
-FROM node:lts as node
+FROM node:lts-alpine as node
 WORKDIR /app
 COPY ./ /app/
-RUN npm install
+RUN npm install ci
 ARG configuration=production
 RUN npm run build -- --c=$configuration
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
-FROM nginx:alpine
+FROM nginx:alpine as angular-admin
 COPY --from=node /app/dist/admin /usr/share/nginx/html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 
