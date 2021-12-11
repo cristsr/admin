@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { MovementsRoutingModule } from './movements-routing.module';
 import { MovementsComponent } from './movements.component';
@@ -20,6 +20,6 @@ import { MovementDetailComponent } from './movement-detail/movement-detail.compo
     MatButtonModule,
     MatIconModule,
     MatRippleModule
-  ]
+  ],
 })
 export class MovementsModule { }

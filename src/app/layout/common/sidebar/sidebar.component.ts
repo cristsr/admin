@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime, pluck } from 'rxjs/operators';
-import { Menu } from '../../interfaces/menu';
+import { Menu } from '../../../core/interfaces/menu';
 
 
 @Component({

@@ -1,10 +1,29 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'education',
+        loadChildren: () => import('./modules/education/education.module').then(m => m.EducationModule),
+      },
+      {
+        path: 'finances',
+        loadChildren: () => import('./modules/finances/finances.module').then(m => m.FinancesModule)
+      },
+      {
+        path: 'health',
+        loadChildren: () => import('./modules/health/health.module').then(m => m.HealthModule),
+      },
+      {
+        path: '',
+        redirectTo: 'finances'
+      }
+    ]
   },
 ];
 

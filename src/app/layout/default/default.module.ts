@@ -2,16 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DefaultRoutingModule } from './default-routing.module';
-import { DefaultComponent } from './default.component';
+import { DefaultLayoutComponent } from './default.component';
 
 
 @NgModule({
   declarations: [
-    DefaultComponent
+    DefaultLayoutComponent
   ],
   imports: [
     CommonModule,
     DefaultRoutingModule
+  ],
+  exports: [
+    DefaultLayoutComponent
   ]
 })
-export class DefaultModule { }
+export class DefaultLayoutModule { }

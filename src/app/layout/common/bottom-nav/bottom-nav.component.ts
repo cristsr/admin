@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { Submenu } from '../../interfaces/menu';
+import { Submenu } from '../../../core/interfaces/menu';
 
 @Component({
   selector: 'app-bottom-nav',

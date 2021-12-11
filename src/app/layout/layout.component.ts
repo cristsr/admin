@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
+import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { LayoutService } from '../core/services/layout/layout.service';
 import { Menu, Submenu } from '../core/interfaces/menu';
 
@@ -25,7 +25,7 @@ import { Menu, Submenu } from '../core/interfaces/menu';
 
       <!-- Content -->
       <div class="flex flex-col h-screen overflow-y-auto bg-gray-50">
-        <ng-content></ng-content>
+        <router-outlet></router-outlet>
       </div>
 
       <!-- BottomNav -->
