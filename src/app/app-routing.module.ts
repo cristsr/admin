@@ -52,8 +52,6 @@ const routes: Routes = [
             loadChildren: () => import('./modules/finances/add-movement/add-movement.module').then(m => m.AddMovementModule)
           },
         ],
-
-        // loadChildren: () => import('./modules/finances/finances.module').then(m => m.FinancesModule)
       },
       {
         path: 'education',

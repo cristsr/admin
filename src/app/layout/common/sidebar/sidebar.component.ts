@@ -9,8 +9,9 @@ import { Menu } from '../../../core/interfaces/menu';
   template: `
     <!-- Sidebar -->
     <div
-      class="top-0 bottom-0 min-w-[280px] px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
+      class="top-0 bottom-0 px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
       [class.flex]="showSidebar"
+      [style.transform]="translateX"
       [class.hidden]="!showSidebar">
 
       <!-- header -->
@@ -47,11 +48,11 @@ import { Menu } from '../../../core/interfaces/menu';
     </div>
 
     <!-- overlay -->
-    <div
-      *ngIf="isMobile && showSidebar"
-      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-20"
-      (click)="toggleSidebar()">
-    </div>
+<!--    <div-->
+<!--      *ngIf="isMobile && showSidebar"-->
+<!--      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-20"-->
+<!--      (click)="toggleSidebar()">-->
+<!--    </div>-->
   `,
   styleUrls: ['./sidebar.component.scss']
 })
@@ -59,6 +60,8 @@ export class SidebarComponent implements OnInit {
   /**
    * Menu configuration
    */
+  @Input() widthPercentage;
+
   @Input() menu: Menu[];
 
   @Output() menuChange = new EventEmitter();
@@ -73,6 +76,10 @@ export class SidebarComponent implements OnInit {
    * or show if is desktop
    */
   showSidebar = !this.isMobile;
+
+  get translateX(): string {
+    return `translate(${this.widthPercentage}, 0)`;
+  }
 
   constructor() {}
 

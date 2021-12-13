@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DefaultRoutingModule } from './default-routing.module';
 import { DefaultLayoutComponent } from './default.component';
+import { SidebarModule } from '../common/sidebar/sidebar.module';
+import { NavModule } from '../../core/components/nav/nav.module';
+import { RouterModule } from '@angular/router';
+import { BottomNavModule } from '../common/bottom-nav/bottom-nav.module';
 
 
 @NgModule({
@@ -11,7 +14,10 @@ import { DefaultLayoutComponent } from './default.component';
   ],
   imports: [
     CommonModule,
-    DefaultRoutingModule
+    RouterModule,
+    SidebarModule,
+    NavModule,
+    BottomNavModule,
   ],
   exports: [
     DefaultLayoutComponent

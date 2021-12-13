@@ -9,7 +9,7 @@ const routes: Routes = [
     component: MovementsComponent,
     resolve: {
       data: MovementsResolver
-    }
+    },
   }
 ];
 
