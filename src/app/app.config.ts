@@ -1,4 +1,4 @@
-import { LayoutState } from './core/services/layout/layout.service';
+import { LayoutState } from 'core/services/layout/layout.service';
 
 export const layoutInitialState: LayoutState = {
   theme: 'light',

@@ -1,74 +1,56 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { SidebarComponent } from '../common/sidebar/sidebar.component';
-import { Menu, Submenu } from '../../core/interfaces/menu';
-import { DOCUMENT } from '@angular/common';
-import { LayoutService } from '../../core/services/layout/layout.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { WINDOW } from '../../core/window/window';
+import { SidebarComponent } from '../common/sidebar/sidebar.component';
+import { Menu, Submenu } from 'core/interfaces/menu';
+import { DOCUMENT } from '@angular/common';
+import { LayoutService } from 'core/services/layout/layout.service';
+import { WINDOW } from 'core/config';
+import { SidebarService } from 'layout/services/sidebar.service';
 
 @Component({
   selector: 'app-default-layout',
   host: {
-    class: 'relative flex h-screen w-screen'
+    class: ''
   },
   template: `
-    <!-- Sidebar -->
-    <app-sidebar
-      [menu]="menu"
-      (menuChange)="onLinkClick($event)">
-    </app-sidebar>
+    <div class="relative flex h-screen w-screen" appPan
+         [speed]="1.5"
+         (right)="onPanRight($event)"
+         (left)="onPanLeft($event)"
+         (onEnd)="onPanEnd($event)">
 
-    <div class="flex flex-col h-screen w-full"
-         (panstart)="onPanStart($event)"
-         (panmove)="onPanMove($event)"
-         (panend)="onPanEnd($event)"
-    >
+      <!-- Sidebar -->
+      <app-sidebar
+        [menu]="menu"
+        (menuChange)="onLinkClick($event)">
+      </app-sidebar>
 
-      <!-- Navbar -->
+      <div class="flex flex-col h-screen w-full">
 
-      <app-nav
-        (menuToggle)="toggleSidebar()"
-        [title]="navTitle">
-      </app-nav>
-      <div class="flex justify-end">
-        {{ divWidth }}
+        <!-- Navbar -->
+
+        <app-nav
+          (menuToggle)="toggleSidebar()"
+          [title]="navTitle">
+        </app-nav>
+
+        <div class="flex flex-col h-screen overflow-y-auto bg-gray-50">
+          <router-outlet></router-outlet>
+        </div>
+
+        <!-- BottomNav -->
+        <app-bottom-nav
+          *ngIf="showBottomNav"
+          linkActiveClass="text-blue-500"
+          [config]="currentSubmenu"
+          (action)="onAction($event)">
+        </app-bottom-nav>
       </div>
-
-      <div class="flex flex-col h-screen overflow-y-auto bg-gray-50">
-        <router-outlet></router-outlet>
-      </div>
-
-      <!-- BottomNav -->
-      <app-bottom-nav
-        *ngIf="showBottomNav"
-        linkActiveClass="text-blue-500"
-        [config]="currentSubmenu"
-        (action)="onAction($event)">
-      </app-bottom-nav>
     </div>
-
-
   `,
   styleUrls: ['./default.component.scss']
 })
 export class DefaultLayoutComponent implements OnInit {
-
-  panstart = new Subject<any>();
-
-  panmove = new Subject<any>();
-
-  panend = new Subject<any>();
-
-
-
-  divWidth = 0;
-
-  deltaXStart: number;
-  deltaXEnd: any;
-
-
-
   @ViewChild(SidebarComponent) sidebarRef: SidebarComponent;
 
 
@@ -157,15 +139,6 @@ export class DefaultLayoutComponent implements OnInit {
 
   layout: 'default' | 'empty';
 
-  spacecrr = 0;
-  spacefn = '';
-
-  symbol = 'no';
-  transform: string;
-  animation = false;
-  isFinal = false;
-
-
   get navTitle(): string {
     return this.layoutService.navTitle;
   }
@@ -174,18 +147,11 @@ export class DefaultLayoutComponent implements OnInit {
     return this.layoutService.showBottomNav;
   }
 
-  get divWithPercentage(): string {
-    return `${this.divWidth}%`;
-  }
-
   constructor(
-    @Inject(DOCUMENT)
-    private document: Document,
-
-    @Inject(WINDOW)
-    private window: Window,
-
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window,
     private layoutService: LayoutService,
+    private sidebarService: SidebarService,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -196,7 +162,6 @@ export class DefaultLayoutComponent implements OnInit {
     this.activatedRoute.data.subscribe({
       next: ({layout}) => this.layout = layout,
     });
-
   }
 
   onAction(event: any): void {
@@ -220,45 +185,18 @@ export class DefaultLayoutComponent implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarRef.toggleSidebar();
+    this.sidebarService.toggleSidebar();
   }
 
-  onPanStart($event): void {
-    this.deltaXStart = $event.deltaX;
-    this.sidebarRef.showSidebar = true;
-    this.sidebarRef.widthPercentage = this.divWithPercentage;
-
-    this.divWidth = -100;
-    this.sidebarRef.widthPercentage = `-100%`;
+  onPanRight(event: any): void {
+    this.sidebarService.onPanRight(event);
   }
 
-  onPanMove($event): void {
-    this.panmove.next($event);
-
-    const percentage = Math.floor((($event.deltaX - this.deltaXStart) / this.window.innerWidth) * 1.5 * 100);
-
-    console.log(percentage);
-
-    this.divWidth =  -100 + (percentage < 100 ? percentage : 100);
-
-    console.log(this.divWidth);
-
-
-
-    this.sidebarRef.showSidebar = true;
-    this.sidebarRef.widthPercentage = this.divWithPercentage;
+  onPanLeft(event: any): void {
+    this.sidebarService.onPanLeft(event);
   }
 
-  onPanEnd($event: any): void {
-    if ($event.velocityX > .5 || this.divWidth > -70) {
-      this.divWidth = 0;
-      this.sidebarRef.showSidebar = true;
-
-    } else {
-      this.divWidth = -100;
-      this.sidebarRef.showSidebar = false;
-    }
-
-    this.sidebarRef.widthPercentage = this.divWithPercentage;
-
+  onPanEnd(event: any): void {
+    this.sidebarService.onPanEnd(event);
   }
 }
