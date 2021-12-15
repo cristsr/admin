@@ -13,19 +13,24 @@ import { SidebarService } from 'layout/services/sidebar.service';
     class: ''
   },
   template: `
-    <div class="relative flex h-screen w-screen" appPan
-         [speed]="1.5"
-         (right)="onPanRight($event)"
-         (left)="onPanLeft($event)"
-         (onEnd)="onPanEnd($event)">
+    <div class="relative flex h-screen w-screen select-none"
+         (panstart)="onPanStart($event)"
+         (panmove)="onPan($event)"
+         (panend)="onPanEnd($event)">
 
       <!-- Sidebar -->
       <app-sidebar
         [menu]="menu"
+        (label)="onLabel($event)"
         (menuChange)="onLinkClick($event)">
       </app-sidebar>
 
       <div class="flex flex-col h-screen w-full">
+        <div class="flex justify-end">
+          <pre>
+            {{sidebarLabel | json}}
+          </pre>
+        </div>
 
         <!-- Navbar -->
 
@@ -53,6 +58,7 @@ import { SidebarService } from 'layout/services/sidebar.service';
 export class DefaultLayoutComponent implements OnInit {
   @ViewChild(SidebarComponent) sidebarRef: SidebarComponent;
 
+  direction: 'vertical' | 'horizontal' = 'vertical';
 
   menu: Menu[] = [
     {
@@ -138,6 +144,8 @@ export class DefaultLayoutComponent implements OnInit {
   currentSubmenu: Submenu[];
 
   layout: 'default' | 'empty';
+  sidebarLabel: Record<any, any>;
+
 
   get navTitle(): string {
     return this.layoutService.navTitle;
@@ -153,7 +161,8 @@ export class DefaultLayoutComponent implements OnInit {
     private layoutService: LayoutService,
     private sidebarService: SidebarService,
     private activatedRoute: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const defaultMenu = this.menu.find(v => v.default);
@@ -188,15 +197,56 @@ export class DefaultLayoutComponent implements OnInit {
     this.sidebarService.toggleSidebar();
   }
 
-  onPanRight(event: any): void {
-    this.sidebarService.onPanRight(event);
-  }
-
-  onPanLeft(event: any): void {
-    this.sidebarService.onPanLeft(event);
-  }
-
   onPanEnd(event: any): void {
     this.sidebarService.onPanEnd(event);
+  }
+
+  onPan(event: HammerInput): void {
+    // If start direction is vertical then do nothing
+    if (this.direction === 'vertical') {
+      return;
+    }
+
+    const isPanHorizontal = event.direction === Hammer.DIRECTION_RIGHT || event.direction === Hammer.DIRECTION_LEFT;
+
+    if (isPanHorizontal) {
+      this.sidebarService.onPanHorizontal(event);
+    }
+
+    if (event.direction === Hammer.DIRECTION_RIGHT) {
+      console.log('[RIGHT]');
+    }
+
+    if (event.direction === Hammer.DIRECTION_LEFT) {
+      console.log('[LEFT]');
+    }
+  }
+
+  onPanStart({direction}: HammerInput): void {
+    console.clear();
+    console.log('[START]');
+
+    const isPanVertical = direction === Hammer.DIRECTION_UP || direction === Hammer.DIRECTION_DOWN;
+
+    if (isPanVertical) {
+      this.direction = 'vertical';
+    } else {
+
+      this.direction = 'horizontal';
+      this.sidebarService.setInitialDirection(direction);
+
+      if (direction === Hammer.DIRECTION_RIGHT) {
+        console.log('INITIAL DIRECTION: RIGHT');
+      }
+
+      if (direction === Hammer.DIRECTION_LEFT) {
+        console.log('INITIAL DIRECTION: LEFT');
+      }
+    }
+
+  }
+
+  onLabel(event: Record<any, any>): void {
+    this.sidebarLabel = event;
   }
 }

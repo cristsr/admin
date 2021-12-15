@@ -8,7 +8,7 @@ export class HammerConfig extends HammerGestureConfig {
       inputClass: Hammer.TouchMouseInput,
       recognizers: [
         [Hammer.Pan, {
-          direction: Hammer.DIRECTION_HORIZONTAL
+          direction: Hammer.DIRECTION_ALL
         }],
       ]
     });

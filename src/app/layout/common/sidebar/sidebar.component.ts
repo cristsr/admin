@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { fromEvent } from 'rxjs';
-import { debounceTime, filter, pluck } from 'rxjs/operators';
+import { debounceTime, pluck, withLatestFrom } from 'rxjs/operators';
 import { Menu } from 'core/interfaces/menu';
 import { SidebarService } from 'layout/services/sidebar.service';
+import { WINDOW } from 'core/config';
 
 
 @Component({
@@ -16,7 +17,6 @@ import { SidebarService } from 'layout/services/sidebar.service';
       [class.flex]="showSidebar"
       [style.transform]="translateX"
       [class.hidden]="!showSidebar">
-
 
 
       <!-- header -->
@@ -57,30 +57,28 @@ import { SidebarService } from 'layout/services/sidebar.service';
       *ngIf="isMobile && showSidebar"
       class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-20"
       (click)="toggleSidebar()">
-      <div class="flex w-full justify-end">
-        {{ percentage }}
-        {{ translateX }}
-      </div>
     </div>
   `,
   styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
+  panVelocity = 1;
+
   public percentage = 0;
 
-  private direction: 'panleft' | 'panright'
+  private sidebarPercentage = -100; // -100 - 0
+
+  private viewFullSidebar = false;
+
+  @Output() label = new EventEmitter<Record<any, any>>();
 
   /**
    * Menu configuration
    */
 
   get translateX(): string {
-    if (this.direction === 'panleft') {
-      return `translateX(${this.percentage}%)`;
-    } else {
-      return `translateX(${-100 + (this.percentage)}%)`;
-    }
-
+    return `translateX(${this.sidebarPercentage}%)`;
   }
 
   @Input() menu: Menu[];
@@ -90,7 +88,7 @@ export class SidebarComponent implements OnInit {
   /**
    * Determinate if device is mobile or desktop
    */
-  isMobile = window.innerWidth < 640;
+  isMobile = this.window.innerWidth < 640;
 
   /**
    * Hide sidebar by default if is mobile
@@ -104,90 +102,116 @@ export class SidebarComponent implements OnInit {
 
 
   constructor(
+    @Inject(WINDOW) private window: Window,
     private cd: ChangeDetectorRef,
     private sidebarService: SidebarService
   ) {
   }
 
   /**
-   * 1. pan on screen 0 -> 100, 100 -> 0
-   * 2. pan on screen 0 -> -100, -100 -> 0
+   * Derecha
+   * * 0 -> 100
    *
+   * Izquierda
+   * * 0 -> -100
+   *
+   * Derecha -> Izquierda
+   * * 0 -> 100 -> 0 -> -100
+   *
+   * Izquierda -> Derecha
+   * * 0 -> -100 -> 0 -> 100
    */
 
   ngOnInit(): void {
-    const horizontalEvent = () => filter(
-      (e: any) => e.direction === 'panright' || e.direction === 'panleft'
-    );
 
-    this.sidebarService.panRight$
-      // .pipe(horizontalEvent())
-      .subscribe({
-        next: (value: any) => {
-          console.log('[RIGHT]');
-          console.log(this.percentage, -100 + this.percentage);
-          console.log(value.percentage);
+    this.sidebarService.panHorizontalStream.pipe(withLatestFrom(this.sidebarService.initialDirectionStream)).subscribe(
+      ([event, initialDirection]) => {
 
+        const percentage = this.normalizeDelta(event.deltaX);
 
-          if (value.percentage < this.percentage) {
-            return;
-          }
+        if (event.direction === Hammer.DIRECTION_RIGHT) {
+          console.log('[RIGHT]', percentage);
 
-          this.percentage = value.percentage;
-
-
-          this.showSidebar = true;
-
-          this.direction = value.direction;
-
-        }
-      });
-
-    this.sidebarService.panLeft$
-      .pipe()
-      .subscribe({
-        next: value => {
-          console.log('[LEFT]');
-          console.log(this.percentage);
-
-          if (value.percentage > this.percentage) {
-            return;
-          }
-
-          this.percentage = value.percentage;
-
-          this.showSidebar = true;
-
-          this.direction = value.direction;
-        }
-      });
-
-    this.sidebarService.panEnd$
-      .pipe(horizontalEvent())
-      .subscribe({
-        next: (value: any) => {
-          console.log('[END]', value);
-
-          this.direction = value.direction;
-
-          if (value.velocityX > 0.5 || this.percentage > 30) {
-            this.percentage = 100;
-            this.showSidebar = true;
-          } else {
-            this.percentage = 0;
-            this.showSidebar = false;
-          }
-
-
-          if (value.direction === 'panleft') {
-            if (value.velocityX > 0.5 || this.percentage < -30) {
-              this.percentage = 0;
-              this.showSidebar = true;
-            } else {
-              this.percentage = -100;
-              this.showSidebar = false;
+          if (initialDirection === Hammer.DIRECTION_RIGHT) {
+            if (this.viewFullSidebar) {
+              console.log('return ');
+              return;
             }
           }
+        }
+
+        this.percentage = percentage;
+
+        if (event.direction === Hammer.DIRECTION_LEFT) {
+          console.log('[LEFT]', percentage);
+        }
+
+
+
+        if (initialDirection === Hammer.DIRECTION_RIGHT) {
+          this.sidebarPercentage = -100 + percentage;
+          this.showSidebar = true;
+          this.cd.markForCheck();
+
+          if (percentage < 0) {
+            this.resetSidebarPercentage();
+            this.cd.markForCheck();
+
+            this.label.emit({
+              percentage,
+              translateX: this.translateX
+            });
+            return;
+          }
+        }
+
+        if (initialDirection === Hammer.DIRECTION_LEFT) {
+          if (percentage > 0) {
+            return;
+          }
+          this.sidebarPercentage = percentage;
+        }
+
+        this.cd.markForCheck();
+
+        this.label.emit({
+          percentage,
+          translateX: this.translateX
+        });
+      }
+    );
+
+    this.sidebarService.panEndStream
+      .pipe(withLatestFrom(this.sidebarService.initialDirectionStream))
+      .subscribe({
+        next: ([value, initialDirection]) => {
+          console.log('[END]', this.percentage);
+
+          if (initialDirection === Hammer.DIRECTION_RIGHT) {
+            console.log('[INITIAL DIRECTION]', 'RIGHT');
+            if (value.velocityX > 0.8 || this.percentage > 30) {
+              this.fullSidebarPercentage();
+            } else {
+              if (!this.viewFullSidebar){
+                this.resetSidebarPercentage();
+              }
+            }
+          }
+
+          if (initialDirection === Hammer.DIRECTION_LEFT) {
+            console.log('[INITIAL DIRECTION]', 'LEFT');
+            if (value.velocityX < -0.8 || this.percentage < -30) {
+              this.resetSidebarPercentage();
+            } else {
+              if (this.showSidebar) {
+                this.fullSidebarPercentage();
+              }
+            }
+          }
+
+          console.log('[VELOCITY]', value.velocityX);
+
+          this.cd.markForCheck();
         }
       });
 
@@ -225,5 +249,32 @@ export class SidebarComponent implements OnInit {
     if (this.isMobile) {
       this.showSidebar = false;
     }
+  }
+
+  normalizeDelta(delta: number): number {
+
+    const reason = (delta / this.window.innerWidth) * this.panVelocity;
+
+    if (reason > 1) {
+      return 100;
+    }
+
+    if (reason < -1) {
+      return -100;
+    }
+
+    return Math.floor(reason * 100);
+  }
+
+  resetSidebarPercentage(): void {
+    this.sidebarPercentage = -100;
+    this.showSidebar = false;
+    this.viewFullSidebar = false;
+  }
+
+  fullSidebarPercentage(): void {
+    this.sidebarPercentage = 0;
+    this.showSidebar = true;
+    this.viewFullSidebar = true;
   }
 }
