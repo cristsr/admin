@@ -1,9 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { debounceTime, pluck, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter, map, pairwise,
+  pluck,
+  switchMapTo,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { Menu } from 'core/interfaces/menu';
 import { SidebarService } from 'layout/services/sidebar.service';
 import { WINDOW } from 'core/config';
+import { isHorizontal, isRight } from 'layout/utils';
 
 
 @Component({
@@ -15,7 +24,7 @@ import { WINDOW } from 'core/config';
     <div
       class="top-0 bottom-0 px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
       [class.flex]="showSidebar"
-      [style.transform]="translateX"
+      [ngStyle]="{'transform': translate$ | async}"
       [class.hidden]="!showSidebar">
 
 
@@ -63,13 +72,18 @@ import { WINDOW } from 'core/config';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
-  panVelocity = 1;
+  panVelocity = 2;
 
   public percentage = 0;
 
-  private sidebarPercentage = -100; // -100 - 0
+  public sidebarPercentage = -100;
 
   private viewFullSidebar = false;
+
+  // Range 0 - 100
+  // O is closed
+  // 100 is open
+  private percentageSource = new BehaviorSubject<number>(0);
 
   @Output() label = new EventEmitter<Record<any, any>>();
 
@@ -79,6 +93,12 @@ export class SidebarComponent implements OnInit {
 
   get translateX(): string {
     return `translateX(${this.sidebarPercentage}%)`;
+  }
+
+  get translate$(): Observable<string> {
+    return this.percentageSource.pipe(
+      map(percentage => `translateX(${-100 + percentage}%)`)
+    );
   }
 
   @Input() menu: Menu[];
@@ -96,10 +116,7 @@ export class SidebarComponent implements OnInit {
    */
   showSidebar = !this.isMobile;
 
-  setVelocity($event: any): void {
-    console.log($event);
-  }
-
+  translateSubject = new Subject();
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -108,118 +125,100 @@ export class SidebarComponent implements OnInit {
   ) {
   }
 
-  /**
-   * Derecha
-   * * 0 -> 100
-   *
-   * Izquierda
-   * * 0 -> -100
-   *
-   * Derecha -> Izquierda
-   * * 0 -> 100 -> 0 -> -100
-   *
-   * Izquierda -> Derecha
-   * * 0 -> -100 -> 0 -> 100
-   */
-
   ngOnInit(): void {
-
-    this.sidebarService.panHorizontalStream.pipe(withLatestFrom(this.sidebarService.initialDirectionStream)).subscribe(
-      ([event, initialDirection]) => {
-
-        const percentage = this.normalizeDelta(event.deltaX);
-
-        if (event.direction === Hammer.DIRECTION_RIGHT) {
-          console.log('[RIGHT]', percentage);
-
-          if (initialDirection === Hammer.DIRECTION_RIGHT) {
-            if (this.viewFullSidebar) {
-              console.log('return ');
-              return;
-            }
-          }
-        }
-
-        this.percentage = percentage;
-
-        if (event.direction === Hammer.DIRECTION_LEFT) {
-          console.log('[LEFT]', percentage);
-        }
-
-
-
-        if (initialDirection === Hammer.DIRECTION_RIGHT) {
-          this.sidebarPercentage = -100 + percentage;
-          this.showSidebar = true;
-          this.cd.markForCheck();
-
-          if (percentage < 0) {
-            this.resetSidebarPercentage();
-            this.cd.markForCheck();
-
-            this.label.emit({
-              percentage,
-              translateX: this.translateX
-            });
-            return;
-          }
-        }
-
-        if (initialDirection === Hammer.DIRECTION_LEFT) {
-          if (percentage > 0) {
-            return;
-          }
-          this.sidebarPercentage = percentage;
-        }
-
-        this.cd.markForCheck();
-
-        this.label.emit({
-          percentage,
-          translateX: this.translateX
-        });
-      }
+    const panHorizontalStart$ = this.sidebarService.panStart$.pipe(
+      filter(({direction}) => isHorizontal(direction)),
+      tap(({direction}) => console.warn('START DIRECTION', direction))
     );
 
-    this.sidebarService.panEndStream
-      .pipe(withLatestFrom(this.sidebarService.initialDirectionStream))
-      .subscribe({
-        next: ([value, initialDirection]) => {
-          console.log('[END]', this.percentage);
+    const panHorizontal$ = this.sidebarService.panHorizontal$;
 
-          if (initialDirection === Hammer.DIRECTION_RIGHT) {
-            console.log('[INITIAL DIRECTION]', 'RIGHT');
-            if (value.velocityX > 0.8 || this.percentage > 30) {
-              this.fullSidebarPercentage();
-            } else {
-              if (!this.viewFullSidebar){
-                this.resetSidebarPercentage();
-              }
-            }
-          }
+    const changeDirection$ = panHorizontal$.pipe(
+      pluck('direction'),
+      distinctUntilChanged(),
+      tap(direction => console.warn('DIRECTION CHANGE', direction)),
+    );
 
-          if (initialDirection === Hammer.DIRECTION_LEFT) {
-            console.log('[INITIAL DIRECTION]', 'LEFT');
-            if (value.velocityX < -0.8 || this.percentage < -30) {
-              this.resetSidebarPercentage();
-            } else {
-              if (this.showSidebar) {
-                this.fullSidebarPercentage();
-              }
-            }
-          }
+    const differentialX$ = panHorizontal$.pipe(
+      pluck('deltaX'),
+      pairwise(),
+      map(([prev, curr]) => this.normalizeDelta(Math.abs(prev - curr))),
+      tap(e => console.log('DIFFERENTIAL', e)),
+    );
 
-          console.log('[VELOCITY]', value.velocityX);
+    const source$ = panHorizontalStart$.pipe(
+      switchMapTo(
+        differentialX$.pipe(
+          filter(() => {
+            const {value} = this.percentageSource;
+            return !(value < 0 || value > 100);
+          }),
+          withLatestFrom(changeDirection$),
+          map(([diff, direction]) => ({direction, diff}))
+        )
+      ),
+    );
 
-          this.cd.markForCheck();
-        }
-      });
+    source$.subscribe(({diff, direction}) => {
+      console.log('STREAM', diff, direction);
+
+      const {value} = this.percentageSource;
+
+      const result = isRight(direction)
+        ? value + diff
+        : value - diff;
+
+      console.log('RESULT', result);
+
+      if (result <= 0) {
+        this.percentageSource.next(0);
+        this.showSidebar = false;
+        this.cd.markForCheck();
+        return;
+      }
+
+      if (result >= 100) {
+        this.percentageSource.next(100);
+        this.showSidebar = true;
+        this.cd.markForCheck();
+        return;
+      }
+
+      this.percentageSource.next(result);
+      this.showSidebar = true;
+      this.cd.markForCheck();
+    });
+
+
+    this.sidebarService.panEnd$.subscribe({
+      next: () => {
+
+        // this.percentageSource.next(2);
+
+        // if (panend.velocityX > 0.6 || this.percentage >= 50) {
+        //   this.fullSidebarPercentage();
+        // }else {
+        //   this.resetSidebarPercentage();
+        // }
+        //
+        // if (panend.velocityX < -0.6 || this.percentage < 50) {
+        //   this.resetSidebarPercentage();
+        // } else {
+        //   this.fullSidebarPercentage();
+        // }
+
+        console.log('END');
+        console.log('');
+
+        this.cd.markForCheck();
+      }
+    });
 
     this.listenWindowResize();
   }
 
   listenWindowResize(): void {
-    const stream = fromEvent(window, 'resize').pipe(
+    const stream = fromEvent(this.window, 'resize').pipe(
       debounceTime(50),
       pluck<Event, number>('target', 'innerWidth')
     );
@@ -251,29 +250,23 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  /**
+   * delta determine pixel movement since start event
+   * @param delta: {number}
+   */
   normalizeDelta(delta: number): number {
-
-    const reason = (delta / this.window.innerWidth) * this.panVelocity;
-
-    if (reason > 1) {
-      return 100;
-    }
-
-    if (reason < -1) {
-      return -100;
-    }
-
-    return Math.floor(reason * 100);
+    const result = (delta / this.window.innerWidth) * this.panVelocity;
+    return +(result * 100).toFixed(0);
   }
 
   resetSidebarPercentage(): void {
-    this.sidebarPercentage = -100;
+    this.percentage = 0;
     this.showSidebar = false;
     this.viewFullSidebar = false;
   }
 
   fullSidebarPercentage(): void {
-    this.sidebarPercentage = 0;
+    this.percentage = 100;
     this.showSidebar = true;
     this.viewFullSidebar = true;
   }

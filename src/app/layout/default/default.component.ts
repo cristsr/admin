@@ -15,7 +15,7 @@ import { SidebarService } from 'layout/services/sidebar.service';
   template: `
     <div class="relative flex h-screen w-screen select-none"
          (panstart)="onPanStart($event)"
-         (panmove)="onPan($event)"
+         (panmove)="onPanMove($event)"
          (panend)="onPanEnd($event)">
 
       <!-- Sidebar -->
@@ -144,6 +144,7 @@ export class DefaultLayoutComponent implements OnInit {
   currentSubmenu: Submenu[];
 
   layout: 'default' | 'empty';
+
   sidebarLabel: Record<any, any>;
 
 
@@ -197,54 +198,19 @@ export class DefaultLayoutComponent implements OnInit {
     this.sidebarService.toggleSidebar();
   }
 
+  onPanStart(event: HammerInput): void {
+    this.sidebarService.onPanStart(event);
+  }
+
+  onPanMove(event: HammerInput): void {
+    this.sidebarService.onPanMove(event);
+  }
+
   onPanEnd(event: any): void {
     this.sidebarService.onPanEnd(event);
   }
 
-  onPan(event: HammerInput): void {
-    // If start direction is vertical then do nothing
-    if (this.direction === 'vertical') {
-      return;
-    }
 
-    const isPanHorizontal = event.direction === Hammer.DIRECTION_RIGHT || event.direction === Hammer.DIRECTION_LEFT;
-
-    if (isPanHorizontal) {
-      this.sidebarService.onPanHorizontal(event);
-    }
-
-    if (event.direction === Hammer.DIRECTION_RIGHT) {
-      console.log('[RIGHT]');
-    }
-
-    if (event.direction === Hammer.DIRECTION_LEFT) {
-      console.log('[LEFT]');
-    }
-  }
-
-  onPanStart({direction}: HammerInput): void {
-    console.clear();
-    console.log('[START]');
-
-    const isPanVertical = direction === Hammer.DIRECTION_UP || direction === Hammer.DIRECTION_DOWN;
-
-    if (isPanVertical) {
-      this.direction = 'vertical';
-    } else {
-
-      this.direction = 'horizontal';
-      this.sidebarService.setInitialDirection(direction);
-
-      if (direction === Hammer.DIRECTION_RIGHT) {
-        console.log('INITIAL DIRECTION: RIGHT');
-      }
-
-      if (direction === Hammer.DIRECTION_LEFT) {
-        console.log('INITIAL DIRECTION: LEFT');
-      }
-    }
-
-  }
 
   onLabel(event: Record<any, any>): void {
     this.sidebarLabel = event;

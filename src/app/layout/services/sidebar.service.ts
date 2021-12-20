@@ -1,50 +1,66 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { filter, share, tap } from 'rxjs/operators';
+import { formatDirection, isHorizontal } from 'layout/utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidebarService {
-  private initialDirection = new Subject<number>();
+  private panStart = new Subject<any>();
 
-  private panHorizontal = new Subject<HammerInput>();
+  private panMove = new Subject<any>();
 
-  private panEnd = new Subject<HammerInput>();
+  private panEnd = new Subject<any>();
 
   private toggle = new Subject();
 
-  constructor() { }
+  onPanStart(event: any): void {
+    this.panStart.next(event);
+  }
 
-  setInitialDirection(direction: number): void {
-    this.initialDirection.next(direction);
+  onPanMove(event: any): void {
+    this.panMove.next(event);
   }
 
   onPanEnd(event): void {
     this.panEnd.next(event);
   }
 
-  onPanHorizontal(event: HammerInput): void {
-    this.panHorizontal.next(event);
-  }
-
   toggleSidebar(): void {
     this.toggle.next();
   }
 
-  get panHorizontalStream(): Observable<HammerInput> {
-    return this.panHorizontal.asObservable();
+  get panStart$(): Observable<any> {
+    return this.panStart.asObservable().pipe(
+      // Format direction to legible string
+      tap((start) => start.direction = formatDirection(start.direction)),
+      // Allow multiple subscriptions
+      share(),
+    );
   }
 
-  get panEndStream(): Observable<HammerInput> {
-    return this.panEnd.asObservable();
+  get panHorizontal$(): Observable<any> {
+    return this.panMove.asObservable().pipe(
+      // Format direction to legible string
+      tap((move) => move.direction = formatDirection(move.direction)),
+      // Filter all panning motions that are horizontal
+      filter(({direction}) => isHorizontal(direction)),
+      // Allow multiple subscriptions
+      share(),
+    );
   }
 
-  get initialDirectionStream(): Observable<number> {
-    return this.initialDirection.asObservable();
+  get panEnd$(): Observable<any> {
+    return this.panEnd.asObservable().pipe(
+      // Format direction to legible string
+      tap((end) => end.direction = formatDirection(end.direction)),
+      // Allow multiple subscriptions
+      share(),
+    );
   }
 
   get toggle$(): Observable<any> {
     return this.toggle.asObservable();
   }
-
 }
