@@ -26,12 +26,6 @@ import { SidebarService } from 'layout/services/sidebar.service';
       </app-sidebar>
 
       <div class="flex flex-col h-screen w-full">
-        <div class="flex justify-end">
-          <pre>
-            {{sidebarLabel | json}}
-          </pre>
-        </div>
-
         <!-- Navbar -->
 
         <app-nav
@@ -39,7 +33,7 @@ import { SidebarService } from 'layout/services/sidebar.service';
           [title]="navTitle">
         </app-nav>
 
-        <div class="flex flex-col h-screen overflow-y-auto bg-gray-50">
+        <div class="flex flex-col h-screen overflow-y-auto bg-gray-100">
           <router-outlet></router-outlet>
         </div>
 
@@ -157,8 +151,8 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
     @Inject(WINDOW) private window: Window,
+    @Inject(DOCUMENT) private document: Document,
     private layoutService: LayoutService,
     private sidebarService: SidebarService,
     private activatedRoute: ActivatedRoute
@@ -206,7 +200,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.sidebarService.onPanMove(event);
   }
 
-  onPanEnd(event: any): void {
+  onPanEnd(event: HammerInput): void {
     this.sidebarService.onPanEnd(event);
   }
 

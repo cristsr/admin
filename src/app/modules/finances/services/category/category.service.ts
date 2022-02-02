@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { retry, shareReplay, switchMap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +8,26 @@ export class CategoryService {
   categoriesData = [
     {
       id: 0,
-      icon: '',
-      color: '',
+      icon: 'home',
+      color: 'bg-red-400',
       name: 'Hogar',
     },
     {
       id: 1,
-      icon: '',
-      color: '',
+      icon: 'local_pizza',
+      color: 'bg-yellow-400',
       name: 'Alimentos',
     },
     {
       id: 2,
-      icon: '',
-      color: '',
+      icon: 'sports_esports',
+      color: 'bg-purple-400',
       name: 'Entretenimiento',
     },
     {
       id: 3,
-      icon: '',
-      color: '',
+      icon: 'health_and_safety',
+      color: 'bg-blue-400',
       name: 'Salud y Belleza'
     },
   ];
@@ -102,18 +100,8 @@ export class CategoryService {
     },
   ];
 
-  readonly categories$ = this.httpClient.get('https://jsonplaceholder.typicode.com/todos/1').pipe(
-    switchMap(() => of(this.categoriesData)),
-    retry(2),
-    shareReplay(1),
-  );
+  readonly categories$ = of(this.categoriesData);
 
-  readonly subcategories$ = this.httpClient.get('https://jsonplaceholder.typicode.com/todos/1').pipe(
-    switchMap(() => of(this.subcategoriesData)),
-    retry(2),
-    shareReplay(1),
-  );
+  readonly subcategories$ = of(this.subcategoriesData);
 
-  constructor(private httpClient: HttpClient) {
-  }
 }

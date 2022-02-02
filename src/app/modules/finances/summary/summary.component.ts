@@ -10,6 +10,97 @@ export class SummaryComponent implements OnInit {
 
   expenseView: 'daily' | 'weekly' | 'monthly' = 'daily';
 
+  chartGender = {
+    chart: {
+      animations: {
+        speed: 400,
+        animateGradually: {
+          enabled: false
+        }
+      },
+      fontFamily: 'inherit',
+      foreColor: 'inherit',
+      height: '100%',
+      type: 'donut',
+      sparkline: {
+        enabled: true
+      }
+    },
+    colors: ['#319795', '#4FD1C5'],
+    labels: [
+      'Male',
+      'Female'
+    ],
+    plotOptions: {
+      pie: {
+        customScale: 0.9,
+        expandOnClick: false,
+        donut: {
+          size: '70%'
+        }
+      }
+    },
+    series: [55, 45],
+    states: {
+      hover: {
+        filter: {
+          type: 'none'
+        }
+      },
+      active: {
+        filter: {
+          type: 'none'
+        }
+      }
+    },
+    tooltip: {
+      enabled: true,
+      fillSeriesColor: false,
+      theme: 'dark',
+      custom: ({seriesIndex, w}): string => `
+        <div class="flex items-center h-8 min-h-8 max-h-8 px-3">
+           <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+           <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+           <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+        </div>
+      `
+    }
+  };
+
+  pieOptions: ApexOptions = {
+    series: [44, 55, 13, 43, 22],
+    chart: {
+      type: 'donut',
+      width: '100%',
+    },
+    labels: [
+      'Team Team', 'Team B', 'Team C', 'Team D', 'Team E'
+    ],
+    plotOptions: {
+      pie: {
+        customScale: 0.9,
+        expandOnClick: false,
+      }
+    },
+    states: {
+      hover: {
+        filter: {
+          type: 'none'
+        }
+      },
+      active: {
+        filter: {
+          type: 'none'
+        }
+      }
+    },
+    legend: {
+      show: true,
+      position: 'right',
+      horizontalAlign: 'center',
+    },
+  };
+
   chartOptions: ApexOptions = {
     series: [
       {
@@ -19,31 +110,30 @@ export class SummaryComponent implements OnInit {
     ],
     chart: {
       fontFamily: 'inherit',
-      foreColor : 'inherit',
-      // height: 200,
-      width     : '100%',
+      foreColor: 'inherit',
+      width: '100%',
       type: 'bar',
       background: 'white',
       animations: {
-        speed           : 400,
+        speed: 400,
         animateGradually: {
           enabled: false
         }
       },
-      sparkline : {
+      sparkline: {
         enabled: false
       },
-      toolbar   : {
+      toolbar: {
         show: false
       },
-      zoom      : {
+      zoom: {
         enabled: false
       }
     },
-    colors     : ['#EF4444', '#0b3af5', ],
-    dataLabels : {
+    colors: ['#EF4444', '#0b3af5'],
+    dataLabels: {
       textAnchor: 'middle',
-      enabled : true,
+      enabled: true,
       style: {
         colors: ['black'],
         fontSize: '10px',
@@ -56,25 +146,12 @@ export class SummaryComponent implements OnInit {
       opacity: 0.4,
       type: 'solid',
     },
-    grid       : {
+    grid: {
       show: false,
       borderColor: 'gray',
-      // padding    : {
-      //   top   : 0,
-      //   bottom: 0,
-      //   left  : 0,
-      //   right : 0
-      // },
-      // position: 'back',
-      // xaxis: {
-      //   lines: {
-      //     offsetX: 0.5,
-      //     offsetY: 0.5
-      //   }
-      // }
     },
-    labels  : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    legend     : {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    legend: {
       show: true
     },
     plotOptions: {
@@ -87,50 +164,50 @@ export class SummaryComponent implements OnInit {
         columnWidth: '50%'
       }
     },
-    states     : {
+    states: {
       hover: {
         filter: {
-          type : 'darken',
+          type: 'darken',
           value: 0.75
         }
       }
     },
-    stroke     : {
+    stroke: {
       curve: 'smooth',
       show: false,
       width: [6, 4]
     },
-    tooltip    : {
+    tooltip: {
       enabled: true,
       followCursor: true,
-      theme       : 'dark'
+      theme: 'dark'
     },
     xaxis: {
       axisBorder: {
         show: true
       },
-      axisTicks : {
+      axisTicks: {
         show: false,
         color: 'green'
       },
-      labels    : {
+      labels: {
         style: {
           colors: 'rgba(14,20,28,0.68)',
           fontWeight: 500,
         },
       },
-      tooltip   : {
+      tooltip: {
         enabled: false
       },
     },
-    yaxis      : {
+    yaxis: {
       show: false,
       axisBorder: {
         show: true
       },
       labels: {
         // offsetX: -16,
-        style  : {
+        style: {
           colors: 'gray'
         }
       }
@@ -154,96 +231,14 @@ export class SummaryComponent implements OnInit {
     ]
   };
 
-  chartDonutOptions: ApexOptions = {
-    series: [44, 55, 13, 43, 22],
-    chart: {
-      type: 'donut',
-      height: 200
-    },
-    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200
-          },
-          legend: {
-            position: 'bottom'
-          }
-        }
-      }
-    ]
-  };
-
-  doughnut = {
-    label: 'Ingresos',
-    data: [
-      {
-        label: 'Sueldo',
-        value: 3000000,
-        color: '#26de81'
-      },
-      {
-        label: 'Acciones',
-        value: 300000,
-        color: '#fed330'
-      },
-      {
-        label: 'Acciones2',
-        value: 200000,
-        color: '#fc5c65'
-      },
-      {
-        label: 'otra',
-        value: 200001,
-        color: '#fc5c65'
-      }
-    ],
-    options: {
-      hoverOffset: 0,
-      cutout: 55,
-      padding: 0,
-      textCenter: false
-    }
-  };
-
-  doughnut2 = {
-    label: 'Ingresos',
-    data: [
-      {
-        label: 'Sueldo',
-        value: 3000000,
-        color: '#26de81'
-      },
-      {
-        label: 'Acciones',
-        value: 300000,
-        color: '#fed330'
-      },
-      {
-        label: 'Acciones2',
-        value: 200000,
-        color: '#fc5c65'
-      },
-      {
-        label: 'otra',
-        value: 200001,
-        color: '#fc5c65'
-      }
-    ],
-    options: {
-      hoverOffset: 0,
-      cutout: 50,
-      padding: 0,
-      textCenter: false
-    }
-  };
-
   ngOnInit(): void {
   }
 
   onclick(event: any): void {
     console.log(event);
+  }
+
+  openDialog(): void {
+
   }
 }

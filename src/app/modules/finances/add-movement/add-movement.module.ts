@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AddMovementRoutingModule } from './add-movement-routing.module';
-import { AddMovementComponent, DialogDataComponent } from './add-movement.component';
-import { SelectModule } from '../../../core/components/select/select.module';
+import { AddMovementComponent } from './add-movement.component';
+import { SelectModule } from 'core/components/select/select.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,12 +14,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormListModule } from 'core/components/form-list';
 
 
 @NgModule({
   declarations: [
     AddMovementComponent,
-    DialogDataComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +35,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatListModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    MatDialogModule
+    MatDialogModule,
+    FormListModule
   ]
 })
 export class AddMovementModule { }

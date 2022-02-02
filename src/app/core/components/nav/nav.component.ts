@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ThemeService } from '../../services/theme/theme.service';
 
 @Component({
   selector: 'app-nav',
   host: {
-    class: 'flex h-12 justify-between items-center shadow-sm z-10 px-2'
+    class: 'flex h-14 justify-between items-center shadow-sm z-10 px-2'
   },
   template: `
     <div class="flex items-center">
@@ -24,10 +23,6 @@ export class NavComponent {
   @Output() menuToggle = new EventEmitter();
 
   @Output() notification = new EventEmitter();
-
-  constructor(
-    private themeService: ThemeService
-  ) { }
 
   changeTheme(): void {
     // this.themeService.toggleTheme();

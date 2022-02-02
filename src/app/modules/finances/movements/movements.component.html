@@ -12,14 +12,14 @@
         </div>
       </div>
 
-      <div class="divide-y-2">
+      <div class="divide-y">
         <div class="">
           <div class="flex justify-between items-center pb-2 pt-3">
             <div class="text-sm font-medium text-indigo-500">Mie 15 de septiembre de 2021</div>
             <div class="text-sm font-medium">${{ 50000 | number }}</div>
           </div>
-          <ul class="flex flex-col">
-            <li matRipple (click)="openDialog()" class="flex justify-between items-center py-3">
+          <ul class="flex flex-col gap-2">
+            <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
               <div class="flex items-center">
                 <div class="rounded-full w-8 h-8 bg-yellow-400 flex justify-center items-center">
                   <mat-icon>trending_down</mat-icon>
@@ -32,7 +32,7 @@
               </div>
               <div class="text-sm font-medium text-green-500">${{ 60000 | number }}</div>
             </li>
-            <li matRipple (click)="openDialog()" class="flex justify-between items-center py-3">
+            <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
               <div class="flex items-center">
                 <div class="rounded-full w-8 h-8 bg-red-400 flex justify-center items-center">
                   <mat-icon>trending_down</mat-icon>
@@ -44,7 +44,7 @@
               </div>
               <div class="text-sm font-medium text-red-500">${{ 60000 | number }}</div>
             </li>
-            <li matRipple (click)="openDialog()" class="flex justify-between items-center py-3">
+            <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
               <div class="flex items-center">
                 <div class="rounded-full w-8 h-8 bg-purple-400 flex justify-center items-center">
                   <mat-icon>trending_down</mat-icon>
@@ -56,7 +56,7 @@
               </div>
               <div class="text-sm font-medium text-green-500">${{ 60000 | number }}</div>
             </li>
-            <li matRipple (click)="openDialog()" class="flex justify-between items-center py-3">
+            <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
               <div class="flex items-center">
                 <div class="rounded-full w-8 h-8 bg-blue-400 flex justify-center items-center">
                   <mat-icon>trending_down</mat-icon>

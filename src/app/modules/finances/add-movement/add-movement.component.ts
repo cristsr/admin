@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../services/category/category.service';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-
-
-@Component({
-  selector: 'app-dialog',
-  template: `
-    <div>Hola mundo</div>
-  `
-})
-export class DialogDataComponent {}
 
 @Component({
   selector: 'app-add-movement',
@@ -38,12 +28,24 @@ export class AddMovementComponent implements OnInit {
     Validators.required,
     Validators.pattern('valid'),
   ]);
+
   getDate: any = new Date();
 
-  constructor(private categoryService: CategoryService, public dialog: MatDialog) {
-  }
+  categories: any;
+
+  constructor(
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
+    this.categoryService.categories$.subscribe((data) => {
+      this.categories = data.map(({name, ...rest}) => {
+        return {
+          ...rest,
+          label: name,
+        };
+      });
+    });
   }
 
   onCategoryChanges(category: any): void {
@@ -52,15 +54,5 @@ export class AddMovementComponent implements OnInit {
 
   currentDate(): string {
     return new Date().toISOString().substr(0, 10);
-  }
-
-  showCategories(): void {
-    console.log('click');
-
-    this.dialog.open(DialogDataComponent, {
-      data: {
-        animal: 'panda'
-      }
-    });
   }
 }

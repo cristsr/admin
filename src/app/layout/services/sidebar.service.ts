@@ -13,7 +13,7 @@ export class SidebarService {
 
   private panEnd = new Subject<any>();
 
-  private toggle = new Subject();
+  private toggle = new Subject<any>();
 
   onPanStart(event: any): void {
     this.panStart.next(event);
@@ -47,7 +47,7 @@ export class SidebarService {
       // Filter all panning motions that are horizontal
       filter(({direction}) => isHorizontal(direction)),
       // Allow multiple subscriptions
-      share(),
+      // share(),
     );
   }
 

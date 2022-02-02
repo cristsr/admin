@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -12,15 +12,13 @@ import {
 import { Menu } from 'core/interfaces/menu';
 import { SidebarService } from 'layout/services/sidebar.service';
 import { WINDOW } from 'core/config';
-import { isHorizontal, isRight } from 'layout/utils';
+import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
 
 
 @Component({
   selector: 'app-sidebar',
   template: `
     <!-- Sidebar -->
-
-
     <div
       class="top-0 bottom-0 px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
       [class.flex]="showSidebar"
@@ -65,45 +63,29 @@ import { isHorizontal, isRight } from 'layout/utils';
     <div
       *ngIf="isMobile && showSidebar"
       class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-20"
-      (click)="toggleSidebar()">
+      (click)="hideSidebar()">
     </div>
   `,
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
-  panVelocity = 2;
-
-  public percentage = 0;
-
-  public sidebarPercentage = -100;
-
-  private viewFullSidebar = false;
-
-  // Range 0 - 100
-  // O is closed
-  // 100 is open
-  private percentageSource = new BehaviorSubject<number>(0);
-
-  @Output() label = new EventEmitter<Record<any, any>>();
-
-  /**
-   * Menu configuration
-   */
-
-  get translateX(): string {
-    return `translateX(${this.sidebarPercentage}%)`;
-  }
-
-  get translate$(): Observable<string> {
-    return this.percentageSource.pipe(
-      map(percentage => `translateX(${-100 + percentage}%)`)
-    );
-  }
-
   @Input() menu: Menu[];
 
   @Output() menuChange = new EventEmitter();
+
+  @Output() label = new EventEmitter<Record<any, any>>();
+
+  private readonly panVelocity = 1.5;
+
+  // Range 0 - 100
+  private translate = new BehaviorSubject<number>(0);
+
+  get translate$(): Observable<string> {
+    return this.translate.pipe(
+      map(percentage => `translateX(${-100 + percentage}%)`)
+    );
+  }
 
   /**
    * Determinate if device is mobile or desktop
@@ -115,8 +97,6 @@ export class SidebarComponent implements OnInit {
    * or show if is desktop
    */
   showSidebar = !this.isMobile;
-
-  translateSubject = new Subject();
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -150,19 +130,24 @@ export class SidebarComponent implements OnInit {
       switchMapTo(
         differentialX$.pipe(
           filter(() => {
-            const {value} = this.percentageSource;
+            const {value} = this.translate;
             return !(value < 0 || value > 100);
           }),
           withLatestFrom(changeDirection$),
           map(([diff, direction]) => ({direction, diff}))
         )
       ),
+      tap(() => console.log('START SOURCE EMMIT')),
+      // map(({diff, direction}) => {
+        // if ()
+      // })
     );
 
+    // @ts-ignore
     source$.subscribe(({diff, direction}) => {
       console.log('STREAM', diff, direction);
 
-      const {value} = this.percentageSource;
+      const {value} = this.translate;
 
       const result = isRight(direction)
         ? value + diff
@@ -171,41 +156,57 @@ export class SidebarComponent implements OnInit {
       console.log('RESULT', result);
 
       if (result <= 0) {
-        this.percentageSource.next(0);
+        this.translate.next(0);
         this.showSidebar = false;
         this.cd.markForCheck();
         return;
       }
 
       if (result >= 100) {
-        this.percentageSource.next(100);
+        this.translate.next(100);
         this.showSidebar = true;
         this.cd.markForCheck();
         return;
       }
 
-      this.percentageSource.next(result);
+      this.translate.next(result);
       this.showSidebar = true;
       this.cd.markForCheck();
     });
 
 
     this.sidebarService.panEnd$.subscribe({
-      next: () => {
+      next: panend => {
+        const {value} = this.translate;
+        const velocity = Math.abs(panend.velocity);
 
-        // this.percentageSource.next(2);
-
-        // if (panend.velocityX > 0.6 || this.percentage >= 50) {
-        //   this.fullSidebarPercentage();
-        // }else {
-        //   this.resetSidebarPercentage();
-        // }
-        //
-        // if (panend.velocityX < -0.6 || this.percentage < 50) {
-        //   this.resetSidebarPercentage();
-        // } else {
-        //   this.fullSidebarPercentage();
-        // }
+        if (isRight(panend.direction)) {
+          if (velocity >= 0.6 || value >= 50) {
+            console.log('RIGHT SHOW');
+            this.showFullSidebar();
+          } else {
+            console.log('RIGHT HIDE');
+            this.hideSidebar();
+          }
+        } else if (isLeft(panend.direction)) {
+          if (panend.velocity >= 0.6 || value < 50) {
+            console.log('LEFT HIDE');
+            this.hideSidebar();
+          } else {
+            console.log('RIGHT SHOW');
+            this.showFullSidebar();
+          }
+        } else if (isNone(panend.direction)) {
+          if (value > 50) {
+            console.log('NONE SHOW');
+            this.showFullSidebar();
+          } else {
+            console.log('NONE HIDE');
+            this.hideSidebar();
+          }
+        } else {
+          console.warn('Direction not recognized');
+        }
 
         console.log('END');
         console.log('');
@@ -259,15 +260,15 @@ export class SidebarComponent implements OnInit {
     return +(result * 100).toFixed(0);
   }
 
-  resetSidebarPercentage(): void {
-    this.percentage = 0;
+  hideSidebar(): void {
+    this.translate.next(0);
     this.showSidebar = false;
-    this.viewFullSidebar = false;
+    // this.viewFullSidebar = false;
   }
 
-  fullSidebarPercentage(): void {
-    this.percentage = 100;
+  showFullSidebar(): void {
+    this.translate.next(100);
     this.showSidebar = true;
-    this.viewFullSidebar = true;
+    // this.viewFullSidebar = true;
   }
 }

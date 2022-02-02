@@ -6,8 +6,8 @@
       <div class="text-lg font-medium pb-4">Agregar movimiento</div>
 
       <form class="flex flex-col w-full max-w-sm mx-auto gap-2">
-        <mat-form-field appearance="legacy" floatLabel="always">
-          <mat-icon matPrefix class="text-purple-600">mode_edit</mat-icon>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-icon matPrefix class="text-purple-600 mr-2">today</mat-icon>
           <mat-label>Fecha</mat-label>
           <input matInput [value]="getDate" [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -15,19 +15,26 @@
         </mat-form-field>
 
 
-        <mat-form-field appearance="legacy" floatLabel="always">
-          <mat-label></mat-label>
-          <mat-icon matPrefix class="text-purple-600">mode_edit</mat-icon>
-          <input matInput placeholder="Placeholder" value="">
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Descripción</mat-label>
+          <mat-icon matPrefix class="text-purple-600 mr-2">mode_edit</mat-icon>
+          <input matInput placeholder="" value="">
         </mat-form-field>
 
-        <mat-form-field  appearance="legacy" floatLabel="always">
-          <mat-label class="pointer-events-auto">Form field</mat-label>
-          <mat-icon (click)="showCategories()" matPrefix class="text-purple-600 pointer-events-auto">mode_edit</mat-icon>
-          <div (click)="showCategories()">
-            <input matInput readonly value="new value" class="pointer-events-none" placeholder="Placeholder">
-          </div>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Total</mat-label>
+          <mat-icon matPrefix class="text-purple-600 mr-2">monetization_on</mat-icon>
+          <input matInput class="ml-4" placeholder="" value="">
         </mat-form-field>
+
+        <app-form-list
+          appearance="fill"
+          floatLabel="auto"
+          label="Categoría"
+          icon="category"
+          color="text-purple-600"
+          [list]="categories">
+        </app-form-list>
 
         <div class="m-auto pt-2">
           <button type="button" mat-stroked-button class="bg-purple-500 text-white">
