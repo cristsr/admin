@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +101,24 @@ export class CategoryService {
     },
   ];
 
-  readonly categories$ = of(this.categoriesData);
+  readonly categories$ = of(this.categoriesData)
+    .pipe(
+      switchMap(x => this.subcategories$.pipe(
+        map(y => {
+          return x.map(i => ({
+            ...i,
+            subcategories: y.filter(j => j.categoryId === i.id)
+          }));
+        }))
+      ),
+      map(x => x.map(i => {
+        i.subcategories.forEach(j => {
+          delete j.categoryId;
+        });
+
+        return i;
+      })),
+    );
 
   readonly subcategories$ = of(this.subcategoriesData);
 

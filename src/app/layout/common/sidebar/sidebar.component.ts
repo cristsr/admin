@@ -25,7 +25,6 @@ import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
       [ngStyle]="{'transform': translate$ | async}"
       [class.hidden]="!showSidebar">
 
-
       <!-- header -->
       <div class="flex flex-col pt-14 items-center">
         <div class="h-24 w-24">

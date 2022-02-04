@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormListComponent } from './form-list.component';
+import { SelectDialogComponent } from './select-dialog.component';
 
-describe('FormListComponent', () => {
-  let component: FormListComponent;
-  let fixture: ComponentFixture<FormListComponent>;
+describe('ListSelectComponent', () => {
+  let component: SelectDialogComponent;
+  let fixture: ComponentFixture<SelectDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormListComponent ]
+      declarations: [ SelectDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormListComponent);
+    fixture = TestBed.createComponent(SelectDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

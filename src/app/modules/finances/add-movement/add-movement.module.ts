@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { AddMovementRoutingModule } from './add-movement-routing.module';
 import { AddMovementComponent } from './add-movement.component';
-import { SelectModule } from 'core/components/select/select.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormListModule } from 'core/components/form-list';
+import { SelectModule } from 'core/components/select';
 
 
 @NgModule({
@@ -36,7 +35,7 @@ import { FormListModule } from 'core/components/form-list';
     MatNativeDateModule,
     MatDatepickerModule,
     MatDialogModule,
-    FormListModule
+    SelectModule
   ]
 })
 export class AddMovementModule { }

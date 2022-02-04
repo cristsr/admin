@@ -27,14 +27,15 @@
           <input matInput class="ml-4" placeholder="" value="">
         </mat-form-field>
 
-        <app-form-list
+        <app-select
           appearance="fill"
           floatLabel="auto"
           label="Categoría"
           icon="category"
           color="text-purple-600"
-          [list]="categories">
-        </app-form-list>
+          [list]="categories"
+          enableSearch>
+        </app-select>
 
         <div class="m-auto pt-2">
           <button type="button" mat-stroked-button class="bg-purple-500 text-white">

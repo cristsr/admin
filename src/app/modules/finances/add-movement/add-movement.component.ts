@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../services/category/category.service';
 import { FormControl, Validators } from '@angular/forms';
+import { Option } from 'core/components/select/types';
 
 @Component({
   selector: 'app-add-movement',
@@ -31,20 +32,22 @@ export class AddMovementComponent implements OnInit {
 
   getDate: any = new Date();
 
-  categories: any;
+  categories: Option[];
 
   constructor(
     private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.categories$.subscribe((data) => {
-      this.categories = data.map(({name, ...rest}) => {
+    this.categoryService.categories$.subscribe((data: any) => {
+      this.categories = data.map(({subcategories, ...i}) => {
         return {
-          ...rest,
-          label: name,
+          ...i,
+          options: subcategories
         };
       });
+
+      console.log('List options', this.categories);
     });
   }
 
