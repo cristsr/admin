@@ -10,7 +10,7 @@ import { Option } from 'core/components/select/types';
 })
 export class AddMovementComponent implements OnInit {
   public readonly form = this.fb.group({
-    date: [null, Validators.required],
+    date: [new Date(), Validators.required],
     description: [null, Validators.required],
     amount: [null, Validators.required],
     category: [null, Validators.required],
