@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SelectComponent } from './select.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { SelectDialogComponent } from './select-dialog.component';
+import { DialogComponent } from './dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule } from '@angular/material/core';
@@ -15,7 +15,7 @@ import { ListOptionComponent } from './list-option.component';
 @NgModule({
   declarations: [
     SelectComponent,
-    SelectDialogComponent,
+    DialogComponent,
     ListOptionComponent
   ],
   imports: [
@@ -29,7 +29,7 @@ import { ListOptionComponent } from './list-option.component';
     ReactiveFormsModule,
   ],
   exports: [
-    SelectComponent
+    SelectComponent,
   ]
 })
 export class SelectModule {

@@ -4,7 +4,7 @@ import { SelectConfig, Option } from 'core/components/select/types';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-select-dialog',
+  selector: 'app-dialog',
   template: `
     <div class="flex flex-col">
       <span class="text-xl font-medium pb-4">Categorías</span>
@@ -46,7 +46,7 @@ import { FormControl } from '@angular/forms';
     </div>
   `,
 })
-export class SelectDialogComponent implements OnInit {
+export class DialogComponent implements OnInit {
   public list: Option[];
   public value: Option;
   public enableSearch: boolean;
@@ -56,7 +56,7 @@ export class SelectDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     private config: SelectConfig,
-    private dialogRef: MatDialogRef<SelectDialogComponent>,
+    private dialogRef: MatDialogRef<DialogComponent>,
   ) { }
 
   ngOnInit(): void {
