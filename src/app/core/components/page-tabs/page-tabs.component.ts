@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageService } from '../../services/page/page.service';
+import { PageService } from 'core/services/page/page.service';
 
 @Component({
   selector: 'app-page-tabs',
@@ -23,6 +23,5 @@ import { PageService } from '../../services/page/page.service';
 export class PageTabsComponent {
   submenu$ = this.layoutService.submenu$;
 
-  constructor(private layoutService: PageService) {
-  }
+  constructor(private layoutService: PageService) { }
 }
