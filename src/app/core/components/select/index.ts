@@ -1,3 +1,4 @@
 export * from './select.module';
 export * from './select.component';
-export * from './select-dialog.component';
+export * from './dialog.component';
+export * from './types';
