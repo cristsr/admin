@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../services/category/category.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Option } from 'core/components/select/types';
 
 @Component({
@@ -9,32 +9,17 @@ import { Option } from 'core/components/select/types';
   styleUrls: ['./add-movement.component.scss'],
 })
 export class AddMovementComponent implements OnInit {
-  categories$ = this.categoryService.categories$;
-
-  subcategories$ = this.categoryService.subcategories$;
-  selectedCat: any;
-  emailFormControl: any;
-
-  selected = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  selectFormControl = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  nativeSelectFormControl = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  getDate: any = new Date();
+  public readonly form = this.fb.group({
+    date: [null, Validators.required],
+    description: [null, Validators.required],
+    amount: [null, Validators.required],
+    category: [null, Validators.required],
+  });
 
   categories: Option[];
 
   constructor(
+    private fb: FormBuilder,
     private categoryService: CategoryService
   ) {}
 
@@ -55,7 +40,14 @@ export class AddMovementComponent implements OnInit {
     console.log('Category menuChange', category);
   }
 
-  currentDate(): string {
-    return new Date().toISOString().substr(0, 10);
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+    console.log('Form submit', this.form.status);
   }
+
+   reset(): void {
+    this.form.reset();
+   }
+
+
 }

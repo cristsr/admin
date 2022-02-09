@@ -5,45 +5,52 @@
     <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
       <div class="text-lg font-medium pb-4">Agregar movimiento</div>
 
-      <form class="flex flex-col w-full max-w-sm mx-auto gap-2">
+      <form class="flex flex-col w-full max-w-sm mx-auto gap-2" [formGroup]="form" (submit)="onSubmit()">
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-icon matPrefix class="text-purple-600 mr-2">today</mat-icon>
           <mat-label>Fecha</mat-label>
-          <input matInput [value]="getDate" [matDatepicker]="picker">
+          <input matInput formControlName="date" [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Descripción</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">mode_edit</mat-icon>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" formControlName="description">
         </mat-form-field>
 
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Total</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">monetization_on</mat-icon>
-          <input matInput class="ml-4" placeholder="" value="">
+          <input matInput class="ml-4" placeholder="" formControlName="amount">
         </mat-form-field>
 
-        <app-select
-          appearance="fill"
-          floatLabel="auto"
-          label="Categoría"
-          icon="category"
-          color="text-purple-600"
-          [list]="categories"
-          enableSearch>
-        </app-select>
+
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Categoría.</mat-label>
+          <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
+          <app-select
+            formControlName="category"
+            [list]="categories"
+            enableSearch>
+          </app-select>
+        </mat-form-field>
 
         <div class="m-auto pt-2">
-          <button type="button" mat-stroked-button class="bg-purple-500 text-white">
+          <button mat-stroked-button class="bg-purple-500 text-white">
             <div class="flex items-center justify-center">
               <mat-icon matListIcon>save</mat-icon>
-              <span class="mt-0.5 text font-medium pl-2">Primary</span>
+              <span class="mt-0.5 text font-medium pl-2">Guardar</span>
             </div>
           </button>
+
+<!--          <button type="button" (click)="reset()" mat-stroked-button class="bg-purple-500 text-white">-->
+<!--            <div class="flex items-center justify-center">-->
+<!--              <mat-icon matListIcon>save</mat-icon>-->
+<!--              <span class="mt-0.5 text font-medium pl-2">Reiniciar</span>-->
+<!--            </div>-->
+<!--          </button>-->
         </div>
 
       </form>
