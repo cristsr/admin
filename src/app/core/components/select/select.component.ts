@@ -134,7 +134,6 @@ export class SelectComponent extends AppSelectBase implements
   }
   private requiredValue: boolean | undefined;
 
-  // tslint:disable-next-line:no-input-rename
   @Input('aria-describedby') userAriaDescribedBy: string;
 
   @Output() valueChange = new EventEmitter<Option>();
