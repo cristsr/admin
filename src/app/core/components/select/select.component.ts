@@ -10,28 +10,15 @@ import {
   Self,
   SimpleChanges
 } from '@angular/core';
+import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogComponent } from 'core/components/select/dialog.component';
-import { MAT_FORM_FIELD, MatFormField } from '@angular/material/form-field';
-import { Option, SelectConfig } from 'core/components/select/types';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MAT_FORM_FIELD, MatFormField, MatFormFieldControl } from '@angular/material/form-field';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm, Validators } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
-import { Subject } from 'rxjs';
+import { DialogComponent } from './dialog.component';
+import { Option, DialogConfig, List, Sublist, Type } from './types';
+import { BaseInputComponent } from 'core/components/base-input/base-input.component';
 
-const AppSelectBase = mixinErrorState(
-  class {
-    // tslint:disable:variable-name
-    constructor(
-      public _defaultErrorStateMatcher: ErrorStateMatcher,
-      public _parentForm: NgForm,
-      public _parentFormGroup: FormGroupDirective,
-      public ngControl: NgControl,
-    ) {}
-    // tslint:enable:variable-name
-  },
-);
 
 // tslint:disable-next-line:no-conflicting-lifecycle
 @Component({
@@ -43,14 +30,6 @@ const AppSelectBase = mixinErrorState(
       [disabled]="disabled"
       [value]="value?.name">
   `,
-  host: {
-    '[attr.aria-labelledby]': 'formField?.getLabelId()',
-    '[class.floating]': 'shouldLabelFloat',
-    '[attr.data-placeholder]': 'placeholder',
-    '[id]': 'id',
-    '(focusin)': 'onFocusIn()',
-    '(focusout)': 'onFocusOut()',
-  },
   providers: [
     {
       provide: MatFormFieldControl,
@@ -58,114 +37,80 @@ const AppSelectBase = mixinErrorState(
     }
   ]
 })
-export class SelectComponent extends AppSelectBase implements
+export class SelectComponent extends BaseInputComponent implements
   OnChanges, DoCheck, OnDestroy, ControlValueAccessor, MatFormFieldControl<Option> {
-  static nextId = 0;
-// Control properties
-  controlType = 'app-select';
-  id = 'app-select-' + SelectComponent.nextId++;
-  stateChanges = new Subject<void>();
-  focused = false;
-  touched = false;
-  onChange: (value: Option) => void;
-  onTouched: () => void;
+  private static nextId = 0;
   private dialogRef: MatDialogRef<DialogComponent, Option>;
 
   @Input()
-  get placeholder(): string {
-    return this.placeholderValue;
+  get type(): Type {
+    return this._type;
   }
-  set placeholder(placeholder: string) {
-    this.placeholderValue = placeholder;
+  set type(value: Type) {
+    this._type = value;
     this.stateChanges.next();
   }
-  private placeholderValue: string;
+  private _type: Type = 'default';
 
   @Input()
-  get list(): Option[] {
-    return this.listValue;
+  get list(): List {
+    return this._list;
   }
-  set list(list: Option[]) {
-    this.listValue = list;
+  set list(list: List) {
+    this._list = list;
     this.stateChanges.next();
   }
-  private listValue: Option[];
+  private _list: List;
 
   @Input()
-  get value(): Option | null {
-    return this.currentValue;
+  get sublist(): Sublist {
+    return this._sublist;
   }
-  set value(value: Option | null) {
-    this.currentValue = value;
+  set sublist(sublist: Sublist) {
+    this._sublist = sublist;
     this.stateChanges.next();
   }
-  private currentValue: Option | null;
+  private _sublist: Sublist;
 
   @Input()
-  get disabled(): boolean {
-    if (this.ngControl?.disabled !== null) {
-      return this.ngControl.disabled;
-    }
-    return this.disabledValue;
+  get enableSearch(): boolean {
+    return this._enableSearch;
   }
-  set disabled(value: BooleanInput) {
-    this.disabledValue = coerceBooleanProperty(value);
-    if (this.focused) {
-      this.focused = false;
-    }
-    this.stateChanges.next();
-  }
-  private disabledValue = false;
-
-  @Input()
   set enableSearch(value: BooleanInput) {
-    this.enableSearchValue = coerceBooleanProperty(value);
+    this._enableSearch = coerceBooleanProperty(value);
     this.stateChanges.next();
   }
-  private enableSearchValue = false;
-
-  @Input()
-  get required(): boolean {
-    return this.requiredValue ?? this.ngControl?.control?.hasValidator(Validators.required) ?? false;
-  }
-  set required(value: BooleanInput) {
-    this.requiredValue = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-  private requiredValue: boolean | undefined;
-
-  @Input('aria-describedby') userAriaDescribedBy: string;
+  private _enableSearch = false;
 
   @Output() valueChange = new EventEmitter<Option>();
 
-  get empty(): boolean {
-    return !this.value;
-  }
-
-  get shouldLabelFloat(): boolean {
-    return this.focused || !this.empty;
-  }
-
   constructor(
-    private readonly dialog: MatDialog,
-    private elementRef: ElementRef<HTMLElement>,
-    @Optional() @Inject(MAT_FORM_FIELD) public formField: MatFormField,
-    @Optional() @Self() public ngControl: NgControl,
-    @Optional() private parentForm: NgForm,
-    @Optional() private parentFormGroup: FormGroupDirective,
-    private defaultErrorStateMatcher: ErrorStateMatcher,
+    public defaultErrorStateMatcher: ErrorStateMatcher,
+
+    @Optional()
+    public parentForm: NgForm,
+
+    @Optional()
+    public parentFormGroup: FormGroupDirective,
+
+    @Optional()
+    @Self()
+    public ngControl: NgControl,
+
+    @Optional()
+    @Inject(MAT_FORM_FIELD)
+    public formField: MatFormField,
+
+    public elementRef: ElementRef<HTMLElement>,
+    private dialog: MatDialog,
   ) {
-    super(defaultErrorStateMatcher, parentForm, parentFormGroup, ngControl);
+    super(defaultErrorStateMatcher, parentForm, parentFormGroup, ngControl, formField, elementRef);
 
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
-    }
-
-    this.formField.updateOutlineGap();
+    this.setControlType('category');
+    this.setId(SelectComponent.nextId++);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ngOnChanges', changes);
     if (changes.list) {
       if (this.dialogRef) {
         this.dialogRef.componentInstance.list = this.list;
@@ -173,26 +118,18 @@ export class SelectComponent extends AppSelectBase implements
     }
   }
 
-  ngDoCheck(): void {
-    if (this.ngControl) {
-      this.updateErrorState();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.stateChanges.complete();
-  }
-
   openListDialog(): void {
     if (this.disabled) {
       return;
     }
 
-    this.dialogRef = this.dialog.open<DialogComponent, SelectConfig, Option>(DialogComponent, {
+    this.dialogRef = this.dialog.open<DialogComponent, DialogConfig, Option>(DialogComponent, {
       data: {
         list: this.list,
+        sublist: this.sublist,
         value: this.value,
-        enableSearch: this.enableSearchValue,
+        enableSearch: this.enableSearch,
+        type: this.type,
       },
       width: '80%',
       autoFocus: false,
@@ -202,7 +139,6 @@ export class SelectComponent extends AppSelectBase implements
   }
 
   updateValue(value: Option): void {
-    this.touched = true;
     this.onTouched();
     this.stateChanges.next();
 
@@ -219,45 +155,7 @@ export class SelectComponent extends AppSelectBase implements
     this.valueChange.emit(this.value);
   }
 
-  onFocusIn(): void {
-    this.focused = true;
-    this.stateChanges.next();
-  }
-
-  onFocusOut(): void {
-    this.focused = false;
-    this.touched = true;
-    this.onTouched();
-    this.stateChanges.next();
-  }
-
-  /**
-   * ControlValueAccessor functions
-   */
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  writeValue(value: Option): void {
-    this.value = value;
-  }
-
   onContainerClick(event: MouseEvent): void {
     this.openListDialog();
-  }
-
-  setDescribedByIds(ids: string[]): void {
-    const controlElement = this.elementRef.nativeElement.querySelector(
-      `.${this.controlType}-container`
-    );
-    controlElement?.setAttribute('aria-describedby', ids.join(' '));
   }
 }

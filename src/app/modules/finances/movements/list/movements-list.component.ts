@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MovementOld } from '../../../../core/interfaces/movementOld';
+import { MovementOld } from 'core/interfaces/movementOld';
 
 @Component({
   selector: 'app-movements-list',
@@ -7,7 +7,7 @@ import { MovementOld } from '../../../../core/interfaces/movementOld';
     <div class="date-group" *ngFor="let item of data | movement">
       <b>{{ item.date | date }}</b>
       <div class="item" *ngFor="let value of item.values">
-        <app-icon icon="favorite"></app-icon>
+        <mat-icon>favorite</mat-icon>
         <div class="column labels">
           <b>{{ value.category.name }}</b>
           <span>{{ value.description }}</span>

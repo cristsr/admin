@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormatMovement, MovementOld } from '../../interfaces/movementOld';
+import { FormatMovement, MovementOld } from 'core/interfaces/movementOld';
 
 @Pipe({
   name: 'movement'

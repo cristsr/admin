@@ -32,7 +32,9 @@
           <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
           <app-select
             formControlName="category"
+            type="nested"
             [list]="categories"
+            [sublist]="subcategories"
             enableSearch>
           </app-select>
         </mat-form-field>
@@ -54,6 +56,9 @@
         </div>
 
       </form>
+
+
+
     </div>
   </div>
 </div>

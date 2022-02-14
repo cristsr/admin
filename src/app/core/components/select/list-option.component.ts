@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-list-option',
   template: `
-    <div matRipple class="flex justify-between items-center rounded-xl py-2 px-1">
+    <div matRipple class="flex justify-between items-center rounded-xl py-1.5 px-1">
       <div class="flex items-center">
-        <div class="rounded-full w-8 h-8 flex justify-center items-center bg-yellow-400 {{color}}">
+        <div class="rounded-full w-8 h-8 flex justify-center items-center {{color}}">
           <mat-icon>{{icon}}</mat-icon>
         </div>
 
@@ -14,7 +14,7 @@ import { Component, Input } from '@angular/core';
         </div>
       </div>
 
-      <div *ngIf="selected" class="flex justify-center items-center">
+      <div *ngIf="selected" class="w-8 h-8 flex justify-center items-center">
         <mat-icon>done</mat-icon>
       </div>
     </div>

@@ -5,8 +5,20 @@ export interface Option {
   icon: string;
 }
 
-export interface SelectConfig {
-  list: Option[];
+export interface Suboption {
+  id: string;
+  name: string;
+  option: string;
+}
+
+export interface DialogConfig {
+  list: List;
+  sublist?: Sublist;
   value: Option;
   enableSearch: boolean;
+  type: Type;
 }
+
+export type List = Option[];
+export type Sublist = Suboption[];
+export type Type = 'default' | 'nested';

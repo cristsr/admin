@@ -1,46 +1,47 @@
-let categories = [];
-let subcategories = [];
+async function main() {
+  const categories = [];
 
-let scraper = () => {
-  const length = document.querySelector('.fast').childElementCount
+  const length = document.querySelectorAll('.categoryButton').length;
 
   for (let i = 0; i < length; i++) {
-    getCategory(i);
-    getSubcategories(i);
+    await waitSeconds(1)
+
+    const buttons = document.querySelectorAll('.categoryButton');
+
+    const category = buttons[i];
+
+    const categoryName = category.lastChild.innerText;
+
+    console.log(categoryName);
+
+    category.click();
+
+    await waitSeconds(1)
+
+    const subcats = Array.from(document.querySelectorAll('.subCategoryElement'))
+      .map(subcat => subcat.innerText.toLowerCase())
+      .map(subcat => ({name: subcat}));
+
+    console.log(subcats);
+
+    categories.push({
+      icon: '',
+      color: '',
+      name: categoryName.toLowerCase(),
+      subcategories: subcats
+    });
+
+    const back = document.querySelector('.finerio-accent-outline-color')
+    back.click();
+
   }
 
-  console.log('category', JSON.stringify(categories));
-  console.log('subcategories', JSON.stringify(subcategories));
-}
-scraper()
+  return categories;
 
-function getCategory(i) {
-  const elements = document.querySelector('.fast').children;
-  const categoryEl = elements[i].querySelector('.category');
-  const categoryName = categoryEl.querySelector('.category-name').innerText;
-
-  categoryEl.click();
-
-  categories.push({
-    id: i,
-    icon: '',
-    color: '',
-    name: categoryName,
-  })
 }
 
-function getSubcategories(categoryId) {
-  const $subcategories = document.querySelectorAll('.subcategory');
-  for (const subcategory of $subcategories) {
-    const name = subcategory.querySelector('.btn-subcategory').innerText;
-    subcategories.push({
-      categoryId,
-      name
-    })
-  }
-
-  document.querySelector('.btn-actions-modal')
-    .firstElementChild
-    .lastElementChild
-    .click();
+function waitSeconds(seconds) {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
+
+main().then(result => console.log(JSON.stringify(result)));
