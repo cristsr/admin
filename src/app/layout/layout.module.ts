@@ -4,23 +4,11 @@ import { LayoutComponent } from './layout.component';
 import { DefaultLayoutModule } from './default/default.module';
 import { EmptyLayoutModule } from './empty/empty.module';
 
-
-const layoutModules = [
-  EmptyLayoutModule,
-  DefaultLayoutModule,
-];
+const layoutModules = [EmptyLayoutModule, DefaultLayoutModule];
 
 @NgModule({
-  declarations: [
-    LayoutComponent
-  ],
-  imports: [
-    CommonModule,
-    ...layoutModules,
-  ],
-  exports: [
-    LayoutComponent,
-    ...layoutModules
-  ]
+  declarations: [LayoutComponent],
+  imports: [CommonModule, ...layoutModules],
+  exports: [LayoutComponent, ...layoutModules],
 })
-export class LayoutModule { }
+export class LayoutModule {}

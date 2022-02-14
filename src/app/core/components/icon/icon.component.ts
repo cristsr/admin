@@ -2,14 +2,14 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-icon',
-  template: `
-    <span
-      class="material-icons-outlined icon"
-      [style.color]="color"
-      [style.fontSize]="size">
-      {{ icon }}
-    </span>`,
-  styleUrls: ['icon.component.scss']
+  template: ` <span
+    class="material-icons-outlined icon"
+    [style.color]="color"
+    [style.fontSize]="size"
+  >
+    {{ icon }}
+  </span>`,
+  styleUrls: ['icon.component.scss'],
 })
 export class IconComponent {
   private colorValue: string;
@@ -38,6 +38,4 @@ export class IconComponent {
   get size(): string {
     return this.sizeValue;
   }
-
-
 }

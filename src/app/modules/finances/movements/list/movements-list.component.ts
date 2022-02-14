@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MovementOld } from 'core/interfaces/movementOld';
 
 @Component({
@@ -12,71 +12,65 @@ import { MovementOld } from 'core/interfaces/movementOld';
           <b>{{ value.category.name }}</b>
           <span>{{ value.description }}</span>
         </div>
-        <span class="currency">{{120000 | currency}}</span>
+        <span class="currency">{{ 120000 | currency }}</span>
       </div>
     </div>
   `,
-  styleUrls: ['./movements-list.component.scss']
+  styleUrls: ['./movements-list.component.scss'],
 })
-export class MovementsListComponent implements OnInit {
-
+export class MovementsListComponent {
   data: MovementOld[] = [
     {
       date: '11-05-2021',
       category: {
         icon: 'favorite',
         color: 'red',
-        name: 'Medico'
+        name: 'Medico',
       },
       description: 'testasdasdtestasdasd test test test',
-      quantity: 130000
+      quantity: 130000,
     },
     {
       date: '10-05-2021',
       category: {
         icon: 'favorite',
         color: 'red',
-        name: 'Medico'
+        name: 'Medico',
       },
       description: 'rest',
-      quantity: 120000
+      quantity: 120000,
     },
     {
       date: '10-05-2021',
       category: {
         icon: 'favorite',
         color: 'red',
-        name: 'Medico'
+        name: 'Medico',
       },
       description: 'test',
-      quantity: 8000
+      quantity: 8000,
     },
     {
       date: '9-05-2021',
       category: {
         icon: 'favorite',
         color: 'red',
-        name: 'Medico'
+        name: 'Medico',
       },
       description: 'test',
-      quantity: 4000
+      quantity: 4000,
     },
     {
       date: '9-05-2021',
       category: {
         icon: 'favorite',
         color: 'red',
-        name: 'Medico'
+        name: 'Medico',
       },
       description: 'test',
-      quantity: 120000
+      quantity: 120000,
     },
   ];
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
+  constructor() {}
 }

@@ -16,8 +16,8 @@ const routes: Routes = [
   // location. This is a small convenience to keep all main routes together here on this file.
   {
     path: 'signed-in-redirect',
-    pathMatch : 'full',
-    redirectTo: 'finances/summary'
+    pathMatch: 'full',
+    redirectTo: 'finances/summary',
   },
 
   {
@@ -26,10 +26,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     resolve: {
-      initialData: AppResolver
+      initialData: AppResolver,
     },
     data: {
-      layout: 'default'
+      layout: 'default',
     },
     children: [
       {
@@ -37,36 +37,52 @@ const routes: Routes = [
         children: [
           {
             path: 'summary',
-            loadChildren: () => import('./modules/finances/summary/summary.module').then(m => m.SummaryModule)
+            loadChildren: () =>
+              import('./modules/finances/summary/summary.module').then(
+                (m) => m.SummaryModule,
+              ),
           },
           {
             path: 'movements',
-            loadChildren: () => import('./modules/finances/movements/movements.module').then(m => m.MovementsModule)
+            loadChildren: () =>
+              import('./modules/finances/movements/movements.module').then(
+                (m) => m.MovementsModule,
+              ),
           },
           {
             path: 'budgets',
-            loadChildren: () => import('./modules/finances/budgets/budgets.module').then(m => m.BudgetsModule)
+            loadChildren: () =>
+              import('./modules/finances/budgets/budgets.module').then(
+                (m) => m.BudgetsModule,
+              ),
           },
           {
             path: 'add-movement',
-            loadChildren: () => import('./modules/finances/add-movement/add-movement.module').then(m => m.AddMovementModule)
+            loadChildren: () =>
+              import(
+                './modules/finances/add-movement/add-movement.module'
+              ).then((m) => m.AddMovementModule),
           },
         ],
       },
       {
         path: 'education',
-        loadChildren: () => import('./modules/education/education.module').then(m => m.EducationModule),
+        loadChildren: () =>
+          import('./modules/education/education.module').then(
+            (m) => m.EducationModule,
+          ),
       },
       {
         path: 'health',
-        loadChildren: () => import('./modules/health/health.module').then(m => m.HealthModule),
-      }
-    ]
+        loadChildren: () =>
+          import('./modules/health/health.module').then((m) => m.HealthModule),
+      },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

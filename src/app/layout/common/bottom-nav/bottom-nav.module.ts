@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BottomNavComponent, ExampleSheetComponent } from './bottom-nav.component';
+import {
+  BottomNavComponent,
+  ExampleSheetComponent,
+} from './bottom-nav.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -8,13 +11,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
-  declarations: [
-    BottomNavComponent,
-    ExampleSheetComponent
-  ],
+  declarations: [BottomNavComponent, ExampleSheetComponent],
   imports: [
     CommonModule,
     MatBottomSheetModule,
@@ -22,10 +20,8 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatListModule,
     MatCardModule,
-    RouterModule
+    RouterModule,
   ],
-  exports: [
-    BottomNavComponent
-  ]
+  exports: [BottomNavComponent],
 })
-export class BottomNavModule { }
+export class BottomNavModule {}

@@ -4,7 +4,7 @@ import { filter, share, tap } from 'rxjs/operators';
 import { formatDirection, isHorizontal } from 'layout/utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SidebarService {
   private panStart = new Subject<any>();
@@ -34,7 +34,7 @@ export class SidebarService {
   get panStart$(): Observable<any> {
     return this.panStart.asObservable().pipe(
       // Format direction to legible string
-      tap((start) => start.direction = formatDirection(start.direction)),
+      tap((start) => (start.direction = formatDirection(start.direction))),
       // Allow multiple subscriptions
       share(),
     );
@@ -43,9 +43,9 @@ export class SidebarService {
   get panHorizontal$(): Observable<any> {
     return this.panMove.asObservable().pipe(
       // Format direction to legible string
-      tap((move) => move.direction = formatDirection(move.direction)),
+      tap((move) => (move.direction = formatDirection(move.direction))),
       // Filter all panning motions that are horizontal
-      filter(({direction}) => isHorizontal(direction)),
+      filter(({ direction }) => isHorizontal(direction)),
       // Allow multiple subscriptions
       // share(),
     );
@@ -54,7 +54,7 @@ export class SidebarService {
   get panEnd$(): Observable<any> {
     return this.panEnd.asObservable().pipe(
       // Format direction to legible string
-      tap((end) => end.direction = formatDirection(end.direction)),
+      tap((end) => (end.direction = formatDirection(end.direction))),
       // Allow multiple subscriptions
       share(),
     );

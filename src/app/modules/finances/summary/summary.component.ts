@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApexOptions } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.scss']
+  styleUrls: ['./summary.component.scss'],
 })
-export class SummaryComponent implements OnInit {
-
+export class SummaryComponent {
   expenseView: 'daily' | 'weekly' | 'monthly' = 'daily';
 
   chartGender = {
@@ -15,56 +14,53 @@ export class SummaryComponent implements OnInit {
       animations: {
         speed: 400,
         animateGradually: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       fontFamily: 'inherit',
       foreColor: 'inherit',
       height: '100%',
       type: 'donut',
       sparkline: {
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     colors: ['#319795', '#4FD1C5'],
-    labels: [
-      'Male',
-      'Female'
-    ],
+    labels: ['Male', 'Female'],
     plotOptions: {
       pie: {
         customScale: 0.9,
         expandOnClick: false,
         donut: {
-          size: '70%'
-        }
-      }
+          size: '70%',
+        },
+      },
     },
     series: [55, 45],
     states: {
       hover: {
         filter: {
-          type: 'none'
-        }
+          type: 'none',
+        },
       },
       active: {
         filter: {
-          type: 'none'
-        }
-      }
+          type: 'none',
+        },
+      },
     },
     tooltip: {
       enabled: true,
       fillSeriesColor: false,
       theme: 'dark',
-      custom: ({seriesIndex, w}): string => `
+      custom: ({ seriesIndex, w }): string => `
         <div class="flex items-center h-8 min-h-8 max-h-8 px-3">
            <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
            <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
            <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
         </div>
-      `
-    }
+      `,
+    },
   };
 
   pieOptions: ApexOptions = {
@@ -73,26 +69,24 @@ export class SummaryComponent implements OnInit {
       type: 'donut',
       width: '100%',
     },
-    labels: [
-      'Team Team', 'Team B', 'Team C', 'Team D', 'Team E'
-    ],
+    labels: ['Team Team', 'Team B', 'Team C', 'Team D', 'Team E'],
     plotOptions: {
       pie: {
         customScale: 0.9,
         expandOnClick: false,
-      }
+      },
     },
     states: {
       hover: {
         filter: {
-          type: 'none'
-        }
+          type: 'none',
+        },
       },
       active: {
         filter: {
-          type: 'none'
-        }
-      }
+          type: 'none',
+        },
+      },
     },
     legend: {
       show: true,
@@ -105,7 +99,7 @@ export class SummaryComponent implements OnInit {
     series: [
       {
         name: 'Gastos',
-        data: [50000, 150000, 60000, 30000, 100000, 12300, 8000]
+        data: [50000, 150000, 60000, 30000, 100000, 12300, 8000],
       },
     ],
     chart: {
@@ -117,18 +111,18 @@ export class SummaryComponent implements OnInit {
       animations: {
         speed: 400,
         animateGradually: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       sparkline: {
-        enabled: false
+        enabled: false,
       },
       toolbar: {
-        show: false
+        show: false,
       },
       zoom: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     colors: ['#EF4444', '#0b3af5'],
     dataLabels: {
@@ -138,7 +132,7 @@ export class SummaryComponent implements OnInit {
         colors: ['black'],
         fontSize: '10px',
       },
-      offsetY: -18
+      offsetY: -18,
       // enabledOnSeries: [0],
     },
     fill: {
@@ -152,43 +146,43 @@ export class SummaryComponent implements OnInit {
     },
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     legend: {
-      show: true
+      show: true,
     },
     plotOptions: {
       bar: {
         dataLabels: {
-          position: 'top'
+          position: 'top',
         },
         borderRadius: 5,
         // horizontal: false
-        columnWidth: '50%'
-      }
+        columnWidth: '50%',
+      },
     },
     states: {
       hover: {
         filter: {
           type: 'darken',
-          value: 0.75
-        }
-      }
+          value: 0.75,
+        },
+      },
     },
     stroke: {
       curve: 'smooth',
       show: false,
-      width: [6, 4]
+      width: [6, 4],
     },
     tooltip: {
       enabled: true,
       followCursor: true,
-      theme: 'dark'
+      theme: 'dark',
     },
     xaxis: {
       axisBorder: {
-        show: true
+        show: true,
       },
       axisTicks: {
         show: false,
-        color: 'green'
+        color: 'green',
       },
       labels: {
         style: {
@@ -197,20 +191,20 @@ export class SummaryComponent implements OnInit {
         },
       },
       tooltip: {
-        enabled: false
+        enabled: false,
       },
     },
     yaxis: {
       show: false,
       axisBorder: {
-        show: true
+        show: true,
       },
       labels: {
         // offsetX: -16,
         style: {
-          colors: 'gray'
-        }
-      }
+          colors: 'gray',
+        },
+      },
     },
     responsive: [
       {
@@ -219,26 +213,21 @@ export class SummaryComponent implements OnInit {
           plotOptions: {
             bar: {
               dataLabels: {
-                position: 'top'
+                position: 'top',
               },
               // borderRadius: 5
               // horizontal: false
               // columnWidth: '50%'
-            }
+            },
           },
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
-
-  ngOnInit(): void {
-  }
 
   onclick(event: any): void {
     console.log(event);
   }
 
-  openDialog(): void {
-
-  }
+  openDialog(): void {}
 }

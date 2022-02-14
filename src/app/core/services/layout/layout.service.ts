@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Action } from '../../interfaces/Action';
+import { Action } from 'core/interfaces/Action';
 import { layoutInitialState } from '../../../app.config';
-import { Store } from '../../classes/store.class';
+import { Store } from 'core/classes/store.class';
 
 export interface LayoutState {
   theme: 'light' | 'dark';
@@ -14,16 +14,14 @@ export interface LayoutState {
 export type LayoutAction = Action<LayoutState>;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LayoutService {
   navTitle: string;
 
   showBottomNav = true;
 
-  constructor() {
-  }
-
+  constructor() {}
 
   /**
    * TODO
@@ -32,7 +30,7 @@ export class LayoutService {
    */
   store$ = new Store<LayoutAction, LayoutState>(
     layoutInitialState,
-    LayoutService.reducer
+    LayoutService.reducer,
   );
 
   state$ = this.store$.state$;
@@ -42,31 +40,34 @@ export class LayoutService {
       case 'SET_THEME': {
         return {
           ...state,
-          theme: action.payload
+          theme: action.payload,
         } as LayoutState;
       }
       case 'TOGGLE_THEME': {
         return {
           ...state,
-          theme: state.theme === 'light' ? 'dark' : 'light'
+          theme: state.theme === 'light' ? 'dark' : 'light',
         } as LayoutState;
       }
       case 'TOGGLE_SIDEBAR': {
         return {
           ...state,
-          expandSidebar: !state.expandSidebar
+          expandSidebar: !state.expandSidebar,
         };
       }
       case 'SET_TITLE': {
         return {
           ...state,
-          pageTitle: state.menu.find(v => v.url === action.payload)?.title || 'not found'
+          pageTitle:
+            state.menu.find((v) => v.url === action.payload)?.title ||
+            'not found',
         } as LayoutState;
       }
       case 'SET_SUBMENU': {
         return {
           ...state,
-          submenu: state.menu.find(v => v.url === action.payload)?.submenu || []
+          submenu:
+            state.menu.find((v) => v.url === action.payload)?.submenu || [],
         } as LayoutState;
       }
       default: {
@@ -78,27 +79,27 @@ export class LayoutService {
   setTheme(theme: string): void {
     this.store$.next({
       type: 'SET_THEME',
-      payload: theme
+      payload: theme,
     });
   }
 
   toggleTheme(): void {
     this.store$.next({
-      type: 'TOGGLE_THEME'
+      type: 'TOGGLE_THEME',
     });
   }
 
   setPageTitle(url: string): void {
     this.store$.next({
       type: 'SET_TITLE',
-      payload: url
+      payload: url,
     });
   }
 
   setSubmenu(url): void {
     this.store$.next({
       type: 'SET_SUBMENU',
-      payload: url
+      payload: url,
     });
   }
 }

@@ -4,7 +4,7 @@ import { pluck } from 'rxjs/operators';
 import { LayoutService } from '../layout/layout.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   constructor(
@@ -24,9 +24,7 @@ export class ThemeService {
   }
 
   listenThemeChanges(): void {
-    this.layoutService.state$.pipe(
-      pluck('theme'),
-    ).subscribe(theme => {
+    this.layoutService.state$.pipe(pluck('theme')).subscribe((theme) => {
       this.document.body.className = `${theme}-theme`;
       localStorage.setItem('theme', theme);
     });

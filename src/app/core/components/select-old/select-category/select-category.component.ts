@@ -1,7 +1,6 @@
 import {
   Component,
   Input,
-  OnInit,
   Output,
   EventEmitter,
   OnChanges,
@@ -13,46 +12,86 @@ import {
   template: `
     <div class="select-category" appFlex column>
       <ng-container *ngIf="!isActive">
-        <div (click)="isActive = true" appFlex row align="center" class="control-group right-icon pointer">
-          <input disabled type="text" class="control pointer" [class.subcategory]="subcategory" [placeholder]="subcategory?.name || 'Categoria'">
+        <div
+          (click)="isActive = true"
+          appFlex
+          row
+          align="center"
+          class="control-group right-icon pointer"
+        >
+          <input
+            disabled
+            type="text"
+            class="control pointer"
+            [class.subcategory]="subcategory"
+            [placeholder]="subcategory?.name || 'Categoria'"
+          />
           <app-icon size="17px" icon="expand_more"></app-icon>
         </div>
       </ng-container>
 
       <ng-container *ngIf="isActive">
         <ng-container *ngIf="showCategories && !showSubcategories">
-          <div appFlex row align="center" class="control-group left-icon right-icon">
+          <div
+            appFlex
+            row
+            align="center"
+            class="control-group left-icon right-icon"
+          >
             <app-icon size="17px" icon="search"></app-icon>
             <input
               class="control"
               [class.focus]="showCategories"
               type="text"
               placeholder="Buscar"
-              (keyup)="onSearch($event.target)">
-            <app-icon (click)="closeList()" size="17px" icon="expand_less"></app-icon>
+              (keyup)="onSearch($event.target)"
+            />
+            <app-icon
+              (click)="closeList()"
+              size="17px"
+              icon="expand_less"
+            ></app-icon>
           </div>
         </ng-container>
 
         <ng-container *ngIf="!showCategories && showSubcategories">
-          <div (click)="displayCategories()" appFlex row align="center" class="control-group left-icon right-icon">
-            <app-icon (click)="displayCategories()" size="17px" icon="chevron_left"></app-icon>
+          <div
+            (click)="displayCategories()"
+            appFlex
+            row
+            align="center"
+            class="control-group left-icon right-icon"
+          >
+            <app-icon
+              (click)="displayCategories()"
+              size="17px"
+              icon="chevron_left"
+            ></app-icon>
             <input
               type="text"
               class="control subcategory pointer"
               [class.focus]="showSubcategories"
               [placeholder]="subcategory?.name || 'Subcategoria'"
-              disabled>
-            <app-icon (click)="closeList()" size="17px" icon="expand_less"></app-icon>
+              disabled
+            />
+            <app-icon
+              (click)="closeList()"
+              size="17px"
+              icon="expand_less"
+            ></app-icon>
           </div>
         </ng-container>
 
         <div appFlex column class="options">
           <ng-container *ngIf="showCategories && !showSubcategories && !search">
             <div
-              appFlex row align="center"
+              appFlex
+              row
+              align="center"
               class="option-item"
               *ngFor="let category of categories"
-              (click)="selectCategory(category)">
+              (click)="selectCategory(category)"
+            >
               <app-icon icon="done"></app-icon>
               <span>
                 {{ category.name }}
@@ -62,14 +101,17 @@ import {
 
           <ng-container *ngIf="showSubcategories || search">
             <div
-              appFlex row align="center"
+              appFlex
+              row
+              align="center"
               class="option-item"
               *ngFor="let item of searchList"
               [class.active]="subcategory?.id === item.id"
-              (click)="selectSubcategory(item)">
+              (click)="selectSubcategory(item)"
+            >
               <app-icon icon="done"></app-icon>
               <span>
-                {{ item.name | lowercase}}
+                {{ item.name | lowercase }}
               </span>
             </div>
             <div class="option-item" *ngIf="!searchList.length">
@@ -82,7 +124,7 @@ import {
   `,
   styleUrls: ['./select-category.component.scss'],
 })
-export class SelectCategoryComponent implements OnInit, OnChanges {
+export class SelectCategoryComponent implements OnChanges {
   @Input() readonly categories: any[];
 
   @Input() readonly subcategories: any[];
@@ -106,9 +148,6 @@ export class SelectCategoryComponent implements OnInit, OnChanges {
 
   search = false;
 
-  ngOnInit(): void {
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.initializeSearchList(changes);
   }
@@ -130,8 +169,9 @@ export class SelectCategoryComponent implements OnInit, OnChanges {
   }
 
   selectCategory(category): void {
-    this.searchList = this.subcategories
-      .filter(v => v.categoryId === category.id);
+    this.searchList = this.subcategories.filter(
+      (v) => v.categoryId === category.id,
+    );
 
     this.displaySubcategories();
   }
@@ -167,8 +207,9 @@ export class SelectCategoryComponent implements OnInit, OnChanges {
   subcategoryWasAssigned(): void {
     this.showCategories = false;
     this.showSubcategories = true;
-    this.searchList = this.subcategories
-      .filter(v => v.categoryId === this.subcategory.categoryId);
+    this.searchList = this.subcategories.filter(
+      (v) => v.categoryId === this.subcategory.categoryId,
+    );
   }
 
   onSearch(target: EventTarget): void {
@@ -183,7 +224,8 @@ export class SelectCategoryComponent implements OnInit, OnChanges {
       this.search = true;
     }
 
-    this.searchList = this.subcategories
-      .filter(v => v.name.toLowerCase().includes(needle));
+    this.searchList = this.subcategories.filter((v) =>
+      v.name.toLowerCase().includes(needle),
+    );
   }
 }

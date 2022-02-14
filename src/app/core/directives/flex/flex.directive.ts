@@ -1,8 +1,7 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 
-
 @Directive({
-  selector: '[appFlex]'
+  selector: '[appFlex]',
 })
 export class FlexDirective {
   private rowValue = false;
@@ -87,5 +86,4 @@ export class FlexDirective {
         return 'stretch';
     }
   }
-
 }

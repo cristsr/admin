@@ -16,11 +16,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SelectModule } from 'core/components/select';
 import { CategoryModule } from 'core/components/category/category.module';
 
-
 @NgModule({
-  declarations: [
-    AddMovementComponent,
-  ],
+  declarations: [AddMovementComponent],
   imports: [
     CommonModule,
     AddMovementRoutingModule,
@@ -37,7 +34,7 @@ import { CategoryModule } from 'core/components/category/category.module';
     MatDatepickerModule,
     MatDialogModule,
     SelectModule,
-    CategoryModule
-  ]
+    CategoryModule,
+  ],
 })
-export class AddMovementModule { }
+export class AddMovementModule {}

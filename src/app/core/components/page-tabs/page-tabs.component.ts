@@ -4,17 +4,20 @@ import { PageService } from 'core/services/page/page.service';
 @Component({
   selector: 'app-page-tabs',
   host: {
-    class: 'row'
+    class: 'row',
   },
   template: `
-    <ng-container *ngIf="(submenu$ | async) as submenu">
-      <a class="tab-link"
-         *ngFor="let item of submenu"
-         [routerLink]="item.url"
-         routerLinkActive="active"
-         href="#" (click)="$event.preventDefault()">
+    <ng-container *ngIf="submenu$ | async as submenu">
+      <a
+        class="tab-link"
+        *ngFor="let item of submenu"
+        [routerLink]="item.url"
+        routerLinkActive="active"
+        href="#"
+        (click)="$event.preventDefault()"
+      >
         <app-icon [icon]="item.icon"></app-icon>
-        <span class="tab-title">{{item.title}}</span>
+        <span class="tab-title">{{ item.title }}</span>
       </a>
     </ng-container>
   `,
@@ -23,5 +26,5 @@ import { PageService } from 'core/services/page/page.service';
 export class PageTabsComponent {
   submenu$ = this.layoutService.submenu$;
 
-  constructor(private layoutService: PageService) { }
+  constructor(private layoutService: PageService) {}
 }

@@ -8,13 +8,13 @@ const routes: Routes = [
     path: '',
     component: MovementsComponent,
     resolve: {
-      data: MovementsResolver
+      data: MovementsResolver,
     },
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MovementsRoutingModule { }
+export class MovementsRoutingModule {}

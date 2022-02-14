@@ -8,13 +8,13 @@ const routes: Routes = [
     path: '',
     component: SummaryComponent,
     resolve: {
-      data: SummaryResolver
-    }
-  }
+      data: SummaryResolver,
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SummaryRoutingModule { }
+export class SummaryRoutingModule {}

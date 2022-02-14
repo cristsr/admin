@@ -4,19 +4,9 @@ import { SidebarComponent } from './sidebar.component';
 import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 
-
-
 @NgModule({
-  declarations: [
-    SidebarComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatRippleModule
-  ],
-  exports: [
-    SidebarComponent
-  ]
+  declarations: [SidebarComponent],
+  imports: [CommonModule, RouterModule, MatRippleModule],
+  exports: [SidebarComponent],
 })
-export class SidebarModule { }
+export class SidebarModule {}

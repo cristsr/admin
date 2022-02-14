@@ -1,5 +1,5 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { convertToBool } from '../../../utils/utils';
+import { Component, HostBinding, Input } from '@angular/core';
+import { convertToBool } from 'core/utils/utils';
 
 @Component({
   selector: 'app-tab',
@@ -8,9 +8,9 @@ import { convertToBool } from '../../../utils/utils';
       <ng-content></ng-content>
     </ng-container>
   `,
-  styleUrls: ['./tab.component.scss']
+  styleUrls: ['./tab.component.scss'],
 })
-export class TabComponent implements OnInit {
+export class TabComponent {
   @Input() tabTitle: string;
 
   @Input() icon: string;
@@ -26,10 +26,5 @@ export class TabComponent implements OnInit {
   @HostBinding('class.content-active')
   activeValue: boolean;
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
+  constructor() {}
 }
-

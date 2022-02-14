@@ -1,9 +1,16 @@
-import { Directive, EventEmitter, HostListener, Inject, Input, Output } from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
 import { WINDOW } from 'core/config';
 
 @Directive({
-  selector: '[appPan]'
+  selector: '[appPan]',
 })
 export class PanDirective {
   private speedValue: number;
@@ -17,23 +24,21 @@ export class PanDirective {
     console.log(this.speedValue);
   }
 
-  @Output() onMove = new EventEmitter();
-  @Output() onEnd = new EventEmitter();
+  @Output() move = new EventEmitter();
+  @Output() panend = new EventEmitter();
 
   @Output() right = new EventEmitter();
   @Output() left = new EventEmitter();
 
-  constructor(
-    @Inject(WINDOW) private window: Window
-  ) { }
+  constructor(@Inject(WINDOW) private window: Window) {}
 
   @HostListener('window:panstart', ['$event'])
   onPanStart(event: any): void {
     this.deltaX = event.deltaX;
     this.deltaY = event.deltaY;
 
-    this.onMove.emit({
-      percentage: 0
+    this.move.emit({
+      percentage: 0,
     });
   }
 
@@ -49,7 +54,7 @@ export class PanDirective {
 
     this.right.emit({
       percentage,
-      direction: event.additionalEvent
+      direction: event.additionalEvent,
     });
   }
 
@@ -65,16 +70,16 @@ export class PanDirective {
 
     this.left.emit({
       percentage,
-      direction: event.additionalEvent
+      direction: event.additionalEvent,
     });
   }
 
   @HostListener('window:panend', ['$event'])
   onPanEnd(event: any): void {
-    this.onEnd.emit({
+    this.panend.emit({
       velocityX: event.velocityX,
       velocityY: event.velocityY,
-      direction: event.additionalEvent
+      direction: event.additionalEvent,
     });
   }
 }

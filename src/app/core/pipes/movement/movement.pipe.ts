@@ -2,13 +2,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { FormatMovement, MovementOld } from 'core/interfaces/movementOld';
 
 @Pipe({
-  name: 'movement'
+  name: 'movement',
 })
 export class MovementPipe implements PipeTransform {
   transform(movements: MovementOld[]): FormatMovement[] {
     return movements.reduce((state: FormatMovement[], current: MovementOld) => {
-      const {date, ...item} = current;
-      const exist = state.find(v => v.date === date);
+      const { date, ...item } = current;
+      const exist = state.find((v) => v.date === date);
 
       if (exist) {
         exist.values.push(current);
@@ -17,7 +17,7 @@ export class MovementPipe implements PipeTransform {
 
       state.push({
         date,
-        values: [item]
+        values: [item],
       });
 
       return state;

@@ -11,14 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
-
-
 @NgModule({
   declarations: [SelectComponent, SelectCategoryComponent],
-  exports: [
-    SelectComponent,
-    SelectCategoryComponent
-  ],
+  exports: [SelectComponent, SelectCategoryComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -28,7 +23,7 @@ import { MatInputModule } from '@angular/material/input';
     IconModule,
     CardModule,
     ListModule,
-    MatInputModule
-  ]
+    MatInputModule,
+  ],
 })
-export class SelectModule { }
+export class SelectModule {}

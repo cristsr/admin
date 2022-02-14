@@ -9,10 +9,13 @@ export class HammerConfig extends HammerGestureConfig {
       touchAction: 'auto',
       inputClass: Hammer.TouchMouseInput,
       recognizers: [
-        [Hammer.Pan, {
-          direction: Hammer.DIRECTION_ALL
-        }],
-      ]
+        [
+          Hammer.Pan,
+          {
+            direction: Hammer.DIRECTION_ALL,
+          },
+        ],
+      ],
     });
   }
 }

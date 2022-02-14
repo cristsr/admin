@@ -4,9 +4,7 @@ import { ConfigService } from 'core/services/config/config.service';
 
 @NgModule()
 export class ConfigModule {
-
-  constructor(private config: ConfigService) {
-  }
+  constructor(private _config: ConfigService) {}
 
   static forRoot(config: any): ModuleWithProviders<ConfigModule> {
     return {
@@ -14,9 +12,9 @@ export class ConfigModule {
       providers: [
         {
           provide: APP_CONFIG,
-          useValue: config
-        }
-      ]
+          useValue: config,
+        },
+      ],
     };
   }
 }

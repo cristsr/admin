@@ -9,11 +9,8 @@ import { SidebarModule } from '../common/sidebar/sidebar.module';
 import { BottomNavModule } from '../common/bottom-nav/bottom-nav.module';
 import { DefaultLayoutComponent } from './default.component';
 
-
 @NgModule({
-  declarations: [
-    DefaultLayoutComponent
-  ],
+  declarations: [DefaultLayoutComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -22,8 +19,6 @@ import { DefaultLayoutComponent } from './default.component';
     BottomNavModule,
     PanModule,
   ],
-  exports: [
-    DefaultLayoutComponent
-  ]
+  exports: [DefaultLayoutComponent],
 })
-export class DefaultLayoutModule { }
+export class DefaultLayoutModule {}

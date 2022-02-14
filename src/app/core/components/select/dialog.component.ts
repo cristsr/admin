@@ -9,28 +9,47 @@ import { DialogConfig, List, Option, Sublist, Suboption, Type } from './types';
     <div class="flex flex-col">
       <span class="text-xl font-medium pb-4">Categorías</span>
 
-      <mat-form-field *ngIf="enableSearch" class="w-full" appearance="fill" floatLabel="auto">
+      <mat-form-field
+        *ngIf="enableSearch"
+        class="w-full"
+        appearance="fill"
+        floatLabel="auto"
+      >
         <mat-label>Descripción</mat-label>
         <mat-icon matPrefix class="text-purple-600 mr-2">search</mat-icon>
-        <input matInput [formControl]="searchControl">
-        <button *ngIf="isSearching" matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.reset()">
+        <input matInput [formControl]="searchControl" />
+        <button
+          *ngIf="isSearching"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="searchControl.reset()"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
 
       <ng-container *ngIf="showSublistHeader">
-        <div class="flex justify-between items-center rounded-xl py-1 mb-2 px-1 {{optionSelected.color}}">
+        <div
+          class="flex justify-between items-center rounded-xl py-1 mb-2 px-1 {{
+            optionSelected.color
+          }}"
+        >
           <div class="flex items-center">
             <div class="rounded-full w-8 h-8 flex justify-center items-center">
-              <mat-icon>{{optionSelected.icon}}</mat-icon>
+              <mat-icon>{{ optionSelected.icon }}</mat-icon>
             </div>
 
             <div class="pl-3 flex flex-col">
-              <div class="text-sm font-medium">{{optionSelected.name}}</div>
+              <div class="text-sm font-medium">{{ optionSelected.name }}</div>
             </div>
           </div>
 
-          <div matRipple (click)="showSublist = false" class="rounded-full w-8 h-8 flex justify-center items-center">
+          <div
+            matRipple
+            (click)="showSublist = false"
+            class="rounded-full w-8 h-8 flex justify-center items-center"
+          >
             <mat-icon>chevron_left</mat-icon>
           </div>
         </div>
@@ -45,7 +64,8 @@ import { DialogConfig, List, Option, Sublist, Suboption, Type } from './types';
             [icon]="option.icon"
             [label]="option.name"
             [selected]="option.id === value?.id"
-            (click)="selectOption(option)">
+            (click)="selectOption(option)"
+          >
           </app-list-option>
 
           <span *ngIf="!list?.length" class="text font-medium text-center">
@@ -61,7 +81,8 @@ import { DialogConfig, List, Option, Sublist, Suboption, Type } from './types';
             [icon]="optionSelected.icon"
             [label]="suboption.name"
             [selected]="suboption.id === value?.id"
-            (click)="selectSuboption(suboption)">
+            (click)="selectSuboption(suboption)"
+          >
           </app-list-option>
 
           <span *ngIf="!list?.length" class="text font-medium text-center">
@@ -71,7 +92,12 @@ import { DialogConfig, List, Option, Sublist, Suboption, Type } from './types';
       </div>
 
       <div class="flex justify-end">
-        <button mat-stroked-button class="h-10" color="primary" (click)="onAccept()">
+        <button
+          mat-stroked-button
+          class="h-10"
+          color="primary"
+          (click)="onAccept()"
+        >
           <mat-icon class="mr-1">done</mat-icon>
           <span>Aceptar</span>
         </button>
@@ -98,14 +124,14 @@ export class DialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     private config: DialogConfig,
     private dialogRef: MatDialogRef<DialogComponent>,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.list = this.config.list;
     this.value = this.config.value;
     this.enableSearch = this.config.enableSearch;
     this.type = this.config.type;
-    this.searchControl.valueChanges.subscribe(value => this.onSearch(value));
+    this.searchControl.valueChanges.subscribe((value) => this.onSearch(value));
   }
 
   selectOption(value: Option): void {
@@ -115,7 +141,7 @@ export class DialogComponent implements OnInit {
       this.optionSelected = value;
       this.showSublist = true;
       this.sublist = this.config.sublist.filter(
-        ({option}) => option === value.id
+        ({ option }) => option === value.id,
       );
     }
   }
@@ -134,25 +160,23 @@ export class DialogComponent implements OnInit {
     }
 
     if (this.type === 'default') {
-      this.list = this.config.list.filter(
-        ({name}) => name.toLowerCase().includes(value.toLowerCase())
+      this.list = this.config.list.filter(({ name }) =>
+        name.toLowerCase().includes(value.toLowerCase()),
       );
     } else {
-
     }
 
     // reset list
 
-
-    this.list = this.list.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
+    this.list = this.list.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase()),
+    );
   }
 
   resetSearch(): void {
     this.list = this.config.list;
     if (this.type === 'default') {
-
     } else {
-
     }
   }
 

@@ -27,6 +27,6 @@ export interface Movement {
       };
       description: string;
       quantity: number;
-    }
+    },
   ];
 }

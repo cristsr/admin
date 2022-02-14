@@ -11,12 +11,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MovementsListComponent } from 'modules/finances/movements/list/movements-list.component';
 import { MovementModule } from 'core/pipes/movement/movement.module';
 
-
 @NgModule({
   declarations: [
     MovementsComponent,
     MovementsListComponent,
-    MovementDetailComponent
+    MovementDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -25,7 +24,7 @@ import { MovementModule } from 'core/pipes/movement/movement.module';
     MatIconModule,
     MatRippleModule,
     MatDialogModule,
-    MovementModule
+    MovementModule,
   ],
 })
-export class MovementsModule { }
+export class MovementsModule {}

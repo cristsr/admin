@@ -10,7 +10,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./add-movement.component.scss'],
 })
 export class AddMovementComponent implements OnInit {
-
   form = this.fb.group({
     date: [new Date(), Validators.required],
     description: [null, Validators.required],
@@ -24,7 +23,7 @@ export class AddMovementComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
   ) {}
 
   ngOnInit(): void {
@@ -35,10 +34,12 @@ export class AddMovementComponent implements OnInit {
 
     this.categoryService.subcategories$
       .pipe(
-        map(v => v.map(({category, ...rest}) => ({
-          ...rest,
-          option: category,
-        })))
+        map((v) =>
+          v.map(({ category, ...rest }) => ({
+            ...rest,
+            option: category,
+          })),
+        ),
       )
       .subscribe((data: any) => {
         this.subcategories = data;

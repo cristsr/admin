@@ -12,11 +12,8 @@ import { LayoutModule } from 'layout/layout.module';
 import { HammerConfig } from 'core/config';
 import { WINDOW } from 'core/config';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HammerModule,
@@ -24,19 +21,19 @@ import { WINDOW } from 'core/config';
     HttpClientModule,
     NgApexchartsModule,
     BrowserAnimationsModule,
-    LayoutModule
+    LayoutModule,
   ],
   providers: [
     ThemeService,
     {
       provide: WINDOW,
-      useValue: window
+      useValue: window,
     },
     {
       provide: HAMMER_GESTURE_CONFIG,
-      useClass: HammerConfig
-    }
+      useClass: HammerConfig,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -11,13 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListOptionComponent } from './list-option.component';
 
-
 @NgModule({
-  declarations: [
-    SelectComponent,
-    DialogComponent,
-    ListOptionComponent
-  ],
+  declarations: [SelectComponent, DialogComponent, ListOptionComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -28,9 +23,6 @@ import { ListOptionComponent } from './list-option.component';
     MatButtonModule,
     ReactiveFormsModule,
   ],
-  exports: [
-    SelectComponent,
-  ]
+  exports: [SelectComponent],
 })
-export class SelectModule {
-}
+export class SelectModule {}

@@ -1,19 +1,29 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
-  filter, map, pairwise,
+  filter,
+  map,
+  pairwise,
   pluck,
   switchMapTo,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 import { Menu } from 'core/interfaces/menu';
 import { SidebarService } from 'layout/services/sidebar.service';
 import { WINDOW } from 'core/config';
 import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
-
 
 @Component({
   selector: 'app-sidebar',
@@ -22,21 +32,20 @@ import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
     <div
       class="top-0 bottom-0 px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
       [class.flex]="showSidebar"
-      [ngStyle]="{'transform': translate$ | async}"
-      [class.hidden]="!showSidebar">
-
+      [ngStyle]="{ transform: translate$ | async }"
+      [class.hidden]="!showSidebar"
+    >
       <!-- header -->
       <div class="flex flex-col pt-14 items-center">
         <div class="h-24 w-24">
           <img
             class="object-cover border-none rounded-full w-full h-full"
             src="assets/img/profile.jpeg"
-            alt="">
+            alt=""
+          />
         </div>
         <div class="flex items-center flex-col pt-4">
-          <div class="leading-normal font-medium">
-            Cristian Puenguenan
-          </div>
+          <div class="leading-normal font-medium">Cristian Puenguenan</div>
           <div class="leading-normal text-xs font-medium">
             styven21121@gmail.com
           </div>
@@ -46,12 +55,16 @@ import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
       <!-- Menu -->
       <ul class="pt-6">
         <li *ngFor="let menuItem of menu; index as i">
-          <div matRipple
-               class="rounded-xl flex items-center py-3 my-2 text-gray-800"
-               (click)="onLinkClick(menuItem)"
-               [routerLink]="menuItem.url"
-               routerLinkActive="active">
-            <span class="pl-3 pr-4 material-icons-outlined">{{ menuItem.icon }}</span>
+          <div
+            matRipple
+            class="rounded-xl flex items-center py-3 my-2 text-gray-800"
+            (click)="onLinkClick(menuItem)"
+            [routerLink]="menuItem.url"
+            routerLinkActive="active"
+          >
+            <span class="pl-3 pr-4 material-icons-outlined">{{
+              menuItem.icon
+            }}</span>
             <span class="text-base font-medium">{{ menuItem.title }}</span>
           </div>
         </li>
@@ -62,11 +75,11 @@ import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
     <div
       *ngIf="isMobile && showSidebar"
       class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-20"
-      (click)="hideSidebar()">
-    </div>
+      (click)="hideSidebar()"
+    ></div>
   `,
   styleUrls: ['./sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit {
   @Input() menu: Menu[];
@@ -82,7 +95,7 @@ export class SidebarComponent implements OnInit {
 
   get translate$(): Observable<string> {
     return this.translate.pipe(
-      map(percentage => `translateX(${-100 + percentage}%)`)
+      map((percentage) => `translateX(${-100 + percentage}%)`),
     );
   }
 
@@ -100,14 +113,13 @@ export class SidebarComponent implements OnInit {
   constructor(
     @Inject(WINDOW) private window: Window,
     private cd: ChangeDetectorRef,
-    private sidebarService: SidebarService
-  ) {
-  }
+    private sidebarService: SidebarService,
+  ) {}
 
   ngOnInit(): void {
     const panHorizontalStart$ = this.sidebarService.panStart$.pipe(
-      filter(({direction}) => isHorizontal(direction)),
-      tap(({direction}) => console.warn('START DIRECTION', direction))
+      filter(({ direction }) => isHorizontal(direction)),
+      tap(({ direction }) => console.warn('START DIRECTION', direction)),
     );
 
     const panHorizontal$ = this.sidebarService.panHorizontal$;
@@ -115,42 +127,40 @@ export class SidebarComponent implements OnInit {
     const changeDirection$ = panHorizontal$.pipe(
       pluck('direction'),
       distinctUntilChanged(),
-      tap(direction => console.warn('DIRECTION CHANGE', direction)),
+      tap((direction) => console.warn('DIRECTION CHANGE', direction)),
     );
 
     const differentialX$ = panHorizontal$.pipe(
       pluck('deltaX'),
       pairwise(),
       map(([prev, curr]) => this.normalizeDelta(Math.abs(prev - curr))),
-      tap(e => console.log('DIFFERENTIAL', e)),
+      tap((e) => console.log('DIFFERENTIAL', e)),
     );
 
     const source$ = panHorizontalStart$.pipe(
       switchMapTo(
         differentialX$.pipe(
           filter(() => {
-            const {value} = this.translate;
+            const { value } = this.translate;
             return !(value < 0 || value > 100);
           }),
           withLatestFrom(changeDirection$),
-          map(([diff, direction]) => ({direction, diff}))
-        )
+          map(([diff, direction]) => ({ direction, diff })),
+        ),
       ),
       tap(() => console.log('START SOURCE EMMIT')),
       // map(({diff, direction}) => {
-        // if ()
+      // if ()
       // })
     );
 
     // @ts-ignore
-    source$.subscribe(({diff, direction}) => {
+    source$.subscribe(({ diff, direction }) => {
       console.log('STREAM', diff, direction);
 
-      const {value} = this.translate;
+      const { value } = this.translate;
 
-      const result = isRight(direction)
-        ? value + diff
-        : value - diff;
+      const result = isRight(direction) ? value + diff : value - diff;
 
       console.log('RESULT', result);
 
@@ -173,10 +183,9 @@ export class SidebarComponent implements OnInit {
       this.cd.markForCheck();
     });
 
-
     this.sidebarService.panEnd$.subscribe({
-      next: panend => {
-        const {value} = this.translate;
+      next: (panend) => {
+        const { value } = this.translate;
         const velocity = Math.abs(panend.velocity);
 
         if (isRight(panend.direction)) {
@@ -211,7 +220,7 @@ export class SidebarComponent implements OnInit {
         console.log('');
 
         this.cd.markForCheck();
-      }
+      },
     });
 
     this.listenWindowResize();
@@ -220,7 +229,7 @@ export class SidebarComponent implements OnInit {
   listenWindowResize(): void {
     const stream = fromEvent(this.window, 'resize').pipe(
       debounceTime(50),
-      pluck<Event, number>('target', 'innerWidth')
+      pluck<Event, number>('target', 'innerWidth'),
     );
 
     stream.subscribe((width: number) => {

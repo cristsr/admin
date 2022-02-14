@@ -9,11 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
-
 @NgModule({
-  declarations: [
-    SummaryComponent
-  ],
+  declarations: [SummaryComponent],
   imports: [
     CommonModule,
     SummaryRoutingModule,
@@ -21,7 +18,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    NgApexchartsModule
-  ]
+    NgApexchartsModule,
+  ],
 })
-export class SummaryModule { }
+export class SummaryModule {}

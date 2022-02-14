@@ -4,19 +4,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { merge } from 'lodash-es';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigService {
-
   private configValue: BehaviorSubject<any>;
-
 
   constructor(@Inject(APP_CONFIG) config: any) {
     this.configValue = new BehaviorSubject(config);
   }
 
-  set config(value: any)
-  {
+  set config(value: any) {
     // Merge the new config over to the current config
     const config = merge({}, this.configValue.getValue(), value);
 
@@ -24,8 +21,7 @@ export class ConfigService {
     this.configValue.next(config);
   }
 
-  get config$(): Observable<any>
-  {
+  get config$(): Observable<any> {
     return this.configValue.asObservable();
   }
 }

@@ -9,11 +9,8 @@ import { IconModule } from 'core/components/icon/icon.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @NgModule({
-  declarations: [
-    BudgetsComponent
-  ],
+  declarations: [BudgetsComponent],
   imports: [
     CommonModule,
     BudgetsRoutingModule,
@@ -21,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     ThousandSuffixesModule,
     IconModule,
     MatButtonModule,
-    MatIconModule
-  ]
+    MatIconModule,
+  ],
 })
-export class BudgetsModule { }
+export class BudgetsModule {}

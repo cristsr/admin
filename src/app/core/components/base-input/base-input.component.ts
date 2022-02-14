@@ -1,5 +1,16 @@
-import { Component, DoCheck, ElementRef, Input, OnDestroy } from '@angular/core';
-import { FormGroupDirective, NgControl, NgForm, Validators } from '@angular/forms';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import {
+  FormGroupDirective,
+  NgControl,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormField } from '@angular/material/form-field';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -15,9 +26,12 @@ import { ErrorState, onChangeFn, onTouchedFn } from './base-input.utils';
     '[attr.aria-labelledby]': 'formField?.getLabelId()',
     '(focusin)': 'onFocusIn()',
     '(focusout)': 'onFocusOut()',
-  }
+  },
 })
-export class BaseInputComponent extends ErrorState implements DoCheck, OnDestroy {
+export class BaseInputComponent
+  extends ErrorState
+  implements DoCheck, OnDestroy
+{
   controlType: string;
   id: string;
   focused: boolean;
@@ -42,7 +56,11 @@ export class BaseInputComponent extends ErrorState implements DoCheck, OnDestroy
 
   @Input()
   get required(): boolean {
-    return this._required ?? this.ngControl?.control?.hasValidator(Validators.required) ?? false;
+    return (
+      this._required ??
+      this.ngControl?.control?.hasValidator(Validators.required) ??
+      false
+    );
   }
   set required(value: BooleanInput) {
     this._required = coerceBooleanProperty(value);
@@ -86,7 +104,7 @@ export class BaseInputComponent extends ErrorState implements DoCheck, OnDestroy
     public parentFormGroup: FormGroupDirective,
     public ngControl: NgControl,
     public formField: MatFormField,
-    public elementRef: ElementRef<HTMLElement>
+    public elementRef: ElementRef<HTMLElement>,
   ) {
     super(defaultErrorStateMatcher, parentForm, parentFormGroup, ngControl);
 
@@ -148,7 +166,10 @@ export class BaseInputComponent extends ErrorState implements DoCheck, OnDestroy
 
   setDescribedByIds(ids: string[]): void {
     if (!!ids.length) {
-      this.elementRef.nativeElement.setAttribute('aria-describedby', ids.join(' '));
+      this.elementRef.nativeElement.setAttribute(
+        'aria-describedby',
+        ids.join(' '),
+      );
     }
   }
 }

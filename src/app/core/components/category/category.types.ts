@@ -13,4 +13,6 @@ export interface Subcategory {
   name: string;
 }
 
-export type SubcategoriesQuery = (category: string) => Observable<Subcategory[]>;
+export type SubcategoriesQuery = (
+  category: string,
+) => Observable<Subcategory[]>;

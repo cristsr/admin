@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { pluck } from 'rxjs/operators';
-import { Store } from '../../classes/store.class';
-import { Action } from '../../interfaces/Action';
+import { Store } from 'core/classes/store.class';
+import { Action } from 'core/interfaces/Action';
 
 export interface SelectCategoryState {
   isDisabled: boolean;
@@ -11,10 +11,9 @@ export interface SelectCategoryState {
 export type SelectCategoryAction = Action<SelectCategoryState>;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SelectCategoryService {
-
   data = 0;
 
   store$ = new Store<SelectCategoryAction, SelectCategoryState>(
@@ -22,16 +21,12 @@ export class SelectCategoryService {
       isDisabled: true,
       category: null,
     },
-    SelectCategoryService.reducer
+    SelectCategoryService.reducer,
   );
 
-  isActive$ = this.store$.state$.pipe(
-    pluck('isDisabled')
-  );
+  isActive$ = this.store$.state$.pipe(pluck('isDisabled'));
 
-  subcategories$ = this.store$.state$.pipe(
-    pluck('isDisabled')
-  );
+  subcategories$ = this.store$.state$.pipe(pluck('isDisabled'));
 
   constructor() {
     console.log('service created');
@@ -39,19 +34,19 @@ export class SelectCategoryService {
 
   private static reducer(
     state: SelectCategoryState,
-    action: SelectCategoryAction
+    action: SelectCategoryAction,
   ): SelectCategoryState {
     switch (action.type) {
       case 'IS_ACTIVE': {
         return {
           ...state,
-          isDisabled: action.payload
+          isDisabled: action.payload,
         };
       }
       case 'SELECT_CATEGORY': {
         return {
           ...state,
-          category: action.payload
+          category: action.payload,
         };
       }
       default: {
@@ -63,14 +58,14 @@ export class SelectCategoryService {
   isDisabled(isActive: boolean): void {
     this.store$.next({
       type: 'IS_ACTIVE',
-      payload: isActive
+      payload: isActive,
     });
   }
 
   selectCategory(category): void {
     this.store$.next({
       type: 'SELECT_CATEGORY',
-      payload: category
+      payload: category,
     });
   }
 }

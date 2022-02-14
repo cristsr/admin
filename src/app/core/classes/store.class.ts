@@ -4,7 +4,7 @@ import { scan, startWith } from 'rxjs/operators';
 export class Store<Action, State> extends ReplaySubject<Action> {
   constructor(
     private initialState: State,
-    private reducer: (state: State, action: Action) => State
+    private reducer: (state: State, action: Action) => State,
   ) {
     super(1);
   }

@@ -1,26 +1,34 @@
 import {
-  Component, DoCheck,
+  Component,
   ElementRef,
   EventEmitter,
   Inject,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   Optional,
   Output,
   Self,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
-import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormGroupDirective,
+  NgControl,
+  NgForm,
+} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MAT_FORM_FIELD, MatFormField, MatFormFieldControl } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD,
+  MatFormField,
+  MatFormFieldControl,
+} from '@angular/material/form-field';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DialogComponent } from './dialog.component';
 import { Option, DialogConfig, List, Sublist, Type } from './types';
 import { BaseInputComponent } from 'core/components/base-input/base-input.component';
 
-
-// tslint:disable-next-line:no-conflicting-lifecycle
 @Component({
   selector: 'app-select',
   template: `
@@ -28,17 +36,24 @@ import { BaseInputComponent } from 'core/components/base-input/base-input.compon
       class="bg-transparent"
       readonly
       [disabled]="disabled"
-      [value]="value?.name">
+      [value]="value?.name"
+    />
   `,
   providers: [
     {
       provide: MatFormFieldControl,
-      useExisting: SelectComponent
-    }
-  ]
+      useExisting: SelectComponent,
+    },
+  ],
 })
-export class SelectComponent extends BaseInputComponent implements
-  OnChanges, DoCheck, OnDestroy, ControlValueAccessor, MatFormFieldControl<Option> {
+export class SelectComponent
+  extends BaseInputComponent
+  implements
+    OnChanges,
+    OnDestroy,
+    ControlValueAccessor,
+    MatFormFieldControl<Option>
+{
   private static nextId = 0;
   private dialogRef: MatDialogRef<DialogComponent, Option>;
 
@@ -104,7 +119,14 @@ export class SelectComponent extends BaseInputComponent implements
     public elementRef: ElementRef<HTMLElement>,
     private dialog: MatDialog,
   ) {
-    super(defaultErrorStateMatcher, parentForm, parentFormGroup, ngControl, formField, elementRef);
+    super(
+      defaultErrorStateMatcher,
+      parentForm,
+      parentFormGroup,
+      ngControl,
+      formField,
+      elementRef,
+    );
 
     this.setControlType('category');
     this.setId(SelectComponent.nextId++);
@@ -123,19 +145,24 @@ export class SelectComponent extends BaseInputComponent implements
       return;
     }
 
-    this.dialogRef = this.dialog.open<DialogComponent, DialogConfig, Option>(DialogComponent, {
-      data: {
-        list: this.list,
-        sublist: this.sublist,
-        value: this.value,
-        enableSearch: this.enableSearch,
-        type: this.type,
+    this.dialogRef = this.dialog.open<DialogComponent, DialogConfig, Option>(
+      DialogComponent,
+      {
+        data: {
+          list: this.list,
+          sublist: this.sublist,
+          value: this.value,
+          enableSearch: this.enableSearch,
+          type: this.type,
+        },
+        width: '80%',
+        autoFocus: false,
       },
-      width: '80%',
-      autoFocus: false,
-    });
+    );
 
-    this.dialogRef.afterClosed().subscribe(result => this.updateValue(result));
+    this.dialogRef
+      .afterClosed()
+      .subscribe((result) => this.updateValue(result));
   }
 
   updateValue(value: Option): void {

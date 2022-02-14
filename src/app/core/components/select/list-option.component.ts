@@ -3,14 +3,21 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-list-option',
   template: `
-    <div matRipple class="flex justify-between items-center rounded-xl py-1.5 px-1">
+    <div
+      matRipple
+      class="flex justify-between items-center rounded-xl py-1.5 px-1"
+    >
       <div class="flex items-center">
-        <div class="rounded-full w-8 h-8 flex justify-center items-center {{color}}">
-          <mat-icon>{{icon}}</mat-icon>
+        <div
+          class="rounded-full w-8 h-8 flex justify-center items-center {{
+            color
+          }}"
+        >
+          <mat-icon>{{ icon }}</mat-icon>
         </div>
 
         <div class="pl-3 flex flex-col">
-          <div class="text-sm font-medium">{{label}}</div>
+          <div class="text-sm font-medium">{{ label }}</div>
         </div>
       </div>
 

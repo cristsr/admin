@@ -4,19 +4,9 @@ import { NavComponent } from './nav.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
-
-
 @NgModule({
-  declarations: [
-    NavComponent
-  ],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  exports: [
-    NavComponent
-  ]
+  declarations: [NavComponent],
+  imports: [CommonModule, MatIconModule, MatButtonModule],
+  exports: [NavComponent],
 })
-export class NavModule { }
+export class NavModule {}

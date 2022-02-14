@@ -6,38 +6,36 @@ import { ActivatedRoute } from '@angular/router';
 
 const { Camera } = Plugins;
 
-
 @Component({
   selector: 'app-movements',
   templateUrl: 'movements.component.html',
-  styleUrls: ['./movements.component.scss']
+  styleUrls: ['./movements.component.scss'],
 })
 export class MovementsComponent implements OnInit {
   expenseView: string;
 
   constructor(
     public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute
-  ) {
-  }
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(console.log)
+    this.activatedRoute.data.subscribe(console.log);
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(MovementDetailComponent, {
       data: {
-        hello: 'world'
-      }
+        hello: 'world',
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
 
     dialogRef.componentInstance.data2 = {
-      hello: 'world'
+      hello: 'world',
     };
   }
 
@@ -62,6 +60,3 @@ export class MovementsComponent implements OnInit {
     window.alert('new movement');
   }
 }
-
-
-

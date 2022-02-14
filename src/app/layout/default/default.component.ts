@@ -10,28 +10,27 @@ import { SidebarService } from 'layout/services/sidebar.service';
 @Component({
   selector: 'app-default-layout',
   host: {
-    class: ''
+    class: '',
   },
   template: `
-    <div class="relative flex h-screen w-screen select-none"
-         (panstart)="onPanStart($event)"
-         (panmove)="onPanMove($event)"
-         (panend)="onPanEnd($event)">
-
+    <div
+      class="relative flex h-screen w-screen select-none"
+      (panstart)="onPanStart($event)"
+      (panmove)="onPanMove($event)"
+      (panend)="onPanEnd($event)"
+    >
       <!-- Sidebar -->
       <app-sidebar
         [menu]="menu"
         (label)="onLabel($event)"
-        (menuChange)="onLinkClick($event)">
+        (menuChange)="onLinkClick($event)"
+      >
       </app-sidebar>
 
       <div class="flex flex-col h-screen w-full">
         <!-- Navbar -->
 
-        <app-nav
-          (menuToggle)="toggleSidebar()"
-          [title]="navTitle">
-        </app-nav>
+        <app-nav (menuToggle)="toggleSidebar()" [title]="navTitle"> </app-nav>
 
         <div class="flex flex-col h-screen overflow-y-auto bg-gray-100">
           <router-outlet></router-outlet>
@@ -42,12 +41,13 @@ import { SidebarService } from 'layout/services/sidebar.service';
           *ngIf="showBottomNav"
           linkActiveClass="text-blue-500"
           [config]="currentSubmenu"
-          (action)="onAction($event)">
+          (action)="onAction($event)"
+        >
         </app-bottom-nav>
       </div>
     </div>
   `,
-  styleUrls: ['./default.component.scss']
+  styleUrls: ['./default.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
   @ViewChild(SidebarComponent) sidebarRef: SidebarComponent;
@@ -65,27 +65,27 @@ export class DefaultLayoutComponent implements OnInit {
           icon: 'pie_chart_outline',
           title: 'Resumen',
           url: 'finances/summary',
-          type: 'link'
+          type: 'link',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
           url: 'finances/movements',
-          type: 'link'
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
-          type: 'link'
+          type: 'link',
         },
         {
           icon: 'add',
           title: 'Presupuestos',
           url: 'finances/add-movement',
-          type: 'link'
+          type: 'link',
         },
-      ]
+      ],
     },
     {
       icon: 'school',
@@ -96,27 +96,27 @@ export class DefaultLayoutComponent implements OnInit {
           icon: 'description',
           title: 'Resumen',
           url: 'finances/summary',
-          type: 'link'
+          type: 'link',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
           url: 'finances/movements',
-          type: 'link'
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
-          type: 'link'
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuetos',
           url: 'finances/budgets',
-          type: 'link'
+          type: 'link',
         },
-      ]
+      ],
     },
     {
       icon: 'description',
@@ -132,7 +132,7 @@ export class DefaultLayoutComponent implements OnInit {
       icon: 'settings',
       title: 'Ajustes',
       url: 'settings',
-    }
+    },
   ];
 
   currentSubmenu: Submenu[];
@@ -140,7 +140,6 @@ export class DefaultLayoutComponent implements OnInit {
   layout: 'default' | 'empty';
 
   sidebarLabel: Record<any, any>;
-
 
   get navTitle(): string {
     return this.layoutService.navTitle;
@@ -155,16 +154,15 @@ export class DefaultLayoutComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private layoutService: LayoutService,
     private sidebarService: SidebarService,
-    private activatedRoute: ActivatedRoute
-  ) {
-  }
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-    const defaultMenu = this.menu.find(v => v.default);
+    const defaultMenu = this.menu.find((v) => v.default);
     this.showOrHideBottomNav(defaultMenu);
 
     this.activatedRoute.data.subscribe({
-      next: ({layout}) => this.layout = layout,
+      next: ({ layout }) => (this.layout = layout),
     });
   }
 
@@ -203,8 +201,6 @@ export class DefaultLayoutComponent implements OnInit {
   onPanEnd(event: HammerInput): void {
     this.sidebarService.onPanEnd(event);
   }
-
-
 
   onLabel(event: Record<any, any>): void {
     this.sidebarLabel = event;

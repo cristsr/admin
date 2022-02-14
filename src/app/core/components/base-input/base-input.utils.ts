@@ -8,7 +8,7 @@ export const ErrorState = mixinErrorState(
       public _parentForm: NgForm,
       public _parentFormGroup: FormGroupDirective,
       public ngControl: NgControl,
-    ) { }
+    ) {}
   },
 );
 

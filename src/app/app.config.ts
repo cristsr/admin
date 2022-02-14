@@ -13,19 +13,19 @@ export const layoutInitialState: LayoutState = {
         {
           icon: 'analytics',
           title: 'Resumen',
-          url: 'finances/summary'
+          url: 'finances/summary',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
-          url: 'finances/movements'
+          url: 'finances/movements',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
         },
-      ]
+      ],
     },
     {
       icon: 'school',
@@ -35,12 +35,12 @@ export const layoutInitialState: LayoutState = {
         {
           icon: 'description',
           title: 'Resumen',
-          url: 'finances/summary'
+          url: 'finances/summary',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
-          url: 'finances/movements'
+          url: 'finances/movements',
         },
         {
           icon: 'attach_money',
@@ -52,7 +52,7 @@ export const layoutInitialState: LayoutState = {
           title: 'Presupuetos',
           url: 'finances/budgets',
         },
-      ]
+      ],
     },
     {
       icon: 'description',
@@ -68,7 +68,7 @@ export const layoutInitialState: LayoutState = {
       icon: 'settings',
       title: 'Ajustes',
       url: 'settings',
-    }
+    },
   ],
-  submenu: []
+  submenu: [],
 };
