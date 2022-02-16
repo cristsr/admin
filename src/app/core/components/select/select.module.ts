@@ -10,9 +10,10 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ListOptionComponent } from './list-option.component';
+import { ListHeaderComponent } from './list-header.component';
 
 @NgModule({
-  declarations: [SelectComponent, DialogComponent, ListOptionComponent],
+  declarations: [SelectComponent, DialogComponent, ListOptionComponent, ListHeaderComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,

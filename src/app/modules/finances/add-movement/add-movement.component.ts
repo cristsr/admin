@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../services/category/category.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { List, Sublist } from 'core/components/select';
 import { map } from 'rxjs/operators';
+import { CategoryService } from '../services/category/category.service';
+import { Option } from 'core/components/select';
 
 @Component({
   selector: 'app-add-movement',
@@ -13,13 +13,12 @@ export class AddMovementComponent implements OnInit {
   form = this.fb.group({
     date: [new Date(), Validators.required],
     description: [null, Validators.required],
-    amount: [null, Validators.required],
+    amount: [null, [Validators.required, Validators.min(0)]],
     category: [null, Validators.required],
     test: [null, Validators.required],
   });
 
-  categories: List;
-  subcategories: Sublist;
+  categories: Option[];
 
   constructor(
     private fb: FormBuilder,
@@ -27,28 +26,23 @@ export class AddMovementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.categories$.subscribe((data: any) => {
-      this.categories = data;
-      console.log('List options', this.categories);
+    this.form.controls.amount.statusChanges.subscribe((v) => {
+      console.log(v);
     });
 
-    this.categoryService.subcategories$
+    this.categoryService.categories$
       .pipe(
-        map((v) =>
-          v.map(({ category, ...rest }) => ({
+        map<any[], Option[]>((categories) =>
+          categories.map(({ subcategories, ...rest }) => ({
             ...rest,
-            option: category,
+            suboptions: subcategories,
           })),
         ),
       )
-      .subscribe((data: any) => {
-        this.subcategories = data;
-        console.log('Sublist options', this.subcategories);
+      .subscribe((data: Option[]) => {
+        this.categories = data;
+        console.log('List options', this.categories);
       });
-  }
-
-  onCategoryChanges(category: any): void {
-    console.log('Category menuChange', category);
   }
 
   onSubmit(): void {

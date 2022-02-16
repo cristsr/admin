@@ -6,10 +6,10 @@
       <div class="text-lg font-medium pb-4">Agregar movimiento</div>
 
       <form class="flex flex-col w-full max-w-sm mx-auto gap-2" [formGroup]="form" (submit)="onSubmit()">
-        <mat-form-field appearance="fill" floatLabel="auto">
+        <mat-form-field (click)='picker.open()' appearance="fill" floatLabel="auto">
           <mat-icon matPrefix class="text-purple-600 mr-2">today</mat-icon>
           <mat-label>Fecha</mat-label>
-          <input matInput formControlName="date" [matDatepicker]="picker">
+          <input matInput formControlName="date" readonly [matDatepicker]="picker">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -17,13 +17,13 @@
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Descripción</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">mode_edit</mat-icon>
-          <input matInput placeholder="" formControlName="description">
+          <input matInput formControlName="description" autocomplete="off"/>
         </mat-form-field>
 
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>Total</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">monetization_on</mat-icon>
-          <input matInput class="ml-4" placeholder="" formControlName="amount">
+          <input matInput type="number" formControlName="amount" autocomplete="off"/>
         </mat-form-field>
 
 
@@ -33,8 +33,7 @@
           <app-select
             formControlName="category"
             type="nested"
-            [list]="categories"
-            [sublist]="subcategories"
+            [options]="categories"
             enableSearch>
           </app-select>
         </mat-form-field>

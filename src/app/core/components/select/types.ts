@@ -3,22 +3,23 @@ export interface Option {
   name: string;
   color: string;
   icon: string;
+  suboptions?: Suboption[];
 }
 
 export interface Suboption {
   id: string;
   name: string;
-  option: string;
 }
 
 export interface DialogConfig {
-  list: List;
-  sublist?: Sublist;
-  value: Option;
+  options: Option[];
+  value: DialogResult;
   enableSearch: boolean;
   type: Type;
 }
 
-export type List = Option[];
-export type Sublist = Suboption[];
+export interface DialogResult extends Omit<Option, 'suboptions'> {
+  suboption?: Suboption;
+}
+
 export type Type = 'default' | 'nested';

@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <div
       matRipple
-      class="flex justify-between items-center rounded-xl py-1.5 px-1"
+      class="flex justify-between items-center rounded-xl py-2 px-1"
     >
       <div class="flex items-center">
         <div

@@ -5,7 +5,6 @@ import {
   Inject,
   Input,
   OnChanges,
-  OnDestroy,
   Optional,
   Output,
   Self,
@@ -26,7 +25,7 @@ import {
 } from '@angular/material/form-field';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DialogComponent } from './dialog.component';
-import { Option, DialogConfig, List, Sublist, Type } from './types';
+import { Option, Type, DialogResult } from './types';
 import { BaseInputComponent } from 'core/components/base-input/base-input.component';
 
 @Component({
@@ -48,14 +47,10 @@ import { BaseInputComponent } from 'core/components/base-input/base-input.compon
 })
 export class SelectComponent
   extends BaseInputComponent
-  implements
-    OnChanges,
-    OnDestroy,
-    ControlValueAccessor,
-    MatFormFieldControl<Option>
+  implements OnChanges, ControlValueAccessor, MatFormFieldControl<Option>
 {
   private static nextId = 0;
-  private dialogRef: MatDialogRef<DialogComponent, Option>;
+  private dialogRef: MatDialogRef<DialogComponent, DialogResult>;
 
   @Input()
   get type(): Type {
@@ -68,24 +63,14 @@ export class SelectComponent
   private _type: Type = 'default';
 
   @Input()
-  get list(): List {
-    return this._list;
+  get options(): Option[] {
+    return this._options;
   }
-  set list(list: List) {
-    this._list = list;
+  set options(list: Option[]) {
+    this._options = list;
     this.stateChanges.next();
   }
-  private _list: List;
-
-  @Input()
-  get sublist(): Sublist {
-    return this._sublist;
-  }
-  set sublist(sublist: Sublist) {
-    this._sublist = sublist;
-    this.stateChanges.next();
-  }
-  private _sublist: Sublist;
+  private _options: Option[];
 
   @Input()
   get enableSearch(): boolean {
@@ -98,6 +83,10 @@ export class SelectComponent
   private _enableSearch = false;
 
   @Output() valueChange = new EventEmitter<Option>();
+
+  override get shouldLabelFloat(): boolean {
+    return !this.empty;
+  }
 
   constructor(
     public defaultErrorStateMatcher: ErrorStateMatcher,
@@ -135,7 +124,7 @@ export class SelectComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.list) {
       if (this.dialogRef) {
-        this.dialogRef.componentInstance.list = this.list;
+        this.dialogRef.componentInstance.options = this.options;
       }
     }
   }
@@ -145,20 +134,16 @@ export class SelectComponent
       return;
     }
 
-    this.dialogRef = this.dialog.open<DialogComponent, DialogConfig, Option>(
-      DialogComponent,
-      {
-        data: {
-          list: this.list,
-          sublist: this.sublist,
-          value: this.value,
-          enableSearch: this.enableSearch,
-          type: this.type,
-        },
-        width: '80%',
-        autoFocus: false,
+    this.dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        options: this.options,
+        value: this.value,
+        enableSearch: this.enableSearch,
+        type: this.type,
       },
-    );
+      width: '80%',
+      autoFocus: false,
+    });
 
     this.dialogRef
       .afterClosed()
@@ -179,6 +164,7 @@ export class SelectComponent
 
     this.value = value;
     this.onChange(this.value);
+    this.stateChanges.next();
     this.valueChange.emit(this.value);
   }
 
