@@ -1,7 +1,7 @@
 [
   {
-    "icon": "",
-    "color": "",
+    "icon": "home",
+    "color": "bg-lime-400",
     "name": "hogar",
     "subcategories": [
       {
@@ -34,8 +34,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "restaurant",
+    "color": "bg-orange-400",
     "name": "alimentos",
     "subcategories": [
       {
@@ -50,8 +50,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "sports_esports",
+    "color": "bg-purple-400",
     "name": "entretenimiento",
     "subcategories": [
       {
@@ -81,8 +81,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "health_and_safety",
+    "color": "bg-blue-400",
     "name": "salud y belleza",
     "subcategories": [
       {
@@ -112,8 +112,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "directions_bus",
+    "color": "bg-red-400",
     "name": "auto y transporte",
     "subcategories": [
       {
@@ -146,8 +146,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "school",
+    "color": "bg-yellow-400",
     "name": "educación y trabajo",
     "subcategories": [
       {
@@ -180,8 +180,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "redeem",
+    "color": "bg-indigo-400",
     "name": "regalos y ayuda",
     "subcategories": [
       {
@@ -199,8 +199,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "flight",
+    "color": "bg-green-400",
     "name": "viajes",
     "subcategories": [
       {
@@ -221,8 +221,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "attach_money",
+    "color": "bg-sky-400",
     "name": "finanzas e impuestos",
     "subcategories": [
       {
@@ -246,8 +246,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "checkroom",
+    "color": "bg-gray-400",
     "name": "ropa y calzado",
     "subcategories": [
       {
@@ -268,8 +268,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "account_balance",
+    "color": "bg-pink-400",
     "name": "transacciones bancarias",
     "subcategories": [
       {
@@ -290,8 +290,8 @@
     ]
   },
   {
-    "icon": "",
-    "color": "",
+    "icon": "trending_up",
+    "color": "bg-cyan-400",
     "name": "ingresos",
     "subcategories": [
       {
