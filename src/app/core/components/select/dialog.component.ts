@@ -14,7 +14,7 @@ import { DialogConfig, DialogResult, Option, Suboption, Type } from './types';
   selector: 'app-dialog',
   template: `
     <div class="flex flex-col">
-      <span class="text-xl font-medium pb-4">Categorías</span>
+      <span class="text-xl font-medium pb-4">{{ label }}</span>
 
       <!-- Search -->
       <mat-form-field
@@ -131,6 +131,7 @@ export class DialogComponent implements OnInit {
   enableSearch: boolean;
   isSearching = false;
   optionSelected: Option | null;
+  label: string;
   searchControl = new FormControl('');
   private _showSuboptions = false;
   private _prevScroll = 0;
@@ -185,6 +186,7 @@ export class DialogComponent implements OnInit {
     this.value = this.config.value;
     this.enableSearch = this.config.enableSearch;
     this.type = this.config.type;
+    this.label = this.config.label;
 
     // Show suboptions
     if (this.type === 'nested' && this.value) {

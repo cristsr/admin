@@ -16,6 +16,7 @@ export interface DialogConfig {
   value: DialogResult;
   enableSearch: boolean;
   type: Type;
+  label: string;
 }
 
 export interface DialogResult extends Omit<Option, 'suboptions'> {

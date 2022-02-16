@@ -82,6 +82,8 @@ export class SelectComponent
   }
   private _enableSearch = false;
 
+  @Input() label: string;
+
   @Output() valueChange = new EventEmitter<Option>();
 
   override get shouldLabelFloat(): boolean {
@@ -140,6 +142,7 @@ export class SelectComponent
         value: this.value,
         enableSearch: this.enableSearch,
         type: this.type,
+        label: this.label,
       },
       width: '80%',
       autoFocus: false,
