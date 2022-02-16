@@ -26,7 +26,7 @@ import {
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DialogComponent } from './dialog.component';
 import { Option, Type, DialogResult } from './types';
-import { BaseInputComponent } from 'core/components/base-input/base-input.component';
+import { BaseInputComponent } from '../base-input/base-input.component';
 
 @Component({
   selector: 'app-select',
