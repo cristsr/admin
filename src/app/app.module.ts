@@ -1,21 +1,27 @@
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ThemeService } from 'core/services/theme/theme.service';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { LayoutModule } from 'layout/layout.module';
 import { HammerConfig } from 'core/config';
 import { WINDOW } from 'core/config';
+import { ConfigModule } from 'core/services';
+import { validator } from 'environment';
+
+import { ThemeService } from 'core/services/theme/theme.service';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    ConfigModule.forRoot({
+      path: '/assets/config.json',
+      validate: validator,
+    }),
     HammerModule,
     AppRoutingModule,
     HttpClientModule,
