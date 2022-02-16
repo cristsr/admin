@@ -38,7 +38,7 @@
         ],
         "@angular-eslint/no-input-rename": "off",
         "@angular-eslint/no-host-metadata-property": "off",
-        " @angular-eslint/no-conflicting-lifecycle": "off"
+        "@angular-eslint/no-conflicting-lifecycle": "off"
       }
     },
     {
