@@ -13,7 +13,12 @@ import { ListOptionComponent } from './list-option.component';
 import { ListHeaderComponent } from './list-header.component';
 
 @NgModule({
-  declarations: [SelectComponent, DialogComponent, ListOptionComponent, ListHeaderComponent],
+  declarations: [
+    SelectComponent,
+    DialogComponent,
+    ListOptionComponent,
+    ListHeaderComponent,
+  ],
   imports: [
     CommonModule,
     MatFormFieldModule,
