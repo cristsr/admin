@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Inject,
@@ -8,22 +6,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  pairwise,
-  pluck,
-  switchMapTo,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
 import { Menu } from 'core/interfaces/menu';
-import { SidebarService } from 'layout/services/sidebar.service';
 import { WINDOW } from 'core/config';
-import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
+import { Panable } from 'core/directives';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,7 +17,7 @@ import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
     <div
       class="top-0 bottom-0 px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
       [class.flex]="showSidebar"
-      [ngStyle]="{ transform: translate$ | async }"
+      [ngStyle]="{ transform: translate }"
       [class.hidden]="!showSidebar"
     >
       <!-- header -->
@@ -79,174 +64,56 @@ import { isHorizontal, isLeft, isNone, isRight } from 'layout/utils';
     ></div>
   `,
   styleUrls: ['./sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, Panable {
+  isMobile: boolean;
+  showSidebar: boolean;
+  private readonly panVelocity = 1.5;
+
   @Input() menu: Menu[];
 
   @Output() menuChange = new EventEmitter();
 
   @Output() label = new EventEmitter<Record<any, any>>();
 
-  private readonly panVelocity = 1.5;
+  get range(): number {
+    return this._range;
+  }
+  set range(value: number) {
+    if (value < 0) {
+      this._range = 0;
+    } else if (value > 100) {
+      this._range = 100;
+    } else {
+      this._range = value;
+    }
+  }
+  private _range: number;
 
-  // Range 0 - 100
-  private translate = new BehaviorSubject<number>(0);
-
-  get translate$(): Observable<string> {
-    return this.translate.pipe(
-      map((percentage) => `translateX(${-100 + percentage}%)`),
-    );
+  get translate(): string {
+    return `translateX(${-100 + this.range}%)`;
   }
 
-  /**
-   * Determinate if device is mobile or desktop
-   */
-  isMobile: boolean;
-
-  /**
-   * Hide sidebar by default if is mobile
-   * or show if is desktop
-   */
-  showSidebar: boolean;
-
-  constructor(
-    @Inject(WINDOW) private window: Window,
-    private cd: ChangeDetectorRef,
-    private sidebarService: SidebarService,
-  ) {}
+  constructor(@Inject(WINDOW) private window: Window) {}
 
   ngOnInit(): void {
     this.isMobile = this.window.innerWidth < 640;
     this.showSidebar = !this.isMobile;
-
-    const panHorizontalStart$ = this.sidebarService.panStart$.pipe(
-      filter(({ direction }) => isHorizontal(direction)),
-      tap(({ direction }) => console.warn('START DIRECTION', direction)),
-    );
-
-    const panHorizontal$ = this.sidebarService.panHorizontal$;
-
-    const changeDirection$ = panHorizontal$.pipe(
-      pluck('direction'),
-      distinctUntilChanged(),
-      tap((direction) => console.warn('DIRECTION CHANGE', direction)),
-    );
-
-    const differentialX$ = panHorizontal$.pipe(
-      pluck('deltaX'),
-      pairwise(),
-      map(([prev, curr]) => this.normalizeDelta(Math.abs(prev - curr))),
-      tap((e) => console.log('DIFFERENTIAL', e)),
-    );
-
-    const source$ = panHorizontalStart$.pipe(
-      switchMapTo(
-        differentialX$.pipe(
-          filter(() => {
-            const { value } = this.translate;
-            return !(value < 0 || value > 100);
-          }),
-          withLatestFrom(changeDirection$),
-          map(([diff, direction]) => ({ direction, diff })),
-        ),
-      ),
-      tap(() => console.log('START SOURCE EMMIT')),
-      // map(({diff, direction}) => {
-      // if ()
-      // })
-    );
-
-    // @ts-ignore
-    source$.subscribe(({ diff, direction }) => {
-      console.log('STREAM', diff, direction);
-
-      const { value } = this.translate;
-
-      const result = isRight(direction) ? value + diff : value - diff;
-
-      console.log('RESULT', result);
-
-      if (result <= 0) {
-        this.translate.next(0);
-        this.showSidebar = false;
-        this.cd.markForCheck();
-        return;
-      }
-
-      if (result >= 100) {
-        this.translate.next(100);
-        this.showSidebar = true;
-        this.cd.markForCheck();
-        return;
-      }
-
-      this.translate.next(result);
-      this.showSidebar = true;
-      this.cd.markForCheck();
-    });
-
-    this.sidebarService.panEnd$.subscribe({
-      next: (panend) => {
-        const { value } = this.translate;
-        const velocity = Math.abs(panend.velocity);
-
-        if (isRight(panend.direction)) {
-          if (velocity >= 0.6 || value >= 50) {
-            console.log('RIGHT SHOW');
-            this.showFullSidebar();
-          } else {
-            console.log('RIGHT HIDE');
-            this.hideSidebar();
-          }
-        } else if (isLeft(panend.direction)) {
-          if (panend.velocity >= 0.6 || value < 50) {
-            console.log('LEFT HIDE');
-            this.hideSidebar();
-          } else {
-            console.log('RIGHT SHOW');
-            this.showFullSidebar();
-          }
-        } else if (isNone(panend.direction)) {
-          if (value > 50) {
-            console.log('NONE SHOW');
-            this.showFullSidebar();
-          } else {
-            console.log('NONE HIDE');
-            this.hideSidebar();
-          }
-        } else {
-          console.warn('Direction not recognized');
-        }
-
-        console.log('END');
-        console.log('');
-
-        this.cd.markForCheck();
-      },
-    });
-
-    this.listenWindowResize();
   }
 
-  listenWindowResize(): void {
-    const stream = fromEvent(this.window, 'resize').pipe(
-      debounceTime(50),
-      pluck<number>('target', 'innerWidth'),
-    );
+  listenWindowResize(event): void {
+    const width = event.target.innerWidth;
 
-    stream.subscribe((width: number) => {
-      if (width < 640 && !this.isMobile) {
-        this.isMobile = true;
-        this.showSidebar = false;
-        return;
-      }
+    if (width < 640 && !this.isMobile) {
+      this.isMobile = true;
+      this.showSidebar = false;
+      return;
+    }
 
-      if (width >= 640 && this.isMobile) {
-        this.isMobile = false;
-        this.showSidebar = true;
-      }
-    });
+    if (width >= 640 && this.isMobile) {
+      this.isMobile = false;
+      this.showSidebar = true;
+    }
   }
 
   toggleSidebar(): void {
@@ -262,24 +129,35 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  /**
-   * delta determine pixel movement since start event
-   * @param delta: {number}
-   */
   normalizeDelta(delta: number): number {
     const result = (delta / this.window.innerWidth) * this.panVelocity;
     return +(result * 100).toFixed(0);
   }
 
   hideSidebar(): void {
-    this.translate.next(0);
+    this.range = 0;
     this.showSidebar = false;
     // this.viewFullSidebar = false;
   }
 
   showFullSidebar(): void {
-    this.translate.next(100);
+    this.range = 100;
     this.showSidebar = true;
-    // this.viewFullSidebar = true;
+  }
+
+  onPanStart(event: any): void {
+    console.log('START', event.deltaX);
+  }
+
+  onPanLeft(event: any): void {
+    console.log('LEFT', event.deltaX);
+  }
+
+  onPanRight(event: any): void {
+    console.log('RIGHT', event.deltaX);
+  }
+
+  onPanEnd(event: any): void {
+    console.log('END', event.deltaX);
   }
 }

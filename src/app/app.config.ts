@@ -1,6 +1,4 @@
-import { LayoutState } from 'core/services/layout/layout.service';
-
-export const layoutInitialState: LayoutState = {
+export const AppConfig = {
   theme: 'light',
   expandSidebar: false,
   pageTitle: '',
@@ -9,21 +7,31 @@ export const layoutInitialState: LayoutState = {
       icon: 'account_balance',
       title: 'Finanzas',
       url: 'finances',
+      default: true,
       submenu: [
         {
-          icon: 'analytics',
+          icon: 'pie_chart_outline',
           title: 'Resumen',
           url: 'finances/summary',
+          type: 'link',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
           url: 'finances/movements',
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
+          type: 'link',
+        },
+        {
+          icon: 'add',
+          title: 'Presupuestos',
+          url: 'finances/add-movement',
+          type: 'link',
         },
       ],
     },
@@ -36,21 +44,25 @@ export const layoutInitialState: LayoutState = {
           icon: 'description',
           title: 'Resumen',
           url: 'finances/summary',
+          type: 'link',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
           url: 'finances/movements',
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuetos',
           url: 'finances/budgets',
+          type: 'link',
         },
       ],
     },
