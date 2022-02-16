@@ -1,5 +1,5 @@
 export interface Submenu extends Omit<Menu, 'submenu'> {
-  type: 'link' | 'action';
+  type?: 'link' | 'action';
 }
 
 export interface Menu {
