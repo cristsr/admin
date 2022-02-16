@@ -102,13 +102,13 @@ export class SidebarComponent implements OnInit {
   /**
    * Determinate if device is mobile or desktop
    */
-  isMobile = this.window.innerWidth < 640;
+  isMobile: boolean;
 
   /**
    * Hide sidebar by default if is mobile
    * or show if is desktop
    */
-  showSidebar = !this.isMobile;
+  showSidebar: boolean;
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -117,6 +117,9 @@ export class SidebarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isMobile = this.window.innerWidth < 640;
+    this.showSidebar = !this.isMobile;
+
     const panHorizontalStart$ = this.sidebarService.panStart$.pipe(
       filter(({ direction }) => isHorizontal(direction)),
       tap(({ direction }) => console.warn('START DIRECTION', direction)),
