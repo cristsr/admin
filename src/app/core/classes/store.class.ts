@@ -11,7 +11,7 @@ export class Store<Action, State> extends ReplaySubject<Action> {
 
   get state$(): Observable<State> {
     return this.pipe(
-      startWith<Action, State>(this.initialState),
+      startWith<Action, any>(this.initialState),
       scan<Action, State>(this.reducer, this.initialState),
     );
   }

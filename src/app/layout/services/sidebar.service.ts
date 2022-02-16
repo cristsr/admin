@@ -28,7 +28,7 @@ export class SidebarService {
   }
 
   toggleSidebar(): void {
-    this.toggle.next();
+    this.toggle.next({});
   }
 
   get panStart$(): Observable<any> {

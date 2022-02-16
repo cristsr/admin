@@ -229,7 +229,7 @@ export class SidebarComponent implements OnInit {
   listenWindowResize(): void {
     const stream = fromEvent(this.window, 'resize').pipe(
       debounceTime(50),
-      pluck<Event, number>('target', 'innerWidth'),
+      pluck<number>('target', 'innerWidth'),
     );
 
     stream.subscribe((width: number) => {
