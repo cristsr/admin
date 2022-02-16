@@ -11,23 +11,23 @@ import { TabComponent } from '../tab/tab.component';
 @Component({
   selector: 'app-tabset',
   template: `
-    <app-card>
-      <app-card-header appFlex row justify="between">
+    <div>
+      <div class="flex justify-between">
         <ng-container *ngFor="let tab of tabs">
           <div
             (click)="selectTab(tab)"
             [class.active]="tab.active"
             class="tab-link"
           >
-            <app-icon *ngIf="tab.icon" [icon]="tab.icon"></app-icon>
+            <mat-icon *ngIf="tab.icon">{{ tab.icon }}</mat-icon>
             <span *ngIf="tab.tabTitle">{{ tab.tabTitle }}</span>
           </div>
         </ng-container>
-      </app-card-header>
-      <app-card-body>
+      </div>
+      <div>
         <ng-content select="app-tab"></ng-content>
-      </app-card-body>
-    </app-card>
+      </div>
+    </div>
   `,
   styleUrls: ['./tabset.component.scss'],
 })

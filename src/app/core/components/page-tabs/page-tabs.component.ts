@@ -16,7 +16,7 @@ import { PageService } from 'core/services/page/page.service';
         href="#"
         (click)="$event.preventDefault()"
       >
-        <app-icon [icon]="item.icon"></app-icon>
+        <mat-icon>{{ item.icon }}</mat-icon>
         <span class="tab-title">{{ item.title }}</span>
       </a>
     </ng-container>
