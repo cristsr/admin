@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { convertToBool } from 'core/utils/utils';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-tab',
@@ -19,8 +19,8 @@ export class TabComponent {
   get active(): boolean {
     return this.activeValue;
   }
-  set active(val: boolean) {
-    this.activeValue = convertToBool(val);
+  set active(val: BooleanInput) {
+    this.activeValue = coerceBooleanProperty(val);
   }
 
   @HostBinding('class.content-active')
