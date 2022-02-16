@@ -1,3 +1,3 @@
 import { InjectionToken } from '@angular/core';
 
-export const APP_CONFIG = new InjectionToken('APP_CONFIG');
+export const CONFIG_OPTIONS = new InjectionToken('APP_CONFIG');

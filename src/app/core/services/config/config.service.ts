@@ -1,27 +1,47 @@
 import { Inject, Injectable } from '@angular/core';
-import { APP_CONFIG } from './config.constants';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { merge } from 'lodash-es';
+import { Observable, tap } from 'rxjs';
+import { CONFIG_OPTIONS } from './config.constants';
+import { ConfigOptions } from './config.types';
+import { HttpClient } from '@angular/common/http';
+import { assign } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigService {
-  private configValue: BehaviorSubject<any>;
+export class ConfigService<K = Record<string, any>> {
+  private config: K = {} as K;
 
-  constructor(@Inject(APP_CONFIG) config: any) {
-    this.configValue = new BehaviorSubject(config);
+  constructor(
+    @Inject(CONFIG_OPTIONS)
+    private options: ConfigOptions,
+    private http: HttpClient,
+  ) {}
+
+  loadConfig(): Observable<any> {
+    const path = this.options.path;
+
+    if (!path) {
+      throw new Error('Config path is not defined');
+    }
+
+    return this.http.get(path).pipe(
+      tap((config: K) => {
+        assign(this.config, config);
+
+        if (this.options.validate) {
+          this.validateConfig();
+        }
+
+        console.log('Config loaded', this.config);
+      }),
+    );
   }
 
-  set config(value: any) {
-    // Merge the new config over to the current config
-    const config = merge({}, this.configValue.getValue(), value);
-
-    // Execute the observable
-    this.configValue.next(config);
+  private validateConfig(): void {
+    this.options.validate(this.config);
   }
 
-  get config$(): Observable<any> {
-    return this.configValue.asObservable();
+  get<T>(key: string): T {
+    return this.config[key] as T;
   }
 }
