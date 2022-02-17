@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from 'layout/layout.module';
 import { HammerConfig } from 'core/config';
 import { WINDOW } from 'core/config';
-import { ConfigModule } from 'core/services';
+import { ConfigModule } from 'core/services/config';
 import { validator } from 'environment';
 
 import { ThemeService } from 'core/services/theme/theme.service';
