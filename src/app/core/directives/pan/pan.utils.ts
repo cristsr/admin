@@ -1,5 +1,12 @@
+/**
+ * @deprecated
+ */
 export type Direction = 'up' | 'down' | 'left' | 'right' | 'none';
 
+/**
+ * @deprecated
+ * @param direction - the direction of the swipe
+ */
 export function formatDirection(direction: number): Direction {
   const directions: { [key: number]: Direction } = {
     [Hammer.DIRECTION_NONE]: 'none',
@@ -12,18 +19,18 @@ export function formatDirection(direction: number): Direction {
   return directions[direction];
 }
 
-export function isNone(direction: Direction): boolean {
-  return direction === 'none';
+export function isNone(direction: number): boolean {
+  return direction === Hammer.DIRECTION_NONE;
 }
 
-export function isRight(direction: Direction): boolean {
-  return direction === 'right';
+export function isRight(direction: number): boolean {
+  return direction === Hammer.DIRECTION_RIGHT;
 }
 
-export function isLeft(direction: Direction): boolean {
-  return direction === 'left';
+export function isLeft(direction: number): boolean {
+  return direction === Hammer.DIRECTION_LEFT;
 }
 
-export function isHorizontal(direction: Direction): boolean {
+export function isHorizontal(direction: number): boolean {
   return isLeft(direction) || isRight(direction);
 }
