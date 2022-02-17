@@ -13,23 +13,23 @@ import { AppConfig } from '../../app.config';
   template: `
     <div
       appPan
-      [element]="sidebar"
+      [target]="sidebar"
       class="relative flex h-screen w-screen select-none"
     >
       <!-- Sidebar -->
       <app-sidebar
         [menu]="menu"
-        (label)="onLabel($event)"
         (menuChange)="onLinkClick($event)"
         #sidebar
-      >
-      </app-sidebar>
+      ></app-sidebar>
 
       <div class="flex flex-col h-screen w-full">
         <!-- Navbar -->
 
-        <app-nav [title]="navTitle" (menuToggle)="sidebar.toggleSidebar()">
-        </app-nav>
+        <app-nav
+          [title]="navTitle"
+          (menuToggle)="sidebar.toggleSidebar()"
+        ></app-nav>
 
         <div class="flex flex-col h-screen overflow-y-auto bg-gray-100">
           <router-outlet></router-outlet>
@@ -41,8 +41,7 @@ import { AppConfig } from '../../app.config';
           linkActiveClass="text-blue-500"
           [config]="currentSubmenu"
           (action)="onAction($event)"
-        >
-        </app-bottom-nav>
+        ></app-bottom-nav>
       </div>
     </div>
   `,

@@ -1,24 +1,27 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Inject,
   Input,
   OnInit,
   Output,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { Menu } from 'core/interfaces/menu';
 import { WINDOW } from 'core/config';
-import { Panable } from 'core/directives';
+import { isHorizontal, Panable } from 'core/directives/pan';
 
 @Component({
   selector: 'app-sidebar',
   template: `
     <!-- Sidebar -->
     <div
-      class="top-0 bottom-0 px-8 bg-white h-screen z-30 fixed sm:sticky flex flex-col shadow-sm"
+      class="translate-x-[-100%] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-30 flex flex-col shadow-sm w-[250px]"
       [class.flex]="showSidebar"
-      [ngStyle]="{ transform: translate }"
       [class.hidden]="!showSidebar"
+      #container
     >
       <!-- header -->
       <div class="flex flex-col pt-14 items-center">
@@ -66,15 +69,17 @@ import { Panable } from 'core/directives';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, Panable {
+  showSidebar = false;
   isMobile: boolean;
-  showSidebar: boolean;
+  paning: boolean;
+  previousDelta: number;
   private readonly panVelocity = 1.5;
+
+  @ViewChild('container', { static: true }) container: ElementRef;
 
   @Input() menu: Menu[];
 
   @Output() menuChange = new EventEmitter();
-
-  @Output() label = new EventEmitter<Record<any, any>>();
 
   get range(): number {
     return this._range;
@@ -88,17 +93,17 @@ export class SidebarComponent implements OnInit, Panable {
       this._range = value;
     }
   }
-  private _range: number;
+  private _range = 0;
 
-  get translate(): string {
-    return `translateX(${-100 + this.range}%)`;
-  }
-
-  constructor(@Inject(WINDOW) private window: Window) {}
+  constructor(
+    @Inject(WINDOW) private window: Window,
+    private renderer: Renderer2,
+  ) {}
 
   ngOnInit(): void {
     this.isMobile = this.window.innerWidth < 640;
-    this.showSidebar = !this.isMobile;
+    this.showSidebar = false;
+    console.log(this.container);
   }
 
   listenWindowResize(event): void {
@@ -131,13 +136,21 @@ export class SidebarComponent implements OnInit, Panable {
 
   normalizeDelta(delta: number): number {
     const result = (delta / this.window.innerWidth) * this.panVelocity;
-    return +(result * 100).toFixed(0);
+    return result * 100;
   }
 
   hideSidebar(): void {
-    this.range = 0;
-    this.showSidebar = false;
-    // this.viewFullSidebar = false;
+    const interval = setInterval(() => {
+      if (this.range === 0) {
+        this.showSidebar = false;
+        clearInterval(interval);
+        return;
+      }
+      console.log('HIDE FULL', this.range);
+      this.range -= 0.5;
+
+      this.render();
+    }, 1);
   }
 
   showFullSidebar(): void {
@@ -146,18 +159,87 @@ export class SidebarComponent implements OnInit, Panable {
   }
 
   onPanStart(event: any): void {
-    console.log('START', event.deltaX);
-  }
-
-  onPanLeft(event: any): void {
-    console.log('LEFT', event.deltaX);
+    if (isHorizontal(event.direction)) {
+      this.paning = true;
+      // this.showSidebar = true;
+      console.log('START', event.deltaX);
+    }
   }
 
   onPanRight(event: any): void {
-    console.log('RIGHT', event.deltaX);
+    this.horizontalTranslation(event);
+  }
+
+  onPanLeft(event: any): void {
+    this.horizontalTranslation(event);
   }
 
   onPanEnd(event: any): void {
-    console.log('END', event.deltaX);
+    console.log('END', event.direction, this.range);
+
+    this.paning = false;
+    this.previousDelta = null;
+
+    if (this.range > 20) {
+      const interval = setInterval(() => {
+        if (this.range === 100) {
+          clearInterval(interval);
+          return;
+        }
+        console.log('SHOW FULL', this.range);
+        this.range += 0.5;
+
+        this.render();
+      }, 1);
+    }
+
+    if (this.range <= 20) {
+      const interval = setInterval(() => {
+        if (this.range === 0) {
+          this.showSidebar = false;
+          clearInterval(interval);
+          return;
+        }
+        console.log('HIDE FULL', this.range);
+        this.range -= 0.5;
+
+        this.render();
+      }, 1);
+    }
+
+    // tslint:disable-next-line:no-console
+    console.time('start');
+  }
+
+  animateSidebar(): void {}
+
+  private horizontalTranslation(event): void {
+    if (!this.paning) {
+      return;
+    }
+
+    if (!this.previousDelta) {
+      this.previousDelta = event.deltaX;
+      return;
+    }
+
+    this.showSidebar = true;
+
+    const delta = event.deltaX - this.previousDelta;
+
+    this.range += this.normalizeDelta(delta);
+
+    this.previousDelta = event.deltaX;
+
+    this.render();
+    console.log(`[LEFT] `, delta);
+  }
+
+  render(): void {
+    this.renderer.setStyle(
+      this.container.nativeElement,
+      'transform',
+      `translateX(${-100 + this.range}%)`,
+    );
   }
 }

@@ -12,8 +12,8 @@ export function formatDirection(direction: number): Direction {
   return directions[direction];
 }
 
-export function isHorizontal(direction: Direction): boolean {
-  return direction === 'left' || direction === 'right';
+export function isNone(direction: Direction): boolean {
+  return direction === 'none';
 }
 
 export function isRight(direction: Direction): boolean {
@@ -24,6 +24,6 @@ export function isLeft(direction: Direction): boolean {
   return direction === 'left';
 }
 
-export function isNone(direction: Direction): boolean {
-  return direction === 'none';
+export function isHorizontal(direction: Direction): boolean {
+  return isLeft(direction) || isRight(direction);
 }

@@ -6,12 +6,12 @@ import { formatDirection, isHorizontal } from './pan.utils';
   selector: '[appPan]',
 })
 export class PanDirective {
-  @Input() element: Panable;
+  @Input() target: Panable;
 
   @HostListener('window:panstart', ['$event'])
   onPanStart(event: any): void {
     event.direction = formatDirection(event.direction);
-    this.element.onPanStart(event);
+    this.target.onPanStart(event);
   }
 
   @HostListener('window:panright', ['$event'])
@@ -20,7 +20,7 @@ export class PanDirective {
     if (!isHorizontal(event.direction)) {
       return;
     }
-    this.element.onPanRight(event);
+    this.target.onPanRight(event);
   }
 
   @HostListener('window:panleft', ['$event'])
@@ -29,12 +29,12 @@ export class PanDirective {
     if (!isHorizontal(event.direction)) {
       return;
     }
-    this.element.onPanLeft(event);
+    this.target.onPanLeft(event);
   }
 
   @HostListener('window:panend', ['$event'])
   onPanEnd(event: any): void {
     event.direction = formatDirection(event.direction);
-    this.element.onPanEnd(event);
+    this.target.onPanEnd(event);
   }
 }
