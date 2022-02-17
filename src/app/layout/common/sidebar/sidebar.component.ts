@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -11,14 +13,16 @@ import {
 } from '@angular/core';
 import { Menu } from 'core/interfaces/menu';
 import { WINDOW } from 'core/config';
-import { isHorizontal, Panable } from 'core/directives/pan';
+import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
+import { Subject, takeUntil } from 'rxjs';
+import { translateAnimationFrame } from 'core/utils/utils';
 
 @Component({
   selector: 'app-sidebar',
   template: `
     <!-- Sidebar -->
     <div
-      class="translate-x-[-100%] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-30 flex flex-col shadow-sm w-[250px]"
+      class="w-[250px] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-[3000] flex flex-col shadow-sm"
       [class.flex]="showSidebar"
       [class.hidden]="!showSidebar"
       #container
@@ -62,18 +66,20 @@ import { isHorizontal, Panable } from 'core/directives/pan';
     <!-- overlay -->
     <div
       *ngIf="isMobile && showSidebar"
-      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-20"
+      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-[2000]"
       (click)="hideSidebar()"
     ></div>
   `,
   styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, Panable {
   showSidebar = false;
   isMobile: boolean;
-  paning: boolean;
+  horizontalPaning: boolean;
   previousDelta: number;
-  private readonly panVelocity = 1.5;
+  private panVelocity = 1.5;
+  private cancelAnimations = new Subject<void>();
 
   @ViewChild('container', { static: true }) container: ElementRef;
 
@@ -98,6 +104,7 @@ export class SidebarComponent implements OnInit, Panable {
   constructor(
     @Inject(WINDOW) private window: Window,
     private renderer: Renderer2,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -123,6 +130,12 @@ export class SidebarComponent implements OnInit, Panable {
 
   toggleSidebar(): void {
     this.showSidebar = !this.showSidebar;
+
+    if (this.showSidebar) {
+      this.animateSidebar(0, 100);
+    } else {
+      this.hideSidebar();
+    }
   }
 
   onLinkClick(e: any): void {
@@ -130,39 +143,18 @@ export class SidebarComponent implements OnInit, Panable {
     this.menuChange.emit(e);
 
     if (this.isMobile) {
-      this.showSidebar = false;
+      this.hideSidebar();
     }
   }
 
-  normalizeDelta(delta: number): number {
-    const result = (delta / this.window.innerWidth) * this.panVelocity;
-    return result * 100;
-  }
-
   hideSidebar(): void {
-    const interval = setInterval(() => {
-      if (this.range === 0) {
-        this.showSidebar = false;
-        clearInterval(interval);
-        return;
-      }
-      console.log('HIDE FULL', this.range);
-      this.range -= 0.5;
-
-      this.render();
-    }, 1);
-  }
-
-  showFullSidebar(): void {
-    this.range = 100;
-    this.showSidebar = true;
+    this.animateSidebar(100, 0);
   }
 
   onPanStart(event: any): void {
     if (isHorizontal(event.direction)) {
-      this.paning = true;
-      // this.showSidebar = true;
-      console.log('START', event.deltaX);
+      this.horizontalPaning = true;
+      this.cancelAnimations.next();
     }
   }
 
@@ -171,50 +163,45 @@ export class SidebarComponent implements OnInit, Panable {
   }
 
   onPanLeft(event: any): void {
+    if (!this.showSidebar) {
+      return;
+    }
+
     this.horizontalTranslation(event);
   }
 
   onPanEnd(event: any): void {
-    console.log('END', event.direction, this.range);
-
-    this.paning = false;
-    this.previousDelta = null;
-
-    if (this.range > 20) {
-      const interval = setInterval(() => {
-        if (this.range === 100) {
-          clearInterval(interval);
-          return;
-        }
-        console.log('SHOW FULL', this.range);
-        this.range += 0.5;
-
-        this.render();
-      }, 1);
+    if (!this.showSidebar) {
+      return;
     }
 
-    if (this.range <= 20) {
-      const interval = setInterval(() => {
-        if (this.range === 0) {
-          this.showSidebar = false;
-          clearInterval(interval);
-          return;
-        }
-        console.log('HIDE FULL', this.range);
-        this.range -= 0.5;
+    let end: number;
 
-        this.render();
-      }, 1);
+    if (isNone(event.direction)) {
+      if (this.range < 50) {
+        end = 0;
+      } else {
+        end = 100;
+      }
+    } else if (isRight(event.direction)) {
+      if (this.range < 20) {
+        end = 0;
+      } else {
+        end = 100;
+      }
+    } else {
+      if (this.range < 85) {
+        end = 0;
+      } else {
+        end = 100;
+      }
     }
 
-    // tslint:disable-next-line:no-console
-    console.time('start');
+    this.animateSidebar(this.range, end);
   }
 
-  animateSidebar(): void {}
-
-  private horizontalTranslation(event): void {
-    if (!this.paning) {
+  horizontalTranslation(event): void {
+    if (!this.horizontalPaning) {
       return;
     }
 
@@ -232,7 +219,36 @@ export class SidebarComponent implements OnInit, Panable {
     this.previousDelta = event.deltaX;
 
     this.render();
-    console.log(`[LEFT] `, delta);
+  }
+
+  normalizeDelta(delta: number): number {
+    const result = (delta / this.window.innerWidth) * this.panVelocity;
+    return result * 100;
+  }
+
+  animateSidebar(start: number, end: number, duration = 100): void {
+    this.cancelAnimations.next();
+
+    translateAnimationFrame(start, end, duration)
+      .pipe(takeUntil(this.cancelAnimations))
+      .subscribe((x) => this.handleTranslateAnimation(x));
+  }
+
+  handleTranslateAnimation(percentage: number): void {
+    this.range = percentage;
+
+    if (this.range === 0) {
+      this.showSidebar = false;
+    }
+
+    if (this.range === 100) {
+      this.showSidebar = true;
+    }
+
+    this.horizontalPaning = false;
+    this.previousDelta = null;
+
+    this.render();
   }
 
   render(): void {
@@ -241,5 +257,6 @@ export class SidebarComponent implements OnInit, Panable {
       'transform',
       `translateX(${-100 + this.range}%)`,
     );
+    this.changeDetectorRef.detectChanges();
   }
 }
