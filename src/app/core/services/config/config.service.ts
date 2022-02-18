@@ -37,11 +37,11 @@ export class ConfigService<K = Record<string, any>> {
     );
   }
 
-  private validateConfig(): void {
-    this.options.validate(this.config);
+  get<T>(key: string): T {
+    return this.config[key];
   }
 
-  get<T>(key: string): T {
-    return this.config[key] as T;
+  private validateConfig(): void {
+    this.options.validate(this.config);
   }
 }
