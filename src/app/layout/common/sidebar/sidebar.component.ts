@@ -110,7 +110,6 @@ export class SidebarComponent implements OnInit, Panable {
   ngOnInit(): void {
     this.isMobile = this.window.innerWidth < 640;
     this.showSidebar = false;
-    console.log(this.container);
   }
 
   listenWindowResize(event): void {
@@ -170,11 +169,13 @@ export class SidebarComponent implements OnInit, Panable {
   }
 
   onPanUp(event: any): void {
-    console.log('top');
+    return;
+    // console.log('top');
   }
 
   onPanDown(event: any): void {
-    console.log('bottom');
+    return;
+    // console.log('bottom');
   }
 
   onPanEnd(event: any): void {
