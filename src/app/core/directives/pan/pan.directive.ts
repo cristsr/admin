@@ -29,6 +29,16 @@ export class PanDirective {
     this.target.onPanLeft(event);
   }
 
+  @HostListener('window:panup', ['$event'])
+  onPanUp(event: any): void {
+    this.target.onPanUp(event);
+  }
+
+  @HostListener('window:pandown', ['$event'])
+  onPanButton(event: any): void {
+    this.target.onPanDown(event);
+  }
+
   @HostListener('window:panend', ['$event'])
   onPanEnd(event: any): void {
     this.target.onPanEnd(event);

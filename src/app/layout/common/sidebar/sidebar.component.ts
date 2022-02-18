@@ -154,7 +154,6 @@ export class SidebarComponent implements OnInit, Panable {
   onPanStart(event: any): void {
     if (isHorizontal(event.direction)) {
       this.horizontalPaning = true;
-      this.cancelAnimations.next();
     }
   }
 
@@ -168,6 +167,14 @@ export class SidebarComponent implements OnInit, Panable {
     }
 
     this.horizontalTranslation(event);
+  }
+
+  onPanUp(event: any): void {
+    console.log('top');
+  }
+
+  onPanDown(event: any): void {
+    console.log('bottom');
   }
 
   onPanEnd(event: any): void {

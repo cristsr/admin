@@ -5,5 +5,9 @@ export interface Panable {
 
   onPanLeft(event: any): void;
 
+  onPanUp(event: any): void;
+
+  onPanDown(event: any): void;
+
   onPanEnd(event: any): void;
 }
