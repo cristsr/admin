@@ -24,12 +24,12 @@ export function validatorFactory<T>(target: Type<T>): ValidatorFn {
   };
 }
 
-export function mapEnvironmentKeys<T>(type: Type<T>): {
+export function mapEnvironmentKeys<T>(type: Type<T>): Readonly<{
   [key in keyof T]: string;
-} {
+}> {
   const keys = Object.keys(new type()) as (keyof T)[];
 
   const entries: (keyof T)[][] = keys.map((key) => [key, key]);
 
-  return Object.fromEntries(entries);
+  return Object.freeze(Object.fromEntries(entries));
 }
