@@ -32,24 +32,28 @@ export class InfiniteScrollDirective implements OnInit {
   @Input()
   set completed(val: BooleanInput) {
     const completed = coerceBooleanProperty(val);
+
+    if (!this.io) {
+      return;
+    }
+
     if (completed) {
-      if (this.io) {
-        this.disconnect();
-      }
+      this.disconnect();
     }
   }
 
   @Input()
   set active(value: boolean) {
     const active = coerceBooleanProperty(value);
+
+    if (!this.io) {
+      return;
+    }
+
     if (active) {
-      if (this.io) {
-        this.observe();
-      }
+      this.observe();
     } else {
-      if (this.io) {
-        this.unobserve();
-      }
+      this.unobserve();
     }
   }
 
