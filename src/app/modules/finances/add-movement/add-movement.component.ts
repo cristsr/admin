@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { CategoryService, MovementService } from 'modules/finances/services';
 import { Option } from 'core/components/select';
-import { Movement } from 'modules/finances/types';
+import { CreateMovement } from 'modules/finances/types';
 
 @Component({
   selector: 'app-add-movement',
@@ -56,7 +56,7 @@ export class AddMovementComponent implements OnInit {
       return;
     }
 
-    const movement: Movement = {
+    const movement: CreateMovement = {
       date: this.formGroup.value.date,
       description: this.formGroup.value.description,
       amount: this.formGroup.value.amount,
