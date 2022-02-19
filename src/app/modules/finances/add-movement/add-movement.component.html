@@ -1,11 +1,11 @@
-<div class="p-4 md:p-8 flex flex-col m-auto">
+<div class="p-4 md:p-8 flex flex-col m-auto overflow-y-auto">
 
   <div class="grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-8">
 
     <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
       <div class="text-lg font-medium pb-4">Agregar movimiento</div>
 
-      <form class="flex flex-col w-full max-w-sm mx-auto gap-2" [formGroup]="form" (submit)="onSubmit()">
+      <form class="flex flex-col w-full max-w-sm mx-auto gap-2" [formGroup]="formGroup" (submit)="onSubmit()" #ngForm="ngForm">
         <mat-form-field (click)='picker.open()' appearance="fill" floatLabel="auto">
           <mat-icon matPrefix class="text-purple-600 mr-2">today</mat-icon>
           <mat-label>Fecha</mat-label>

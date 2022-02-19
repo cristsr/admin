@@ -8,24 +8,26 @@ import { Submenu } from 'core/interfaces/menu';
 @Component({
   selector: 'app-bottom-nav',
   host: {
-    class: 'flex h-14 bg-white-200 shadow justify-around items-center z-10',
+    class: 'h-14 bg-white-200 shadow z-10',
   },
   template: `
-    <ng-container *ngFor="let item of config">
-      <ng-container *ngIf="item.type === 'link'">
-        <button mat-icon-button [routerLink]="item.url">
-          <mat-icon [routerLinkActive]="linkActiveClass">{{
-            item.icon
-          }}</mat-icon>
-        </button>
-      </ng-container>
+    <div class="h-full flex justify-around items-center">
+      <ng-container *ngFor="let item of config">
+        <ng-container *ngIf="item.type === 'link'">
+          <button mat-icon-button [routerLink]="item.url">
+            <mat-icon [routerLinkActive]="linkActiveClass">{{
+              item.icon
+            }}</mat-icon>
+          </button>
+        </ng-container>
 
-      <ng-container *ngIf="item.type === 'action'">
-        <button mat-icon-button (click)="action.emit(item)">
-          <mat-icon>{{ item.icon }}</mat-icon>
-        </button>
+        <ng-container *ngIf="item.type === 'action'">
+          <button mat-icon-button (click)="action.emit(item)">
+            <mat-icon>{{ item.icon }}</mat-icon>
+          </button>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
   `,
   styleUrls: ['./bottom-nav.component.scss'],
 })

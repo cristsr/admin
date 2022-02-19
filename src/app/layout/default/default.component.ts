@@ -11,11 +11,7 @@ import { AppConfig } from '../../app.config';
     class: '',
   },
   template: `
-    <div
-      appPan
-      [target]="sidebar"
-      class="relative flex h-screen w-screen select-none"
-    >
+    <div appPan [target]="sidebar">
       <!-- Sidebar -->
       <app-sidebar
         [menu]="menu"
@@ -23,20 +19,22 @@ import { AppConfig } from '../../app.config';
         #sidebar
       ></app-sidebar>
 
-      <div class="flex flex-col h-screen w-full">
+      <div class="w-screen h-screen flex flex-col box-content">
         <!-- Navbar -->
 
         <app-nav
+          class="flex-none"
           [title]="navTitle"
           (menuToggle)="sidebar.toggleSidebar()"
         ></app-nav>
 
-        <div class="flex flex-col h-screen overflow-y-auto bg-gray-100">
+        <div class="bg-gray-100 overflow-hidden grow">
           <router-outlet></router-outlet>
         </div>
 
         <!-- BottomNav -->
         <app-bottom-nav
+          class="flex-none"
           *ngIf="showBottomNav"
           linkActiveClass="text-blue-500"
           [config]="currentSubmenu"
