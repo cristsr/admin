@@ -38,27 +38,23 @@ export class InfiniteScrollDirective implements OnInit {
   }
 
   @Input()
-  set disabled(value: boolean) {
-    const disabled = coerceBooleanProperty(value);
-    if (disabled) {
-      this.unobserve();
-    } else {
+  set active(value: boolean) {
+    const active = coerceBooleanProperty(value);
+    if (active) {
       this.observe();
+    } else {
+      this.unobserve();
     }
   }
 
   @Output() scrolled = new EventEmitter<IntersectionObserverEntry>();
 
-  private intersectionObserver: IntersectionObserver;
+  private io: IntersectionObserver;
 
   constructor(private ngZone: NgZone, private root: ElementRef) {}
 
   ngOnInit(): void {
-    console.log('Root: ', this.root);
-    console.log('Target: ', this.target);
-
     this.configure();
-    this.observe();
   }
 
   configure(): void {
@@ -76,37 +72,37 @@ export class InfiniteScrollDirective implements OnInit {
         });
       };
 
-      this.intersectionObserver = new IntersectionObserver(callback, config);
+      this.io = new IntersectionObserver(callback, config);
     });
   }
 
   disconnect(): void {
-    if (!this.intersectionObserver) {
+    if (!this.io) {
       return;
     }
 
     this.ngZone.runOutsideAngular(() => {
-      this.intersectionObserver.disconnect();
+      this.io.disconnect();
     });
   }
 
   observe(): void {
-    if (!this.intersectionObserver) {
+    if (!this.io) {
       return;
     }
 
     this.ngZone.runOutsideAngular(() => {
-      this.intersectionObserver.observe(this.target);
+      this.io.observe(this.target);
     });
   }
 
   unobserve(): void {
-    if (!this.intersectionObserver) {
+    if (!this.io) {
       return;
     }
 
     this.ngZone.runOutsideAngular(() => {
-      this.intersectionObserver.unobserve(this.target);
+      this.io.unobserve(this.target);
     });
   }
 }
