@@ -67,7 +67,7 @@ export class InfiniteScrollDirective implements OnInit {
     this.configure();
   }
 
-  configure(): void {
+  private configure(): void {
     this.ngZone.runOutsideAngular(() => {
       const config = {
         root: this.root.nativeElement,
@@ -86,19 +86,19 @@ export class InfiniteScrollDirective implements OnInit {
     });
   }
 
-  disconnect(): void {
+  private disconnect(): void {
     this.ngZone.runOutsideAngular(() => {
       this.io.disconnect();
     });
   }
 
-  observe(): void {
+  private observe(): void {
     this.ngZone.runOutsideAngular(() => {
       this.io.observe(this.target);
     });
   }
 
-  unobserve(): void {
+  private unobserve(): void {
     this.ngZone.runOutsideAngular(() => {
       this.io.unobserve(this.target);
     });
