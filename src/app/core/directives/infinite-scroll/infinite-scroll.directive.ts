@@ -33,7 +33,9 @@ export class InfiniteScrollDirective implements OnInit {
   set completed(val: BooleanInput) {
     const completed = coerceBooleanProperty(val);
     if (completed) {
-      this.disconnect();
+      if (this.io) {
+        this.disconnect();
+      }
     }
   }
 
@@ -41,9 +43,13 @@ export class InfiniteScrollDirective implements OnInit {
   set active(value: boolean) {
     const active = coerceBooleanProperty(value);
     if (active) {
-      this.observe();
+      if (this.io) {
+        this.observe();
+      }
     } else {
-      this.unobserve();
+      if (this.io) {
+        this.unobserve();
+      }
     }
   }
 
@@ -77,30 +83,18 @@ export class InfiniteScrollDirective implements OnInit {
   }
 
   disconnect(): void {
-    if (!this.io) {
-      return;
-    }
-
     this.ngZone.runOutsideAngular(() => {
       this.io.disconnect();
     });
   }
 
   observe(): void {
-    if (!this.io) {
-      return;
-    }
-
     this.ngZone.runOutsideAngular(() => {
       this.io.observe(this.target);
     });
   }
 
   unobserve(): void {
-    if (!this.io) {
-      return;
-    }
-
     this.ngZone.runOutsideAngular(() => {
       this.io.unobserve(this.target);
     });
