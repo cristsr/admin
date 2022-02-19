@@ -7,7 +7,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import {
+  BooleanInput,
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  NumberInput,
+} from '@angular/cdk/coercion';
 
 @Directive({
   selector: '[appInfiniteScroll]',
@@ -15,21 +20,32 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 export class InfiniteScrollDirective implements OnInit {
   @Input() target: HTMLElement;
 
-  @Input() threshold = 1;
-
-  @Input() disabled = false;
+  @Input()
+  get threshold(): number {
+    return this._threshold;
+  }
+  set threshold(value: NumberInput) {
+    this._threshold = coerceNumberProperty(value);
+  }
+  private _threshold = 1;
 
   @Input()
-  get completed(): boolean {
-    return this._completed;
-  }
   set completed(val: BooleanInput) {
-    this._completed = coerceBooleanProperty(val);
-    if (this._completed) {
-      this.stopObserving();
+    const completed = coerceBooleanProperty(val);
+    if (completed) {
+      this.disconnect();
     }
   }
-  private _completed = false;
+
+  @Input()
+  set disabled(value: boolean) {
+    const disabled = coerceBooleanProperty(value);
+    if (disabled) {
+      this.unobserve();
+    } else {
+      this.observe();
+    }
+  }
 
   @Output() scrolled = new EventEmitter<IntersectionObserverEntry>();
 
@@ -42,6 +58,7 @@ export class InfiniteScrollDirective implements OnInit {
     console.log('Target: ', this.target);
 
     this.configure();
+    this.observe();
   }
 
   configure(): void {
@@ -54,24 +71,42 @@ export class InfiniteScrollDirective implements OnInit {
       const callback = (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry: IntersectionObserverEntry) => {
           if (entry.isIntersecting) {
-            if (this.disabled) {
-              return;
-            }
-
             this.scrolled.emit(entry);
           }
         });
       };
 
       this.intersectionObserver = new IntersectionObserver(callback, config);
+    });
+  }
 
+  disconnect(): void {
+    if (!this.intersectionObserver) {
+      return;
+    }
+
+    this.ngZone.runOutsideAngular(() => {
+      this.intersectionObserver.disconnect();
+    });
+  }
+
+  observe(): void {
+    if (!this.intersectionObserver) {
+      return;
+    }
+
+    this.ngZone.runOutsideAngular(() => {
       this.intersectionObserver.observe(this.target);
     });
   }
 
-  stopObserving(): void {
+  unobserve(): void {
+    if (!this.intersectionObserver) {
+      return;
+    }
+
     this.ngZone.runOutsideAngular(() => {
-      this.intersectionObserver.disconnect();
+      this.intersectionObserver.unobserve(this.target);
     });
   }
 }
