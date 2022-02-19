@@ -198,7 +198,7 @@ export class SidebarComponent implements OnInit, Panable {
         end = 100;
       }
     } else {
-      if (this.range < 85) {
+      if (this.range < 70) {
         end = 0;
       } else {
         end = 100;
