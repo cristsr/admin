@@ -13,6 +13,7 @@ import { ConfigModule } from 'core/services/config';
 import { validator } from 'environment';
 
 import { ThemeService } from 'core/services/theme/theme.service';
+import { EventEmitter2 } from 'eventemitter2';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +39,12 @@ import { ThemeService } from 'core/services/theme/theme.service';
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig,
+    },
+    {
+      provide: EventEmitter2,
+      useValue: new EventEmitter2({
+        wildcard: true,
+      }),
     },
   ],
   bootstrap: [AppComponent],
