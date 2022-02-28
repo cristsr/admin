@@ -169,10 +169,16 @@ export class SidebarComponent implements OnInit, Panable {
   }
 
   onPanUp(event: any): void {
+    if (!this.showSidebar) {
+      return;
+    }
     this.horizontalTranslation(event);
   }
 
   onPanDown(event: any): void {
+    if (!this.showSidebar) {
+      return;
+    }
     this.horizontalTranslation(event);
   }
 
