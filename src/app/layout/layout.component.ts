@@ -7,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
     <app-empty-layout *ngIf="layout === 'empty'"></app-empty-layout>
     <app-default-layout *ngIf="layout === 'default'"></app-default-layout>
   `,
-  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
   layout: 'default' | 'empty';

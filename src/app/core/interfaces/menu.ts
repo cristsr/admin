@@ -6,6 +6,7 @@ export interface Menu {
   title: string;
   icon: string;
   url?: string;
+  tag?: string;
   submenu?: Array<Submenu>;
   default?: true;
 }

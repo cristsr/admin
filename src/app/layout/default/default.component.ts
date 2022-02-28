@@ -4,6 +4,8 @@ import { Menu, Submenu } from 'core/interfaces/menu';
 import { DOCUMENT } from '@angular/common';
 import { WINDOW } from 'core/config';
 import { AppConfig } from '../../app.config';
+import { EventEmitter2 } from 'eventemitter2';
+import { LayoutEvents } from 'layout/constants';
 
 @Component({
   selector: 'app-default-layout',
@@ -46,13 +48,9 @@ import { AppConfig } from '../../app.config';
   styleUrls: ['./default.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
-  direction: 'vertical' | 'horizontal' = 'vertical';
-
   menu: Menu[] = AppConfig.menu as any;
 
   currentSubmenu: Submenu[];
-
-  layout: 'default' | 'empty';
 
   sidebarLabel: Record<any, any>;
 
@@ -68,19 +66,16 @@ export class DefaultLayoutComponent implements OnInit {
     @Inject(WINDOW) private window: Window,
     @Inject(DOCUMENT) private document: Document,
     private activatedRoute: ActivatedRoute,
+    private eventEmmiter: EventEmitter2,
   ) {}
 
   ngOnInit(): void {
     const defaultMenu = this.menu.find((v) => v.default);
     this.showOrHideBottomNav(defaultMenu);
-
-    this.activatedRoute.data.subscribe({
-      next: ({ layout }) => (this.layout = layout),
-    });
   }
 
   onBottomNavAction(event: any): void {
-    console.log(event);
+    this.eventEmmiter.emit(LayoutEvents.BottomNavigation, event);
   }
 
   onLinkClick(menu: Menu): void {
