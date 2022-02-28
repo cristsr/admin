@@ -34,36 +34,10 @@ const routes: Routes = [
     children: [
       {
         path: 'finances',
-        children: [
-          {
-            path: 'summary',
-            loadChildren: () =>
-              import('./modules/finances/pages/summary/summary.module').then(
-                (m) => m.SummaryModule,
-              ),
-          },
-          {
-            path: 'movements',
-            loadChildren: () =>
-              import(
-                './modules/finances/pages/movements/movements.module'
-              ).then((m) => m.MovementsModule),
-          },
-          {
-            path: 'budgets',
-            loadChildren: () =>
-              import('./modules/finances/pages/budgets/budgets.module').then(
-                (m) => m.BudgetsModule,
-              ),
-          },
-          {
-            path: 'add-movement',
-            loadChildren: () =>
-              import(
-                './modules/finances/pages/add-movement/add-movement.module'
-              ).then((m) => m.AddMovementModule),
-          },
-        ],
+        loadChildren: () =>
+          import('./modules/finances/finances.module').then(
+            (m) => m.FinancesModule,
+          ),
       },
       {
         path: 'education',
