@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { CategoryService, MovementService } from 'modules/finances/services';
 import { Option } from 'core/components/select';
 import { CreateMovement } from 'modules/finances/types';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-add-movement',
@@ -13,6 +14,7 @@ import { CreateMovement } from 'modules/finances/types';
 export class AddMovementComponent implements OnInit {
   formGroup: FormGroup;
   categories: Option[];
+  appearance: MatFormFieldAppearance = 'standard';
 
   @ViewChild('ngForm', { static: true }) ngForm: NgForm;
 
@@ -42,6 +44,7 @@ export class AddMovementComponent implements OnInit {
 
   buildForm(): void {
     this.formGroup = this.fb.group({
+      type: ['egreso', Validators.required],
       date: [new Date(), Validators.required],
       description: [null, Validators.required],
       amount: [null, [Validators.required, Validators.min(0)]],
@@ -50,14 +53,26 @@ export class AddMovementComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('Form', this.formGroup.value);
+
     this.formGroup.updateValueAndValidity();
 
     if (this.formGroup.invalid) {
       return;
     }
 
+    function dateUtc(date: Date): string {
+      return new Date(
+        date
+          .toLocaleString('en-US', {
+            timeZone: 'America/Bogota',
+          })
+          .split('GMT')[0] + ' UTC',
+      ).toISOString();
+    }
+
     const movement: CreateMovement = {
-      date: this.formGroup.value.date,
+      date: dateUtc(this.formGroup.value.date),
       description: this.formGroup.value.description,
       amount: this.formGroup.value.amount,
       category: this.formGroup.value.category.id,

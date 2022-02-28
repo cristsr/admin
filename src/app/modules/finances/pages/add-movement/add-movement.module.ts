@@ -14,6 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SelectModule } from 'core/components/select';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [AddMovementComponent],
@@ -33,6 +34,7 @@ import { SelectModule } from 'core/components/select';
     MatDatepickerModule,
     MatDialogModule,
     SelectModule,
+    MatRadioModule,
   ],
 })
 export class AddMovementModule {}

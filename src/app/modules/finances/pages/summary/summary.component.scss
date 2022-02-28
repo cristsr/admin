@@ -4,12 +4,12 @@
 
 .chart-group-btn {
   button {
-    @apply py-1 mx-2 px-0.5 text-sm text-gray-700 font-medium;
+    @apply py-1 mx-2 px-0.5 text-sm font-medium;
   }
 }
 
 .selected {
-  @apply border-b-2 border-blue-500;
+  @apply border-b-2;
 }
 
 

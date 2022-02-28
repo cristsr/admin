@@ -38,21 +38,21 @@ const routes: Routes = [
           {
             path: 'summary',
             loadChildren: () =>
-              import('./modules/finances/summary/summary.module').then(
+              import('./modules/finances/pages/summary/summary.module').then(
                 (m) => m.SummaryModule,
               ),
           },
           {
             path: 'movements',
             loadChildren: () =>
-              import('./modules/finances/movements/movements.module').then(
-                (m) => m.MovementsModule,
-              ),
+              import(
+                './modules/finances/pages/movements/movements.module'
+              ).then((m) => m.MovementsModule),
           },
           {
             path: 'budgets',
             loadChildren: () =>
-              import('./modules/finances/budgets/budgets.module').then(
+              import('./modules/finances/pages/budgets/budgets.module').then(
                 (m) => m.BudgetsModule,
               ),
           },
@@ -60,7 +60,7 @@ const routes: Routes = [
             path: 'add-movement',
             loadChildren: () =>
               import(
-                './modules/finances/add-movement/add-movement.module'
+                './modules/finances/pages/add-movement/add-movement.module'
               ).then((m) => m.AddMovementModule),
           },
         ],

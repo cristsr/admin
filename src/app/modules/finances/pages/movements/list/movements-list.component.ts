@@ -3,20 +3,7 @@ import { MovementOld } from 'core/interfaces/movementOld';
 
 @Component({
   selector: 'app-movements-list',
-  template: `
-    <div class="date-group" *ngFor="let item of data | movement">
-      <b>{{ item.date | date }}</b>
-      <div class="item" *ngFor="let value of item.values">
-        <mat-icon>favorite</mat-icon>
-        <div class="column labels">
-          <b>{{ value.category.name }}</b>
-          <span>{{ value.description }}</span>
-        </div>
-        <span class="currency">{{ 120000 | currency }}</span>
-      </div>
-    </div>
-  `,
-  styleUrls: ['./movements-list.component.scss'],
+  template: ``,
 })
 export class MovementsListComponent {
   data: MovementOld[] = [

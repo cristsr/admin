@@ -10,6 +10,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [BottomNavComponent, ExampleSheetComponent],
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
     MatListModule,
     MatCardModule,
     RouterModule,
+    MatRippleModule,
   ],
   exports: [BottomNavComponent],
 })

@@ -8,20 +8,27 @@ import { Submenu } from 'core/interfaces/menu';
 @Component({
   selector: 'app-bottom-nav',
   host: {
-    class: 'h-14 bg-white-200 shadow z-10',
+    class: 'h-12 bg-white-200 shadow z-10',
   },
   template: `
     <div class="h-full flex justify-around items-center">
       <ng-container *ngFor="let item of config">
-        <ng-container *ngIf="item.type === 'link'">
-          <button mat-icon-button [routerLink]="item.url">
-            <mat-icon [routerLinkActive]="linkActiveClass">{{
-              item.icon
-            }}</mat-icon>
-          </button>
+        <ng-container *ngIf="item.url">
+          <div
+            matRipple
+            matRippleCentered
+            class="flex flex-auto flex-basis-1 flex-col justify-center items-center rounded-[20%/50%] px-2 h-full"
+          >
+            <button [routerLink]="item.url">
+              <mat-icon [routerLinkActive]="linkActiveClass">{{
+                item.icon
+              }}</mat-icon>
+            </button>
+            <div class="text-xs tracking-tight">{{ item.title }}</div>
+          </div>
         </ng-container>
 
-        <ng-container *ngIf="item.type === 'action'">
+        <ng-container *ngIf="!item.url">
           <button mat-icon-button (click)="action.emit(item)">
             <mat-icon>{{ item.icon }}</mat-icon>
           </button>
@@ -29,7 +36,6 @@ import { Submenu } from 'core/interfaces/menu';
       </ng-container>
     </div>
   `,
-  styleUrls: ['./bottom-nav.component.scss'],
 })
 export class BottomNavComponent {
   @Input() config: Submenu[];

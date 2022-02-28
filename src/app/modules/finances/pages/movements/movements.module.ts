@@ -8,8 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MovementDetailComponent } from './detail/movement-detail.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MovementsListComponent } from 'modules/finances/movements/list/movements-list.component';
-import { MovementModule } from 'core/pipes/movement/movement.module';
+import { MovementsListComponent } from './list/movements-list.component';
+import { InfiniteScrollModule } from 'core/directives/infinite-scroll';
+import { GroupByModule } from 'modules/finances/pipes/group-by';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MovementModule } from 'core/pipes/movement/movement.module';
     MatIconModule,
     MatRippleModule,
     MatDialogModule,
-    MovementModule,
+    InfiniteScrollModule,
+    GroupByModule,
   ],
 })
 export class MovementsModule {}

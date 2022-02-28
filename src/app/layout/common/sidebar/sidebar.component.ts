@@ -169,13 +169,11 @@ export class SidebarComponent implements OnInit, Panable {
   }
 
   onPanUp(event: any): void {
-    return;
-    // console.log('top');
+    this.horizontalTranslation(event);
   }
 
   onPanDown(event: any): void {
-    return;
-    // console.log('bottom');
+    this.horizontalTranslation(event);
   }
 
   onPanEnd(event: any): void {

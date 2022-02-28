@@ -29,7 +29,7 @@ import { AppConfig } from '../../app.config';
         ></app-nav>
 
         <div class="bg-gray-100 overflow-hidden grow">
-          <router-outlet></router-outlet>
+          <router-outlet (activate)="onOutletLoaded($event)"></router-outlet>
         </div>
 
         <!-- BottomNav -->
@@ -38,7 +38,7 @@ import { AppConfig } from '../../app.config';
           *ngIf="showBottomNav"
           linkActiveClass="text-blue-500"
           [config]="currentSubmenu"
-          (action)="onAction($event)"
+          (action)="onBottomNavAction($event)"
         ></app-bottom-nav>
       </div>
     </div>
@@ -79,7 +79,7 @@ export class DefaultLayoutComponent implements OnInit {
     });
   }
 
-  onAction(event: any): void {
+  onBottomNavAction(event: any): void {
     console.log(event);
   }
 
@@ -97,5 +97,9 @@ export class DefaultLayoutComponent implements OnInit {
 
   onLabel(event: Record<any, any>): void {
     this.sidebarLabel = event;
+  }
+
+  onOutletLoaded($event: any): void {
+    console.log($event);
   }
 }

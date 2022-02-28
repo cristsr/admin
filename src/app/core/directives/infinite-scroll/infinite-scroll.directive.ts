@@ -68,39 +68,31 @@ export class InfiniteScrollDirective implements OnInit {
   }
 
   private configure(): void {
-    this.ngZone.runOutsideAngular(() => {
-      const config = {
-        root: this.root.nativeElement,
-        threshold: this.threshold,
-      };
+    const config = {
+      root: this.root.nativeElement,
+      threshold: this.threshold,
+    };
 
-      const callback = (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry: IntersectionObserverEntry) => {
-          if (entry.isIntersecting) {
-            this.scrolled.emit(entry);
-          }
-        });
-      };
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry: IntersectionObserverEntry) => {
+        if (entry.isIntersecting) {
+          this.scrolled.emit(entry);
+        }
+      });
+    };
 
-      this.io = new IntersectionObserver(callback, config);
-    });
+    this.io = new IntersectionObserver(callback, config);
   }
 
   private disconnect(): void {
-    this.ngZone.runOutsideAngular(() => {
-      this.io.disconnect();
-    });
+    this.io.disconnect();
   }
 
   private observe(): void {
-    this.ngZone.runOutsideAngular(() => {
-      this.io.observe(this.target);
-    });
+    this.io.observe(this.target);
   }
 
   private unobserve(): void {
-    this.ngZone.runOutsideAngular(() => {
-      this.io.unobserve(this.target);
-    });
+    this.io.unobserve(this.target);
   }
 }

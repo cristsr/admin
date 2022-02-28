@@ -1,12 +1,13 @@
-export interface Paginable<T> {
-  total: number;
+export interface Pageable<T> {
+  page: number;
   perPage: number;
-  currentPage: number;
-  lastPage: number;
+  total: number;
+  totalPages: number;
+  lastPage: boolean;
   data: T[];
 }
 
-export interface PaginableParams {
+export interface PaginableQuery {
   page: number;
   perPage: number;
 }

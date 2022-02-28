@@ -11,7 +11,7 @@ export class CategoryService {
   constructor(private httpClient: HttpClient, private config: ConfigService) {}
 
   get categories$(): Observable<any[]> {
-    const url = this.config.get(ENV.FINANCES_API) + '/categories';
+    const url = this.config.get(ENV.FINANCES_API) + 'categories';
     return this.httpClient.get<any>(url);
   }
 }
