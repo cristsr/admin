@@ -58,10 +58,6 @@ export class MovementsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterOpened().subscribe((result) => {
-      console.log('openDialog', result);
-    });
-
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });

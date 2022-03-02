@@ -1,9 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { CategoryService, MovementService } from 'modules/finances/services';
 import { Category, CreateMovement, Subcategory } from 'modules/finances/types';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { DateTime } from 'luxon';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatBottomSheet,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
+
+@Component({
+  selector: 'app-add-movement-dialog',
+  template: `
+    <div class="text-lg font-medium pb-4">Movimiento creado exitosamente</div>
+
+    <div class="ml-auto">
+      <button
+        mat-button
+        [mat-dialog-close]="true"
+        cdkFocusInitial
+        (click)="ref.close()"
+      >
+        Aceptar
+      </button>
+    </div>
+  `,
+})
+export class AddMovementDialogComponent {
+  constructor(public ref: MatDialogRef<any>) {}
+}
 
 @Component({
   selector: 'app-add-movement',
@@ -22,6 +48,8 @@ export class AddMovementComponent implements OnInit {
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private movementService: MovementService,
+    private dialog: MatDialog,
+    private bottomSheetRef: MatBottomSheetRef,
   ) {}
 
   ngOnInit(): void {
@@ -90,12 +118,17 @@ export class AddMovementComponent implements OnInit {
       description: value.description,
       amount: value.amount,
       category: value.category?.id,
-      subcategory: value.category?.suboption.id,
+      subcategory: value.subcategory?.id,
     };
 
     this.movementService.create(movement).subscribe({
       next: () => {
-        alert('Movimiento creado exitosamente!');
+        this.dialog
+          .open(AddMovementDialogComponent)
+          .afterClosed()
+          .subscribe(() => {
+            this.bottomSheetRef.dismiss();
+          });
         this.resetForm();
       },
       error: (err) => {
@@ -113,9 +146,5 @@ export class AddMovementComponent implements OnInit {
       amount: null,
       category: null,
     });
-  }
-
-  displayFn(user: any): string {
-    return user && user.name ? user.name : '';
   }
 }

@@ -3,36 +3,35 @@ import { HttpClient } from '@angular/common/http';
 import { filter, Observable, Subject, switchMap } from 'rxjs';
 import { ConfigService } from 'core/services/config';
 import { ENV } from 'environment';
-import { Category } from 'modules/finances/types';
+import { Category, Subcategory } from 'modules/finances/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private _nextSubcategory = new Subject<Category>();
+  private readonly apiUrl: string;
+  private categoryChanges = new Subject<Category>();
 
-  constructor(private httpClient: HttpClient, private config: ConfigService) {}
-
-  get categories$(): Observable<any[]> {
-    const url = this.config.get(ENV.FINANCES_API) + 'categories';
+  get categories$(): Observable<Category[]> {
+    const url = this.apiUrl + 'categories';
     return this.httpClient.get<any>(url);
   }
 
-  get subcategories$(): Observable<any[]> {
-    return this._nextSubcategory.pipe(
+  get subcategories$(): Observable<Subcategory[]> {
+    return this.categoryChanges.pipe(
       filter((category) => !!category),
-      switchMap((category) => {
-        const url =
-          this.config.get(ENV.FINANCES_API) +
-          'categories/' +
-          category.id +
-          '/subcategories';
+      switchMap(({ id }) => {
+        const url = this.apiUrl + 'categories/' + id + '/subcategories';
         return this.httpClient.get<any>(url);
       }),
     );
   }
 
+  constructor(private httpClient: HttpClient, private config: ConfigService) {
+    this.apiUrl = this.config.get(ENV.FINANCES_API);
+  }
+
   fetchSubcategories(category: Category): void {
-    this._nextSubcategory.next(category);
+    this.categoryChanges.next(category);
   }
 }

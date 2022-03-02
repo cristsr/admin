@@ -11,7 +11,7 @@
 
     <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
       <div class="flex justify-between">
-        <div class="text-lg font-medium pb-2 md:pb-0">Movimientos </div>
+        <div class="text-lg font-medium pb-2 md:pb-0">Movimientos</div>
         <div class="ml-2 -mt-2 -mr-3">
           <button mat-icon-button aria-label="Example icon-button with a menu">
             <mat-icon>filter_list</mat-icon>
@@ -32,8 +32,9 @@
             <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1"
                 *ngFor="let movement of item.values; trackBy: trackByFn">
               <div class="flex items-center">
-                <div class="rounded-full w-8 h-8 flex justify-center items-center {{ movement.category?.color }}">
-                  <mat-icon>{{ movement.category?.icon }}</mat-icon>
+                <div
+                  class="rounded-full w-8 h-8 flex justify-center items-center bg-{{ movement.category?.color || 'amber-500' }}">
+                  <mat-icon>{{ movement.category?.icon || 'category' }}</mat-icon>
                 </div>
 
                 <div class="pl-3 flex flex-col">
@@ -48,5 +49,5 @@
       </div>
     </div>
   </div>
-  <div #targetToObserve>{{ queryParams.page }}</div>
+  <div #targetToObserve></div>
 </div>

@@ -4,7 +4,7 @@
 
   <form class="flex flex-col w-full gap-2" [formGroup]="form" (submit)="onSubmit()" #ngForm="ngForm">
 
-    <mat-form-field (click)='picker.open()' [appearance]="appearance" floatLabel="auto">
+    <mat-form-field (click)="picker.open()" [appearance]="appearance" floatLabel="auto">
       <mat-icon matPrefix class="text-purple-600 mr-2">today</mat-icon>
       <mat-label>Fecha</mat-label>
       <input matInput type="datetime" formControlName="date" readonly [matDatepicker]="picker">
@@ -15,13 +15,13 @@
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Descripción</mat-label>
       <mat-icon matPrefix class="text-purple-600 mr-2">mode_edit</mat-icon>
-      <input matInput formControlName="description" autocomplete="off"/>
+      <input matInput formControlName="description" autocomplete="off" />
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Total</mat-label>
       <mat-icon matPrefix class="text-purple-600 mr-2">monetization_on</mat-icon>
-      <input matInput type="number" formControlName="amount" autocomplete="off"/>
+      <input matInput type="number" formControlName="amount" autocomplete="off" />
     </mat-form-field>
 
 
@@ -53,7 +53,8 @@
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Subcategoría.</mat-label>
-      <mat-icon *ngIf="form.get('category').value" matPrefix class="text-purple-600 mr-2">{{form.get('category').value.icon}}</mat-icon>
+      <mat-icon *ngIf="form.get('category').value" matPrefix
+                class="text-purple-600 mr-2">{{form.get('category').value.icon}}</mat-icon>
       <mat-select formControlName="subcategory">
         <mat-select-trigger>
           {{ form.get('subcategory').value?.name ?? 'Seleccione una subcategoría' | titlecase}}
@@ -67,19 +68,18 @@
 
     <div class="flex flex-col p-1.4">
       <label class="pb-1 text-sm text-[rgba(0,0,0,.8)]">Tipo de movimiento</label>
-      <mat-radio-group aria-label="Select an option" class="flex  my-2 gap-4" color="primary" formControlName="type" >
+      <mat-radio-group aria-label="Select an option" class="flex  my-2 gap-4" color="primary" formControlName="type">
         <mat-radio-button class="mr-4 text-[rgba(0,0,0,.8)]" value="expense">Gasto</mat-radio-button>
         <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">Ingreso</mat-radio-button>
       </mat-radio-group>
     </div>
 
     <div class="ml-auto">
-      <button mat-button class="bg-blue-500 text-white w-full">
+      <button mat-button cdkFocusInitial class="text-white w-full">
         <mat-icon matPrefix class="mr-2">save</mat-icon>
         <span class="mt-0.5 text font-medium">Guardar</span>
       </button>
     </div>
   </form>
 </div>
-
 

@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AddMovementRoutingModule } from './add-movement-routing.module';
-import { AddMovementComponent } from './add-movement.component';
+import {
+  AddMovementComponent,
+  AddMovementDialogComponent,
+} from './add-movement.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,7 +29,7 @@ import { Platform } from '@angular/cdk/platform';
 import { CustomDateAdapter } from 'core/utils';
 
 @NgModule({
-  declarations: [AddMovementComponent],
+  declarations: [AddMovementComponent, AddMovementDialogComponent],
   imports: [
     CommonModule,
     AddMovementRoutingModule,

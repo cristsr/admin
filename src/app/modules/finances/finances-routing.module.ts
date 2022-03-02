@@ -25,11 +25,9 @@ const routes: Routes = [
           import('./pages/budgets/budgets.module').then((m) => m.BudgetsModule),
       },
       {
-        path: 'add-movement',
-        loadChildren: () =>
-          import('./pages/add-movement/add-movement.module').then(
-            (m) => m.AddMovementModule,
-          ),
+        path: '',
+        redirectTo: 'summary',
+        pathMatch: 'full',
       },
     ],
   },
