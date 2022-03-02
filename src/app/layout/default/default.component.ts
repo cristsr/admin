@@ -31,7 +31,7 @@ import { LayoutEvents } from 'layout/constants';
         ></app-nav>
 
         <div class="bg-gray-100 overflow-hidden grow">
-          <router-outlet (activate)="onOutletLoaded($event)"></router-outlet>
+          <router-outlet></router-outlet>
         </div>
 
         <!-- BottomNav -->
@@ -66,7 +66,7 @@ export class DefaultLayoutComponent implements OnInit {
     @Inject(WINDOW) private window: Window,
     @Inject(DOCUMENT) private document: Document,
     private activatedRoute: ActivatedRoute,
-    private eventEmmiter: EventEmitter2,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   onBottomNavAction(event: any): void {
-    this.eventEmmiter.emit(LayoutEvents.BottomNavigation, event);
+    this.eventEmitter.emit(LayoutEvents.BottomNavigation, event);
   }
 
   onLinkClick(menu: Menu): void {
@@ -92,9 +92,5 @@ export class DefaultLayoutComponent implements OnInit {
 
   onLabel(event: Record<any, any>): void {
     this.sidebarLabel = event;
-  }
-
-  onOutletLoaded($event: any): void {
-    console.log($event);
   }
 }

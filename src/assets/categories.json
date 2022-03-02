@@ -1,7 +1,7 @@
 [
   {
     "icon": "home",
-    "color": "bg-lime-400",
+    "color": "lime-400",
     "name": "hogar",
     "subcategories": [
       {
@@ -35,7 +35,7 @@
   },
   {
     "icon": "restaurant",
-    "color": "bg-orange-400",
+    "color": "orange-400",
     "name": "alimentos",
     "subcategories": [
       {
@@ -51,7 +51,7 @@
   },
   {
     "icon": "sports_esports",
-    "color": "bg-purple-400",
+    "color": "purple-400",
     "name": "entretenimiento",
     "subcategories": [
       {
@@ -82,7 +82,7 @@
   },
   {
     "icon": "health_and_safety",
-    "color": "bg-blue-400",
+    "color": "blue-400",
     "name": "salud y belleza",
     "subcategories": [
       {
@@ -113,7 +113,7 @@
   },
   {
     "icon": "directions_bus",
-    "color": "bg-red-400",
+    "color": "red-400",
     "name": "auto y transporte",
     "subcategories": [
       {
@@ -147,7 +147,7 @@
   },
   {
     "icon": "school",
-    "color": "bg-yellow-400",
+    "color": "yellow-400",
     "name": "educación y trabajo",
     "subcategories": [
       {
@@ -181,7 +181,7 @@
   },
   {
     "icon": "redeem",
-    "color": "bg-indigo-400",
+    "color": "indigo-400",
     "name": "regalos y ayuda",
     "subcategories": [
       {
@@ -200,7 +200,7 @@
   },
   {
     "icon": "flight",
-    "color": "bg-green-400",
+    "color": "green-400",
     "name": "viajes",
     "subcategories": [
       {
@@ -222,7 +222,7 @@
   },
   {
     "icon": "attach_money",
-    "color": "bg-sky-400",
+    "color": "sky-400",
     "name": "finanzas e impuestos",
     "subcategories": [
       {
@@ -247,7 +247,7 @@
   },
   {
     "icon": "checkroom",
-    "color": "bg-gray-400",
+    "color": "gray-400",
     "name": "ropa y calzado",
     "subcategories": [
       {
@@ -269,7 +269,7 @@
   },
   {
     "icon": "account_balance",
-    "color": "bg-pink-400",
+    "color": "pink-400",
     "name": "transacciones bancarias",
     "subcategories": [
       {
@@ -291,7 +291,7 @@
   },
   {
     "icon": "trending_up",
-    "color": "bg-cyan-400",
+    "color": "cyan-400",
     "name": "ingresos",
     "subcategories": [
       {

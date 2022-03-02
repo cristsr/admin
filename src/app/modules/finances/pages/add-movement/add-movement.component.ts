@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { CategoryService, MovementService } from 'modules/finances/services';
-import { Option } from 'core/components/select';
-import { CreateMovement } from 'modules/finances/types';
+import { Category, CreateMovement, Subcategory } from 'modules/finances/types';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-add-movement',
@@ -12,8 +11,9 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
   styleUrls: ['./add-movement.component.scss'],
 })
 export class AddMovementComponent implements OnInit {
-  formGroup: FormGroup;
-  categories: Option[];
+  form: FormGroup;
+  categories: Category[];
+  subcategories: any[];
   appearance: MatFormFieldAppearance = 'standard';
 
   @ViewChild('ngForm', { static: true }) ngForm: NgForm;
@@ -26,57 +26,71 @@ export class AddMovementComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
+    this.disableSubcategory();
+    this.listenCategoryChanges();
 
-    this.categoryService.categories$
-      .pipe(
-        map<any[], Option[]>((categories) =>
-          categories.map(({ subcategories, ...rest }) => ({
-            ...rest,
-            suboptions: subcategories,
-          })),
-        ),
-      )
-      .subscribe((data: Option[]) => {
-        this.categories = data;
-        console.log('List options', this.categories);
-      });
+    this.categoryService.categories$.subscribe((data: Category[]) => {
+      this.categories = data;
+      // console.log('Categories', this.categories);
+    });
+
+    this.categoryService.subcategories$.subscribe((data: Subcategory[]) => {
+      this.subcategories = data;
+      this.enableSubcategory();
+      // console.log('Subcategories', this.subcategories);
+    });
+
+    this.form.valueChanges.subscribe((v) => {
+      console.log('Form changes', v);
+    });
   }
 
   buildForm(): void {
-    this.formGroup = this.fb.group({
-      type: ['egreso', Validators.required],
+    this.form = this.fb.group({
+      type: ['expense', Validators.required],
       date: [new Date(), Validators.required],
       description: [null, Validators.required],
       amount: [null, [Validators.required, Validators.min(0)]],
       category: [null, Validators.required],
+      subcategory: [null, Validators.required],
     });
   }
 
+  listenCategoryChanges(): void {
+    this.form.get('category').valueChanges.subscribe((category: Category) => {
+      this.categoryService.fetchSubcategories(category);
+      this.disableSubcategory();
+      this.resetSubcategory();
+    });
+  }
+
+  disableSubcategory(): void {
+    this.form.get('subcategory').disable();
+  }
+
+  enableSubcategory(): void {
+    this.form.get('subcategory').enable();
+  }
+
+  resetSubcategory(): void {
+    this.form.get('subcategory').setValue(null);
+  }
+
   onSubmit(): void {
-    console.log('Form', this.formGroup.value);
+    this.form.updateValueAndValidity();
 
-    this.formGroup.updateValueAndValidity();
-
-    if (this.formGroup.invalid) {
+    if (this.form.invalid) {
       return;
     }
 
-    function dateUtc(date: Date): string {
-      return new Date(
-        date
-          .toLocaleString('en-US', {
-            timeZone: 'America/Bogota',
-          })
-          .split('GMT')[0] + ' UTC',
-      ).toISOString();
-    }
+    const { value } = this.form;
 
     const movement: CreateMovement = {
-      date: dateUtc(this.formGroup.value.date),
-      description: this.formGroup.value.description,
-      amount: this.formGroup.value.amount,
-      category: this.formGroup.value.category.id,
-      subcategory: this.formGroup.value.category.suboption.id,
+      date: DateTime.fromJSDate(value.date).toFormat('yyyy-MM-dd'),
+      description: value.description,
+      amount: value.amount,
+      category: value.category?.id,
+      subcategory: value.category?.suboption.id,
     };
 
     this.movementService.create(movement).subscribe({
@@ -93,11 +107,15 @@ export class AddMovementComponent implements OnInit {
 
   resetForm(): void {
     this.ngForm.resetForm();
-    this.formGroup.reset({
+    this.form.reset({
       date: new Date(),
       description: null,
       amount: null,
       category: null,
     });
+  }
+
+  displayFn(user: any): string {
+    return user && user.name ? user.name : '';
   }
 }

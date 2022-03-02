@@ -1,4 +1,6 @@
 import { animationFrames, endWith, map, Observable, takeWhile } from 'rxjs';
+import { NativeDateAdapter } from '@angular/material/core';
+import { DateTime } from 'luxon';
 
 export function isNotNullOrUndefined(val: any): boolean {
   return val !== null && val !== undefined;
@@ -21,4 +23,13 @@ export function translateAnimationFrame(
     // Calculate the distance traveled between start and end
     map((v) => v * diff + start),
   );
+}
+
+/**
+ * Converts a date to a legible string
+ */
+export class CustomDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: any): string {
+    return DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_MED);
+  }
 }

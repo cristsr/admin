@@ -21,8 +21,6 @@ export const AppConfig = {
         },
         {
           icon: 'add',
-          title: 'Nuevo movimiento',
-          tag: 'add-movement',
           // url: 'finances/add-movement',
         },
         {

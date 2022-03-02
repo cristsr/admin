@@ -23,3 +23,7 @@
 ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
   @apply bg-purple-600;
 }
+
+::ng-deep .mat-select-panel {
+  min-width: 100% !important;
+}

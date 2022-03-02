@@ -15,7 +15,7 @@ import { Menu } from 'core/interfaces/menu';
 import { WINDOW } from 'core/config';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
 import { Subject, takeUntil } from 'rxjs';
-import { translateAnimationFrame } from 'core/utils/utils';
+import { translateAnimationFrame } from 'core/utils';
 
 @Component({
   selector: 'app-sidebar',

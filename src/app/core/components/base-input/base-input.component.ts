@@ -14,7 +14,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormField } from '@angular/material/form-field';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { isNotNullOrUndefined } from 'core/utils/utils';
+import { isNotNullOrUndefined } from 'core/utils';
 import { ErrorState, onChangeFn, onTouchedFn } from './base-input.utils';
 
 @Component({
