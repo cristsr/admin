@@ -14,7 +14,7 @@ export class CategoryService {
 
   get categories$(): Observable<Category[]> {
     const url = this.apiUrl + 'categories';
-    return this.httpClient.get<any>(url);
+    return this.httpClient.get<Category[]>(url);
   }
 
   get subcategories$(): Observable<Subcategory[]> {
@@ -22,7 +22,7 @@ export class CategoryService {
       filter((category) => !!category),
       switchMap(({ id }) => {
         const url = this.apiUrl + 'categories/' + id + '/subcategories';
-        return this.httpClient.get<any>(url);
+        return this.httpClient.get<Subcategory[]>(url);
       }),
     );
   }
