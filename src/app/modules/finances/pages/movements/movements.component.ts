@@ -47,9 +47,8 @@ export class MovementsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.movementService
-      .movements()
-      .subscribe((response: Pageable<GroupMovement>) => {
+    this.movementService.movements$.subscribe(
+      (response: Pageable<GroupMovement>) => {
         this.movements.push(...response.data);
         this.activeScroll = true;
 
@@ -59,7 +58,8 @@ export class MovementsComponent implements OnInit {
 
         this.changeDetectorRef.detectChanges();
         console.log(this.movements);
-      });
+      },
+    );
 
     this.setInitialConfig();
     this.movementService.nextPage(this.queryParams);

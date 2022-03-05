@@ -27,7 +27,7 @@ export class MovementService {
     return this.movementRepository.update(id, movement);
   }
 
-  movements(): Observable<Pageable<GroupMovement>> {
+  get movements$(): Observable<Pageable<GroupMovement>> {
     return this.nextQuery.pipe(
       switchMap((query) => {
         return this.movementRepository.getAll(query);
