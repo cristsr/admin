@@ -1,5 +1,6 @@
 import { PaginableQuery } from 'core/types';
 import { Category, Subcategory } from './category.types';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 export type MovementType = 'income' | 'expense';
 
@@ -33,3 +34,11 @@ export interface GroupMovement {
 }
 
 export type GroupBy = 'days' | 'weeks' | 'months' | 'years';
+
+export type MovementFormAction = 'read' | 'create' | 'edit';
+
+export interface MovementFormData {
+  action: MovementFormAction;
+  movement?: Movement;
+  appearance?: MatFormFieldAppearance;
+}

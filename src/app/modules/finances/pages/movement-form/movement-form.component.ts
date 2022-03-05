@@ -1,27 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService, MovementService } from 'modules/finances/services';
-import {
-  Category,
-  CreateMovement,
-  Movement,
-  Subcategory,
-  UpdateMovement,
-} from 'modules/finances/types';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { DateTime } from 'luxon';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-
-type MovementFormAction = 'read' | 'create' | 'edit';
-
-export interface MovementFormData {
-  action: MovementFormAction;
-  movement?: Movement;
-  appearance?: MatFormFieldAppearance;
-}
+import {
+  Category,
+  Subcategory,
+  Movement,
+  UpdateMovement,
+  CreateMovement,
+  MovementFormData,
+  MovementFormAction,
+} from 'modules/finances/types';
 
 @Component({
   selector: 'app-movement-form',
