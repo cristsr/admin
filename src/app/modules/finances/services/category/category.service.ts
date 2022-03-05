@@ -1,34 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { filter, Observable, shareReplay, Subject, switchMap } from 'rxjs';
-import { ConfigService } from 'core/services/config';
-import { ENV } from 'environment';
 import { Category, Subcategory } from 'modules/finances/types';
+import { CategoryRepository } from 'modules/finances/repositories';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private readonly apiUrl: string;
   private categoryChanges = new Subject<Category>();
+  private categories: Observable<Category[]>;
+
+  constructor(private categoryRepository: CategoryRepository) {}
 
   get categories$(): Observable<Category[]> {
-    const url = this.apiUrl + 'categories';
-    return this.httpClient.get<Category[]>(url).pipe(shareReplay(1));
+    if (!this.categories) {
+      this.categories = this.categoryRepository
+        .getCategories()
+        .pipe(shareReplay(1));
+    }
+
+    return this.categories;
   }
 
   get subcategories$(): Observable<Subcategory[]> {
     return this.categoryChanges.pipe(
       filter((category) => !!category),
       switchMap(({ id }) => {
-        const url = this.apiUrl + 'categories/' + id + '/subcategories';
-        return this.httpClient.get<Subcategory[]>(url);
+        return this.categoryRepository.getSubcategories(id);
       }),
     );
-  }
-
-  constructor(private httpClient: HttpClient, private config: ConfigService) {
-    this.apiUrl = this.config.get(ENV.FINANCES_API);
   }
 
   fetchSubcategories(category: Category): void {
