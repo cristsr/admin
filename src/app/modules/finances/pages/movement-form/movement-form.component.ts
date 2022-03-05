@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService, MovementService } from 'modules/finances/services';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
@@ -16,13 +16,14 @@ import {
   MovementFormData,
   MovementFormAction,
 } from 'modules/finances/types';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-movement-form',
   templateUrl: './movement-form.component.html',
   styleUrls: ['./movement-form.component.scss'],
 })
-export class MovementFormComponent implements OnInit {
+export class MovementFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   categories: Category[];
   subcategories: Subcategory[];
@@ -34,6 +35,8 @@ export class MovementFormComponent implements OnInit {
     edit: 'Editar movimiento',
     read: 'Detalle del movimiento',
   };
+
+  private unsubscribeAll = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +56,11 @@ export class MovementFormComponent implements OnInit {
     this.setupForm();
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribeAll.next();
+    this.unsubscribeAll.complete();
+  }
+
   buildForm(): void {
     this.form = this.fb.group({
       type: ['expense', Validators.required],
@@ -65,26 +73,33 @@ export class MovementFormComponent implements OnInit {
   }
 
   setupObservers(): void {
-    this.categoryService.categories$.subscribe({
-      next: (data: Category[]) => {
-        this.categories = data;
-      },
-    });
+    this.categoryService.categories$
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe({
+        next: (data: Category[]) => {
+          this.categories = data;
+        },
+      });
 
-    this.categoryService.subcategories$.subscribe({
-      next: (data: Subcategory[]) => {
-        this.subcategories = data;
-        this.enableSubcategory();
-      },
-    });
+    this.categoryService.subcategories$
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe({
+        next: (data: Subcategory[]) => {
+          this.subcategories = data;
+          this.enableSubcategory();
+        },
+      });
 
-    this.form.get('category').valueChanges.subscribe({
-      next: (category: Category) => {
-        this.categoryService.fetchSubcategories(category);
-        this.resetSubcategory();
-        this.disableSubcategory();
-      },
-    });
+    this.form
+      .get('category')
+      .valueChanges.pipe(takeUntil(this.unsubscribeAll))
+      .subscribe({
+        next: (category: Category) => {
+          this.categoryService.fetchSubcategories(category);
+          this.resetSubcategory();
+          this.disableSubcategory();
+        },
+      });
   }
 
   setupForm(): void {

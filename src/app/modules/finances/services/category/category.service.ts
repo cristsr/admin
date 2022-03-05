@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { filter, Observable, Subject, switchMap } from 'rxjs';
+import { filter, Observable, shareReplay, Subject, switchMap } from 'rxjs';
 import { ConfigService } from 'core/services/config';
 import { ENV } from 'environment';
 import { Category, Subcategory } from 'modules/finances/types';
@@ -14,7 +14,7 @@ export class CategoryService {
 
   get categories$(): Observable<Category[]> {
     const url = this.apiUrl + 'categories';
-    return this.httpClient.get<Category[]>(url);
+    return this.httpClient.get<Category[]>(url).pipe(shareReplay(1));
   }
 
   get subcategories$(): Observable<Subcategory[]> {

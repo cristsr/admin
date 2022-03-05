@@ -37,7 +37,7 @@ export class MovementRepository {
   }
 
   update(id: number, movement: UpdateMovement): Observable<Movement> {
-    return this.http.put<Movement>(this.apiUrl + id, movement);
+    return this.http.patch<Movement>(this.apiUrl + id, movement);
   }
 
   delete(id: number): Observable<any> {
