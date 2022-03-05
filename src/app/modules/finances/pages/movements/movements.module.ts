@@ -11,6 +11,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MovementsListComponent } from './list/movements-list.component';
 import { InfiniteScrollModule } from 'core/directives/infinite-scroll';
 import { GroupByModule } from 'modules/finances/pipes/group-by';
+import { DatetimeModule } from 'core/pipes/datetime';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { GroupByModule } from 'modules/finances/pipes/group-by';
     MatDialogModule,
     InfiniteScrollModule,
     GroupByModule,
+    DatetimeModule,
+    MatMenuModule,
   ],
 })
 export class MovementsModule {}

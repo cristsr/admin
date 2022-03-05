@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { EventEmitter2 } from 'eventemitter2';
 import { LayoutEvents } from 'layout/constants';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { AddMovementComponent } from 'modules/finances/pages/add-movement/add-movement.component';
+import { MovementFormComponent } from 'modules/finances/pages/movement-form/movement-form.component';
 
 @Component({
   selector: 'app-finances',
@@ -13,8 +13,13 @@ export class FinancesComponent {
     private eventEmitter: EventEmitter2,
     private bottomSheet: MatBottomSheet,
   ) {
-    eventEmitter.on(LayoutEvents.BottomNavigation, () => {
-      this.bottomSheet.open(AddMovementComponent);
+    this.listenLayoutEvent();
+  }
+
+  listenLayoutEvent(): void {
+    this.eventEmitter.on(LayoutEvents.BottomNavigation, (_e) => {
+      // console.log(e);
+      this.bottomSheet.open(MovementFormComponent);
     });
   }
 }

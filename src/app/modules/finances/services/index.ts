@@ -1,2 +1,2 @@
-export * from './movement.service';
-export * from './category.service';
+export * from './movement/movement.service';
+export * from './category/category.service';

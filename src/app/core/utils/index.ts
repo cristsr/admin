@@ -30,6 +30,6 @@ export function translateAnimationFrame(
  */
 export class CustomDateAdapter extends NativeDateAdapter {
   format(date: Date, displayFormat: any): string {
-    return DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_MED);
+    return DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_FULL);
   }
 }

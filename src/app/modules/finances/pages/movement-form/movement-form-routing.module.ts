@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddMovementComponent } from './add-movement.component';
+import { MovementFormComponent } from './movement-form.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AddMovementComponent,
+    component: MovementFormComponent,
   },
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AddMovementRoutingModule {}
+export class MovementFormRoutingModule {}

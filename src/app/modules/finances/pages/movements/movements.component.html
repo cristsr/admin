@@ -13,9 +13,31 @@
       <div class="flex justify-between">
         <div class="text-lg font-medium pb-2 md:pb-0">Movimientos</div>
         <div class="ml-2 -mt-2 -mr-3">
-          <button mat-icon-button aria-label="Example icon-button with a menu">
+<!--          <button mat-icon-button aria-label="Example icon-button with a menu">-->
+<!--            <mat-icon>filter_list</mat-icon>-->
+<!--          </button>-->
+
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
             <mat-icon>filter_list</mat-icon>
           </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="groupBy = 'days'">
+              <mat-icon>today</mat-icon>
+              <span>Diario</span>
+            </button>
+            <button mat-menu-item (click)="groupBy = 'weeks'">
+              <mat-icon>date_range</mat-icon>
+              <span>Semanal</span>
+            </button>
+            <button mat-menu-item (click)="groupBy = 'months'">
+              <mat-icon>calendar_month</mat-icon>
+              <span>Mensual</span>
+            </button>
+            <button mat-menu-item (click)="groupBy = 'years'">
+              <mat-icon>calendar_view_month</mat-icon>
+              <span>Anual</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
 
@@ -24,12 +46,12 @@
         <div *ngFor="let item of movements">
 
           <div class="flex justify-between items-center pb-2 pt-3">
-            <div class="text-sm font-medium text-indigo-500"> {{ item.group }}</div>
+            <div class="text-sm font-medium text-indigo-500 capitalize"> {{ item.group | datetime: queryParams.groupBy }}</div>
             <div class="text-sm font-medium">${{ item.accumulated | number }}</div>
           </div>
           <ul class="flex flex-col gap-2">
 
-            <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1"
+            <li matRipple (click)="showMovementDetail(movement)" class="flex justify-between items-center rounded-xl py-2 px-1"
                 *ngFor="let movement of item.values; trackBy: trackByFn">
               <div class="flex items-center">
                 <div

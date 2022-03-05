@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddMovementComponent } from './add-movement.component';
+import { MovementFormComponent } from './movement-form.component';
 
 describe('AddMovementComponent', () => {
-  let component: AddMovementComponent;
-  let fixture: ComponentFixture<AddMovementComponent>;
+  let component: MovementFormComponent;
+  let fixture: ComponentFixture<MovementFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AddMovementComponent],
+      declarations: [MovementFormComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddMovementComponent);
+    fixture = TestBed.createComponent(MovementFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
