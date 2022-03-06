@@ -1,8 +1,8 @@
-import { ThousandSuffixesPipe } from './thousand-suffixes.pipe';
+import { ThousandSuffixPipe } from './thousand-suffixes.pipe';
 
 describe('ThousandSuffixesPipe', () => {
   it('create an instance', () => {
-    const pipe = new ThousandSuffixesPipe();
+    const pipe = new ThousandSuffixPipe();
     expect(pipe).toBeTruthy();
   });
 });

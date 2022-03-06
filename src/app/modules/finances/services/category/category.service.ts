@@ -14,9 +14,7 @@ export class CategoryService {
 
   get categories$(): Observable<Category[]> {
     if (!this.categories) {
-      this.categories = this.categoryRepository
-        .getCategories()
-        .pipe(shareReplay(1));
+      this.categories = this.categoryRepository.getAll().pipe(shareReplay(1));
     }
 
     return this.categories;

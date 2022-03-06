@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BudgetsRoutingModule } from './budgets-routing.module';
-import { BudgetsComponent } from './budgets.component';
 import { ProgressModule } from 'core/components/progress/progress.module';
 import { ThousandSuffixesModule } from 'core/pipes/thousand-suffixes';
+import { BudgetsRoutingModule } from './budgets-routing.module';
+import { BudgetsComponent } from './budgets.component';
+import { BudgetFormModule } from 'modules/finances/pages/budget-form';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [BudgetsComponent],
@@ -16,6 +18,8 @@ import { ThousandSuffixesModule } from 'core/pipes/thousand-suffixes';
     ThousandSuffixesModule,
     MatButtonModule,
     MatIconModule,
+    MatBottomSheetModule,
+    BudgetFormModule,
   ],
 })
 export class BudgetsModule {}

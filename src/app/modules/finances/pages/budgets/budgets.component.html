@@ -1,84 +1,48 @@
-<div class="p-4 md:p-8 flex flex-col m-auto max-w-7xl">
-
-  <div class="grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-8">
-
-    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
-      <div class="flex justify-between">
-        <div class="text-lg font-medium">Presupuesto Total</div>
-        <div class="ml-2 -mt-2 -mr-3">
-          <button mat-icon-button aria-label="Example icon-button with a menu">
-            <mat-icon>filter_list</mat-icon>
-          </button>
-        </div>
-      </div>
-
-      <div class="flex flex-col pt-4">
-        <app-progress progress="40" color="bg-indigo-400"></app-progress>
-        <div class="flex justify-between pt-4">
-          <div class="text-sm font-medium">Gastado: <div class="text-indigo-400 inline">${{350000 | thousandSuffixes }}</div></div>
-          <div class="text-sm font-medium">Total: <div class="text-green-400 inline">${{350000 | thousandSuffixes }}</div></div>
-        </div>
+<div class="p-4 flex flex-col h-full overflow-y-auto gap-4">
+  <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
+    <div class="flex justify-between">
+      <div class="text-lg font-medium">Presupuesto Total</div>
+      <div class="ml-2 -mt-2 -mr-3">
+        <button mat-icon-button aria-label="Example icon-button with a menu">
+          <mat-icon>filter_list</mat-icon>
+        </button>
       </div>
     </div>
 
-    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
-      <div class="flex justify-between">
-        <div class="text-lg font-medium">Presupuestos</div>
-        <div class="ml-2 -mt-2 -mr-3">
-          <button mat-icon-button aria-label="Example icon-button with a menu">
-            <mat-icon>add</mat-icon>
-          </button>
-        </div>
+    <div class="flex flex-col pt-4">
+      <app-progress progress="40" color="bg-indigo-400"></app-progress>
+      <div class="flex justify-between pt-4">
+        <div class="text-sm font-medium">Gastado: <div class="text-indigo-400 inline">${{350000 | thousandSuffix }}</div></div>
+        <div class="text-sm font-medium">Total: <div class="text-green-400 inline">${{350000 | thousandSuffix }}</div></div>
       </div>
+    </div>
+  </div>
 
-      <div class="flex items-center pt-6">
-        <div class="flex justify-center items-center bg-blue-400 rounded-full w-8 h-8">
-          <mat-icon>local_taxi</mat-icon>
-        </div>
-        <div class="flex flex-col pl-3 w-auto flex-grow">
-          <div class="flex justify-between items-center">
-            <div class="flex flex-col">
-              <div class="text-sm font-medium">Transporte</div>
-              <div class="text-xs">Transporte</div>
-            </div>
-            <div class="text-sm"><b>$350k</b> de <b>$400</b></div>
+  <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
+    <div class="flex justify-between">
+      <div class="text-lg font-medium">Presupuestos</div>
+      <div class="ml-2 -mt-2 -mr-3">
+        <button mat-icon-button aria-label="Example icon-button with a menu" (click)="openBudgetForm()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center pt-6" *ngFor="let item of budgets">
+      <div class="flex justify-center items-center bg-{{item.category.color}} rounded-full w-8 h-8">
+        <mat-icon>{{item.category.icon}}</mat-icon>
+      </div>
+      <div class="flex flex-col pl-3 w-auto flex-grow">
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col">
+            <div class="text-sm font-medium">{{item.name}}</div>
+            <div class="text-xs">{{item.category.name}}</div>
           </div>
-          <app-progress class="mt-2" progress="40" color="bg-blue-400"></app-progress>
+          <div class="text-sm"><b>{{item.spent | thousandSuffix}}</b> de <b>{{item.amount | thousandSuffix}}</b></div>
         </div>
-
+        <app-progress class="mt-2" [progress]="calculatePercentage(item)" color="bg-{{item.category.color}}"></app-progress>
       </div>
-      <div class="flex items-center pt-6">
-        <div class="flex justify-center items-center bg-red-400 rounded-full w-8 h-8">
-          <mat-icon>local_taxi</mat-icon>
-        </div>
-        <div class="flex flex-col pl-3 w-auto flex-grow">
-          <div class="flex justify-between items-center">
-            <div class="flex flex-col">
-              <div class="text-sm font-medium">Transporte</div>
-              <div class="text-xs">Transporte</div>
-            </div>
-            <div class="text-sm"><b>$350k</b> de <b>$400</b></div>
-          </div>
-          <app-progress class="mt-2" progress="40" color="bg-red-400"></app-progress>
-        </div>
 
-      </div>
-      <div class="flex items-center pt-6">
-        <div class="flex justify-center items-center bg-yellow-400 rounded-full w-8 h-8">
-          <mat-icon>local_taxi</mat-icon>
-        </div>
-        <div class="flex flex-col pl-3 w-auto flex-grow">
-          <div class="flex justify-between items-center">
-            <div class="flex flex-col">
-              <div class="text-sm font-medium">Transporte</div>
-              <div class="text-xs">Transporte</div>
-            </div>
-            <div class="text-sm"><b>$350k</b> de <b>$400</b></div>
-          </div>
-          <app-progress class="mt-2" progress="40" color="bg-yellow-400"></app-progress>
-        </div>
-
-      </div>
     </div>
   </div>
 </div>

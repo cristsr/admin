@@ -15,12 +15,12 @@ export class CategoryRepository {
     this.apiUrl = this.config.get(ENV.FINANCES_API);
   }
 
-  createCategory(category: Category): Observable<Category> {
+  create(category: Category): Observable<Category> {
     const url = this.apiUrl + '/categories';
     return this.httpClient.post<Category>(url, category);
   }
 
-  getCategories(): Observable<Category[]> {
+  getAll(): Observable<Category[]> {
     const url = this.apiUrl + 'categories';
     return this.httpClient.get<Category[]>(url);
   }
