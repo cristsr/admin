@@ -8,9 +8,8 @@ describe('MovementItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MovementItemComponent ]
-    })
-    .compileComponents();
+      declarations: [MovementItemComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
