@@ -43,31 +43,11 @@
 
       <div class="divide-y">
 
-        <div *ngFor="let item of movements">
-
-          <div class="flex justify-between items-center pb-2 pt-3">
-            <div class="text-sm font-medium text-indigo-500 capitalize"> {{ item.group | datetime: queryParams.groupBy }}</div>
-            <div class="text-sm font-medium">${{ item.accumulated | number }}</div>
-          </div>
-          <ul class="flex flex-col gap-2">
-
-            <li matRipple (click)="showMovementDetail(movement)" class="flex justify-between items-center rounded-xl py-2 px-1"
-                *ngFor="let movement of item.values; trackBy: trackByFn">
-              <div class="flex items-center">
-                <div
-                  class="rounded-full w-8 h-8 flex justify-center items-center bg-{{ movement.category?.color || 'amber-500' }}">
-                  <mat-icon>{{ movement.category?.icon || 'category' }}</mat-icon>
-                </div>
-
-                <div class="pl-3 flex flex-col">
-                  <div class="text-sm font-medium">{{ movement.description }}</div>
-                  <div class="text-xs">{{ movement.subcategory?.name }}</div>
-                </div>
-              </div>
-              <div class="text-sm font-medium text-green-500">${{ movement.amount | number }}</div>
-            </li>
-          </ul>
-        </div>
+        <app-movement-list
+          *ngFor="let item of movements"
+          [period]="queryParams.groupBy"
+          [groupMovement]="item"
+        ></app-movement-list>
       </div>
     </div>
   </div>

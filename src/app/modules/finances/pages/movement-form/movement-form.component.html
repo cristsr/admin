@@ -1,10 +1,14 @@
 <div class="flex flex-col p-4">
 
   <div class="flex pb-4 items-center justify-between">
-    <div class="text-xl font-medium">{{ tittle[action] }}</div>
+    <div class="flex items-center gap-2">
+      <mat-icon class="material-icons-outlined">swap_vert</mat-icon>
+      <div class="text-xl font-medium">{{ tittle[action] }}</div>
+    </div>
+
+<!--    <div class="text-xl font-medium">{{ tittle[action] }}</div>-->
     <button
-      class="flex justify-center items-center w-8 h-8 rounded-full border-solid border border-black"
-      mat-ripple
+      class="flex justify-center items-center w-8 h-8"
       *ngIf="action === 'read'"
       (click)="editMovement()">
       <mat-icon>edit</mat-icon>

@@ -25,6 +25,13 @@ const routes: Routes = [
           import('./pages/budgets/budgets.module').then((m) => m.BudgetsModule),
       },
       {
+        path: 'budgets/:id/details',
+        loadChildren: () =>
+          import('./pages/budget-detail/budget-detail.module').then(
+            (m) => m.BudgetDetailModule,
+          ),
+      },
+      {
         path: '',
         redirectTo: 'summary',
         pathMatch: 'full',

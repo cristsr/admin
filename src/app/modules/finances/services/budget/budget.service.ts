@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BudgetRepository } from 'modules/finances/repositories';
-import { Budget, CreateBudget } from 'modules/finances/types';
-import { Observable, shareReplay } from 'rxjs';
+import { Budget, CreateBudget, Movement } from 'modules/finances/types';
+import { map, Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +11,24 @@ export class BudgetService {
 
   constructor(private budgetRepository: BudgetRepository) {}
 
-  get budget$(): Observable<Budget[]> {
+  get budgets$(): Observable<Budget[]> {
     if (!this.budgets) {
       this.budgets = this.budgetRepository.getAll().pipe(shareReplay(1));
     }
 
-    return this.budgetRepository.getAll();
+    return this.budgets;
+  }
+
+  getBudgetById(id: number): Observable<Budget> {
+    return this.budgets$.pipe(
+      map((budgets: Budget[]) => {
+        return budgets.find((budget: Budget) => budget.id === id);
+      }),
+    );
+  }
+
+  getBudgetMovements(id: number): Observable<Movement[]> {
+    return this.budgetRepository.movements(id);
   }
 
   create(budget: CreateBudget): Observable<Budget> {

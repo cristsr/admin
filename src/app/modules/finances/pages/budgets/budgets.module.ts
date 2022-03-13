@@ -8,6 +8,7 @@ import { BudgetsRoutingModule } from './budgets-routing.module';
 import { BudgetsComponent } from './budgets.component';
 import { BudgetFormModule } from 'modules/finances/pages/budget-form';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BudgetsComponent],
@@ -19,6 +20,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatButtonModule,
     MatIconModule,
     MatBottomSheetModule,
+    MatDialogModule,
     BudgetFormModule,
   ],
 })

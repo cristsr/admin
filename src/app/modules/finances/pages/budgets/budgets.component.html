@@ -28,7 +28,8 @@
       </div>
     </div>
 
-    <div class="flex items-center pt-6" *ngFor="let item of budgets">
+    <div class="flex items-center pt-6" *ngFor="let item of budgets" [routerLink]="[item.id, 'details']">
+<!--    <div class="flex items-center pt-6" *ngFor="let item of budgets" (click)="openBudgetDetail(item)">-->
       <div class="flex justify-center items-center bg-{{item.category.color}} rounded-full w-8 h-8">
         <mat-icon>{{item.category.icon}}</mat-icon>
       </div>
