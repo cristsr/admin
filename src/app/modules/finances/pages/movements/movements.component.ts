@@ -5,12 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  GroupBy,
-  GroupMovement,
-  Movement,
-  MovementQuery,
-} from 'modules/finances/types';
+import { GroupBy, GroupMovement, Movement } from 'modules/finances/types';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MovementService } from 'modules/finances/services';
@@ -38,14 +33,10 @@ import { NavService } from 'layout/services';
 })
 export class MovementsComponent implements OnInit, OnDestroy {
   movements: GroupMovement[];
-  queryParams: MovementQuery = {
-    date: null,
-    groupBy: null,
-  };
+  groupBy: GroupBy = 'month';
   dateIndex = 0;
   date: string;
   dateLabel: string;
-  groupBy: GroupBy = 'month';
 
   private unsubscribeAll = new Subject<void>();
 
