@@ -69,7 +69,7 @@ export function formatDate(date: DateTime): string {
   const month = date.toLocaleString({ month: 'short' });
   const year = date.year;
 
-  return `${day} ${month}. ${year}`;
+  return `${day} ${month} ${year}`;
 }
 
 export function formatInterval(interval: Interval): string {
