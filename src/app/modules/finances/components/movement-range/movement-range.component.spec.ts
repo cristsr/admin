@@ -8,9 +8,8 @@ describe('MovementRangeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MovementRangeComponent ]
-    })
-    .compileComponents();
+      declarations: [MovementRangeComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
