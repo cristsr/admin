@@ -15,8 +15,8 @@ import { MovementType } from 'modules/finances/types';
         </div>
 
         <div class="pl-3 flex flex-col">
-          <div class="text-sm font-medium">{{ description }}</div>
-          <div class="text-xs">{{ category }}</div>
+          <div class="text-sm font-medium">{{ description | capitalize }}</div>
+          <div class="text-xs">{{ category | capitalize }}</div>
         </div>
       </div>
       <div class="text-sm font-medium" [class]="amountColor[type]">

@@ -64,17 +64,17 @@ export function formatDay(day: DateTime): string {
   return day.toLocaleString(DateTime.DATE_FULL);
 }
 
-export function formatWeek(date: DateTime): string {
+export function formatDate(date: DateTime): string {
   const day = date.day;
   const month = date.toLocaleString({ month: 'short' });
   const year = date.year;
 
-  return `${day} ${month} ${year}`;
+  return `${day} ${month}. ${year}`;
 }
 
 export function formatInterval(interval: Interval): string {
-  const start = formatWeek(interval.start);
-  const end = formatWeek(interval.end);
+  const start = formatDate(interval.start);
+  const end = formatDate(interval.end);
 
   return `${start} - ${end}`;
 }

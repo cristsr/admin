@@ -18,6 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { Platform } from '@angular/cdk/platform';
 import { CustomDateAdapter } from 'core/utils';
 import { MovementFormComponent } from './movement-form.component';
+import { CapitalizeModule } from 'core/pipes/capitalize/capitalize.module';
 
 @NgModule({
   declarations: [MovementFormComponent],
@@ -33,6 +34,7 @@ import { MovementFormComponent } from './movement-form.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    CapitalizeModule,
   ],
   providers: [
     {

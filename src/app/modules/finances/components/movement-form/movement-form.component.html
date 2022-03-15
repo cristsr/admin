@@ -41,11 +41,11 @@
       <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
-          {{ form.get('category').value?.name ?? 'Seleccione una categoría' | titlecase}}
+          {{ form.get('category').value?.name ?? 'Seleccione una categoría' | capitalize}}
         </mat-select-trigger>
         <mat-option *ngFor="let item of categories" [value]="item">
           <mat-icon matPrefix class="text-{{item.color}}">{{ item.icon }}</mat-icon>
-          {{item.name | titlecase}}
+          {{ item.name | capitalize }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -53,13 +53,15 @@
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Subcategoría</mat-label>
       <mat-icon *ngIf="form.get('category').value" matPrefix
-                class="text-purple-600 mr-2">{{form.get('category').value.icon}}</mat-icon>
+                class="text-purple-600 mr-2">
+        {{form.get('category').value.icon}}
+      </mat-icon>
       <mat-select formControlName="subcategory" [compareWith]="compare">
         <mat-select-trigger>
-          {{ form.get('subcategory').value?.name ?? 'Seleccione una subcategoría' | titlecase}}
+          {{ form.get('subcategory').value?.name ?? 'Seleccione una subcategoría' | capitalize}}
         </mat-select-trigger>
         <mat-option *ngFor="let item of subcategories" [value]="item">
-          {{item.name | titlecase}}
+          {{item.name | capitalize }}
         </mat-option>
       </mat-select>
     </mat-form-field>

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import {
   Budget,
   CreateBudget,
-  Movement,
+  GroupMovement,
   UpdateBudget,
 } from 'modules/finances/types';
 
@@ -40,8 +40,8 @@ export class BudgetRepository {
     return this.httpClient.delete<void>(this.apiUrl + id);
   }
 
-  movements(budgetId: number): Observable<Movement[]> {
-    return this.httpClient.get<Movement[]>(
+  movements(budgetId: number): Observable<GroupMovement[]> {
+    return this.httpClient.get<GroupMovement[]>(
       this.apiUrl + budgetId + '/movements/',
     );
   }

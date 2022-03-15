@@ -1,5 +1,5 @@
 import { Category } from './category.types';
-import { Movement } from './movement.types';
+import { GroupMovement } from './movement.types';
 
 export interface CreateBudget {
   name: string;
@@ -24,5 +24,5 @@ export interface Budget {
 
 export interface BudgetDetail {
   budget: Budget;
-  movements: Movement[];
+  movements: GroupMovement[];
 }

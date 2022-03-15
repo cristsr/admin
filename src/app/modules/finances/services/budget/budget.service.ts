@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BudgetRepository } from 'modules/finances/repositories';
-import { Budget, CreateBudget, Movement } from 'modules/finances/types';
+import { Budget, CreateBudget, GroupMovement } from 'modules/finances/types';
 import { map, Observable, shareReplay } from 'rxjs';
 
 @Injectable({
@@ -27,7 +27,7 @@ export class BudgetService {
     );
   }
 
-  getBudgetMovements(id: number): Observable<Movement[]> {
+  getBudgetMovements(id: number): Observable<GroupMovement[]> {
     return this.budgetRepository.movements(id);
   }
 

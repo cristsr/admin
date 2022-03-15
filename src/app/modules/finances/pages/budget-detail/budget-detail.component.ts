@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Budget, Movement } from 'modules/finances/types';
+import { Budget, GroupMovement, Movement } from 'modules/finances/types';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+// TODO short import
 import { MovementFormComponent } from 'modules/finances/components/movement-form/movement-form.component';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-budget-detail',
@@ -12,24 +12,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class BudgetDetailComponent implements OnInit {
   budget: Budget;
-  movements: Movement[];
+  movements: GroupMovement[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private bottomSheet: MatBottomSheet,
-    @Inject(MAT_DIALOG_DATA) @Optional() public data: any,
-  ) {
-    this.budget = data?.budget;
-    this.movements = data?.movements;
-  }
+  ) {}
 
   ngOnInit(): void {
-    if (!this.data) {
-      const { budget, movements } = this.activatedRoute.snapshot.data.data;
-
-      this.budget = budget;
-      this.movements = movements;
-    }
+    const { budget, movements } = this.activatedRoute.snapshot.data.data;
+    this.budget = budget;
+    this.movements = movements;
 
     console.log(this.budget, this.movements);
   }

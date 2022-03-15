@@ -12,7 +12,7 @@ import { DateTime } from 'luxon';
           <span class="font-medium text-2xl">{{ date.toFormat('dd') }}</span>
         </div>
         <div class="flex flex-col">
-          <span class="font-medium">{{ date.weekdayLong }}</span>
+          <span class="font-medium">{{ date.weekdayLong | capitalize }}</span>
           <span class="text-gray-500">
             {{ date.monthShort | capitalize }} {{ date.year }}
           </span>

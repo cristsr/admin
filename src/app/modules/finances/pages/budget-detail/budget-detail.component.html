@@ -41,34 +41,28 @@
     </div>
   </div>
 
-  <div class="flex flex-col items-center gap-4 rounded-xl shadow p-4 bg-white p-6">
-    <div class="flex flex-col w-full" >
-      <div class="flex justify-between">
-        <div class="text-lg font-medium">Movimientos</div>
-        <!--<div class="ml-2 -mt-2 -mr-3">
-          <button mat-icon-button aria-label="Example icon-button with a menu">
-            <mat-icon>filter_list</mat-icon>
-          </button>
-          </div>-->
-      </div>
-
-      <div class="flex flex-col gap-2 pt-2" *ngIf="movements.length; else noMovements">
-        <app-movement-item
-          *ngFor="let movement of movements; trackBy: trackByFn"
-          (click)="showMovementDetail(movement)"
-          [color]="movement.category?.color"
-          [icon]="movement.category?.icon"
-          [description]="movement.description"
-          [category]="movement.category?.name"
-          [amount]="movement.amount"
-          [type]="movement.type">
-        </app-movement-item>
-      </div>
-
-      <ng-template #noMovements>
-        <div class="pt-4 text-center font-medium">No se encontraron movimientos</div>
-      </ng-template>
+  <div class="gap-4 rounded-xl shadow px-6 py-4 bg-white">
+    <div class="text-lg font-medium flex items-center">
+      <mat-icon>timeline</mat-icon>
+      <span class="pl-4">Movimientos</span>
     </div>
 
+    <div *ngIf="!movements?.length" class="text-sm text-center font-medium pt-4 pb-2">
+      No se encontraron movimientos
+    </div>
+  </div>
+
+  <div class="grow flex flex-col rounded-xl gap-4">
+    <ng-container *ngIf="!!movements?.length">
+      <div
+        class="flex flex-col rounded-xl shadow p-6 bg-white"
+        *ngFor="let item of movements"
+      >
+        <app-movement-list
+          [groupMovement]="item"
+          (movementClick)="showMovementDetail($event)">
+        </app-movement-list>
+      </div>
+    </ng-container>
   </div>
 </div>
