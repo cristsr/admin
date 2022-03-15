@@ -9,8 +9,7 @@ import {
   MovementQuery,
   UpdateMovement,
 } from 'modules/finances/types';
-import { Observable } from 'rxjs';
-import { Pageable } from 'core/types';
+import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,10 +25,12 @@ export class MovementRepository {
     return this.http.post(this.apiUrl, movement);
   }
 
-  getAll(query: MovementQuery): Observable<Pageable<GroupMovement>> {
-    return this.http.get<Pageable<GroupMovement>>(this.apiUrl + 'group-by', {
-      params: { ...query },
-    });
+  getAll(query: MovementQuery): Observable<GroupMovement[]> {
+    return this.http
+      .get<GroupMovement[]>(this.apiUrl, {
+        params: { ...query },
+      })
+      .pipe(catchError(() => []));
   }
 
   getOne(id: number): Observable<Movement> {

@@ -1,4 +1,3 @@
-import { PaginableQuery } from 'core/types';
 import { Category, Subcategory } from './category.types';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
@@ -22,18 +21,18 @@ export interface CreateMovement
 
 export interface UpdateMovement extends Partial<CreateMovement> {}
 
-export interface MovementQuery extends PaginableQuery {
-  orderBy?: string;
+export interface MovementQuery {
   groupBy?: GroupBy;
+  date: string;
 }
 
 export interface GroupMovement {
-  group: string;
+  date: string;
   accumulated: number;
   values: Readonly<Movement[]>;
 }
 
-export type GroupBy = 'days' | 'weeks' | 'months' | 'years';
+export type GroupBy = 'day' | 'week' | 'month' | 'year';
 
 export type MovementFormAction = 'read' | 'create' | 'edit';
 

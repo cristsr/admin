@@ -1,55 +1,39 @@
-<div
-  class="p-4 md:p-8 flex flex-col h-full overflow-y-auto"
-  appInfiniteScroll
-  [target]="targetToObserve"
-  [active]="activeScroll"
-  [completed]="completedScroll"
-  (scrolled)="scrolled()"
->
-
-  <div class="grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-8">
-
-    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
-      <div class="flex justify-between">
-        <div class="text-lg font-medium pb-2 md:pb-0">Movimientos</div>
-        <div class="ml-2 -mt-2 -mr-3">
-<!--          <button mat-icon-button aria-label="Example icon-button with a menu">-->
-<!--            <mat-icon>filter_list</mat-icon>-->
-<!--          </button>-->
-
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>filter_list</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="groupBy = 'days'">
-              <mat-icon>today</mat-icon>
-              <span>Diario</span>
-            </button>
-            <button mat-menu-item (click)="groupBy = 'weeks'">
-              <mat-icon>date_range</mat-icon>
-              <span>Semanal</span>
-            </button>
-            <button mat-menu-item (click)="groupBy = 'months'">
-              <mat-icon>calendar_month</mat-icon>
-              <span>Mensual</span>
-            </button>
-            <button mat-menu-item (click)="groupBy = 'years'">
-              <mat-icon>calendar_view_month</mat-icon>
-              <span>Anual</span>
-            </button>
-          </mat-menu>
-        </div>
+<div class="h-full flex flex-col">
+  <div class="flex flex-col col-span-4 px-4 bg-white shadow z-10 pb-2">
+    <div class="flex justify-between items-center">
+      <div class="flex justify-start">
+        <button mat-icon-button aria-label="back" (click)="onBefore()">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
       </div>
-
-      <div class="divide-y">
-
-        <app-movement-list
-          *ngFor="let item of movements"
-          [period]="queryParams.groupBy"
-          [groupMovement]="item"
-        ></app-movement-list>
+      <div class="text-sm font-medium">{{dateLabel}}</div>
+      <div class="flex justify-end">
+        <button mat-icon-button aria-label="next" (click)="onNext()">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
       </div>
     </div>
   </div>
-  <div #targetToObserve></div>
+
+  <div class="grow flex flex-col rounded-xl overflow-y-auto gap-4 p-4">
+    <ng-container *ngIf="!!movements?.length; else noMovements">
+      <div
+        class="flex flex-col rounded-xl shadow p-6 bg-white"
+        *ngFor="let item of movements"
+      >
+        <app-movement-list
+          [groupMovement]="item"
+          (movementClick)="showMovementDetail($event)">
+        </app-movement-list>
+      </div>
+    </ng-container>
+
+    <ng-template #noMovements>
+      <div class="flex flex-col rounded-xl shadow p-6 bg-white font-medium text-center">
+        No se encontraron movimientos
+      </div>
+    </ng-template>
+  </div>
 </div>
+
+

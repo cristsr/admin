@@ -6,16 +6,15 @@ import {
   EventEmitter,
   Inject,
   Input,
-  OnInit,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { Menu } from 'core/interfaces/menu';
 import { WINDOW } from 'core/config';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
 import { Subject, takeUntil } from 'rxjs';
 import { translateAnimationFrame } from 'core/utils';
+import { Menu } from 'layout/types';
 
 @Component({
   selector: 'app-sidebar',
@@ -65,7 +64,7 @@ import { translateAnimationFrame } from 'core/utils';
 
     <!-- overlay -->
     <div
-      *ngIf="isMobile && showSidebar"
+      *ngIf="showSidebar"
       class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-[2000]"
       (click)="hideSidebar()"
     ></div>
@@ -73,7 +72,7 @@ import { translateAnimationFrame } from 'core/utils';
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements OnInit, Panable {
+export class SidebarComponent implements Panable {
   showSidebar = false;
   isMobile: boolean;
   horizontalPaning: boolean;
@@ -81,11 +80,10 @@ export class SidebarComponent implements OnInit, Panable {
   private panVelocity = 1.5;
   private cancelAnimations = new Subject<void>();
 
-  @ViewChild('container', { static: true }) container: ElementRef;
-
   @Input() menu: Menu[];
+  @Output() menuChanges = new EventEmitter<Menu>();
 
-  @Output() menuChange = new EventEmitter();
+  @ViewChild('container', { static: true }) container: ElementRef;
 
   get range(): number {
     return this._range;
@@ -107,24 +105,9 @@ export class SidebarComponent implements OnInit, Panable {
     private changeDetectorRef: ChangeDetectorRef,
   ) {}
 
-  ngOnInit(): void {
-    this.isMobile = this.window.innerWidth < 640;
-    this.showSidebar = false;
-  }
-
-  listenWindowResize(event): void {
-    const width = event.target.innerWidth;
-
-    if (width < 640 && !this.isMobile) {
-      this.isMobile = true;
-      this.showSidebar = false;
-      return;
-    }
-
-    if (width >= 640 && this.isMobile) {
-      this.isMobile = false;
-      this.showSidebar = true;
-    }
+  onLinkClick(menu: Menu): void {
+    this.menuChanges.next(menu);
+    this.hideSidebar();
   }
 
   toggleSidebar(): void {
@@ -133,15 +116,6 @@ export class SidebarComponent implements OnInit, Panable {
     if (this.showSidebar) {
       this.animateSidebar(0, 100);
     } else {
-      this.hideSidebar();
-    }
-  }
-
-  onLinkClick(e: any): void {
-    // Hide sidebar if device is mobile
-    this.menuChange.emit(e);
-
-    if (this.isMobile) {
       this.hideSidebar();
     }
   }

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Budget, Movement } from 'modules/finances/types';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MovementFormComponent } from 'modules/finances/pages/movement-form/movement-form.component';
+import { MovementFormComponent } from 'modules/finances/components/movement-form/movement-form.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({

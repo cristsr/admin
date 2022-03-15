@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { BudgetFormComponent } from 'modules/finances/pages/budget-form';
+import { BudgetFormComponent } from 'modules/finances/components/budget-form';
 import { BudgetService } from 'modules/finances/services';
 import { Budget, Movement } from 'modules/finances/types';
-import { forkJoin, Subject, takeUntil } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { BudgetDetailComponent } from 'modules/finances/pages/budget-detail/budget-detail.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-budgets',
@@ -21,7 +19,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   constructor(
     private budgetService: BudgetService,
     private bottomSheet: MatBottomSheet,
-    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -47,26 +44,5 @@ export class BudgetsComponent implements OnInit, OnDestroy {
 
   calculatePercentage(budget: Budget): string {
     return ((budget.spent / budget.amount) * 100).toFixed(0);
-  }
-
-  openBudgetDetail(budget: Budget): void {
-    forkJoin({
-      budget: this.budgetService.getBudgetById(budget.id),
-      movements: this.budgetService.getBudgetMovements(budget.id),
-    })
-      .pipe(takeUntil(this.unsubscribeAll))
-      .subscribe((data: { budget: Budget; movements: Movement[] }) => {
-        this.dialog.open(BudgetDetailComponent, {
-          data: {
-            budget: data.budget,
-            movements: data.movements,
-          },
-          width: '100%',
-          height: '100%',
-          maxHeight: '60%',
-          // panelClass: 'p-4',
-          maxWidth: '600px',
-        });
-      });
   }
 }

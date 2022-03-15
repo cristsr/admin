@@ -9,11 +9,17 @@ const routes: Routes = [
     children: [
       {
         path: 'summary',
+        data: {
+          tag: 'summary',
+        },
         loadChildren: () =>
           import('./pages/summary/summary.module').then((m) => m.SummaryModule),
       },
       {
         path: 'movements',
+        data: {
+          tag: 'movements',
+        },
         loadChildren: () =>
           import('./pages/movements/movements.module').then(
             (m) => m.MovementsModule,
@@ -21,11 +27,17 @@ const routes: Routes = [
       },
       {
         path: 'budgets',
+        data: {
+          tag: 'budgets',
+        },
         loadChildren: () =>
           import('./pages/budgets/budgets.module').then((m) => m.BudgetsModule),
       },
       {
         path: 'budgets/:id/details',
+        data: {
+          tag: 'budgets-details',
+        },
         loadChildren: () =>
           import('./pages/budget-detail/budget-detail.module').then(
             (m) => m.BudgetDetailModule,

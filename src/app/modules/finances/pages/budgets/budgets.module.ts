@@ -6,7 +6,7 @@ import { ProgressModule } from 'core/components/progress/progress.module';
 import { ThousandSuffixesModule } from 'core/pipes/thousand-suffixes';
 import { BudgetsRoutingModule } from './budgets-routing.module';
 import { BudgetsComponent } from './budgets.component';
-import { BudgetFormModule } from 'modules/finances/pages/budget-form';
+import { BudgetFormModule } from 'modules/finances/components/budget-form';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialogModule } from '@angular/material/dialog';
 

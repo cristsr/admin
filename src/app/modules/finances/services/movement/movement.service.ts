@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, switchMap } from 'rxjs';
 import {
   CreateMovement,
-  GroupBy,
   GroupMovement,
   MovementQuery,
   UpdateMovement,
 } from 'modules/finances/types';
-import { Pageable } from 'core/types';
 import { MovementRepository } from 'modules/finances/repositories';
 
 @Injectable({
@@ -15,7 +13,6 @@ import { MovementRepository } from 'modules/finances/repositories';
 })
 export class MovementService {
   private nextQuery = new Subject<MovementQuery>();
-  private groupBy = new Subject<GroupBy>();
 
   constructor(private movementRepository: MovementRepository) {}
 
@@ -27,7 +24,7 @@ export class MovementService {
     return this.movementRepository.update(id, movement);
   }
 
-  get movements$(): Observable<Pageable<GroupMovement>> {
+  get movements(): Observable<GroupMovement[]> {
     return this.nextQuery.pipe(
       switchMap((query) => {
         return this.movementRepository.getAll(query);
@@ -35,11 +32,7 @@ export class MovementService {
     );
   }
 
-  nextPage(query: MovementQuery): void {
+  fetch(query: MovementQuery): void {
     this.nextQuery.next(query);
-  }
-
-  nextGroupBy(groupBy: GroupBy): void {
-    this.groupBy.next(groupBy);
   }
 }

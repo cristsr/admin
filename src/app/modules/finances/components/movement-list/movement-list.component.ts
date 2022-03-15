@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GroupBy, GroupMovement, Movement } from 'modules/finances/types';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { GroupMovement, Movement } from 'modules/finances/types';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-movement-list',
@@ -8,21 +9,23 @@ import { GroupBy, GroupMovement, Movement } from 'modules/finances/types';
     <div class="flex justify-between items-center">
       <div class="flex">
         <div class="flex items-center w-10">
-          <span class="font-medium text-2xl">06</span>
+          <span class="font-medium text-2xl">{{ date.toFormat('dd') }}</span>
         </div>
         <div class="flex flex-col">
-          <span>domingo</span>
-          <span class="text-gray-500">mar. 2022</span>
+          <span class="font-medium">{{ date.weekdayLong }}</span>
+          <span class="text-gray-500">
+            {{ date.monthShort | capitalize }} {{ date.year }}
+          </span>
         </div>
       </div>
       <div class="flex items-center justify-center">
-        $ {{ groupMovement.accumulated | number }}
+        {{ '$' + (groupMovement.accumulated | number) }}
       </div>
     </div>
     <div class="flex flex-col gap-2">
       <app-movement-item
         *ngFor="let movement of groupMovement.values; trackBy: trackByFn"
-        (click)="onMovementItemClick(movement)"
+        (click)="movementClick.emit(movement)"
         [color]="movement.category?.color"
         [icon]="movement.category?.icon"
         [description]="movement.description"
@@ -35,15 +38,14 @@ import { GroupBy, GroupMovement, Movement } from 'modules/finances/types';
   `,
   styles: [],
 })
-export class MovementListComponent {
-  @Input() period: GroupBy;
+export class MovementListComponent implements OnInit {
   @Input() groupMovement: GroupMovement;
-  @Output() itemClick = new EventEmitter<Movement>();
+  @Output() movementClick = new EventEmitter<Movement>();
 
-  constructor() {}
+  date: DateTime;
 
-  onMovementItemClick(movement: Movement): void {
-    this.itemClick.emit(movement);
+  ngOnInit(): void {
+    this.date = DateTime.fromISO(this.groupMovement.date);
   }
 
   trackByFn(index: number, item: Movement): string | number {

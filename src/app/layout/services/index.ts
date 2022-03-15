@@ -1,1 +1,2 @@
-export * from './dialog-register.service';
+export * from './nav/nav.service';
+export * from './sidebar/sidebar.service';

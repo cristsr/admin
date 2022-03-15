@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { EventEmitter2 } from 'eventemitter2';
 import { LayoutEvents } from 'layout/constants';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { MovementFormComponent } from 'modules/finances/pages/movement-form/movement-form.component';
+import { MovementFormComponent } from 'modules/finances/components/movement-form/movement-form.component';
 
 @Component({
   selector: 'app-finances',

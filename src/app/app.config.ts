@@ -1,3 +1,5 @@
+import { Menu } from 'layout/types';
+
 export const AppConfig = {
   theme: 'light',
   expandSidebar: false,
@@ -21,7 +23,8 @@ export const AppConfig = {
         },
         {
           icon: 'add',
-          // url: 'finances/add-movement',
+          label: 'add-movement',
+          type: 'action',
         },
         {
           icon: 'attach_money',
@@ -81,6 +84,6 @@ export const AppConfig = {
       title: 'Ajustes',
       url: 'settings',
     },
-  ],
+  ] as Menu[],
   submenu: [],
 };

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Submenu } from 'core/interfaces/menu';
+import { Submenu } from 'layout/types';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -10,18 +10,23 @@ import { Submenu } from 'core/interfaces/menu';
     <div class="h-full flex w-full gap-2">
       <div
         class="flex-1 flex justify-center items-center"
-        *ngFor="let item of config"
+        *ngFor="let item of submenu"
       >
         <button
-          class="w-full"
           *ngIf="item.url"
+          class="w-full"
           [routerLink]="item.url"
           [routerLinkActive]="linkActiveClass"
+          (click)="submenuChanges.emit(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
           <div class="text-xs tracking-tight">{{ item.title }}</div>
         </button>
-        <button *ngIf="!item.url" class="bordered" (click)="action.emit(item)">
+        <button
+          *ngIf="!item.url"
+          class="bordered"
+          (click)="submenuChanges.emit(item)"
+        >
           <mat-icon>{{ item.icon }}</mat-icon>
         </button>
       </div>
@@ -36,9 +41,7 @@ import { Submenu } from 'core/interfaces/menu';
   ],
 })
 export class BottomNavComponent {
-  @Input() config: Submenu[];
-
-  @Input() linkActiveClass: string;
-
-  @Output() action = new EventEmitter();
+  @Input() linkActiveClass = 'text-blue-500';
+  @Input() submenu: Submenu[];
+  @Output() submenuChanges = new EventEmitter<Submenu>();
 }
