@@ -7,7 +7,7 @@
         <mat-icon class="text-purple-500">task_alt</mat-icon>
         <div class="pl-1 text-lg font-medium">Balance Total</div>
       </div>
-      <div class="text-3xl font-bold text-purple-500">${{ 2600000 | number }}</div>
+      <div class="text-3xl font-bold text-purple-500">{{ '$' + (balance?.balance  | number) }}</div>
     </div>
 
     <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
@@ -15,7 +15,7 @@
         <mat-icon class="text-green-500">trending_up</mat-icon>
         <div class="pl-1 text font-medium">Ingresos</div>
       </div>
-      <div class="text-xl font-medium text-green-500">${{ 2600000 | number }}</div>
+      <div class="text-xl font-medium text-green-500">{{ '$' + (balance?.incomeMonth | number) }}</div>
     </div>
 
     <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
@@ -23,7 +23,7 @@
         <mat-icon class="text-red-500">trending_down</mat-icon>
         <div class="pl-1 text font-medium">Gastos</div>
       </div>
-      <div class="text-xl font-medium text-red-500">${{ 2600000 | number }}</div>
+      <div class="text-xl font-medium text-red-500">{{ '$' + (balance?.expenseMonth | number) }}</div>
     </div>
 
     <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
@@ -66,6 +66,7 @@
 
       <!-- Card chart -->
       <apx-chart
+        *ngIf="pieOptions"
         [series]="pieOptions.series"
         [chart]="pieOptions.chart"
         [labels]="pieOptions.labels"
@@ -102,20 +103,20 @@
       </div>
 
       <!-- Card chart -->
-      <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [colors]="chartOptions.colors"
-        [dataLabels]="chartOptions.dataLabels"
-        [grid]="chartOptions.grid"
-        [labels]="chartOptions.labels"
-        [legend]="chartOptions.legend"
-        [plotOptions]="chartOptions.plotOptions"
-        [states]="chartOptions.states"
-        [stroke]="chartOptions.stroke"
-        [tooltip]="chartOptions.tooltip"
-        [xaxis]="chartOptions.xaxis"
-        [yaxis]="chartOptions.yaxis">
+      <apx-chart *ngIf="pieOptions"
+                 [series]="chartOptions.series"
+                 [chart]="chartOptions.chart"
+                 [colors]="chartOptions.colors"
+                 [dataLabels]="chartOptions.dataLabels"
+                 [grid]="chartOptions.grid"
+                 [labels]="chartOptions.labels"
+                 [legend]="chartOptions.legend"
+                 [plotOptions]="chartOptions.plotOptions"
+                 [states]="chartOptions.states"
+                 [stroke]="chartOptions.stroke"
+                 [tooltip]="chartOptions.tooltip"
+                 [xaxis]="chartOptions.xaxis"
+                 [yaxis]="chartOptions.yaxis">
       </apx-chart>
 
       <div class="flex flex-col">
@@ -140,57 +141,17 @@
         </div>
       </div>
 
-      <ul class="flex flex-col gap-2">
-        <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
-          <div class="flex items-center">
-            <div class="rounded-full w-8 h-8 bg-yellow-400 flex justify-center items-center">
-              <mat-icon>trending_down</mat-icon>
-            </div>
-
-            <div class="pl-3 flex flex-col">
-              <div class="text-sm font-medium">Transaction 1</div>
-              <div class="text-xs">smaller</div>
-            </div>
-          </div>
-          <div class="text-sm font-medium text-green-500">${{ 60000 | number }}</div>
-        </li>
-        <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
-          <div class="flex items-center">
-            <div class="rounded-full w-8 h-8 bg-red-400 flex justify-center items-center">
-              <mat-icon>trending_down</mat-icon>
-            </div>
-            <div class="pl-3 flex flex-col">
-              <div class="text-sm font-medium">Transaction 1</div>
-              <div class="text-xs">smaller</div>
-            </div>
-          </div>
-          <div class="text-sm font-medium text-red-500">${{ 60000 | number }}</div>
-        </li>
-        <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
-          <div class="flex items-center">
-            <div class="rounded-full w-8 h-8 bg-purple-400 flex justify-center items-center">
-              <mat-icon>trending_down</mat-icon>
-            </div>
-            <div class="pl-3 flex flex-col">
-              <div class="text-sm font-medium">Transaction 1</div>
-              <div class="text-xs">smaller</div>
-            </div>
-          </div>
-          <div class="text-sm font-medium text-green-500">${{ 60000 | number }}</div>
-        </li>
-        <li matRipple (click)="openDialog()" class="flex justify-between items-center rounded-xl py-2 px-1">
-          <div class="flex items-center">
-            <div class="rounded-full w-8 h-8 bg-blue-400 flex justify-center items-center">
-              <mat-icon>trending_down</mat-icon>
-            </div>
-            <div class="pl-3 flex flex-col">
-              <div class="text-sm font-medium">Transaction 1</div>
-              <div class="text-xs">smaller</div>
-            </div>
-          </div>
-          <div class="text-sm font-medium text-red-500">${{ 60000 | number }}</div>
-        </li>
-      </ul>
+      <div class="flex flex-col gap-2">
+        <app-movement-item
+          *ngFor="let movement of latestMovements"
+          [color]="movement.category?.color"
+          [icon]="movement.category?.icon"
+          [description]="movement.description"
+          [category]="movement.category?.name"
+          [amount]="movement.amount"
+          [type]="movement.type">
+        </app-movement-item>
+      </div>
     </div>
   </div>
 </div>

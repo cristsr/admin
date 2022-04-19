@@ -5,13 +5,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { GroupBy, GroupMovement, Movement } from 'modules/finances/types';
+import {
+  Period,
+  GroupMovement,
+  Movement,
+  MovementFilter,
+} from 'modules/finances/types';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MovementService } from 'modules/finances/services';
 import {
   MovementFormComponent,
-  MovementRangeComponent,
+  MovementFilterComponent,
 } from 'modules/finances/components';
 import {
   plusMonths,
@@ -23,8 +28,9 @@ import {
   formatYear,
   formatInterval,
 } from 'core/utils';
-import { capitalize } from 'lodash-es';
+import { capitalize, isEqual } from 'lodash-es';
 import { NavService } from 'layout/services';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-movements',
@@ -33,10 +39,16 @@ import { NavService } from 'layout/services';
 })
 export class MovementsComponent implements OnInit, OnDestroy {
   movements: GroupMovement[];
-  groupBy: GroupBy = 'month';
+  period: Period = 'week';
   dateIndex = 0;
   date: string;
   dateLabel: string;
+
+  filterOptions: MovementFilter = {
+    period: 'week',
+    order: 'date',
+    type: 'income,expense',
+  };
 
   private unsubscribeAll = new Subject<void>();
 
@@ -44,6 +56,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private movementService: MovementService,
     private bottomSheet: MatBottomSheet,
+    private dialog: MatDialog,
     private navService: NavService,
   ) {}
 
@@ -87,8 +100,8 @@ export class MovementsComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribeAll),
         filter((action) => action === 'filter'),
       )
-      .subscribe({
-        next: () => this.showMovementRange(),
+      .subscribe(() => {
+        this.showMovementFilter();
       });
   }
 
@@ -101,18 +114,32 @@ export class MovementsComponent implements OnInit, OnDestroy {
     });
   }
 
-  showMovementRange(): void {
-    this.bottomSheet
-      .open(MovementRangeComponent, {
-        data: {
-          selected: this.groupBy,
-        },
-        panelClass: '!p-0',
+  showMovementFilter(): void {
+    this.dialog
+      .open(MovementFilterComponent, {
+        data: this.filterOptions,
+        maxWidth: '100%',
+        panelClass: ['!p-6', 'w-full'],
       })
-      .afterDismissed()
-      .subscribe((groupBy: GroupBy) => {
+      .afterClosed()
+      .subscribe((filterOptions: MovementFilter) => {
+        if (!filterOptions) {
+          return;
+        }
+
+        if (isEqual(filterOptions, this.filterOptions)) {
+          return;
+        }
+
+        this.filterOptions = filterOptions;
+
+        console.log(this.filterOptions);
+
+        if (!this.filterOptions.period) {
+          return;
+        }
         this.dateIndex = 0;
-        this.groupBy = groupBy;
+        this.period = this.filterOptions.period;
         this.fetchMovements();
         this.changeDetectorRef.detectChanges();
       });
@@ -121,8 +148,8 @@ export class MovementsComponent implements OnInit, OnDestroy {
   fetchMovements(): void {
     this.updateDate();
     this.movementService.fetch({
+      ...this.filterOptions,
       date: this.date,
-      groupBy: this.groupBy,
     });
   }
 
@@ -137,28 +164,28 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   updateDate(): void {
-    if (this.groupBy === 'day') {
+    if (this.period === 'day') {
       const date = plusDays(this.dateIndex);
       this.dateLabel = formatDay(date);
       this.date = date.toISODate();
       return;
     }
 
-    if (this.groupBy === 'week') {
+    if (this.period === 'week') {
       const interval = weekRange(this.dateIndex);
       this.dateLabel = formatInterval(interval);
       this.date = interval.toISODate();
       return;
     }
 
-    if (this.groupBy === 'month') {
+    if (this.period === 'month') {
       const date = plusMonths(this.dateIndex);
       this.dateLabel = capitalize(formatMonth(date));
       this.date = date.toFormat('yyyy-MM');
       return;
     }
 
-    if (this.groupBy === 'year') {
+    if (this.period === 'year') {
       const date = plusYears(this.dateIndex);
       this.dateLabel = formatYear(date);
       this.date = date.toFormat('yyyy');

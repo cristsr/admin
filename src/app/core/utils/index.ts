@@ -65,9 +65,9 @@ export function formatDay(day: DateTime): string {
 }
 
 export function formatDate(date: DateTime): string {
-  const day = date.day;
+  const day = date.toFormat('dd');
   const month = date.toLocaleString({ month: 'short' });
-  const year = date.year;
+  const year = date.toFormat('yyyy');
 
   return `${day} ${month} ${year}`;
 }

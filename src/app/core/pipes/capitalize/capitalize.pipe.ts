@@ -1,10 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { capitalize } from 'lodash-es';
 
 @Pipe({
   name: 'capitalize',
 })
 export class CapitalizePipe implements PipeTransform {
   transform(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    if (!str) {
+      return '';
+    }
+    return capitalize(str);
   }
 }

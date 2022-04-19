@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { MovementItemModule, MovementListModule } from 'modules/finances/components';
 
 @NgModule({
   declarations: [SummaryComponent],
@@ -19,6 +20,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatMenuModule,
     MatButtonModule,
     NgApexchartsModule,
+    MovementListModule,
+    MovementItemModule,
   ],
 })
 export class SummaryModule {}

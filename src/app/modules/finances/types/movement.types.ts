@@ -21,8 +21,14 @@ export interface CreateMovement
 
 export interface UpdateMovement extends Partial<CreateMovement> {}
 
-export interface MovementQuery {
-  groupBy?: GroupBy;
+export interface MovementFilter {
+  period: Period;
+  order: MovementOrder;
+  category?: number;
+  type?: string;
+}
+
+export interface MovementQuery extends MovementFilter {
   date: string;
 }
 
@@ -32,9 +38,11 @@ export interface GroupMovement {
   values: Readonly<Movement[]>;
 }
 
-export type GroupBy = 'day' | 'week' | 'month' | 'year';
+export type Period = 'day' | 'week' | 'month' | 'year';
 
 export type MovementFormAction = 'read' | 'create' | 'edit';
+
+export type MovementOrder = 'date' | 'amount';
 
 export interface MovementFormData {
   action: MovementFormAction;
