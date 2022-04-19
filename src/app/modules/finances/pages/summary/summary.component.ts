@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ApexOptions } from 'ng-apexcharts';
 import { SummaryService } from 'modules/finances/services';
 import { Movement } from 'modules/finances/types';
@@ -76,47 +81,48 @@ export class SummaryComponent implements OnInit {
 
   private data: any;
 
-  constructor(private summaryService: SummaryService, private cd: ChangeDetectorRef) {
-  }
+  constructor(
+    private summaryService: SummaryService,
+    private cd: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
-    this.summaryService.getSummary().subscribe(
-      {
-        next: (response) => {
-          this.data = response;
-          this.balance = response.balance;
-          this.latestMovements = response.latestMovements;
-          this.configurePie();
-          this.configureBar();
-          this.cd.detectChanges();
-        },
-        error: (error) => {
-          console.log(error);
-        },
+    this.summaryService.getSummary().subscribe({
+      next: (response) => {
+        this.data = response;
+        this.balance = response.balance;
+        this.latestMovements = response.latestMovements;
+        this.configurePie();
+        this.configureBar();
+        this.cd.detectChanges();
       },
-    );
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   onclick(event: any): void {
     console.log(event);
   }
 
-  openDialog(): void {
-  }
+  openDialog(): void {}
 
   configurePie(): void {
     const { pie } = this.data;
 
     const piePeriod = 'daily';
 
-    const [series, labels, colors] = pie[piePeriod].reduce(([s, l, c], curr) => {
-      s.push(curr.amount);
-      l.push(curr.name);
-      c.push('bg-' + curr.color);
+    const [series, labels, colors] = pie[piePeriod].reduce(
+      ([s, l, c], curr) => {
+        s.push(curr.amount);
+        l.push(curr.name);
+        c.push('bg-' + curr.color);
 
-      return [s, l, c];
-    }, [[], [], []]);
-
+        return [s, l, c];
+      },
+      [[], [], []],
+    );
 
     this.pieOptions = {
       series,
@@ -149,17 +155,19 @@ export class SummaryComponent implements OnInit {
         horizontalAlign: 'center',
       },
     };
-
   }
 
   configureBar(): void {
     const { bar } = this.data;
 
-    const [series, labels] = bar.reduce(([s, l, c], curr) => {
-      s.push(curr.amount);
-      l.push(curr.day);
-      return [s, l];
-    }, [[], []]);
+    const [series, labels] = bar.reduce(
+      ([s, l, c], curr) => {
+        s.push(curr.amount);
+        l.push(curr.day);
+        return [s, l];
+      },
+      [[], []],
+    );
 
     this.chartOptions = {
       series: [

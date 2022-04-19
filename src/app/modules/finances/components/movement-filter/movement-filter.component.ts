@@ -1,9 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { CategoryService } from 'modules/finances/services';
 import { Category, MovementFilter } from 'modules/finances/types';
