@@ -1,0 +1,39 @@
+<div class="h-full flex flex-col">
+  <div class="flex flex-col col-span-4 px-4 bg-white shadow z-10 pb-2">
+    <div class="flex justify-between items-center">
+      <div class="flex justify-start">
+        <button mat-icon-button aria-label="back" (click)="onBefore()">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+      </div>
+      <div class="text-sm font-medium">{{dateLabel}}</div>
+      <div class="flex justify-end">
+        <button mat-icon-button aria-label="next" (click)="onNext()">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grow flex flex-col rounded-xl overflow-y-auto gap-4 p-4">
+    <ng-container *ngIf="!!movements?.length; else noMovements">
+      <div
+        class="flex flex-col rounded-xl shadow p-6 bg-white"
+        *ngFor="let item of movements"
+      >
+        <app-movement-list
+          [groupMovement]="item"
+          (movementClick)="showMovementDetail($event)">
+        </app-movement-list>
+      </div>
+    </ng-container>
+
+    <ng-template #noMovements>
+      <div class="flex flex-col rounded-xl shadow p-6 bg-white font-medium text-center">
+        No se encontraron movimientos
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+

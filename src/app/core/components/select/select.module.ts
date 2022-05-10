@@ -1,26 +1,34 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SelectComponent } from './select/select.component';
-import { FlexModule } from '../../directives/flex/flex.module';
-import { IconModule } from '../icon/icon.module';
-import { SelectCategoryComponent } from './select-category/select-category.component';
-import { CardModule } from '../card/card.module';
-import { ListModule } from '../list/list.module';
-
-
+import { SelectComponent } from './select.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { DialogComponent } from './dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ListOptionComponent } from './list-option.component';
+import { ListHeaderComponent } from './list-header.component';
 
 @NgModule({
-  declarations: [SelectComponent, SelectCategoryComponent],
-  exports: [
+  declarations: [
     SelectComponent,
-    SelectCategoryComponent
+    DialogComponent,
+    ListOptionComponent,
+    ListHeaderComponent,
   ],
   imports: [
     CommonModule,
-    FlexModule,
-    IconModule,
-    CardModule,
-    ListModule
-  ]
+    MatFormFieldModule,
+    MatIconModule,
+    MatDialogModule,
+    MatInputModule,
+    MatRippleModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+  ],
+  exports: [SelectComponent],
 })
-export class SelectModule { }
+export class SelectModule {}

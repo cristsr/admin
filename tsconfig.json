@@ -10,11 +10,17 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "module": "es2020",
+    "target": "esnext",
+    "module": "esnext",
     "lib": [
-      "es2018",
+      "esnext",
       "dom"
-    ]
+    ],
+    "paths": {
+      "environment": ["src/app/environment"],
+      "core/*": ["src/app/core/*"],
+      "layout/*": ["src/app/layout/*"],
+      "modules/*": ["src/app/modules/*"],
+    }
   }
 }

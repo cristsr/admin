@@ -1,36 +1,37 @@
 import {
   Component,
   ContentChildren,
-  OnInit,
   Output,
   QueryList,
-  EventEmitter, Input
+  EventEmitter,
+  Input,
 } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 
 @Component({
   selector: 'app-tabset',
   template: `
-    <app-card>
-      <app-card-header appFlex row justify="between">
-        <ng-container  *ngFor="let tab of tabs">
+    <div>
+      <div class="flex justify-between">
+        <ng-container *ngFor="let tab of tabs">
           <div
             (click)="selectTab(tab)"
             [class.active]="tab.active"
-            class="tab-link">
-            <app-icon *ngIf="tab.icon" [icon]="tab.icon"></app-icon>
+            class="tab-link"
+          >
+            <mat-icon *ngIf="tab.icon">{{ tab.icon }}</mat-icon>
             <span *ngIf="tab.tabTitle">{{ tab.tabTitle }}</span>
           </div>
         </ng-container>
-      </app-card-header>
-      <app-card-body>
+      </div>
+      <div>
         <ng-content select="app-tab"></ng-content>
-      </app-card-body>
-    </app-card>
+      </div>
+    </div>
   `,
-  styleUrls: ['./tabset.component.scss']
+  styleUrls: ['./tabset.component.scss'],
 })
-export class TabsetComponent implements OnInit {
+export class TabsetComponent {
   @ContentChildren(TabComponent)
   tabs: QueryList<TabComponent>;
 
@@ -38,18 +39,14 @@ export class TabsetComponent implements OnInit {
 
   @Output() changeTab = new EventEmitter<any>();
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
+  constructor() {}
 
   selectTab(selectedTab: TabComponent): void {
     if (selectedTab.active) {
       return;
     }
 
-    this.tabs.forEach(tab => tab.active = tab === selectedTab);
+    this.tabs.forEach((tab) => (tab.active = tab === selectedTab));
     this.changeTab.emit(selectedTab);
   }
 }

@@ -1,0 +1,29 @@
+::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
+  .mat-form-field-label {
+    @apply text-purple-600;
+  }
+
+  .mat-form-field-ripple {
+    @apply bg-purple-600;
+  }
+
+  .mat-form-field-required-marker {
+    @apply text-purple-600;
+  }
+
+  .mat-input-element {
+    @apply text-gray-600;
+  }
+}
+
+::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+  @apply border-purple-600;
+}
+
+::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
+  @apply bg-purple-600;
+}
+
+::ng-deep .mat-select-panel {
+  min-width: 100% !important;
+}

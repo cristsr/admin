@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-progress',
@@ -8,14 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
       matRipple
       class="flex flex-col rounded-full text-center"
       [class]="color"
-      [style.width]="progress">
-
-      <b class="text-xs">{{progress}}</b>
-
+      [style.width]="progress"
+    >
+      <b class="text-xs">{{ progress }}</b>
     </div>
   `,
 })
-export class ProgressComponent implements OnInit {
+export class ProgressComponent {
   private progressValue: string;
 
   @Input() color: string;
@@ -29,9 +28,5 @@ export class ProgressComponent implements OnInit {
     return this.progressValue;
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  constructor() {}
 }

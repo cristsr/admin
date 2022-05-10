@@ -1,0 +1,158 @@
+<div class="p-4 md:p-8 flex flex-col m-auto h-full overflow-y-auto">
+
+  <div class="grid grid-cols-4 gap-5 md:grid-cols-6 md:gap-8">
+
+    <div matRipple class="flex flex-col col-span-4 md:col-span-2 rounded-xl shadow p-6 bg-white">
+      <div class="flex pb-3 ">
+        <mat-icon class="text-purple-500">task_alt</mat-icon>
+        <div class="pl-1 text-lg font-medium">Balance Total</div>
+      </div>
+      <div class="text-3xl font-bold text-purple-500">{{ '$' + (balance?.balance  | number) }}</div>
+    </div>
+
+    <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
+      <div class="flex pb-2">
+        <mat-icon class="text-green-500">trending_up</mat-icon>
+        <div class="pl-1 text font-medium">Ingresos</div>
+      </div>
+      <div class="text-xl font-medium text-green-500">{{ '$' + (balance?.incomeMonth | number) }}</div>
+    </div>
+
+    <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
+      <div class="flex pb-2">
+        <mat-icon class="text-red-500">trending_down</mat-icon>
+        <div class="pl-1 text font-medium">Gastos</div>
+      </div>
+      <div class="text-xl font-medium text-red-500">{{ '$' + (balance?.expenseMonth | number) }}</div>
+    </div>
+
+    <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
+      <div class="flex pb-2">
+        <div class="text font-medium">Facturas</div>
+      </div>
+      <div class="text-xl font-medium text-gray-800">${{ 2600000 | number }}</div>
+    </div>
+
+    <div matRipple class="flex flex-col col-span-2 md:col-span-2 rounded-xl shadow px-6 py-5 bg-white">
+      <div class="flex pb-2">
+        <div class="text font-medium">Ahorros</div>
+      </div>
+      <div class="text-xl font-medium text-gray-800">${{ 2600000 | number }}</div>
+    </div>
+    <div class="flex flex-col md:p-6 col-span-4 bg-white rounded-xl p-6 shadow">
+      <!-- Card header -->
+      <div class="flex justify-between">
+        <div class="text-lg font-medium pb-2 md:pb-0">Gastos {{ expenseView }}</div>
+        <div class="ml-2 -mt-2 -mr-3">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="expenseView = 'daily'">
+              <mat-icon>done</mat-icon>
+              <span>Diario</span>
+            </button>
+            <button mat-menu-item (click)="expenseView = 'weekly'">
+              <mat-icon>notifications_on</mat-icon>
+              <span>Semanal</span>
+            </button>
+            <button mat-menu-item (click)="expenseView = 'monthly'">
+              <mat-icon>notifications_off</mat-icon>
+              <span>Mensual</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <!-- Card chart -->
+      <apx-chart
+        *ngIf="pieOptions"
+        [series]="pieOptions.series"
+        [chart]="pieOptions.chart"
+        [labels]="pieOptions.labels"
+        [plotOptions]="pieOptions.plotOptions"
+        [legend]="pieOptions.legend"
+        [tooltip]="pieOptions.tooltip"
+        [responsive]="pieOptions.responsive">
+      </apx-chart>
+
+    </div>
+    <div class="flex flex-col md:p-6 col-span-4 bg-white rounded-xl p-6 shadow">
+      <!-- Card header -->
+      <div class="flex justify-between">
+        <div class="text-lg font-medium pb-2 md:pb-0">Gastos {{ expenseView }}</div>
+        <div class="ml-2 -mt-2 -mr-3">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="expenseView = 'daily'">
+              <mat-icon>done</mat-icon>
+              <span>Diario</span>
+            </button>
+            <button mat-menu-item (click)="expenseView = 'weekly'">
+              <mat-icon>notifications_on</mat-icon>
+              <span>Semanal</span>
+            </button>
+            <button mat-menu-item (click)="expenseView = 'monthly'">
+              <mat-icon>notifications_off</mat-icon>
+              <span>Mensual</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <!-- Card chart -->
+      <apx-chart *ngIf="pieOptions"
+                 [series]="chartOptions.series"
+                 [chart]="chartOptions.chart"
+                 [colors]="chartOptions.colors"
+                 [dataLabels]="chartOptions.dataLabels"
+                 [grid]="chartOptions.grid"
+                 [labels]="chartOptions.labels"
+                 [legend]="chartOptions.legend"
+                 [plotOptions]="chartOptions.plotOptions"
+                 [states]="chartOptions.states"
+                 [stroke]="chartOptions.stroke"
+                 [tooltip]="chartOptions.tooltip"
+                 [xaxis]="chartOptions.xaxis"
+                 [yaxis]="chartOptions.yaxis">
+      </apx-chart>
+
+      <div class="flex flex-col">
+        <div class="flex justify-between pb-2">
+          <div class="text-sm font-medium">Promedio 7 dias</div>
+          <div class="text-sm font-medium text-red-500">${{ 60000 | number }}</div>
+        </div>
+        <div class="flex justify-between">
+          <div class="text-sm font-medium">Promedio mensual</div>
+          <div class="text-sm font-medium text-red-500">${{ 60000 | number }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white gap-2">
+      <div class="flex justify-between">
+        <div class="text-lg font-medium">Movimientos</div>
+        <div class="ml-2 -mt-1 -mr-3">
+          <button class="text-purple-500" mat-button>
+            Ver todo
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <app-movement-item
+          *ngFor="let movement of latestMovements"
+          [color]="movement.category?.color"
+          [icon]="movement.category?.icon"
+          [description]="movement.description"
+          [category]="movement.category?.name"
+          [amount]="movement.amount"
+          [type]="movement.type">
+        </app-movement-item>
+      </div>
+    </div>
+  </div>
+</div>
+

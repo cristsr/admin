@@ -1,21 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ThousandSuffixesPipe } from './thousand-suffixes.pipe';
-
-
+import { ThousandSuffixPipe } from './thousand-suffixes.pipe';
 
 @NgModule({
-  declarations: [
-    ThousandSuffixesPipe,
-  ],
-  providers: [
-    ThousandSuffixesPipe
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    ThousandSuffixesPipe
-  ]
+  declarations: [ThousandSuffixPipe],
+  providers: [ThousandSuffixPipe],
+  imports: [CommonModule],
+  exports: [ThousandSuffixPipe],
 })
-export class ThousandSuffixesModule { }
+export class ThousandSuffixesModule {}

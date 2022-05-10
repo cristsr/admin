@@ -1,27 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardModule } from '../card/card.module';
 import { TabsetComponent } from './tabset/tabset.component';
 import { TabComponent } from './tab/tab.component';
-import { IconModule } from '../icon/icon.module';
-import { FlexModule } from '../../directives/flex/flex.module';
-
-
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [
-    TabsetComponent,
-    TabComponent
-  ],
-  imports: [
-    CommonModule,
-    CardModule,
-    IconModule,
-    FlexModule
-  ],
-  exports: [
-    TabsetComponent,
-    TabComponent
-  ],
+  declarations: [TabsetComponent, TabComponent],
+  imports: [CommonModule, MatIconModule],
+  exports: [TabsetComponent, TabComponent],
 })
-export class TabsetModule { }
+export class TabsetModule {}

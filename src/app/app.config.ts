@@ -1,6 +1,6 @@
-import { LayoutState } from './core/services/layout/layout.service';
+import { Menu } from 'layout/types';
 
-export const layoutInitialState: LayoutState = {
+export const AppConfig = {
   theme: 'light',
   expandSidebar: false,
   pageTitle: '',
@@ -9,23 +9,34 @@ export const layoutInitialState: LayoutState = {
       icon: 'account_balance',
       title: 'Finanzas',
       url: 'finances',
+      default: true,
       submenu: [
         {
-          icon: 'analytics',
+          icon: 'pie_chart_outline',
           title: 'Resumen',
-          url: 'finances/summary'
+          url: 'finances/summary',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
-          url: 'finances/movements'
+          url: 'finances/movements',
+        },
+        {
+          icon: 'add',
+          label: 'add-movement',
+          type: 'action',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
         },
-      ]
+        {
+          icon: 'category',
+          title: 'Categorías',
+          url: 'finances/categories',
+        },
+      ],
     },
     {
       icon: 'school',
@@ -35,24 +46,28 @@ export const layoutInitialState: LayoutState = {
         {
           icon: 'description',
           title: 'Resumen',
-          url: 'finances/summary'
+          url: 'finances/summary',
+          type: 'link',
         },
         {
           icon: 'timeline',
           title: 'Movimientos',
-          url: 'finances/movements'
+          url: 'finances/movements',
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuestos',
           url: 'finances/budgets',
+          type: 'link',
         },
         {
           icon: 'attach_money',
           title: 'Presupuetos',
           url: 'finances/budgets',
+          type: 'link',
         },
-      ]
+      ],
     },
     {
       icon: 'description',
@@ -68,7 +83,7 @@ export const layoutInitialState: LayoutState = {
       icon: 'settings',
       title: 'Ajustes',
       url: 'settings',
-    }
-  ],
-  submenu: []
+    },
+  ] as Menu[],
+  submenu: [],
 };

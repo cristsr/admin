@@ -1,74 +1,320 @@
 [
   {
-    "id": 0,
-    "icon": "",
-    "color": "",
-    "name": "Hogar"
+    "icon": "home",
+    "color": "lime-400",
+    "name": "hogar",
+    "subcategories": [
+      {
+        "name": "construcción y remodelación"
+      },
+      {
+        "name": "artículos para el hogar"
+      },
+      {
+        "name": "mascotas"
+      },
+      {
+        "name": "limpieza y mantenimiento"
+      },
+      {
+        "name": "muebles y aparatos eléctricos"
+      },
+      {
+        "name": "renta y compra"
+      },
+      {
+        "name": "servicios públicos"
+      },
+      {
+        "name": "teléfono celular"
+      },
+      {
+        "name": "otros hogar"
+      }
+    ]
   },
   {
-    "id": 1,
-    "icon": "",
-    "color": "",
-    "name": "Alimentos"
+    "icon": "restaurant",
+    "color": "orange-400",
+    "name": "alimentos",
+    "subcategories": [
+      {
+        "name": "despensa"
+      },
+      {
+        "name": "restaurante"
+      },
+      {
+        "name": "otros alimentos"
+      }
+    ]
   },
   {
-    "id": 2,
-    "icon": "",
-    "color": "",
-    "name": "Entretenimiento"
+    "icon": "sports_esports",
+    "color": "purple-400",
+    "name": "entretenimiento",
+    "subcategories": [
+      {
+        "name": "cine y música"
+      },
+      {
+        "name": "juguetes y videojuegos"
+      },
+      {
+        "name": "museos y parques"
+      },
+      {
+        "name": "suscripciones y apps"
+      },
+      {
+        "name": "bares y restaurantes"
+      },
+      {
+        "name": "alcohol y tabaco"
+      },
+      {
+        "name": "espectáculos y eventos"
+      },
+      {
+        "name": "otros entretenimiento"
+      }
+    ]
   },
   {
-    "id": 3,
-    "icon": "",
-    "color": "",
-    "name": "Salud y Belleza"
+    "icon": "health_and_safety",
+    "color": "blue-400",
+    "name": "salud y belleza",
+    "subcategories": [
+      {
+        "name": "perfumes y cosméticos"
+      },
+      {
+        "name": "salón de belleza"
+      },
+      {
+        "name": "dentista"
+      },
+      {
+        "name": "ejercicio y deportes"
+      },
+      {
+        "name": "farmacia"
+      },
+      {
+        "name": "médico"
+      },
+      {
+        "name": "cuidado personal"
+      },
+      {
+        "name": "otros salud y belleza"
+      }
+    ]
   },
   {
-    "id": 4,
-    "icon": "",
-    "color": "",
-    "name": "Auto y Transporte"
+    "icon": "directions_bus",
+    "color": "red-400",
+    "name": "auto y transporte",
+    "subcategories": [
+      {
+        "name": "automóvil y motocicleta"
+      },
+      {
+        "name": "mantenimiento y refacciones"
+      },
+      {
+        "name": "autolavado"
+      },
+      {
+        "name": "transporte público"
+      },
+      {
+        "name": "gasolina"
+      },
+      {
+        "name": "taxi"
+      },
+      {
+        "name": "casetas"
+      },
+      {
+        "name": "estacionamiento"
+      },
+      {
+        "name": "otros auto y transporte"
+      }
+    ]
   },
   {
-    "id": 5,
-    "icon": "",
-    "color": "",
-    "name": "Educación y Trabajo"
+    "icon": "school",
+    "color": "yellow-400",
+    "name": "educación y trabajo",
+    "subcategories": [
+      {
+        "name": "correo"
+      },
+      {
+        "name": "servicios legales"
+      },
+      {
+        "name": "servicios contables"
+      },
+      {
+        "name": "otros educación y trabajo"
+      },
+      {
+        "name": "colegiatura"
+      },
+      {
+        "name": "papelería"
+      },
+      {
+        "name": "libros"
+      },
+      {
+        "name": "software"
+      },
+      {
+        "name": "otros servicios profesionales"
+      }
+    ]
   },
   {
-    "id": 6,
-    "icon": "",
-    "color": "",
-    "name": "Regalos y Ayuda"
+    "icon": "redeem",
+    "color": "indigo-400",
+    "name": "regalos y ayuda",
+    "subcategories": [
+      {
+        "name": "donaciones"
+      },
+      {
+        "name": "apoyo a familiares y amigos"
+      },
+      {
+        "name": "regalos"
+      },
+      {
+        "name": "otros regalos y ayuda"
+      }
+    ]
   },
   {
-    "id": 7,
-    "icon": "",
-    "color": "",
-    "name": "Viajes"
+    "icon": "flight",
+    "color": "green-400",
+    "name": "viajes",
+    "subcategories": [
+      {
+        "name": "hospedaje"
+      },
+      {
+        "name": "botes y cruceros"
+      },
+      {
+        "name": "transporte viajes"
+      },
+      {
+        "name": "vuelos"
+      },
+      {
+        "name": "otros viajes"
+      }
+    ]
   },
   {
-    "id": 8,
-    "icon": "",
-    "color": "",
-    "name": "Finanzas e Impuestos"
+    "icon": "attach_money",
+    "color": "sky-400",
+    "name": "finanzas e impuestos",
+    "subcategories": [
+      {
+        "name": "seguros y fianzas"
+      },
+      {
+        "name": "impuestos"
+      },
+      {
+        "name": "servicios financieros"
+      },
+      {
+        "name": "créditos"
+      },
+      {
+        "name": "ahorro e inversiones"
+      },
+      {
+        "name": "otros finanzas e impuestos"
+      }
+    ]
   },
   {
-    "id": 9,
-    "icon": "",
-    "color": "",
-    "name": "Ropa y Calzado"
+    "icon": "checkroom",
+    "color": "gray-400",
+    "name": "ropa y calzado",
+    "subcategories": [
+      {
+        "name": "calzado"
+      },
+      {
+        "name": "accesorios"
+      },
+      {
+        "name": "lavandería y tintorería"
+      },
+      {
+        "name": "ropa"
+      },
+      {
+        "name": "otros ropa"
+      }
+    ]
   },
   {
-    "id": 10,
-    "icon": "",
-    "color": "",
-    "name": "Transacciones Bancarias"
+    "icon": "account_balance",
+    "color": "pink-400",
+    "name": "transacciones bancarias",
+    "subcategories": [
+      {
+        "name": "pago tarjeta de crédito"
+      },
+      {
+        "name": "cheques"
+      },
+      {
+        "name": "cajero automático"
+      },
+      {
+        "name": "transferencias"
+      },
+      {
+        "name": "otros transacciones bancarias"
+      }
+    ]
   },
   {
-    "id": 11,
-    "icon": "",
-    "color": "",
-    "name": "Ingresos"
+    "icon": "trending_up",
+    "color": "cyan-400",
+    "name": "ingresos",
+    "subcategories": [
+      {
+        "name": "préstamos"
+      },
+      {
+        "name": "bonos"
+      },
+      {
+        "name": "reembolsos y devoluciones"
+      },
+      {
+        "name": "sueldo"
+      },
+      {
+        "name": "rentas"
+      },
+      {
+        "name": "inversiones"
+      },
+      {
+        "name": "otros ingresos"
+      }
+    ]
   }
 ]

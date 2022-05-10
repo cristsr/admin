@@ -1,28 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
-import { SidebarModule } from '../core/components/sidebar/sidebar.module';
-import { RouterModule } from '@angular/router';
-import { NavModule } from '../core/components/nav/nav.module';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { BottomNavModule } from '../core/components/bottom-nav/bottom-nav.module';
+import { DefaultLayoutModule, EmptyLayoutModule } from 'layout/layouts';
 
-
+const layoutModules = [EmptyLayoutModule, DefaultLayoutModule];
 
 @NgModule({
-  declarations: [
-    LayoutComponent
-  ],
-  imports: [
-    CommonModule,
-    SidebarModule,
-    RouterModule,
-    NavModule,
-    NgApexchartsModule,
-    BottomNavModule
-  ],
-  exports: [
-    LayoutComponent
-  ]
+  declarations: [LayoutComponent],
+  imports: [CommonModule, ...layoutModules],
+  exports: [LayoutComponent, ...layoutModules],
 })
-export class LayoutModule { }
+export class LayoutModule {}
