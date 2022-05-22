@@ -139,12 +139,12 @@ export class SummaryComponent implements OnInit {
       },
       dataLabels: {
         dropShadow: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       plotOptions: {
         pie: {
-          customScale: .8,
+          customScale: 0.8,
           expandOnClick: false,
           donut: {
             labels: {
@@ -158,9 +158,9 @@ export class SummaryComponent implements OnInit {
               total: {
                 show: true,
                 label: 'Total',
-              }
-            }
-          }
+              },
+            },
+          },
         },
       },
       legend: {
