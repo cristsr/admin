@@ -111,7 +111,7 @@ export class SummaryComponent implements OnInit {
   configurePie(): void {
     const { pie } = this.data;
 
-    const piePeriod = 'daily';
+    const piePeriod = 'monthly';
 
     const [series, labels, colors] = pie[piePeriod].reduce(
       ([s, l, c], curr) => {
@@ -126,33 +126,45 @@ export class SummaryComponent implements OnInit {
 
     this.pieOptions = {
       series,
+      labels,
       chart: {
         type: 'donut',
         width: '100%',
       },
-      labels,
+      stroke: {
+        show: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+      dataLabels: {
+        dropShadow: {
+          enabled: false
+        }
+      },
       plotOptions: {
         pie: {
-          customScale: 0.8,
+          customScale: .8,
           expandOnClick: false,
-        },
-      },
-      states: {
-        hover: {
-          filter: {
-            type: 'none',
-          },
-        },
-        active: {
-          filter: {
-            type: 'none',
-          },
+          donut: {
+            labels: {
+              show: true,
+              name: {
+                show: true,
+              },
+              value: {
+                show: true,
+              },
+              total: {
+                show: true,
+                label: 'Total',
+              }
+            }
+          }
         },
       },
       legend: {
-        show: true,
-        position: 'right',
-        horizontalAlign: 'center',
+        show: false,
       },
     };
   }

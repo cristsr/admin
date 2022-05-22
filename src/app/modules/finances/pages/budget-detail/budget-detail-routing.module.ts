@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BudgetDetailComponent } from './budget-detail.component';
-import { BudgetDetailResolver } from 'modules/finances/pages/budget-detail/budget-detail.resolver';
+import { BudgetDetailResolver } from './budget-detail.resolver';
 
 const routes: Routes = [
   {
