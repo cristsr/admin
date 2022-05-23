@@ -130,6 +130,8 @@ export class SummaryComponent implements OnInit {
       chart: {
         type: 'donut',
         width: '100%',
+        height: 280,
+        stacked: true,
       },
       stroke: {
         show: false,
@@ -138,25 +140,40 @@ export class SummaryComponent implements OnInit {
         enabled: false,
       },
       dataLabels: {
+        style: {
+          fontSize: '10px',
+          fontWeight: "bold",
+        },
         dropShadow: {
           enabled: false,
         },
       },
       plotOptions: {
         pie: {
-          customScale: 0.8,
+          // customScale: 0.8,
           expandOnClick: false,
           donut: {
+            size: '72%',
             labels: {
               show: true,
               name: {
                 show: true,
+                offsetY: -10,
+                fontSize: "8px",
+                color: '#000',
+                formatter: (val: string): string => {
+                  return val.charAt(0).toUpperCase() + val.slice(1);
+                },
               },
               value: {
                 show: true,
+                fontSize: '24px',
+                fontFamily: 'Open Sans',
+                fontWeight: 500,
               },
               total: {
                 show: true,
+                color: "#000",
                 label: 'Total',
               },
             },
