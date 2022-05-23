@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { SummaryRoutingModule } from './summary-routing.module';
-import { SummaryComponent } from './summary.component';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -12,6 +9,8 @@ import {
   MovementItemModule,
   MovementListModule,
 } from 'modules/finances/components';
+import { SummaryRoutingModule } from './summary-routing.module';
+import { SummaryComponent } from './summary.component';
 
 @NgModule({
   declarations: [SummaryComponent],
@@ -26,5 +25,6 @@ import {
     MovementListModule,
     MovementItemModule,
   ],
+  providers: [DecimalPipe]
 })
 export class SummaryModule {}

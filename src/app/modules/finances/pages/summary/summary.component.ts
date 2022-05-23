@@ -7,6 +7,7 @@ import {
 import { ApexOptions } from 'ng-apexcharts';
 import { SummaryService } from 'modules/finances/services';
 import { Movement } from 'modules/finances/types';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-summary',
@@ -82,6 +83,7 @@ export class SummaryComponent implements OnInit {
   private data: any;
 
   constructor(
+    private decimalPipe: DecimalPipe,
     private summaryService: SummaryService,
     private cd: ChangeDetectorRef,
   ) {}
@@ -170,11 +172,17 @@ export class SummaryComponent implements OnInit {
                 fontSize: '24px',
                 fontFamily: 'Open Sans',
                 fontWeight: 500,
+                formatter: (val: string): string => {
+                  return '$'+ parseInt(val).toLocaleString();
+                }
               },
               total: {
                 show: true,
                 color: '#000',
                 label: 'Total',
+                formatter: (val: any): string => {
+                  return "$" + val.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString();
+                }
               },
             },
           },
