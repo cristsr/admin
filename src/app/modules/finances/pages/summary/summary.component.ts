@@ -142,7 +142,7 @@ export class SummaryComponent implements OnInit {
       dataLabels: {
         style: {
           fontSize: '10px',
-          fontWeight: "bold",
+          fontWeight: 'bold',
         },
         dropShadow: {
           enabled: false,
@@ -159,7 +159,7 @@ export class SummaryComponent implements OnInit {
               name: {
                 show: true,
                 offsetY: -10,
-                fontSize: "8px",
+                fontSize: '8px',
                 color: '#000',
                 formatter: (val: string): string => {
                   return val.charAt(0).toUpperCase() + val.slice(1);
@@ -173,7 +173,7 @@ export class SummaryComponent implements OnInit {
               },
               total: {
                 show: true,
-                color: "#000",
+                color: '#000',
                 label: 'Total',
               },
             },
