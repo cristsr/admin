@@ -25,6 +25,6 @@ import { SummaryComponent } from './summary.component';
     MovementListModule,
     MovementItemModule,
   ],
-  providers: [DecimalPipe]
+  providers: [DecimalPipe],
 })
 export class SummaryModule {}

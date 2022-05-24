@@ -173,16 +173,21 @@ export class SummaryComponent implements OnInit {
                 fontFamily: 'Open Sans',
                 fontWeight: 500,
                 formatter: (val: string): string => {
-                  return '$'+ parseInt(val).toLocaleString();
-                }
+                  return '$' + parseInt(val).toLocaleString();
+                },
               },
               total: {
                 show: true,
                 color: '#000',
                 label: 'Total',
                 formatter: (val: any): string => {
-                  return "$" + val.globals.seriesTotals.reduce((a, b) => a + b, 0).toLocaleString();
-                }
+                  return (
+                    '$' +
+                    val.globals.seriesTotals
+                      .reduce((a, b) => a + b, 0)
+                      .toLocaleString()
+                  );
+                },
               },
             },
           },
