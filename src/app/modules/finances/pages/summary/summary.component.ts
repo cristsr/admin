@@ -38,7 +38,7 @@ export class SummaryComponent implements OnInit {
     labels: ['Male', 'Female'],
     plotOptions: {
       pie: {
-        customScale: 0.9,
+        // customScale: 0.9,
         expandOnClick: false,
         donut: {
           size: '70%',
@@ -132,7 +132,7 @@ export class SummaryComponent implements OnInit {
       chart: {
         type: 'donut',
         width: '100%',
-        height: 280,
+        height: 250,
         stacked: true,
       },
       stroke: {
@@ -144,7 +144,7 @@ export class SummaryComponent implements OnInit {
       dataLabels: {
         style: {
           fontSize: '10px',
-          fontWeight: 'bold',
+          // fontWeight: 'bold',
         },
         dropShadow: {
           enabled: false,
@@ -155,12 +155,11 @@ export class SummaryComponent implements OnInit {
           // customScale: 0.8,
           expandOnClick: false,
           donut: {
-            size: '72%',
+            size: '65%',
             labels: {
               show: true,
               name: {
                 show: true,
-                offsetY: -10,
                 fontSize: '8px',
                 color: '#000',
                 formatter: (val: string): string => {
@@ -169,9 +168,9 @@ export class SummaryComponent implements OnInit {
               },
               value: {
                 show: true,
-                fontSize: '24px',
+                fontSize: '22px',
+                fontWeight: 'bold',
                 fontFamily: 'Open Sans',
-                fontWeight: 500,
                 formatter: (val: string): string => {
                   return '$' + parseInt(val).toLocaleString();
                 },
@@ -179,7 +178,7 @@ export class SummaryComponent implements OnInit {
               total: {
                 show: true,
                 color: '#000',
-                label: 'Total',
+                label: 'Gastos',
                 formatter: (val: any): string => {
                   return (
                     '$' +
