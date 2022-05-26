@@ -47,7 +47,7 @@ import { NavService } from 'layout/services';
         >
         </app-nav>
 
-        <div class="bg-gray-100 overflow-hidden grow">
+        <div class="bg-[#EDEDF5] overflow-hidden grow">
           <router-outlet></router-outlet>
         </div>
 
