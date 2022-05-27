@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
       [class]="color"
       [style.width]="progress"
     >
-      <b class="text-xs">{{ progress }}</b>
+      <span class="text-xs text-white">{{ progress }}</span>
     </div>
   `,
 })

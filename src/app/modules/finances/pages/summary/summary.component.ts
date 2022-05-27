@@ -7,7 +7,7 @@ import {
 import { ApexOptions } from 'ng-apexcharts';
 import { SummaryService } from 'modules/finances/services';
 import { Movement } from 'modules/finances/types';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-summary',
@@ -18,65 +18,13 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
 export class SummaryComponent implements OnInit {
   expenseView: 'daily' | 'weekly' | 'monthly' = 'daily';
 
-  chartGender = {
-    chart: {
-      animations: {
-        speed: 400,
-        animateGradually: {
-          enabled: false,
-        },
-      },
-      fontFamily: 'inherit',
-      foreColor: 'inherit',
-      height: '100%',
-      type: 'donut',
-      sparkline: {
-        enabled: true,
-      },
-    },
-    colors: ['#319795', '#4FD1C5'],
-    labels: ['Male', 'Female'],
-    plotOptions: {
-      pie: {
-        // customScale: 0.9,
-        expandOnClick: false,
-        donut: {
-          size: '70%',
-        },
-      },
-    },
-    series: [55, 45],
-    states: {
-      hover: {
-        filter: {
-          type: 'none',
-        },
-      },
-      active: {
-        filter: {
-          type: 'none',
-        },
-      },
-    },
-    tooltip: {
-      enabled: true,
-      fillSeriesColor: false,
-      theme: 'dark',
-      custom: ({ seriesIndex, w }): string => `
-        <div class="flex items-center h-8 min-h-8 max-h-8 px-3">
-           <div class="w-3 h-3 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-           <div class="ml-2 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-           <div class="ml-2 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-        </div>
-      `,
-    },
-  };
-
   pieOptions: ApexOptions;
 
   chartOptions: ApexOptions;
 
   balance: any;
+
+  categoryExpenses: any;
 
   latestMovements: Movement[];
 
@@ -95,7 +43,6 @@ export class SummaryComponent implements OnInit {
         this.balance = response.balance;
         this.latestMovements = response.latestMovements;
         this.configurePie();
-        this.configureBar();
         this.cd.detectChanges();
       },
       error: (error) => {
@@ -115,6 +62,8 @@ export class SummaryComponent implements OnInit {
 
     const piePeriod = 'monthly';
 
+    this.categoryExpenses = pie[piePeriod];
+
     const [series, labels, colors] = pie[piePeriod].reduce(
       ([s, l, c], curr) => {
         s.push(curr.amount);
@@ -132,7 +81,7 @@ export class SummaryComponent implements OnInit {
       chart: {
         type: 'donut',
         width: '100%',
-        height: 250,
+        height: 240,
         stacked: true,
       },
       stroke: {
@@ -142,6 +91,7 @@ export class SummaryComponent implements OnInit {
         enabled: false,
       },
       dataLabels: {
+        enabled: false,
         style: {
           fontSize: '10px',
           // fontWeight: 'bold',
@@ -155,7 +105,7 @@ export class SummaryComponent implements OnInit {
           // customScale: 0.8,
           expandOnClick: false,
           donut: {
-            size: '65%',
+            size: '75%',
             labels: {
               show: true,
               name: {
@@ -172,7 +122,7 @@ export class SummaryComponent implements OnInit {
                 fontWeight: 'bold',
                 fontFamily: 'Open Sans',
                 formatter: (val: string): string => {
-                  return '$' + parseInt(val).toLocaleString();
+                  return '$' + parseInt(val, 10).toLocaleString();
                 },
               },
               total: {

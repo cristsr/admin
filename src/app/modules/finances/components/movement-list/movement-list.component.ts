@@ -23,17 +23,17 @@ import { DateTime } from 'luxon';
       </div>
     </div>
     <div class="flex flex-col gap-2">
-      <app-movement-item
+      <app-list-item
         *ngFor="let movement of groupMovement.values; trackBy: trackByFn"
         (click)="movementClick.emit(movement)"
-        [color]="movement.category?.color"
+        [icon-color]="movement.category?.color"
         [icon]="movement.category?.icon"
-        [description]="movement.description"
-        [category]="movement.category?.name"
-        [amount]="movement.amount"
-        [type]="movement.type"
+        [title]="movement.description"
+        [subtitle]="movement.category?.name"
+        [value-color]="movement.type === 'income' ? 'green-500' : 'red-500'"
+        [value]="'$' + movement.amount"
       >
-      </app-movement-item>
+      </app-list-item>
     </div>
   `,
   styles: [],

@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MovementFormModule } from 'modules/finances/components/movement-form/movement-form.module';
 import {
-  MovementItemModule,
+  ListItemModule,
   MovementListModule,
 } from 'modules/finances/components';
 import { ProgressModule } from 'core/components/progress/progress.module';
@@ -24,7 +24,7 @@ import { ThousandSuffixesModule } from 'core/pipes/thousand-suffixes';
     MatRippleModule,
 
     MovementFormModule,
-    MovementItemModule,
+    ListItemModule,
     ProgressModule,
     ThousandSuffixesModule,
     MovementListModule,

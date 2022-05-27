@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MovementItemComponent } from './movement-item.component';
+import { ListItemComponent } from './list-item.component';
 
 describe('MovementItemComponent', () => {
-  let component: MovementItemComponent;
-  let fixture: ComponentFixture<MovementItemComponent>;
+  let component: ListItemComponent;
+  let fixture: ComponentFixture<ListItemComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MovementItemComponent],
+      declarations: [ListItemComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovementItemComponent);
+    fixture = TestBed.createComponent(ListItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

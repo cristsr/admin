@@ -1,38 +1,54 @@
 <div class="p-4 flex flex-col h-full overflow-y-auto gap-4">
-  <div class="flex flex-col items-center gap-4 rounded-xl shadow p-4 bg-white p-6">
+  <div
+    class="flex flex-col items-center gap-4 rounded-xl shadow p-4 bg-white p-6"
+  >
     <!--Header-->
     <div class="flex flex-col gap-4 text-center">
-      <div class="flex items-center justify-center h-20 w-20 rounded-full shadow bg-{{budget.category.color}}">
+      <div
+        class="flex items-center justify-center h-20 w-20 rounded-full shadow bg-{{
+          budget.category.color
+        }}"
+      >
         <div class="text-4xl w-10 h-10 text-center">
-          <mat-icon inline>{{budget.category.icon}}</mat-icon>
+          <mat-icon class="text-white" inline>{{
+            budget.category.icon
+          }}</mat-icon>
         </div>
       </div>
 
-      <h2 class="!mb-0 !leading-none">{{budget.name | titlecase}}</h2>
+      <h2 class="!mb-0 !leading-none">{{ budget.name | titlecase }}</h2>
     </div>
 
     <div class="flex flex-col w-full">
       <div class="flex justify-between items-center">
         <div class="flex flex-col">
           <div class="text-sm font-medium">Gastado</div>
-          <div class="text-sm" [class.text-red-500]="!!budget.spent">{{budget.spent | currency}}</div>
+          <div class="text-sm" [class.text-red-500]="!!budget.spent">
+            {{ budget.spent | currency }}
+          </div>
         </div>
-        <div class="flex flex-col items-end ">
+        <div class="flex flex-col items-end">
           <div class="text-sm font-medium">Quedan</div>
-          <div class="text-sm text-green-500">{{budget.amount - budget.spent | currency:'$':'code'}}</div>
+          <div class="text-sm text-green-500">
+            {{ budget.amount - budget.spent | currency: '$':'code' }}
+          </div>
         </div>
       </div>
-      <app-progress class="mt-2" [progress]="'90'" color="bg-{{budget.category.color}}"></app-progress>
+      <app-progress
+        class="mt-2"
+        [progress]="'90'"
+        color="bg-{{ budget.category.color }}"
+      ></app-progress>
     </div>
 
     <div class="flex flex-col w-full divide-y">
       <div class="flex justify-between items-center pb-3">
         <div class="font-medium">Presupuesto</div>
-        <div>{{budget.amount | currency}}</div>
+        <div>{{ budget.amount | currency }}</div>
       </div>
       <div class="flex justify-between items-center py-3">
         <div class="font-medium">Categoría</div>
-        <div>{{budget.category.name}}</div>
+        <div>{{ budget.category.name }}</div>
       </div>
       <div class="flex justify-between items-center pt-3">
         <div class="font-medium">Periodo</div>
@@ -47,7 +63,10 @@
       <span class="pl-4">Movimientos</span>
     </div>
 
-    <div *ngIf="!movements?.length" class="text-sm text-center font-medium pt-4 pb-2">
+    <div
+      *ngIf="!movements?.length"
+      class="text-sm text-center font-medium pt-4 pb-2"
+    >
       No se encontraron movimientos
     </div>
   </div>
@@ -60,7 +79,8 @@
       >
         <app-movement-list
           [groupMovement]="item"
-          (movementClick)="showMovementDetail($event)">
+          (movementClick)="showMovementDetail($event)"
+        >
         </app-movement-list>
       </div>
     </ng-container>

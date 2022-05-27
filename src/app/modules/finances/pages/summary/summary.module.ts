@@ -6,11 +6,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import {
-  MovementItemModule,
+  ListItemModule,
   MovementListModule,
 } from 'modules/finances/components';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryComponent } from './summary.component';
+import { CapitalizeModule } from 'core/pipes/capitalize/capitalize.module';
 
 @NgModule({
   declarations: [SummaryComponent],
@@ -23,7 +24,8 @@ import { SummaryComponent } from './summary.component';
     MatButtonModule,
     NgApexchartsModule,
     MovementListModule,
-    MovementItemModule,
+    ListItemModule,
+    CapitalizeModule,
   ],
   providers: [DecimalPipe],
 })

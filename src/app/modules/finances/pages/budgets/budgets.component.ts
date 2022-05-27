@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BudgetFormComponent } from 'modules/finances/components/budget-form';
 import { BudgetService } from 'modules/finances/services';
@@ -9,6 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-budgets',
   templateUrl: './budgets.component.html',
   styleUrls: ['./budgets.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetsComponent implements OnInit, OnDestroy {
   budgets: Budget[];
@@ -19,6 +26,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   constructor(
     private budgetService: BudgetService,
     private bottomSheet: MatBottomSheet,
+    private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +42,9 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     this.budgetService.budgets$
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((budgets: Budget[]) => {
+        console.log('budgets', budgets);
         this.budgets = budgets;
+        this.cd.detectChanges();
       });
   }
 
