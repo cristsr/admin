@@ -10,7 +10,7 @@ import { DatetimeModule } from 'core/pipes/datetime';
 import { InfiniteScrollModule } from 'core/directives/infinite-scroll';
 import { MovementsRoutingModule } from './movements-routing.module';
 import {
-  MovementItemModule,
+  ListItemModule,
   MovementListModule,
 } from 'modules/finances/components';
 
@@ -26,7 +26,7 @@ import {
     MatMenuModule,
     DatetimeModule,
     InfiniteScrollModule,
-    MovementItemModule,
+    ListItemModule,
     MovementListModule,
   ],
 })

@@ -6,7 +6,7 @@
           <mat-icon>navigate_before</mat-icon>
         </button>
       </div>
-      <div class="text-sm font-medium">{{dateLabel}}</div>
+      <div class="text-sm font-medium">{{ dateLabel }}</div>
       <div class="flex justify-end">
         <button mat-icon-button aria-label="next" (click)="onNext()">
           <mat-icon>navigate_next</mat-icon>
@@ -23,17 +23,18 @@
       >
         <app-movement-list
           [groupMovement]="item"
-          (movementClick)="showMovementDetail($event)">
+          (movementClick)="showMovementDetail($event)"
+        >
         </app-movement-list>
       </div>
     </ng-container>
 
     <ng-template #noMovements>
-      <div class="flex flex-col rounded-xl shadow p-6 bg-white font-medium text-center">
+      <div
+        class="flex flex-col rounded-xl shadow p-6 bg-white font-medium text-center"
+      >
         No se encontraron movimientos
       </div>
     </ng-template>
   </div>
 </div>
-
-

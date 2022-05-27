@@ -1,50 +1,98 @@
 <div class="flex flex-col p-4">
-
   <div class="flex pb-4 items-center justify-between">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons-outlined">swap_vert</mat-icon>
       <div class="text-xl font-medium">{{ tittle[action] }}</div>
     </div>
 
-<!--    <div class="text-xl font-medium">{{ tittle[action] }}</div>-->
+    <!--    <div class="text-xl font-medium">{{ tittle[action] }}</div>-->
     <button
       class="flex justify-center items-center w-8 h-8"
       *ngIf="action === 'read'"
-      (click)="editMovement()">
+      (click)="editMovement()"
+    >
       <mat-icon>edit</mat-icon>
     </button>
   </div>
 
-  <form class="flex flex-col w-full gap-2" [formGroup]="form" (submit)="onSubmit()">
-    <mat-form-field (click)="picker.open()" [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix class="text-purple-600 mr-2">today</mat-icon>
+  <form
+    class="flex flex-col w-full gap-2"
+    [formGroup]="form"
+    (submit)="onSubmit()"
+  >
+    <div class="flex p-1.4 items-center">
+      <mat-icon class="text-blue-600 mr-2">swap_vert</mat-icon>
+      <div class="flex flex-col">
+        <label class="pb-1 text-[14px] text-[rgba(0,0,0,.8)]"
+          >Tipo de movimiento</label
+        >
+        <mat-radio-group
+          aria-label="Select an option"
+          class="flex my-2 gap-4"
+          color="primary"
+          formControlName="type"
+        >
+          <mat-radio-button class="mr-4 text-[rgba(0,0,0,.8)]" value="expense"
+            >Gasto</mat-radio-button
+          >
+          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income"
+            >Ingreso</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <mat-form-field
+      (click)="picker.open()"
+      [appearance]="appearance"
+      floatLabel="auto"
+    >
+      <mat-icon matPrefix class="text-blue-600 mr-2">today</mat-icon>
       <mat-label>Fecha</mat-label>
-      <input matInput type="datetime" formControlName="date" readonly [matDatepicker]="picker">
+      <input
+        matInput
+        type="datetime"
+        formControlName="date"
+        readonly
+        [matDatepicker]="picker"
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Descripción</mat-label>
-      <mat-icon matPrefix class="text-purple-600 mr-2">mode_edit</mat-icon>
+      <mat-icon matPrefix class="text-blue-600 mr-2">mode_edit</mat-icon>
       <input matInput formControlName="description" autocomplete="off" />
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Total</mat-label>
-      <mat-icon matPrefix class="text-purple-600 mr-2">monetization_on</mat-icon>
-      <input matInput type="number" formControlName="amount" autocomplete="off" />
+      <mat-icon matPrefix class="text-blue-600 mr-2 !focus:shadow-none"
+        >monetization_on</mat-icon
+      >
+      <input
+        matInput
+        type="number"
+        formControlName="amount"
+        autocomplete="off"
+      />
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Categoría</mat-label>
-      <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
+      <mat-icon matPrefix class="text-blue-600 mr-2">category</mat-icon>
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
-          {{ form.get('category').value?.name ?? 'Seleccione una categoría' | capitalize}}
+          {{
+            form.get('category').value?.name ?? 'Seleccione una categoría'
+              | capitalize
+          }}
         </mat-select-trigger>
         <mat-option *ngFor="let item of categories" [value]="item">
-          <mat-icon matPrefix class="text-{{item.color}}">{{ item.icon }}</mat-icon>
+          <mat-icon matPrefix class="text-{{ item.color }}">{{
+            item.icon
+          }}</mat-icon>
           {{ item.name | capitalize }}
         </mat-option>
       </mat-select>
@@ -52,39 +100,33 @@
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Subcategoría</mat-label>
-      <mat-icon *ngIf="form.get('category').value" matPrefix
-                class="text-purple-600 mr-2">
-        {{form.get('category').value.icon}}
+      <mat-icon
+        *ngIf="form.get('category').value"
+        matPrefix
+        class="text-blue-600 mr-2"
+      >
+        {{ form.get('category').value.icon }}
       </mat-icon>
       <mat-select formControlName="subcategory" [compareWith]="compare">
         <mat-select-trigger>
-          {{ form.get('subcategory').value?.name ?? 'Seleccione una subcategoría' | capitalize}}
+          {{
+            form.get('subcategory').value?.name ?? 'Seleccione una subcategoría'
+              | capitalize
+          }}
         </mat-select-trigger>
         <mat-option *ngFor="let item of subcategories" [value]="item">
-          {{item.name | capitalize }}
+          {{ item.name | capitalize }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <div class="flex p-1.4 items-center">
-      <mat-icon class="text-purple-600 mr-2">swap_vert</mat-icon>
-      <div class="flex flex-col">
-        <label class="pb-1 text-sm text-[rgba(0,0,0,.8)]">Tipo de movimiento</label>
-        <mat-radio-group aria-label="Select an option" class="flex  my-2 gap-4" color="primary" formControlName="type">
-          <mat-radio-button class="mr-4 text-[rgba(0,0,0,.8)]" value="expense">Gasto</mat-radio-button>
-          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">Ingreso</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-
-
     <button
-      class="mt-2 w-full bg-purple-500 p-3 rounded-xl flex justify-center items-center text-white"
+      class="mt-2 w-full bg-blue-500 p-3 rounded-xl flex justify-center items-center text-white"
       mat-ripple
-      *ngIf="action !== 'read'">
+      *ngIf="action !== 'read'"
+    >
       <mat-icon matPrefix class="mr-2">save</mat-icon>
-      <span class="mt-0.5 font-bold ">Guardar</span>
+      <span class="mt-0.5 font-bold">Guardar</span>
     </button>
   </form>
 </div>
-

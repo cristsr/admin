@@ -11,7 +11,7 @@
     "worker": "angular-http-server --path dist/admin -p 9000",
     "test": "ng test",
     "lint": "ng lint --fix",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"src/{**/*,*}.{js,ts,jsx,tsx,html}\"",
     "e2e": "ng e2e",
     "prepare": "husky install"
   },
