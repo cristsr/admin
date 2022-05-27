@@ -1,8 +1,6 @@
-<div class="p-4 flex flex-col h-full overflow-y-auto gap-4">
-  <div
-    class="flex flex-col items-center gap-4 rounded-xl shadow p-4 bg-white p-6"
-  >
-    <!--Header-->
+<div class="flex flex-col gap-4 p-4 h-full overflow-y-auto">
+  <div class="flex flex-col gap-4 rounded-xl shadow p-4 bg-white p-6">
+    <!--Title-->
     <div class="flex flex-col gap-4 items-center">
       <div
         class="flex items-center justify-center h-20 w-20 rounded-full shadow bg-{{
@@ -19,21 +17,26 @@
       <h2 class="!mb-0 !leading-none">{{ budget.name | titlecase }}</h2>
     </div>
 
+    <!--Category progress-->
     <div class="flex flex-col w-full">
       <div class="flex justify-between items-center">
+        <!--Spent-->
         <div class="flex flex-col">
           <div class="text-sm font-medium">Gastado</div>
-          <div class="text-sm" [class.text-red-500]="!!budget.spent">
+          <div class="text-sm text-red-500 pt-1">
             {{ budget.spent | currency }}
           </div>
         </div>
+
+        <!--Available-->
         <div class="flex flex-col items-end">
           <div class="text-sm font-medium">Quedan</div>
-          <div class="text-sm text-green-500">
-            {{ budget.amount - budget.spent | currency: '$':'code' }}
+          <div class="text-sm text-green-500 pt-1">
+            {{ budget.amount - budget.spent | currency }}
           </div>
         </div>
       </div>
+
       <app-progress
         class="mt-2"
         [progress]="'90'"
@@ -41,14 +44,11 @@
       ></app-progress>
     </div>
 
-    <div class="flex flex-col w-full divide-y">
+    <!--Category info-->
+    <div class="flex flex-col w-full">
       <div class="flex justify-between items-center pb-3">
         <div class="font-medium">Presupuesto</div>
         <div>{{ budget.amount | currency }}</div>
-      </div>
-      <div class="flex justify-between items-center py-3">
-        <div class="font-medium">Categoría</div>
-        <div>{{ budget.category.name }}</div>
       </div>
       <div class="flex justify-between items-center pt-3">
         <div class="font-medium">Periodo</div>
@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <div class="gap-4 rounded-xl shadow px-6 py-4 bg-white">
+  <div class="gap-4 rounded-xl px-6 py-4">
     <div class="text-lg font-medium flex items-center">
       <mat-icon>timeline</mat-icon>
       <span class="pl-4">Movimientos</span>
