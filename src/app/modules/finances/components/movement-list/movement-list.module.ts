@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovementListComponent } from './movement-list.component';
-import { ListItemModule } from 'modules/finances/components';
-import { DatetimeModule } from 'core/pipes/datetime';
-import { CapitalizeModule } from 'core/pipes/capitalize/capitalize.module';
+import { ListItemModule } from 'core/components';
+import { DatetimeModule, CapitalizeModule } from 'core/pipes';
 
 @NgModule({
   declarations: [MovementListComponent],

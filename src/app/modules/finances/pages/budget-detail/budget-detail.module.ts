@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { BudgetDetailRoutingModule } from './budget-detail-routing.module';
-import { BudgetDetailComponent } from './budget-detail.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
-import { MovementFormModule } from 'modules/finances/components/movement-form/movement-form.module';
 import {
-  ListItemModule,
   MovementListModule,
+  MovementFormModule,
 } from 'modules/finances/components';
-import { ProgressModule } from 'core/components/progress/progress.module';
-import { ThousandSuffixesModule } from 'core/pipes/thousand-suffixes';
+import { ListItemModule, ProgressModule } from 'core/components';
+import { ThousandSuffixesModule } from 'core/pipes';
+import { BudgetDetailRoutingModule } from './budget-detail-routing.module';
+import { BudgetDetailComponent } from './budget-detail.component';
 
 @NgModule({
   declarations: [BudgetDetailComponent],

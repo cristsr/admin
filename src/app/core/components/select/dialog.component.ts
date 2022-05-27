@@ -358,7 +358,7 @@ export class DialogComponent implements OnInit {
     }
   }
 
-  trackByFn(index: number, item: Option): string | number {
+  trackByFn(index: number, item: any): string | number {
     return item.id || index;
   }
 }
