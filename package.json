@@ -32,6 +32,7 @@
     "@capacitor/core": "^2.4.7",
     "@ngneat/tailwind": "^7.0.3",
     "@types/chart.js": "^2.9.32",
+    "@types/tailwindcss": "^3.0.10",
     "apexcharts": "^3.28.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",

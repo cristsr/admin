@@ -8,6 +8,7 @@ import { ApexOptions } from 'ng-apexcharts';
 import { SummaryService } from 'modules/finances/services';
 import { Movement } from 'modules/finances/types';
 import { DecimalPipe } from '@angular/common';
+import { ColorsService } from 'core/services';
 
 @Component({
   selector: 'app-summary',
@@ -33,6 +34,7 @@ export class SummaryComponent implements OnInit {
   constructor(
     private decimalPipe: DecimalPipe,
     private summaryService: SummaryService,
+    private colorService: ColorsService,
     private cd: ChangeDetectorRef,
   ) {}
 
@@ -68,16 +70,19 @@ export class SummaryComponent implements OnInit {
       ([s, l, c], curr) => {
         s.push(curr.amount);
         l.push(curr.name);
-        c.push('bg-' + curr.color);
+        c.push(this.colorService.classToHex(curr.color));
 
         return [s, l, c];
       },
       [[], [], []],
     );
 
+    console.log(colors);
+
     this.pieOptions = {
       series,
       labels,
+      colors,
       chart: {
         type: 'donut',
         width: '100%',
@@ -85,7 +90,7 @@ export class SummaryComponent implements OnInit {
         stacked: true,
       },
       stroke: {
-        show: false,
+        show: true,
       },
       tooltip: {
         enabled: false,
@@ -144,6 +149,13 @@ export class SummaryComponent implements OnInit {
       },
       legend: {
         show: false,
+      },
+      states: {
+        active: {
+          filter: {
+            type: 'none',
+          },
+        },
       },
     };
   }
