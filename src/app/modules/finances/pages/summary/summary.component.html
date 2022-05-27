@@ -86,7 +86,7 @@
     >
     </apx-chart>
 
-    <div class="flex flex-col gap divide-y">
+    <div class="flex flex-col gap-2">
       <app-list-item
         *ngFor="let category of categoryExpenses"
         [icon-color]="category.color"
@@ -94,6 +94,7 @@
         [title]="category.name"
         [subtitle]="'$' + (category.amount | number)"
         [value]="category.percentage + '%'"
+        value-color="blue-400"
       ></app-list-item>
     </div>
   </div>
