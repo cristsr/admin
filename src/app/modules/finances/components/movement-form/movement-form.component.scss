@@ -1,29 +1,65 @@
-::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
-  .mat-form-field-label {
-    @apply text-blue-600;
+.income {
+  ::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
+    .mat-form-field-label {
+      @apply text-blue-500;
+    }
+
+    .mat-form-field-ripple {
+      @apply bg-green-500;
+    }
+
+    .mat-form-field-required-marker {
+      @apply text-green-500;
+    }
+
+    .mat-input-element {
+      @apply text-gray-600;
+    }
   }
 
-  .mat-form-field-ripple {
-    @apply bg-blue-600;
+  ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+    @apply border-green-500;
   }
 
-  .mat-form-field-required-marker {
-    @apply text-blue-600;
+  ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
+    @apply bg-green-500;
   }
 
-  .mat-input-element {
-    @apply text-gray-600;
+  ::ng-deep .mat-select-panel {
+    min-width: 100% !important;
   }
 }
 
-::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-  @apply border-blue-600;
+.expense {
+  ::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
+    .mat-form-field-label {
+      @apply text-red-400;
+    }
+
+    .mat-form-field-ripple {
+      @apply bg-red-400;
+    }
+
+    .mat-form-field-required-marker {
+      @apply text-red-400;
+    }
+
+    .mat-input-element {
+      @apply text-gray-600;
+    }
+  }
+
+  ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+    @apply border-red-400;
+  }
+
+  ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
+    @apply bg-red-400;
+  }
+
+  ::ng-deep .mat-select-panel {
+    min-width: 100% !important;
+  }
 }
 
-::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
-  @apply bg-blue-600;
-}
 
-::ng-deep .mat-select-panel {
-  min-width: 100% !important;
-}

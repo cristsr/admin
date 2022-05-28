@@ -30,6 +30,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   appearance: MatFormFieldAppearance;
   action: MovementFormAction;
   movement: Movement;
+  formColor: 'red-400' | 'green-500' = 'red-400';
   tittle = {
     create: 'Agregar movimiento',
     edit: 'Editar movimiento',
@@ -98,6 +99,16 @@ export class MovementFormComponent implements OnInit, OnDestroy {
           this.categoryService.fetchSubcategories(category);
           this.resetSubcategory();
           this.disableSubcategory();
+        },
+      });
+
+    // Type switch changes
+    this.form
+      .get('type')
+      .valueChanges.pipe(takeUntil(this.unsubscribeAll))
+      .subscribe({
+        next: (type: string) => {
+          this.formColor = type === 'expense' ? 'red-400' : 'green-500';
         },
       });
   }
