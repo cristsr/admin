@@ -5,13 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import {
-  ListItemModule,
-  MovementListModule,
-} from 'modules/finances/components';
+import { ListItemModule } from 'core/components';
+import { CapitalizeModule } from 'core/pipes';
+import { MovementListModule } from 'modules/finances/components';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryComponent } from './summary.component';
-import { CapitalizeModule } from 'core/pipes/capitalize/capitalize.module';
 
 @NgModule({
   declarations: [SummaryComponent],

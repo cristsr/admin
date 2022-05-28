@@ -5,14 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { ListItemModule } from 'core/components';
+import { DatetimeModule } from 'core/pipes';
+import { MovementListModule } from 'modules/finances/components';
 import { MovementsComponent } from './movements.component';
-import { DatetimeModule } from 'core/pipes/datetime';
-import { InfiniteScrollModule } from 'core/directives/infinite-scroll';
 import { MovementsRoutingModule } from './movements-routing.module';
-import {
-  ListItemModule,
-  MovementListModule,
-} from 'modules/finances/components';
 
 @NgModule({
   declarations: [MovementsComponent],
@@ -25,7 +22,6 @@ import {
     MatDialogModule,
     MatMenuModule,
     DatetimeModule,
-    InfiniteScrollModule,
     ListItemModule,
     MovementListModule,
   ],

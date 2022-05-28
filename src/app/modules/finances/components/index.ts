@@ -1,6 +1,3 @@
-export * from './list-item/list-item.module';
-export * from './list-item/list-item.component';
-
 export * from './movement-list/movement-list.module';
 export * from './movement-list/movement-list.component';
 

@@ -16,38 +16,40 @@
   </div>
 
   <form
-    class="flex flex-col w-full gap-2"
+    class="flex flex-col w-full gap-2 {{ form.get('type')?.value }}"
     [formGroup]="form"
     (submit)="onSubmit()"
   >
-    <div class="flex p-1.4 items-center">
-      <mat-icon class="text-blue-600 mr-2">swap_vert</mat-icon>
+    <!--Movement type-->
+    <div class="flex pt-2 pb-1.4 items-center">
+      <mat-icon class="text-{{ formColor }} mr-2"> swap_vert</mat-icon>
       <div class="flex flex-col">
-        <label class="pb-1 text-[14px] text-[rgba(0,0,0,.8)]"
-          >Tipo de movimiento</label
-        >
+        <label class="pb-1 text-[14px] text-[rgba(0,0,0,.6)]">
+          Tipo de movimiento
+        </label>
         <mat-radio-group
           aria-label="Select an option"
           class="flex my-2 gap-4"
           color="primary"
           formControlName="type"
         >
-          <mat-radio-button class="mr-4 text-[rgba(0,0,0,.8)]" value="expense"
-            >Gasto</mat-radio-button
-          >
-          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income"
-            >Ingreso</mat-radio-button
-          >
+          <mat-radio-button class="mr-4 text-[rgba(0,0,0,.8)]" value="expense">
+            Gasto
+          </mat-radio-button>
+          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">
+            Ingreso
+          </mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
 
+    <!--Date-->
     <mat-form-field
       (click)="picker.open()"
       [appearance]="appearance"
       floatLabel="auto"
     >
-      <mat-icon matPrefix class="text-blue-600 mr-2">today</mat-icon>
+      <mat-icon matPrefix class="text-{{ formColor }} mr-2">today</mat-icon>
       <mat-label>Fecha</mat-label>
       <input
         matInput
@@ -60,17 +62,19 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
+    <!--Description-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Descripción</mat-label>
-      <mat-icon matPrefix class="text-blue-600 mr-2">mode_edit</mat-icon>
+      <mat-icon matPrefix class="text-{{ formColor }} mr-2">mode_edit</mat-icon>
       <input matInput formControlName="description" autocomplete="off" />
     </mat-form-field>
 
+    <!--Amount-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Total</mat-label>
-      <mat-icon matPrefix class="text-blue-600 mr-2 !focus:shadow-none"
-        >monetization_on</mat-icon
-      >
+      <mat-icon matPrefix class="text-{{ formColor }} mr-2 !focus:shadow-none">
+        monetization_on
+      </mat-icon>
       <input
         matInput
         type="number"
@@ -79,9 +83,10 @@
       />
     </mat-form-field>
 
+    <!--Category-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Categoría</mat-label>
-      <mat-icon matPrefix class="text-blue-600 mr-2">category</mat-icon>
+      <mat-icon matPrefix class="text-{{ formColor }} mr-2">category</mat-icon>
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
           {{
@@ -98,12 +103,13 @@
       </mat-select>
     </mat-form-field>
 
+    <!--Subcategory-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Subcategoría</mat-label>
       <mat-icon
         *ngIf="form.get('category').value"
         matPrefix
-        class="text-blue-600 mr-2"
+        class="text-{{ formColor }} mr-2"
       >
         {{ form.get('category').value.icon }}
       </mat-icon>
@@ -121,7 +127,9 @@
     </mat-form-field>
 
     <button
-      class="mt-2 w-full bg-blue-500 p-3 rounded-xl flex justify-center items-center text-white"
+      class="mt-2 w-full p-3 rounded-xl flex justify-center items-center text-white bg-{{
+        formColor
+      }}"
       mat-ripple
       *ngIf="action !== 'read'"
     >
