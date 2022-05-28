@@ -3,10 +3,17 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  ViewChild,
 } from '@angular/core';
-import { ApexOptions } from 'ng-apexcharts';
+import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 import { SummaryService } from 'modules/finances/services';
-import { Movement } from 'modules/finances/types';
+import {
+  Balance,
+  CategoryExpense,
+  ExpensePeriod,
+  Expenses,
+  Movement,
+} from 'modules/finances/types';
 import { DecimalPipe } from '@angular/common';
 import { ColorsService } from 'core/services';
 
@@ -17,17 +24,15 @@ import { ColorsService } from 'core/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummaryComponent implements OnInit {
-  expenseView: 'daily' | 'weekly' | 'monthly' = 'daily';
+  @ViewChild('expenseChart') expenseChart: ChartComponent;
 
   pieOptions: ApexOptions;
-
   chartOptions: ApexOptions;
-
-  balance: any;
-
-  categoryExpenses: any;
-
-  latestMovements: Movement[];
+  expensePeriod: ExpensePeriod = 'daily';
+  balance: Balance;
+  expenses: Expenses;
+  categoryExpenses: CategoryExpense[];
+  lastMovements: Movement[];
 
   private data: any;
 
@@ -39,45 +44,56 @@ export class SummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.summaryService.getSummary().subscribe({
-      next: (response) => {
-        this.data = response;
-        this.balance = response.balance;
-        this.latestMovements = response.latestMovements;
+    this.setupObservers();
+  }
+
+  setupObservers(): void {
+    this.summaryService.balance().subscribe({
+      next: (balance: Balance) => {
+        this.balance = balance;
+        this.cd.markForCheck();
+      },
+    });
+
+    this.summaryService.expenses().subscribe({
+      next: (expenses: Expenses) => {
+        this.expenses = expenses;
         this.configurePie();
         this.cd.detectChanges();
       },
-      error: (error) => {
-        console.log(error);
+    });
+
+    this.summaryService.lastMovements().subscribe({
+      next: (movements: Movement[]) => {
+        this.lastMovements = movements;
+        this.cd.markForCheck();
       },
     });
   }
 
-  onclick(event: any): void {
-    console.log(event);
+  changeExpenseView(view: 'daily' | 'weekly' | 'monthly'): void {
+    this.expensePeriod = view;
+    this.configurePie();
+    this.cd.detectChanges();
   }
 
-  openDialog(): void {}
-
   configurePie(): void {
-    const { pie } = this.data;
+    const period = this.expenses[this.expensePeriod];
+    const { categoryExpenses, chart } = period;
+    this.categoryExpenses = categoryExpenses;
+    const { series, labels, colors } = chart;
 
-    const piePeriod = 'monthly';
+    if (this.expenseChart) {
+      this.expenseChart.updateOptions({
+        series,
+        labels,
+        colors,
+      });
 
-    this.categoryExpenses = pie[piePeriod];
+      console.log('Chart updated');
 
-    const [series, labels, colors] = pie[piePeriod].reduce(
-      ([s, l, c], curr) => {
-        s.push(curr.amount);
-        l.push(curr.name);
-        c.push(this.colorService.classToHex(curr.color));
-
-        return [s, l, c];
-      },
-      [[], [], []],
-    );
-
-    console.log(colors);
+      return;
+    }
 
     this.pieOptions = {
       series,
@@ -158,6 +174,14 @@ export class SummaryComponent implements OnInit {
         },
       },
     };
+  }
+
+  toggleDataPointSelection(_i: number): void {
+    if (this.expenseChart) {
+      console.log(this.expenseChart);
+      // this.expenseChart.toggleDataPointSelection(i);
+      // this.cd.detectChanges();
+    }
   }
 
   configureBar(): void {

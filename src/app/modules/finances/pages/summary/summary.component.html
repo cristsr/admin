@@ -2,10 +2,10 @@
   <!-- Balance -->
   <div class="flex flex-col gap-4 rounded-xl shadow bg-white p-6 w-full">
     <div class="flex pb-3">
-      <mat-icon class="text-purple-500">task_alt</mat-icon>
+      <mat-icon class="text-blue-500">task_alt</mat-icon>
       <div class="pl-1 text-lg font-medium">Balance Total</div>
     </div>
-    <div class="flex text-3xl font-bold text-purple-500">
+    <div class="flex text-3xl font-bold text-blue-500">
       {{ '$' + (balance?.balance | number) }}
     </div>
   </div>
@@ -20,7 +20,7 @@
         <mat-icon class="text-green-500">trending_up</mat-icon>
         <div class="pl-1 text font-medium">Ingresos</div>
       </div>
-      <div class="text-xl font-medium text-green-500">
+      <div class="text-xl font-medium text-esmerald-500">
         {{ '$' + (balance?.incomeMonth | number) }}
       </div>
     </div>
@@ -44,7 +44,7 @@
     <!-- Card header -->
     <div class="flex justify-between">
       <div class="text-lg font-medium pb-2 md:pb-0">
-        Gastos {{ expenseView }}
+        Gastos {{ expensePeriod }}
       </div>
       <div class="ml-2 -mt-2 -mr-3">
         <button
@@ -55,15 +55,15 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="expenseView = 'daily'">
+          <button mat-menu-item (click)="changeExpenseView('daily')">
             <mat-icon>done</mat-icon>
             <span>Diario</span>
           </button>
-          <button mat-menu-item (click)="expenseView = 'weekly'">
+          <button mat-menu-item (click)="changeExpenseView('weekly')">
             <mat-icon>notifications_on</mat-icon>
             <span>Semanal</span>
           </button>
-          <button mat-menu-item (click)="expenseView = 'monthly'">
+          <button mat-menu-item (click)="changeExpenseView('monthly')">
             <mat-icon>notifications_off</mat-icon>
             <span>Mensual</span>
           </button>
@@ -73,6 +73,7 @@
 
     <!-- Card chart -->
     <apx-chart
+      #expenseChart
       *ngIf="pieOptions"
       [series]="pieOptions.series"
       [chart]="pieOptions.chart"
@@ -90,13 +91,14 @@
 
     <div class="flex flex-col gap-2">
       <app-list-item
-        *ngFor="let category of categoryExpenses"
+        *ngFor="let category of categoryExpenses; index as i"
         [icon-color]="category.color"
         [icon]="category.icon"
         [title]="category.name"
         [subtitle]="'$' + (category.amount | number)"
         [value]="category.percentage + '%'"
-        value-color="blue-400"
+        value-color="purple-500"
+        (click)="toggleDataPointSelection(i)"
       ></app-list-item>
     </div>
   </div>
@@ -111,7 +113,7 @@
 
     <div class="flex flex-col gap-2">
       <app-list-item
-        *ngFor="let movement of latestMovements"
+        *ngFor="let movement of lastMovements"
         [icon-color]="movement.category?.color"
         [icon]="movement.category?.icon"
         [title]="movement.description"
