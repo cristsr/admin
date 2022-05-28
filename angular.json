@@ -18,7 +18,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "validator"
+              "validator",
+              "tailwindcss/colors"
             ],
             "outputPath": "dist/admin",
             "index": "src/index.html",
