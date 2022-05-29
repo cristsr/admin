@@ -36,7 +36,7 @@ export class BudgetRepository {
     return this.httpClient.patch<Budget>(this.apiUrl + id, budget);
   }
 
-  delete(id: number): Observable<void> {
+  remove(id: number): Observable<void> {
     return this.httpClient.delete<void>(this.apiUrl + id);
   }
 
