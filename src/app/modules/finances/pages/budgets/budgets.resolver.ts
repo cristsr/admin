@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Resolve } from '@angular/router';
+import { Observable } from 'rxjs';
+import { BudgetService } from 'modules/finances/services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BudgetsResolver implements Resolve<boolean> {
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean> {
-    return of(true);
+  constructor(private budgetService: BudgetService) {}
+
+  resolve(): Observable<boolean> {
+    return this.budgetService.loadBudgets();
   }
 }

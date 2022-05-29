@@ -39,7 +39,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
-    this.budgetService.budgets$
+    this.budgetService.budgets
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((budgets: Budget[]) => {
         console.log('budgets', budgets);
