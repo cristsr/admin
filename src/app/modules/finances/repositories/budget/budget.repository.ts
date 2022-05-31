@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from 'core/services/config';
 import { ENV } from 'environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {
   Budget,
   CreateBudget,
@@ -36,8 +36,8 @@ export class BudgetRepository {
     return this.httpClient.patch<Budget>(this.apiUrl + id, budget);
   }
 
-  remove(id: number): Observable<void> {
-    return this.httpClient.delete<void>(this.apiUrl + id);
+  remove(id: number): Observable<number> {
+    return this.httpClient.delete<number>(this.apiUrl + id).pipe(map(() => id));
   }
 
   movements(budgetId: number): Observable<GroupMovement[]> {

@@ -6,25 +6,33 @@ import {
   GroupMovement,
   UpdateBudget,
 } from 'modules/finances/types';
-import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import {
+  setArrayItems,
+  insertArrayItem,
+  removeArrayItem,
+  updateArrayItem,
+} from 'core/state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BudgetService {
-  #budgets = new BehaviorSubject<Budget[] | null>([]);
+  #budgets = new BehaviorSubject<Budget[] | null>(null);
 
   constructor(private budgetRepository: BudgetRepository) {}
 
   loadBudgets(): Observable<boolean> {
+    if (this.#budgets.value) {
+      return of(true);
+    }
+
     return this.budgetRepository.getAll().pipe(
-      map((budgets: Budget[]) => {
-        this.#budgets.next(budgets);
-        return true;
-      }),
+      setArrayItems(this.#budgets),
+      map(() => true),
       catchError((e) => {
-        this.#budgets.next(null);
         console.error('Error loading budgets', e);
+        this.#budgets.next(null);
         return of(false);
       }),
     );
@@ -35,38 +43,25 @@ export class BudgetService {
   }
 
   create(budget: CreateBudget): Observable<Budget> {
-    return this.budgetRepository.create(budget).pipe(
-      tap((result: Budget) => {
-        this.#budgets.next([...this.#budgets.value, result]);
-      }),
-    );
+    return this.budgetRepository
+      .create(budget)
+      .pipe(insertArrayItem(this.#budgets));
   }
 
   update(id: number, budget: UpdateBudget): Observable<Budget> {
-    return this.budgetRepository.update(id, budget).pipe(
-      tap((result: Budget) => {
-        this.#budgets.next(
-          this.#budgets.value.map((b) => (b.id === id ? result : b)),
-        );
-      }),
-    );
+    return this.budgetRepository
+      .update(id, budget)
+      .pipe(updateArrayItem(this.#budgets));
   }
 
-  remove(id: number): Observable<void> {
-    return this.budgetRepository.remove(id).pipe(
-      tap(() => {
-        const budgets = this.#budgets.value;
-        this.#budgets.next(budgets.filter((budget) => budget.id !== id));
-      }),
-    );
+  remove(id: number): Observable<number> {
+    return this.budgetRepository
+      .remove(id)
+      .pipe(removeArrayItem(this.#budgets));
   }
 
   getBudgetById(id: number): Observable<Budget> {
-    return this.budgets.pipe(
-      map((budgets: Budget[]) => {
-        return budgets.find((budget: Budget) => budget.id === id);
-      }),
-    );
+    return this.budgetRepository.getOne(id);
   }
 
   getBudgetMovements(budgetId: number): Observable<GroupMovement[]> {
