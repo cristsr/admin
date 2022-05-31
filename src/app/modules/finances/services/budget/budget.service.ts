@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { BudgetRepository } from 'modules/finances/repositories';
 import {
   Budget,
@@ -6,7 +7,6 @@ import {
   GroupMovement,
   UpdateBudget,
 } from 'modules/finances/types';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import {
   setArrayItems,
   insertArrayItem,
@@ -22,23 +22,11 @@ export class BudgetService {
 
   constructor(private budgetRepository: BudgetRepository) {}
 
-  loadBudgets(): Observable<boolean> {
-    if (this.#budgets.value) {
-      return of(true);
+  get budgets(): Observable<Budget[]> {
+    if (!this.#budgets.value) {
+      return this.budgetRepository.getAll().pipe(setArrayItems(this.#budgets));
     }
 
-    return this.budgetRepository.getAll().pipe(
-      setArrayItems(this.#budgets),
-      map(() => true),
-      catchError((e) => {
-        console.error('Error loading budgets', e);
-        this.#budgets.next(null);
-        return of(false);
-      }),
-    );
-  }
-
-  get budgets(): Observable<Budget[]> {
     return this.#budgets.asObservable();
   }
 
@@ -61,6 +49,14 @@ export class BudgetService {
   }
 
   getBudgetById(id: number): Observable<Budget> {
+    // Return from cache if available
+    if (this.#budgets.value) {
+      return this.budgets.pipe(
+        map((budgets) => budgets.find((b) => b.id === id)),
+      );
+    }
+
+    // Otherwise fetch from server
     return this.budgetRepository.getOne(id);
   }
 

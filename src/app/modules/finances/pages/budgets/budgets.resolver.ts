@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
+import { catchError, first, map, Observable, of } from 'rxjs';
 import { BudgetService } from 'modules/finances/services';
 
 @Injectable({
@@ -10,6 +10,10 @@ export class BudgetsResolver implements Resolve<boolean> {
   constructor(private budgetService: BudgetService) {}
 
   resolve(): Observable<boolean> {
-    return this.budgetService.loadBudgets();
+    return this.budgetService.budgets.pipe(
+      first(),
+      map(() => true),
+      catchError(() => of(false)),
+    );
   }
 }

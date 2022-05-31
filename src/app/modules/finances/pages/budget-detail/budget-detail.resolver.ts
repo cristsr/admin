@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
+import { first, forkJoin, Observable } from 'rxjs';
 import { BudgetService } from 'modules/finances/services';
 import { BudgetDetail } from 'modules/finances/types';
 
@@ -20,11 +20,9 @@ export class BudgetDetailResolver implements Resolve<BudgetDetail> {
   ): Observable<BudgetDetail> {
     const id = +route.paramMap.get('id');
 
-    console.log('BudgetDetailResolver', id);
-
     return forkJoin({
-      budget: this.budgetService.getBudgetById(id),
-      movements: this.budgetService.getBudgetMovements(id),
+      budget: this.budgetService.getBudgetById(id).pipe(first()),
+      movements: this.budgetService.getBudgetMovements(id).pipe(first()),
     });
   }
 }
