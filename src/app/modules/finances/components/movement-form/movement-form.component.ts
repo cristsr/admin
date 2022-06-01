@@ -74,7 +74,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
-    this.categoryService.categories$
+    this.categoryService.categories
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe({
         next: (data: Category[]) => {
@@ -82,7 +82,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
         },
       });
 
-    this.categoryService.subcategories$
+    this.categoryService.subcategories
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe({
         next: (data: Subcategory[]) => {

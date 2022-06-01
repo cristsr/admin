@@ -218,7 +218,7 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
 
   setupObservers(): void {
     // Load categories
-    this.categoryService.categories$.pipe().subscribe({
+    this.categoryService.categories.pipe().subscribe({
       next: (categories: Category[]) => {
         this.categories = categories;
         this.categoriesLoaded.next();

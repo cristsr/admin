@@ -16,7 +16,7 @@ export class CategoryRepository {
   }
 
   create(category: Category): Observable<Category> {
-    const url = this.apiUrl + '/categories';
+    const url = this.apiUrl + 'categories';
     return this.httpClient.post<Category>(url, category);
   }
 

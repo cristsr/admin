@@ -52,7 +52,7 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
-    this.categoryService.categories$
+    this.categoryService.categories
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((categories: Category[]) => {
         this.categories = categories;
