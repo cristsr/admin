@@ -1,5 +1,9 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { CategoryService, MovementService } from 'modules/finances/services';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { DateTime } from 'luxon';
@@ -24,7 +28,7 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./movement-form.component.scss'],
 })
 export class MovementFormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  form: UntypedFormGroup;
   categories: Category[];
   subcategories: Subcategory[];
   appearance: MatFormFieldAppearance;
@@ -40,7 +44,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   private unsubscribeAll = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private categoryService: CategoryService,
     private movementService: MovementService,
     private bottomSheetRef: MatBottomSheetRef,

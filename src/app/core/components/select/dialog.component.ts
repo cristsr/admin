@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogConfig, DialogResult, Option, Suboption, Type } from './types';
 
@@ -132,7 +132,7 @@ export class DialogComponent implements OnInit {
   isSearching = false;
   optionSelected: Option | null;
   label: string;
-  searchControl = new FormControl('');
+  searchControl = new UntypedFormControl('');
   private _showSuboptions = false;
   private _prevScroll = 0;
 
