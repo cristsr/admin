@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Category, CreateBudget } from 'modules/finances/types';
@@ -13,7 +13,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
   styleUrls: ['./budget-form.component.scss'],
 })
 export class BudgetFormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  form: UntypedFormGroup;
   action = 'create';
   categories: Category[];
   appearance: MatFormFieldAppearance = 'standard';
@@ -25,7 +25,7 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
   private unsubscribeAll = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private categoryService: CategoryService,
     private budgetService: BudgetService,
     private bottomSheetRef: MatBottomSheetRef,

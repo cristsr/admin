@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { CategoryService } from 'modules/finances/services';
 import { Category, MovementFilter } from 'modules/finances/types';
@@ -146,14 +146,14 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
   ];
 
   selected: string;
-  form: FormGroup;
+  form: UntypedFormGroup;
   appearance: MatFormFieldAppearance = 'standard';
 
   private categoriesLoaded = new ReplaySubject<void>(1);
   private unsubscribeAll = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private categoryService: CategoryService,
 
     @Inject(MAT_DIALOG_DATA)
