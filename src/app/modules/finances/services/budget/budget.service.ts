@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { BudgetRepository } from 'modules/finances/repositories';
 import {
   Budget,
@@ -24,10 +24,15 @@ export class BudgetService {
 
   get budgets(): Observable<Budget[]> {
     if (!this.#budgets.value) {
-      return this.budgetRepository.getAll().pipe(setArrayItems(this.#budgets));
+      return this.budgetRepository.getAll().pipe(
+        setArrayItems(this.#budgets),
+        tap(() => console.log('subscription budgets')),
+      );
     }
 
-    return this.#budgets.asObservable();
+    return this.#budgets
+      .asObservable()
+      .pipe(tap(() => console.log('subscription budgets')));
   }
 
   create(budget: CreateBudget): Observable<Budget> {

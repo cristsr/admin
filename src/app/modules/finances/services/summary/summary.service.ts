@@ -34,7 +34,11 @@ export class SummaryService {
                 state.colors.push(this.colorService.classToHex(curr.color));
                 return state;
               },
-              { series: [], labels: [], colors: [] },
+              {
+                series: [],
+                labels: [],
+                colors: [],
+              },
             ),
           },
         ]);

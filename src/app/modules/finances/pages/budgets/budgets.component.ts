@@ -20,8 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class BudgetsComponent implements OnInit, OnDestroy {
   budgets: Budget[];
   movements: Movement[];
-
-  private unsubscribeAll = new Subject<void>();
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
     private budgetService: BudgetService,
@@ -34,13 +33,13 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
   }
 
   setupObservers(): void {
     this.budgetService.budgets
-      .pipe(takeUntil(this.unsubscribeAll))
+      .pipe(takeUntil(this.#unsubscribeAll))
       .subscribe((budgets: Budget[]) => {
         console.log('budgets', budgets);
         this.budgets = budgets;

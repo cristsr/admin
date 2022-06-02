@@ -11,12 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build aplication
-        run: npm run build
-
       - name: Build docker image
         run: |
           docker build -t ${{ secrets.IMAGE_TAG_DEV }} -t ${{ secrets.IMAGE_TAG_DEV }}:${{ github.sha }} .
