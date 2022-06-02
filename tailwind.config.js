@@ -23,14 +23,14 @@ module.exports = {
   },
   theme: {
     colors,
-    extend: {
-      gridTemplateColumns: {
-        auto: 'auto 1fr',
-      },
-      gridTemplateRows: {
-        auto: 'auto 1fr',
-      },
-    },
+    // extend: {
+    //   gridTemplateColumns: {
+    //     auto: 'auto 1fr',
+    //   },
+    //   gridTemplateRows: {
+    //     auto: 'auto 1fr',
+    //   },
+    // },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };
