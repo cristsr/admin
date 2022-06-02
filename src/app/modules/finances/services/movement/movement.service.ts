@@ -12,9 +12,17 @@ import { MovementRepository } from 'modules/finances/repositories';
   providedIn: 'root',
 })
 export class MovementService {
-  private nextQuery = new Subject<MovementQuery>();
+  #query = new Subject<MovementQuery>();
 
   constructor(private movementRepository: MovementRepository) {}
+
+  get movements(): Observable<GroupMovement[]> {
+    return this.#query.pipe(
+      switchMap((query) => {
+        return this.movementRepository.getAll(query);
+      }),
+    );
+  }
 
   create(movement: CreateMovement): Observable<any> {
     return this.movementRepository.create(movement);
@@ -24,15 +32,7 @@ export class MovementService {
     return this.movementRepository.update(id, movement);
   }
 
-  get movements(): Observable<GroupMovement[]> {
-    return this.nextQuery.pipe(
-      switchMap((query) => {
-        return this.movementRepository.getAll(query);
-      }),
-    );
-  }
-
   fetch(query: MovementQuery): void {
-    this.nextQuery.next(query);
+    this.#query.next(query);
   }
 }

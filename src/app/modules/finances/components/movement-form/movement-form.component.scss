@@ -1,65 +1,80 @@
+::ng-deep .mat-select-panel {
+  min-width: 100% !important;
+}
+
+::ng-deep .mat-calendar .mat-calendar-body-selected {
+  @apply bg-blue-500;
+}
+
+$income: 'green-500';
+$expense: 'red-400';
+
 .income {
   ::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
     .mat-form-field-label {
-      @apply text-blue-500;
+      @apply text-#{$income};
     }
 
     .mat-form-field-ripple {
-      @apply bg-green-500;
+      @apply bg-#{$income};
     }
 
     .mat-form-field-required-marker {
-      @apply text-green-500;
+      @apply text-#{$income};
     }
 
     .mat-input-element {
-      @apply text-gray-600;
+      @apply text-#{$income};
     }
   }
 
   ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-    @apply border-green-500;
+    @apply border-#{$income};
   }
 
   ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
-    @apply bg-green-500;
+    @apply bg-#{$income};
   }
 
-  ::ng-deep .mat-select-panel {
-    min-width: 100% !important;
+  ::ng-deep .mat-datepicker-toggle.mat-datepicker-toggle-active {
+      @apply text-#{$income};
   }
 }
 
 .expense {
   ::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
     .mat-form-field-label {
-      @apply text-red-400;
+      @apply text-#{$expense};
     }
 
     .mat-form-field-ripple {
-      @apply bg-red-400;
+      @apply bg-#{$expense};
     }
 
     .mat-form-field-required-marker {
-      @apply text-red-400;
+      @apply text-#{$expense};
     }
 
     .mat-input-element {
-      @apply text-gray-600;
+      @apply text-#{$expense};
     }
   }
 
   ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-    @apply border-red-400;
+    @apply border-#{$expense};
   }
 
   ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
-    @apply bg-red-400;
+    @apply bg-#{$expense};
   }
 
-  ::ng-deep .mat-select-panel {
-    min-width: 100% !important;
+  ::ng-deep .mat-datepicker-toggle.mat-datepicker-toggle-active {
+    @apply text-#{$expense};
   }
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: white;
 }
 
 

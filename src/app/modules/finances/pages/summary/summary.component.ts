@@ -10,6 +10,7 @@ import { SummaryService } from 'modules/finances/services';
 import {
   Balance,
   CategoryExpense,
+  Expense,
   ExpensePeriod,
   Expenses,
   Movement,
@@ -24,7 +25,7 @@ import { ColorsService } from 'core/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummaryComponent implements OnInit {
-  @ViewChild('expenseChart') expenseChart: ChartComponent;
+  @ViewChild('expenseChart') pieChartRef: ChartComponent;
 
   pieOptions: ApexOptions;
   chartOptions: ApexOptions;
@@ -44,6 +45,7 @@ export class SummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setupPieChart();
     this.setupObservers();
   }
 
@@ -58,7 +60,7 @@ export class SummaryComponent implements OnInit {
     this.summaryService.expenses().subscribe({
       next: (expenses: Expenses) => {
         this.expenses = expenses;
-        this.configurePie();
+        this.updatePieChart();
         this.cd.detectChanges();
       },
     });
@@ -71,34 +73,11 @@ export class SummaryComponent implements OnInit {
     });
   }
 
-  changeExpenseView(view: 'daily' | 'weekly' | 'monthly'): void {
-    this.expensePeriod = view;
-    this.configurePie();
-    this.cd.detectChanges();
-  }
-
-  configurePie(): void {
-    const period = this.expenses[this.expensePeriod];
-    const { categoryExpenses, chart } = period;
-    this.categoryExpenses = categoryExpenses;
-    const { series, labels, colors } = chart;
-
-    if (this.expenseChart) {
-      this.expenseChart.updateOptions({
-        series,
-        labels,
-        colors,
-      });
-
-      console.log('Chart updated');
-
-      return;
-    }
-
+  setupPieChart(): void {
     this.pieOptions = {
-      series,
-      labels,
-      colors,
+      series: [],
+      labels: [],
+      colors: [],
       chart: {
         type: 'donut',
         width: '100%',
@@ -149,14 +128,18 @@ export class SummaryComponent implements OnInit {
               total: {
                 show: true,
                 color: '#000',
-                label: 'Gastos',
+                label: 'Total',
                 formatter: (val: any): string => {
-                  return (
-                    '$' +
-                    val.globals.seriesTotals
-                      .reduce((a, b) => a + b, 0)
-                      .toLocaleString()
+                  if (!this.categoryExpenses?.length) {
+                    return '$0';
+                  }
+
+                  const total = val.globals.seriesTotals.reduce(
+                    (a, b) => a + b,
+                    0,
                   );
+
+                  return '$' + total.toLocaleString();
                 },
               },
             },
@@ -176,9 +159,44 @@ export class SummaryComponent implements OnInit {
     };
   }
 
+  updatePieChart(): void {
+    this.expenses.weekly.categoryExpenses = [];
+    this.expenses.weekly.chart = {
+      series: [],
+      labels: [],
+      colors: [],
+    };
+
+    const expense: Expense = this.expenses[this.expensePeriod];
+    this.categoryExpenses = expense.categoryExpenses;
+
+    if (!this.categoryExpenses.length) {
+      this.pieChartRef.updateOptions({
+        series: [1],
+        labels: [],
+        colors: ['#e3e3e3'],
+        stroke: { show: false },
+      });
+      return;
+    }
+
+    if (this.pieChartRef) {
+      this.pieChartRef.updateOptions({
+        ...expense.chart,
+        stroke: { show: true },
+      });
+    }
+  }
+
+  changeExpenseView(view: 'daily' | 'weekly' | 'monthly'): void {
+    this.expensePeriod = view;
+    this.updatePieChart();
+    this.cd.detectChanges();
+  }
+
   toggleDataPointSelection(_i: number): void {
-    if (this.expenseChart) {
-      console.log(this.expenseChart);
+    if (this.pieChartRef) {
+      console.log(this.pieChartRef);
       // this.expenseChart.toggleDataPointSelection(i);
       // this.cd.detectChanges();
     }

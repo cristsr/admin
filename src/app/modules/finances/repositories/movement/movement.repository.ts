@@ -26,10 +26,12 @@ export class MovementRepository {
   }
 
   getAll(query: MovementQuery): Observable<GroupMovement[]> {
+    const options = {
+      params: { ...query },
+    };
+
     return this.http
-      .get<GroupMovement[]>(this.apiUrl, {
-        params: { ...query },
-      })
+      .get<GroupMovement[]>(this.apiUrl, options)
       .pipe(catchError(() => []));
   }
 

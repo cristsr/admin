@@ -44,7 +44,11 @@
     <!-- Card header -->
     <div class="flex justify-between">
       <div class="text-lg font-medium pb-2 md:pb-0">
-        Gastos {{ expensePeriod }}
+        <ng-container [ngSwitch]="expensePeriod">
+          <span *ngSwitchCase="'daily'">Gastos Diarios</span>
+          <span *ngSwitchCase="'weekly'">Gastos Semanales</span>
+          <span *ngSwitchCase="'monthly'">Gastos Mensuales</span>
+        </ng-container>
       </div>
       <div class="ml-2 -mt-2 -mr-3">
         <button
@@ -56,15 +60,15 @@
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="changeExpenseView('daily')">
-            <mat-icon>done</mat-icon>
+            <mat-icon>today</mat-icon>
             <span>Diario</span>
           </button>
           <button mat-menu-item (click)="changeExpenseView('weekly')">
-            <mat-icon>notifications_on</mat-icon>
+            <mat-icon>date_range</mat-icon>
             <span>Semanal</span>
           </button>
           <button mat-menu-item (click)="changeExpenseView('monthly')">
-            <mat-icon>notifications_off</mat-icon>
+            <mat-icon>calendar_month</mat-icon>
             <span>Mensual</span>
           </button>
         </mat-menu>
@@ -77,6 +81,7 @@
       *ngIf="pieOptions"
       [series]="pieOptions.series"
       [chart]="pieOptions.chart"
+      [fill]="pieOptions.fill"
       [colors]="pieOptions.colors"
       [labels]="pieOptions.labels"
       [dataLabels]="pieOptions.dataLabels"
@@ -86,6 +91,7 @@
       [tooltip]="pieOptions.tooltip"
       [responsive]="pieOptions.responsive"
       [states]="pieOptions.states"
+      [noData]="pieOptions.noData"
     >
     </apx-chart>
 
