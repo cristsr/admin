@@ -1,5 +1,6 @@
 import { ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 export const ErrorState = mixinErrorState(
   class {
@@ -8,6 +9,7 @@ export const ErrorState = mixinErrorState(
       public _parentForm: NgForm,
       public _parentFormGroup: FormGroupDirective,
       public ngControl: NgControl,
+      public stateChanges: Subject<void>,
     ) {}
   },
 );
