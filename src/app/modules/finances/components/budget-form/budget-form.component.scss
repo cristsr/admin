@@ -1,0 +1,35 @@
+:host {
+  $color: 'purple-500';
+
+  ::ng-deep .mat-form-field.mat-focused:not(.mat-form-field-invalid ) {
+    .mat-form-field-label {
+      @apply text-#{$color};
+    }
+
+    .mat-form-field-ripple {
+      @apply bg-#{$color};
+    }
+
+    .mat-form-field-required-marker {
+      @apply text-#{$color};
+    }
+  }
+
+  ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+    @apply border-#{$color};
+  }
+
+  ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-inner-circle {
+    @apply bg-#{$color};
+  }
+
+  ::ng-deep .mat-datepicker-toggle.mat-datepicker-toggle-active {
+    @apply text-#{$color};
+  }
+
+  ::ng-deep .mat-slide-toggle.mat-checked{
+    .mat-slide-toggle-thumb {
+      @apply bg-#{$color}
+    }
+  }
+}
