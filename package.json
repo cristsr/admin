@@ -69,7 +69,7 @@
     "@typescript-eslint/parser": "5.11.0",
     "angular-http-server": "^1.10.0",
     "autoprefixer": "^10.4.7",
-    "codelyzer": "^6.0.0",
+    "codelyzer": "^0.0.28",
     "eslint": "^8.2.0",
     "gzipper": "^4.5.0",
     "jasmine-core": "~3.6.0",
