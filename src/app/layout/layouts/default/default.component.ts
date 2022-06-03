@@ -14,7 +14,6 @@ import { EventEmitter2 } from 'eventemitter2';
 import { LayoutEvents } from 'layout/constants';
 import { Submenu, Menu, NavMainAction, NavConfig } from 'layout/types';
 import { Subject } from 'rxjs';
-import { sidebarMenuSelected } from 'layout/states';
 import { SidebarComponent } from 'layout/components';
 import { LayoutMenu } from 'layout/layout.config';
 import { NavService } from 'layout/services';
@@ -125,7 +124,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   selectMenu(menu: Menu): void {
     this.submenu = menu.submenu;
     this.navConfig.title = menu.title;
-    sidebarMenuSelected.next(menu);
 
     // Update title
     this.navService.nextConfig({
