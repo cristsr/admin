@@ -31,13 +31,13 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
   categories: Category[];
   subcategories: Subcategory[];
-  appearance: MatFormFieldAppearance;
-  action: MovementFormAction;
+  appearance: MatFormFieldAppearance = 'standard';
+  action: MovementFormAction = 'create';
   movement: Movement;
   formColor: 'red-400' | 'green-500' = 'red-400';
   tittle = {
     create: 'Agregar movimiento',
-    edit: 'Editar movimiento',
+    update: 'Editar movimiento',
     read: 'Detalle del movimiento',
   };
 
@@ -48,14 +48,16 @@ export class MovementFormComponent implements OnInit, OnDestroy {
     private categoryService: CategoryService,
     private movementService: MovementService,
     private bottomSheetRef: MatBottomSheetRef,
-    @Inject(MAT_BOTTOM_SHEET_DATA) private data: MovementFormData,
-  ) {
-    this.action = data?.action || 'create';
-    this.appearance = data?.appearance || 'standard';
-    this.movement = data?.movement;
-  }
+    @Inject(MAT_BOTTOM_SHEET_DATA)
+    private data: MovementFormData | null,
+  ) {}
 
   ngOnInit(): void {
+    if (this.data) {
+      this.action = this.data.action;
+      this.movement = this.data.movement;
+    }
+
     this.buildForm();
     this.setupObservers();
     this.setupForm();
@@ -170,7 +172,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
     const { value } = this.form;
 
-    const movement: CreateMovement | UpdateMovement = {
+    const movement = {
       date: DateTime.fromJSDate(value.date).toFormat('yyyy-MM-dd'),
       description: value.description,
       amount: value.amount,
@@ -182,9 +184,11 @@ export class MovementFormComponent implements OnInit, OnDestroy {
     console.log('Payload', movement);
 
     if (this.action === 'create') {
-      this.createMovement(movement as CreateMovement);
-    } else {
-      this.updateMovement(movement as UpdateMovement);
+      this.createMovement(movement);
+    }
+
+    if (this.action === 'update') {
+      this.updateMovement(movement);
     }
   }
 
@@ -215,7 +219,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   }
 
   editMovement(): void {
-    this.action = 'edit';
+    this.action = 'update';
     this.form.enable({ emitEvent: false });
   }
 
