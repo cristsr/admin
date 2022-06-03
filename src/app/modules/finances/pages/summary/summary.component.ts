@@ -160,12 +160,12 @@ export class SummaryComponent implements OnInit {
   }
 
   updatePieChart(): void {
-    this.expenses.weekly.categoryExpenses = [];
-    this.expenses.weekly.chart = {
-      series: [],
-      labels: [],
-      colors: [],
-    };
+    // this.expenses.weekly.categoryExpenses = [];
+    // this.expenses.weekly.chart = {
+    //   series: [],
+    //   labels: [],
+    //   colors: [],
+    // };
 
     const expense: Expense = this.expenses[this.expensePeriod];
     this.categoryExpenses = expense.categoryExpenses;
