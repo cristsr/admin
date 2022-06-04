@@ -4,7 +4,6 @@ import { ConfigService } from 'core/services/config';
 import { ENV } from 'environment';
 import {
   CreateMovement,
-  GroupMovement,
   Movement,
   MovementQuery,
   UpdateMovement,
@@ -25,13 +24,13 @@ export class MovementRepository {
     return this.http.post(this.apiUrl, movement);
   }
 
-  getAll(query: MovementQuery): Observable<GroupMovement[]> {
+  getAll(query: MovementQuery): Observable<Movement[]> {
     const options = {
       params: { ...query },
     };
 
     return this.http
-      .get<GroupMovement[]>(this.apiUrl, options)
+      .get<Movement[]>(this.apiUrl, options)
       .pipe(catchError(() => []));
   }
 

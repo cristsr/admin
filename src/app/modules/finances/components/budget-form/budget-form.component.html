@@ -7,14 +7,14 @@
       <div class="text-xl font-medium">{{ tittle[action] }}</div>
     </div>
 
-    <button
-      class="flex justify-center items-center w-8 h-8 rounded-full border-solid border border-black"
-      mat-ripple
-      *ngIf="action === 'read'"
-      (click)="editBudget()"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
+    <!--    <button-->
+    <!--      class="flex justify-center items-center w-8 h-8 rounded-full border-solid border border-black"-->
+    <!--      mat-ripple-->
+    <!--      *ngIf="action === 'read'"-->
+    <!--      (click)="editBudget()"-->
+    <!--    >-->
+    <!--      <mat-icon>edit</mat-icon>-->
+    <!--    </button>-->
   </div>
 
   <form
@@ -68,10 +68,30 @@
       Repetir
     </mat-slide-toggle>
 
+    <div class="flex gap-2" *ngIf="action === 'update'">
+      <button
+        type="button"
+        class="mt-2 w-full bg-red-500 p-3 rounded-xl flex justify-center items-center text-white"
+        mat-ripple
+        (click)="deleteBudget()"
+      >
+        <mat-icon matPrefix class="mr-2">delete</mat-icon>
+        <span class="mt-0.5 font-bold">Eliminar</span>
+      </button>
+
+      <button
+        class="mt-2 w-full bg-purple-500 p-3 rounded-xl flex justify-center items-center text-white"
+        mat-ripple
+      >
+        <mat-icon matPrefix class="mr-2">save</mat-icon>
+        <span class="mt-0.5 font-bold">Guardar</span>
+      </button>
+    </div>
+
     <button
+      *ngIf="action === 'create'"
       class="mt-2 w-full bg-purple-500 p-3 rounded-xl flex justify-center items-center text-white"
       mat-ripple
-      *ngIf="action !== 'read'"
     >
       <mat-icon matPrefix class="mr-2">save</mat-icon>
       <span class="mt-0.5 font-bold">Guardar</span>

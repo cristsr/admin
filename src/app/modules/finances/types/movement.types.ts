@@ -1,5 +1,4 @@
 import { Category, Subcategory } from './category.types';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 export type MovementType = 'income' | 'expense';
 
@@ -40,12 +39,11 @@ export interface GroupMovement {
 
 export type Period = 'day' | 'week' | 'month' | 'year';
 
-export type MovementFormAction = 'read' | 'create' | 'edit';
+export type MovementFormAction = 'read' | 'create' | 'update';
 
 export type MovementOrder = 'date' | 'amount';
 
 export interface MovementFormData {
   action: MovementFormAction;
   movement?: Movement;
-  appearance?: MatFormFieldAppearance;
 }

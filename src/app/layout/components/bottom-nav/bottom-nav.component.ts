@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { EventEmitter2 } from 'eventemitter2';
 import { Submenu } from 'layout/types';
+import { Events } from 'layout/constants';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -25,7 +27,7 @@ import { Submenu } from 'layout/types';
         <button
           *ngIf="!item.url"
           class="bordered"
-          (click)="submenuChanges.emit(item)"
+          (click)="dispatchAction(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
         </button>
@@ -44,4 +46,10 @@ export class BottomNavComponent {
   @Input() linkActiveClass = 'text-blue-500';
   @Input() submenu: Submenu[];
   @Output() submenuChanges = new EventEmitter<Submenu>();
+
+  constructor(private eventEmitter: EventEmitter2) {}
+
+  dispatchAction(action: Submenu): void {
+    this.eventEmitter.emit(Events.BOTTOM_NAV_ACTION, action);
+  }
 }

@@ -26,12 +26,12 @@ import { DateTime } from 'luxon';
       <app-list-item
         *ngFor="let movement of groupMovement.values; trackBy: trackByFn"
         (click)="movementClick.emit(movement)"
-        [icon-color]="movement.category?.color"
         [icon]="movement.category?.icon"
+        [icon-color]="movement.category?.color"
         [title]="movement.description"
         [subtitle]="movement.category?.name"
+        [value]="'$' + (movement.amount | number)"
         [value-color]="movement.type === 'income' ? 'green-500' : 'red-500'"
-        [value]="'$' + movement.amount"
       >
       </app-list-item>
     </div>

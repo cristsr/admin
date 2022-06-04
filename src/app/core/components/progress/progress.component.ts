@@ -20,7 +20,7 @@ export class ProgressComponent {
   @Input() color: string;
 
   @Input()
-  set progress(value: string) {
+  set progress(value: any) {
     this.progressValue = `${value}%`;
   }
 

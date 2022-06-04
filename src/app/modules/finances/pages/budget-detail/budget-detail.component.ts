@@ -1,31 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DateTime, Interval } from 'luxon';
 import { formatInterval } from 'core/utils';
-import { Budget, GroupMovement, Movement } from 'modules/finances/types';
-import { MovementFormComponent } from 'modules/finances/components';
+import { Budget, BudgetDetail, Movement } from 'modules/finances/types';
+import {
+  BudgetFormComponent,
+  MovementFormComponent,
+} from 'modules/finances/components';
+import { BudgetService } from 'modules/finances/services';
 
 @Component({
   selector: 'app-budget-detail',
   templateUrl: './budget-detail.component.html',
   styleUrls: ['./budget-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailComponent implements OnInit {
   budget: Budget;
-  movements: GroupMovement[];
+  movements: Movement[];
 
   constructor(
+    private cd: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
+    private budgetService: BudgetService,
+    private router: Router,
     private bottomSheet: MatBottomSheet,
   ) {}
 
   ngOnInit(): void {
-    const { budget, movements } = this.activatedRoute.snapshot.data.data;
-    this.budget = budget;
-    this.movements = movements;
-
-    console.log(this.budget, this.movements);
+    const data: BudgetDetail = this.activatedRoute.snapshot.data.data;
+    this.budget = data.budget;
+    this.movements = data.movements;
+    this.cd.detectChanges();
   }
 
   formatInterval(): string {
@@ -44,7 +56,43 @@ export class BudgetDetailComponent implements OnInit {
     });
   }
 
-  trackByFn(index: number, item: Movement): string | number {
-    return item.id || index;
+  updateBudget(): void {
+    this.bottomSheet
+      .open(BudgetFormComponent, {
+        data: {
+          action: 'update',
+          budget: this.budget,
+        },
+      })
+      .afterDismissed()
+      .subscribe({
+        next: (result: Budget | null) => {
+          // Do nothing if result is null
+          if (!result) {
+            return;
+          }
+
+          // If category is different, then reload movements
+          if (this.budget.category.id !== result.category.id) {
+            this.budget = result;
+            this.getBudgetMovements();
+            return;
+          }
+
+          this.budget = result;
+          this.cd.detectChanges();
+        },
+      });
+  }
+
+  getBudgetMovements(): void {
+    const id = this.budget.id;
+
+    this.budgetService.getBudgetMovements(id).subscribe({
+      next: (movements: Movement[]) => {
+        this.movements = movements;
+        this.cd.detectChanges();
+      },
+    });
   }
 }

@@ -1,20 +1,30 @@
 <div class="flex flex-col gap-4 p-4 h-full overflow-y-auto">
+  <!--Header-->
   <div class="flex flex-col gap-4 rounded-xl shadow p-4 bg-white p-6">
-    <!--Title-->
-    <div class="flex flex-col gap-4 items-center">
-      <div
-        class="flex items-center justify-center h-20 w-20 rounded-full shadow bg-{{
-          budget.category.color
-        }}"
-      >
-        <div class="text-4xl w-10 h-10 text-center">
-          <mat-icon class="text-white" inline>{{
-            budget.category.icon
-          }}</mat-icon>
-        </div>
+    <div class="flex flex-col gap">
+      <!--Edit-->
+      <div class="flex justify-end">
+        <button mat-icon-button (click)="updateBudget()">
+          <mat-icon class="text-gray-800">edit</mat-icon>
+        </button>
       </div>
 
-      <h2 class="!mb-0 !leading-none">{{ budget.name | titlecase }}</h2>
+      <!--Icon Title-->
+      <div class="flex flex-col gap-4 items-center">
+        <div
+          class="flex items-center justify-center h-20 w-20 rounded-full shadow bg-{{
+            budget.category.color
+          }}"
+        >
+          <span class="text-4xl w-10 h-10 text-center">
+            <mat-icon class="text-white" inline>
+              {{ budget.category.icon }}
+            </mat-icon>
+          </span>
+        </div>
+
+        <h2 class="!mb-0 !leading-none">{{ budget.name | titlecase }}</h2>
+      </div>
     </div>
 
     <!--Category progress-->
@@ -24,7 +34,7 @@
         <div class="flex flex-col">
           <div class="text-sm font-medium">Gastado</div>
           <div class="text-sm text-red-500 pt-1">
-            {{ budget.spent | currency }}
+            ${{ budget.spent | number }}
           </div>
         </div>
 
@@ -32,14 +42,14 @@
         <div class="flex flex-col items-end">
           <div class="text-sm font-medium">Quedan</div>
           <div class="text-sm text-green-500 pt-1">
-            {{ budget.amount - budget.spent | currency }}
+            ${{ budget.amount - budget.spent | number }}
           </div>
         </div>
       </div>
 
       <app-progress
         class="mt-2"
-        [progress]="'90'"
+        [progress]="budget.percentage"
         color="bg-{{ budget.category.color }}"
       ></app-progress>
     </div>
@@ -75,7 +85,7 @@
     <ng-container *ngIf="!!movements?.length">
       <div
         class="flex flex-col rounded-xl shadow p-6 bg-white"
-        *ngFor="let item of movements"
+        *ngFor="let item of movements | groupMovement"
       >
         <app-movement-list
           [groupMovement]="item"

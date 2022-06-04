@@ -1,5 +1,7 @@
 import { Category } from './category.types';
-import { GroupMovement } from './movement.types';
+import { Movement } from './movement.types';
+
+export type BudgetActions = 'create' | 'update';
 
 export interface CreateBudget {
   name: string;
@@ -19,10 +21,16 @@ export interface Budget {
   endDate: string;
   repeat: boolean;
   active: boolean;
+  percentage: number;
   category: Category;
 }
 
 export interface BudgetDetail {
   budget: Budget;
-  movements: GroupMovement[];
+  movements: Movement[];
+}
+
+export interface BudgetFormData {
+  action: BudgetActions;
+  budget?: Budget;
 }

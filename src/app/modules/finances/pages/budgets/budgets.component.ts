@@ -50,8 +50,4 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   openBudgetForm(): void {
     this.bottomSheet.open(BudgetFormComponent);
   }
-
-  calculatePercentage(budget: Budget): string {
-    return ((budget.spent / budget.amount) * 100).toFixed(0);
-  }
 }
