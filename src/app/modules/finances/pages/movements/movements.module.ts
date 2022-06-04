@@ -10,6 +10,7 @@ import { DatetimeModule } from 'core/pipes';
 import { MovementListModule } from 'modules/finances/components';
 import { MovementsComponent } from './movements.component';
 import { MovementsRoutingModule } from './movements-routing.module';
+import { GroupMovementModule } from 'modules/finances/pipes/group-movement/group-movement.module';
 
 @NgModule({
   declarations: [MovementsComponent],
@@ -24,6 +25,7 @@ import { MovementsRoutingModule } from './movements-routing.module';
     DatetimeModule,
     ListItemModule,
     MovementListModule,
+    GroupMovementModule,
   ],
 })
 export class MovementsModule {}

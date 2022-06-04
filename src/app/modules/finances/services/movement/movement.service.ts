@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, switchMap } from 'rxjs';
 import {
   CreateMovement,
-  GroupMovement,
+  Movement,
   MovementQuery,
   UpdateMovement,
 } from 'modules/finances/types';
@@ -16,7 +16,7 @@ export class MovementService {
 
   constructor(private movementRepository: MovementRepository) {}
 
-  get movements(): Observable<GroupMovement[]> {
+  get movements(): Observable<Movement[]> {
     return this.#query.pipe(
       switchMap((query) => {
         return this.movementRepository.getAll(query);

@@ -34,7 +34,7 @@
         <div class="flex flex-col">
           <div class="text-sm font-medium">Gastado</div>
           <div class="text-sm text-red-500 pt-1">
-            {{ budget.spent | currency }}
+            ${{ budget.spent | number }}
           </div>
         </div>
 
@@ -42,14 +42,14 @@
         <div class="flex flex-col items-end">
           <div class="text-sm font-medium">Quedan</div>
           <div class="text-sm text-green-500 pt-1">
-            {{ budget.amount - budget.spent | currency }}
+            ${{ budget.amount - budget.spent | number }}
           </div>
         </div>
       </div>
 
       <app-progress
         class="mt-2"
-        [progress]="'90'"
+        [progress]="budget.percentage"
         color="bg-{{ budget.category.color }}"
       ></app-progress>
     </div>
@@ -85,7 +85,7 @@
     <ng-container *ngIf="!!movements?.length">
       <div
         class="flex flex-col rounded-xl shadow p-6 bg-white"
-        *ngFor="let item of movements"
+        *ngFor="let item of movements | groupMovement"
       >
         <app-movement-list
           [groupMovement]="item"

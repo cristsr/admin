@@ -19,7 +19,7 @@
     <ng-container *ngIf="!!movements?.length; else noMovements">
       <div
         class="flex flex-col rounded-xl shadow p-6 bg-white"
-        *ngFor="let item of movements"
+        *ngFor="let item of movements | groupMovement"
       >
         <app-movement-list
           [groupMovement]="item"

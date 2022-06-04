@@ -69,7 +69,7 @@
         </div>
         <app-progress
           class="mt-2"
-          [progress]="calculatePercentage(item)"
+          [progress]="item.percentage"
           color="bg-{{ item.category.color }}"
         ></app-progress>
       </div>

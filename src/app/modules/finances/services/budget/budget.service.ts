@@ -4,7 +4,7 @@ import { BudgetRepository } from 'modules/finances/repositories';
 import {
   Budget,
   CreateBudget,
-  GroupMovement,
+  Movement,
   UpdateBudget,
 } from 'modules/finances/types';
 import {
@@ -60,7 +60,7 @@ export class BudgetService {
     return this.budgetRepository.getOne(id);
   }
 
-  getBudgetMovements(budgetId: number): Observable<GroupMovement[]> {
+  getBudgetMovements(budgetId: number): Observable<Movement[]> {
     return this.budgetRepository.movements(budgetId);
   }
 }

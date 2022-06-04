@@ -195,7 +195,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   createMovement(movement: CreateMovement): void {
     this.movementService.create(movement).subscribe({
       next: () => {
-        this.bottomSheetRef.dismiss();
+        this.bottomSheetRef.dismiss('create');
       },
       error: (err) => {
         alert('Error al crear el movimiento');
@@ -209,7 +209,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
     this.movementService.update(id, movement).subscribe({
       next: () => {
-        this.bottomSheetRef.dismiss();
+        this.bottomSheetRef.dismiss('update');
       },
       error: (err) => {
         alert('Error al actualizar el movimiento');

@@ -5,12 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  Period,
-  GroupMovement,
-  Movement,
-  MovementFilter,
-} from 'modules/finances/types';
+import { Period, Movement, MovementFilter } from 'modules/finances/types';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MovementService } from 'modules/finances/services';
@@ -31,6 +26,8 @@ import {
 import { capitalize, isEqual } from 'lodash-es';
 import { NavService } from 'layout/services';
 import { MatDialog } from '@angular/material/dialog';
+import { EventEmitter2 } from 'eventemitter2';
+import { Events } from 'layout/constants';
 
 @Component({
   selector: 'app-movements',
@@ -38,7 +35,7 @@ import { MatDialog } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MovementsComponent implements OnInit, OnDestroy {
-  movements: GroupMovement[];
+  movements: Movement[];
   period: Period = 'week';
   dateIndex = 0;
   date: string;
@@ -58,11 +55,13 @@ export class MovementsComponent implements OnInit, OnDestroy {
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
     private navService: NavService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   ngOnInit(): void {
     this.setupObservers();
     this.fetchMovements();
+
     this.navService.nextConfig({
       buttons: [
         {
@@ -88,7 +87,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.movementService.movements
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe({
-        next: (response: GroupMovement[]) => {
+        next: (response: Movement[]) => {
           this.movements = response;
           this.changeDetectorRef.detectChanges();
           console.log(this.movements);
@@ -103,15 +102,28 @@ export class MovementsComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.showMovementFilter();
       });
+
+    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
+      // If movement was created, fetch movements again
+      this.fetchMovements();
+    });
   }
 
   showMovementDetail(movement: Movement): void {
-    this.bottomSheet.open(MovementFormComponent, {
-      data: {
-        action: 'read',
-        movement,
-      },
-    });
+    this.bottomSheet
+      .open(MovementFormComponent, {
+        data: {
+          action: 'read',
+          movement,
+        },
+      })
+      .afterDismissed()
+      .subscribe((result) => {
+        // If movement was updated, fetch movements again
+        if (result) {
+          this.fetchMovements();
+        }
+      });
   }
 
   showMovementFilter(): void {

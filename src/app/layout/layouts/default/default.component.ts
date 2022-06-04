@@ -10,8 +10,6 @@ import {
 
 import { DOCUMENT } from '@angular/common';
 import { WINDOW } from 'core/config';
-import { EventEmitter2 } from 'eventemitter2';
-import { LayoutEvents } from 'layout/constants';
 import { Submenu, Menu, NavMainAction, NavConfig } from 'layout/types';
 import { Subject } from 'rxjs';
 import { SidebarComponent } from 'layout/components';
@@ -20,9 +18,6 @@ import { NavService } from 'layout/services';
 
 @Component({
   selector: 'app-default-layout',
-  host: {
-    class: '',
-  },
   template: `
     <div appPan [target]="sidebar">
       <!-- Sidebar -->
@@ -56,7 +51,6 @@ import { NavService } from 'layout/services';
           class="flex-none"
           linkActiveClass="text-blue-500"
           [submenu]="submenu"
-          (submenuChanges)="selectSubmenu($event)"
         >
         </app-bottom-nav>
       </div>
@@ -81,7 +75,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(WINDOW) private window: Window,
     @Inject(DOCUMENT) private document: Document,
-    private eventEmitter: EventEmitter2,
     private cd: ChangeDetectorRef,
     private navService: NavService,
   ) {}
@@ -129,12 +122,6 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.navService.nextConfig({
       title: menu.title,
     });
-  }
-
-  selectSubmenu(submenu: Submenu): void {
-    if (submenu.type === 'action') {
-      this.eventEmitter.emit(LayoutEvents.BottomNavigation, submenu.tag);
-    }
   }
 
   navMainAction(action: NavMainAction): void {

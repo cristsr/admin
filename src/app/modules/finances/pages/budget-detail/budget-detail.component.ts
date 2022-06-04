@@ -8,12 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DateTime, Interval } from 'luxon';
 import { formatInterval } from 'core/utils';
-import {
-  Budget,
-  BudgetDetail,
-  GroupMovement,
-  Movement,
-} from 'modules/finances/types';
+import { Budget, BudgetDetail, Movement } from 'modules/finances/types';
 import {
   BudgetFormComponent,
   MovementFormComponent,
@@ -28,7 +23,7 @@ import { BudgetService } from 'modules/finances/services';
 })
 export class BudgetDetailComponent implements OnInit {
   budget: Budget;
-  movements: GroupMovement[];
+  movements: Movement[];
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -94,7 +89,7 @@ export class BudgetDetailComponent implements OnInit {
     const id = this.budget.id;
 
     this.budgetService.getBudgetMovements(id).subscribe({
-      next: (movements) => {
+      next: (movements: Movement[]) => {
         this.movements = movements;
         this.cd.detectChanges();
       },
