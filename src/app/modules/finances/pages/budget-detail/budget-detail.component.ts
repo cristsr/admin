@@ -14,6 +14,7 @@ import {
   MovementFormComponent,
 } from 'modules/finances/components';
 import { BudgetService } from 'modules/finances/services';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-budget-detail',
@@ -31,6 +32,7 @@ export class BudgetDetailComponent implements OnInit {
     private budgetService: BudgetService,
     private router: Router,
     private bottomSheet: MatBottomSheet,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -94,5 +96,65 @@ export class BudgetDetailComponent implements OnInit {
         this.cd.detectChanges();
       },
     });
+  }
+
+  deleteBudget(): void {
+    this.dialog
+      .open(BudgetDeleteDialogComponent)
+      .afterClosed()
+      .subscribe({
+        next: (result) => {
+          if (!result) {
+            return;
+          }
+
+          this.budgetService.remove(this.budget.id).subscribe({
+            next: () => {
+              this.router.navigate(['./finances/budgets']);
+            },
+          });
+        },
+      });
+  }
+}
+
+@Component({
+  selector: 'app-budget-delete-dialog',
+  template: `
+    <div class="pb-2">
+      <h2>Eliminar presupuesto</h2>
+      <span>Esta seguro que desea eliminar este presupuesto?</span>
+    </div>
+    <div class="flex gap-4">
+      <button
+        class="mt-2 w-full border border-neutral-500 p-2 rounded-lg flex justify-center items-center text-neutral-500"
+        mat-ripple
+        (click)="close()"
+      >
+        <mat-icon matPrefix class="mr-2">close</mat-icon>
+        <span class="mt-0.3">Cancelar</span>
+      </button>
+
+      <button
+        type="button"
+        class="mt-2 w-full bg-red-500 p-2 rounded-lg flex justify-center items-center text-white"
+        mat-ripple
+        (click)="delete()"
+      >
+        <mat-icon matPrefix class="mr-2">delete</mat-icon>
+        <span class="mt-0.5">Eliminar</span>
+      </button>
+    </div>
+  `,
+})
+export class BudgetDeleteDialogComponent {
+  constructor(private dialogRef: MatDialogRef<any>) {}
+
+  close(): void {
+    this.dialogRef.close();
+  }
+
+  delete(): void {
+    this.dialogRef.close(true);
   }
 }

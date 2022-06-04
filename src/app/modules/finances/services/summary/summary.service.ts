@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, Subject, tap } from 'rxjs';
 import { SummaryRepository } from 'modules/finances/repositories/summary/summary.repository';
 import { Balance, Expense, Expenses, Movement } from 'modules/finances/types';
 import { ColorsService } from 'core/services';
@@ -8,6 +8,8 @@ import { ColorsService } from 'core/services';
   providedIn: 'root',
 })
 export class SummaryService {
+  #fetch = new Subject<void>();
+
   constructor(
     private summaryRepository: SummaryRepository,
     private colorService: ColorsService,
@@ -50,5 +52,9 @@ export class SummaryService {
 
   lastMovements(): Observable<Movement[]> {
     return this.summaryRepository.lastMovements();
+  }
+
+  fetch(): void {
+    this.#fetch.next();
   }
 }

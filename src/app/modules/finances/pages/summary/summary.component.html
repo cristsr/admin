@@ -104,7 +104,7 @@
         [subtitle]="'$' + (category.amount | number)"
         [value]="category.percentage + '%'"
         value-color="purple-500"
-        (click)="toggleDataPointSelection(i)"
+        (click)="showCategoryMovements(category)"
       ></app-list-item>
     </div>
   </div>
@@ -124,7 +124,7 @@
         [icon]="movement.category?.icon"
         [title]="movement.description"
         [subtitle]="movement.category?.name"
-        [value]="'$' + movement.amount"
+        [value]="'$' + (movement.amount | number)"
         [value-color]="movement.type === 'income' ? 'green-500' : 'red-500'"
       >
       </app-list-item>

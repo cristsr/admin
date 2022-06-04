@@ -10,11 +10,14 @@ import {
   MovementFormModule,
 } from 'modules/finances/components';
 import { GroupMovementModule } from 'modules/finances/pipes';
-import { BudgetDetailComponent } from './budget-detail.component';
+import {
+  BudgetDeleteDialogComponent,
+  BudgetDetailComponent,
+} from './budget-detail.component';
 import { BudgetDetailRoutingModule } from './budget-detail-routing.module';
 
 @NgModule({
-  declarations: [BudgetDetailComponent],
+  declarations: [BudgetDetailComponent, BudgetDeleteDialogComponent],
   imports: [
     CommonModule,
     BudgetDetailRoutingModule,

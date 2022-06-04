@@ -4,8 +4,13 @@
     <div class="flex flex-col gap">
       <!--Edit-->
       <div class="flex justify-end">
+        <button (click)="deleteBudget()" mat-icon-button>
+          <mat-icon class="text-gray-800">remove_circle_outline</mat-icon>
+        </button>
         <button mat-icon-button (click)="updateBudget()">
-          <mat-icon class="text-gray-800">edit</mat-icon>
+          <mat-icon class="text-gray-800 material-icons-outlined">
+            edit
+          </mat-icon>
         </button>
       </div>
 

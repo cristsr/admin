@@ -226,4 +226,8 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   compare(t1: any, t2: any): boolean {
     return t1?.id === t2?.id;
   }
+
+  closeDialog(): void {
+    this.bottomSheetRef.dismiss();
+  }
 }
