@@ -7,13 +7,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {
-  BudgetFormComponent,
-  BudgetDeleteDialogComponent,
-} from './budget-form.component';
+import { BudgetFormComponent } from './budget-form.component';
 
 @NgModule({
-  declarations: [BudgetFormComponent, BudgetDeleteDialogComponent],
+  declarations: [BudgetFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

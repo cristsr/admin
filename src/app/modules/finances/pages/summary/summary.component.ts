@@ -17,6 +17,9 @@ import {
 } from 'modules/finances/types';
 import { DecimalPipe } from '@angular/common';
 import { ColorsService } from 'core/services';
+import { EventEmitter2 } from 'eventemitter2';
+import { Events } from 'layout/constants';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -35,41 +38,60 @@ export class SummaryComponent implements OnInit {
   categoryExpenses: CategoryExpense[];
   lastMovements: Movement[];
 
-  private data: any;
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
     private decimalPipe: DecimalPipe,
     private summaryService: SummaryService,
     private colorService: ColorsService,
+    private eventEmitter: EventEmitter2,
     private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.setupPieChart();
     this.setupObservers();
+    this.setupListeners();
   }
 
   setupObservers(): void {
-    this.summaryService.balance().subscribe({
-      next: (balance: Balance) => {
-        this.balance = balance;
-        this.cd.markForCheck();
-      },
-    });
+    this.summaryService
+      .balance()
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (balance: Balance) => {
+          this.balance = balance;
+          this.cd.markForCheck();
+        },
+      });
 
-    this.summaryService.expenses().subscribe({
-      next: (expenses: Expenses) => {
-        this.expenses = expenses;
-        this.updatePieChart();
-        this.cd.detectChanges();
-      },
-    });
+    this.summaryService
+      .expenses()
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (expenses: Expenses) => {
+          this.expenses = expenses;
+          this.updatePieChart();
+          this.cd.detectChanges();
+        },
+      });
 
-    this.summaryService.lastMovements().subscribe({
-      next: (movements: Movement[]) => {
-        this.lastMovements = movements;
-        this.cd.markForCheck();
-      },
+    this.summaryService
+      .lastMovements()
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (movements: Movement[]) => {
+          this.lastMovements = movements;
+          this.cd.markForCheck();
+        },
+      });
+  }
+
+  setupListeners(): void {
+    // Fetch data again
+    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
+      this.#unsubscribeAll.next();
+      this.setupObservers();
     });
   }
 
@@ -160,13 +182,6 @@ export class SummaryComponent implements OnInit {
   }
 
   updatePieChart(): void {
-    // this.expenses.weekly.categoryExpenses = [];
-    // this.expenses.weekly.chart = {
-    //   series: [],
-    //   labels: [],
-    //   colors: [],
-    // };
-
     const expense: Expense = this.expenses[this.expensePeriod];
     this.categoryExpenses = expense.categoryExpenses;
 
@@ -194,16 +209,12 @@ export class SummaryComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  toggleDataPointSelection(_i: number): void {
-    if (this.pieChartRef) {
-      console.log(this.pieChartRef);
-      // this.expenseChart.toggleDataPointSelection(i);
-      // this.cd.detectChanges();
-    }
+  showCategoryMovements(i: CategoryExpense) {
+    return;
   }
 
   configureBar(): void {
-    const { bar } = this.data;
+    const { bar } = { bar: [] };
 
     const [series, labels] = bar.reduce(
       ([s, l, c], curr) => {

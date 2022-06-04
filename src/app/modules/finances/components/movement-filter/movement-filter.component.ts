@@ -91,17 +91,31 @@ import { isEqual } from 'lodash-es';
                 Ingreso
               </mat-checkbox>
             </div>
-            <mat-error *ngIf="form.invalid">Seleccione un valor</mat-error>
+            <mat-error class="pt-1" *ngIf="form.invalid">
+              Seleccione un valor
+            </mat-error>
           </div>
         </div>
 
-        <button
-          class="mt-2 w-full bg-purple-500 p-3 rounded-xl flex justify-center items-center text-white"
-          mat-ripple
-        >
-          <mat-icon matPrefix class="mr-2">save</mat-icon>
-          <span class="mt-0.5 font-bold ">Aplicar</span>
-        </button>
+        <div class="flex gap-4 pt-2">
+          <button
+            type="button"
+            class="mt-2 w-full border border-neutral-400 p-2 rounded-lg flex justify-center items-center text-neutral-500"
+            mat-ripple
+            (click)="closeDialog()"
+          >
+            <mat-icon matPrefix class="mr-2">cancel</mat-icon>
+            <span class="mt-0.5">Cancelar</span>
+          </button>
+
+          <button
+            class="mt-2 w-full p-2 rounded-lg flex justify-center items-center text-white bg-purple-500"
+            mat-ripple
+          >
+            <mat-icon matPrefix class="mr-2">save</mat-icon>
+            <span class="mt-0.5 font-bold">Aplicar</span>
+          </button>
+        </div>
       </form>
     </div>
   `,
@@ -153,8 +167,8 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
   appearance: MatFormFieldAppearance = 'standard';
 
-  private categoriesLoaded = new ReplaySubject<void>(1);
-  private unsubscribeAll = new Subject<void>();
+  #categoriesLoaded = new ReplaySubject<void>(1);
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -172,8 +186,8 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
   }
 
   buildForm(): void {
@@ -202,7 +216,7 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
 
       !!this.categories?.length
         ? fillCategory()
-        : this.categoriesLoaded.pipe(take(1)).subscribe(fillCategory);
+        : this.#categoriesLoaded.pipe(take(1)).subscribe(fillCategory);
     }
 
     if (order) {
@@ -225,8 +239,8 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
     this.categoryService.categories.pipe().subscribe({
       next: (categories: Category[]) => {
         this.categories = categories;
-        this.categoriesLoaded.next();
-        this.categoriesLoaded.complete();
+        this.#categoriesLoaded.next();
+        this.#categoriesLoaded.complete();
       },
     });
 
@@ -290,5 +304,9 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
 
   compare(t1: any, t2: any): boolean {
     return t1?.id === t2?.id;
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }

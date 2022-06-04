@@ -20,7 +20,6 @@ import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,7 +43,6 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     private fb: UntypedFormBuilder,
     private categoryService: CategoryService,
     private budgetService: BudgetService,
-    private dialog: MatDialog,
     private bottomSheetRef: MatBottomSheetRef,
     private router: Router,
     @Inject(MAT_BOTTOM_SHEET_DATA)
@@ -151,69 +149,11 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteBudget(): void {
-    this.dialog
-      .open(BudgetDeleteDialogComponent)
-      .afterClosed()
-      .subscribe({
-        next: (result) => {
-          if (!result) {
-            return;
-          }
-
-          const id = this.budget.id;
-          this.budgetService.remove(id).subscribe({
-            next: () => {
-              this.bottomSheetRef.dismiss();
-              this.router.navigate(['./finances/budgets']);
-            },
-          });
-        },
-      });
-  }
-
   compare(t1: any, t2: any): boolean {
     return t1?.id === t2?.id;
   }
-}
 
-@Component({
-  selector: 'app-budget-delete-dialog',
-  template: `
-    <div class="pb-2">
-      <h2>Eliminar presupuesto</h2>
-      <span>Esta seguro que desea eliminar este presupuesto?</span>
-    </div>
-    <div class="flex gap-2 ">
-      <button
-        class="mt-2 w-full bg-gray-300 p-2 rounded-xl flex justify-center items-center text-white"
-        mat-ripple
-        (click)="close()"
-      >
-        <mat-icon matPrefix class="mr-2">close</mat-icon>
-        <span class="mt-0.">Cancelar</span>
-      </button>
-
-      <button
-        type="button"
-        class="mt-2 w-full bg-red-500 p-2 rounded-xl flex justify-center items-center text-white"
-        mat-ripple
-        (click)="delete()"
-      >
-        <mat-icon matPrefix class="mr-2">delete</mat-icon>
-        <span class="mt-0.5">Eliminar</span>
-      </button>
-    </div>
-  `,
-})
-export class BudgetDeleteDialogComponent {
-  constructor(private dialogRef: MatDialogRef<any>) {}
-
-  close(): void {
-    this.dialogRef.close();
-  }
-
-  delete(): void {
-    this.dialogRef.close(true);
+  closeDialog(): void {
+    this.bottomSheetRef.dismiss();
   }
 }
