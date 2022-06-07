@@ -5,8 +5,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { pluck, Subject, takeUntil, merge } from 'rxjs';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
-import { SummaryService } from 'modules/finances/services';
+import { EventEmitter2 } from 'eventemitter2';
+import { Events } from 'layout/constants';
 import {
   Balance,
   CategoryExpense,
@@ -14,12 +17,9 @@ import {
   ExpensePeriod,
   Expenses,
   Movement,
+  Summary,
 } from 'modules/finances/types';
-import { DecimalPipe } from '@angular/common';
-import { ColorsService } from 'core/services';
-import { EventEmitter2 } from 'eventemitter2';
-import { Events } from 'layout/constants';
-import { Subject, takeUntil } from 'rxjs';
+import { SummaryService } from 'modules/finances/services';
 
 @Component({
   selector: 'app-summary',
@@ -41,9 +41,8 @@ export class SummaryComponent implements OnInit {
   #unsubscribeAll = new Subject<void>();
 
   constructor(
-    private decimalPipe: DecimalPipe,
+    private activatedRoute: ActivatedRoute,
     private summaryService: SummaryService,
-    private colorService: ColorsService,
     private eventEmitter: EventEmitter2,
     private cd: ChangeDetectorRef,
   ) {}
@@ -52,47 +51,6 @@ export class SummaryComponent implements OnInit {
     this.setupPieChart();
     this.setupObservers();
     this.setupListeners();
-  }
-
-  setupObservers(): void {
-    this.summaryService
-      .balance()
-      .pipe(takeUntil(this.#unsubscribeAll))
-      .subscribe({
-        next: (balance: Balance) => {
-          this.balance = balance;
-          this.cd.markForCheck();
-        },
-      });
-
-    this.summaryService
-      .expenses()
-      .pipe(takeUntil(this.#unsubscribeAll))
-      .subscribe({
-        next: (expenses: Expenses) => {
-          this.expenses = expenses;
-          this.updatePieChart();
-          this.cd.detectChanges();
-        },
-      });
-
-    this.summaryService
-      .lastMovements()
-      .pipe(takeUntil(this.#unsubscribeAll))
-      .subscribe({
-        next: (movements: Movement[]) => {
-          this.lastMovements = movements;
-          this.cd.markForCheck();
-        },
-      });
-  }
-
-  setupListeners(): void {
-    // Fetch data again
-    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
-      this.#unsubscribeAll.next();
-      this.setupObservers();
-    });
   }
 
   setupPieChart(): void {
@@ -181,12 +139,45 @@ export class SummaryComponent implements OnInit {
     };
   }
 
-  updatePieChart(): void {
+  setupObservers(): void {
+    // Merge observables into one
+    const summarySource = merge(
+      this.activatedRoute.data.pipe(pluck('data')),
+      this.summaryService.summary(),
+    ).pipe(takeUntil(this.#unsubscribeAll));
+
+    // Subscribe to summary data when data is resolved or updated
+    summarySource.subscribe({
+      next: (data: Summary) => {
+        console.log('Summary data', data);
+        this.balance = data.balance;
+        this.expenses = data.expenses;
+        this.lastMovements = data.movements;
+        this.updatePieChart();
+        this.cd.detectChanges();
+      },
+    });
+  }
+
+  setupListeners(): void {
+    // Fetch data again
+    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
+      console.log('Fetching data again');
+      this.summaryService.next();
+    });
+  }
+
+  async updatePieChart(): Promise<void> {
     const expense: Expense = this.expenses[this.expensePeriod];
     this.categoryExpenses = expense.categoryExpenses;
 
+    if (!this.pieChartRef) {
+      // Hack to avoid error when chart is not ready
+      await this.cd.detectChanges();
+    }
+
     if (!this.categoryExpenses.length) {
-      this.pieChartRef.updateOptions({
+      await this.pieChartRef.updateOptions({
         series: [1],
         labels: [],
         colors: ['#e3e3e3'],
@@ -195,12 +186,12 @@ export class SummaryComponent implements OnInit {
       return;
     }
 
-    if (this.pieChartRef) {
-      this.pieChartRef.updateOptions({
-        ...expense.chart,
-        stroke: { show: true },
-      });
-    }
+    await this.pieChartRef.updateOptions({
+      ...expense.chart,
+      stroke: {
+        show: true,
+      },
+    });
   }
 
   changeExpenseView(view: 'daily' | 'weekly' | 'monthly'): void {

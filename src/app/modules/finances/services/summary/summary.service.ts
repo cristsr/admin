@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, Subject, tap } from 'rxjs';
-import { SummaryRepository } from 'modules/finances/repositories/summary/summary.repository';
-import { Balance, Expense, Expenses, Movement } from 'modules/finances/types';
+import { forkJoin, map, Observable, Subject, switchMap } from 'rxjs';
+import { SummaryRepository } from 'modules/finances/repositories';
+import {
+  Balance,
+  Expense,
+  Expenses,
+  ExpensesRaw,
+  Movement,
+  Summary,
+} from 'modules/finances/types';
 import { ColorsService } from 'core/services';
 
 @Injectable({
@@ -15,46 +22,69 @@ export class SummaryService {
     private colorService: ColorsService,
   ) {}
 
+  fetchSummary(): Observable<Summary> {
+    return forkJoin({
+      balance: this.balance(),
+      movements: this.lastMovements(),
+      expenses: this.expenses(),
+    });
+  }
+
+  summary(): Observable<Summary> {
+    return this.#fetch.pipe(switchMap(() => this.fetchSummary()));
+  }
+
+  next(): any {
+    this.#fetch.next();
+  }
+
   balance(): Observable<Balance> {
     return this.summaryRepository.balance();
   }
 
   expenses(): Observable<Expenses> {
-    return this.summaryRepository.expenses().pipe(
-      // Object to entries
-      map(Object.entries),
-      // Generate chart data
-      map((expenses) => {
-        return expenses.map<[string, Expense]>(([period, categoryExpenses]) => [
-          period,
-          {
-            categoryExpenses,
-            chart: categoryExpenses.reduce(
-              (state, curr) => {
-                state.series.push(curr.amount);
-                state.labels.push(curr.name);
-                state.colors.push(this.colorService.classToHex(curr.color));
-                return state;
-              },
-              {
-                series: [],
-                labels: [],
-                colors: [],
-              },
-            ),
-          },
-        ]);
-      }),
-      map(Object.fromEntries),
-      tap((expenses) => console.log(expenses)),
-    );
+    return this.summaryRepository
+      .expenses()
+      .pipe(map((expenses) => this.mapExpenses(expenses)));
   }
 
   lastMovements(): Observable<Movement[]> {
     return this.summaryRepository.lastMovements();
   }
 
-  fetch(): void {
-    this.#fetch.next();
+  mapExpenses(expenses: ExpensesRaw): Expenses {
+    // Array from expenses object
+    const entries = Object.entries(expenses);
+
+    const data: [string, Expense][] = entries.map(
+      ([period, categoryExpenses]) => {
+        // Generate chart data for each period
+        const chart = categoryExpenses.reduce(
+          // Reduce each categoryExpense
+          (state, expense) => {
+            state.series.push(expense.amount);
+            state.labels.push(expense.name);
+            state.colors.push(this.colorService.classToHex(expense.color));
+            return state;
+          },
+          // Initial state
+          {
+            series: [],
+            labels: [],
+            colors: [],
+          },
+        );
+
+        return [
+          period,
+          {
+            categoryExpenses,
+            chart,
+          },
+        ];
+      },
+    );
+
+    return <Expenses>Object.fromEntries(data);
   }
 }

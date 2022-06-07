@@ -97,23 +97,23 @@ import { isEqual } from 'lodash-es';
           </div>
         </div>
 
-        <div class="flex gap-4 pt-2">
+        <div class="flex gap-8 pt-2">
           <button
             type="button"
-            class="mt-2 w-full border border-neutral-400 p-2 rounded-lg flex justify-center items-center text-neutral-500"
+            class="mt-2 w-full border border-neutral-400 p-2 rounded flex justify-center items-center text-neutral-500"
             mat-ripple
             (click)="closeDialog()"
           >
-            <mat-icon matPrefix class="mr-2">cancel</mat-icon>
-            <span class="mt-0.5">Cancelar</span>
+            <mat-icon matPrefix class="mr-1">close</mat-icon>
+            <span>Cancelar</span>
           </button>
 
           <button
-            class="mt-2 w-full p-2 rounded-lg flex justify-center items-center text-white bg-purple-500"
+            class="mt-2 w-full p-2 rounded flex justify-center items-center text-white bg-purple-500"
             mat-ripple
           >
-            <mat-icon matPrefix class="mr-2">save</mat-icon>
-            <span class="mt-0.5 font-bold">Aplicar</span>
+            <mat-icon matPrefix class="mr-1">save</mat-icon>
+            <span>Aplicar</span>
           </button>
         </div>
       </form>

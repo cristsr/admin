@@ -1,3 +1,5 @@
+import { Movement } from 'modules/finances/types/movement.types';
+
 export type ExpensePeriod = 'daily' | 'weekly' | 'monthly';
 
 export interface Balance {
@@ -32,3 +34,9 @@ export interface Expense {
 export type Expenses = {
   [key in ExpensePeriod]: Expense;
 };
+
+export interface Summary {
+  balance: Balance;
+  expenses: Expenses;
+  movements: Movement[];
+}

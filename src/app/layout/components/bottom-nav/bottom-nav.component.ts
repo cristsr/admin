@@ -6,19 +6,19 @@ import { Events } from 'layout/constants';
 @Component({
   selector: 'app-bottom-nav',
   host: {
-    class: 'h-14 bg-white-200 shadow z-10 px-2',
+    class: 'py-1.5 z-10 px-2 border border-t-neutral-200',
   },
   template: `
-    <div class="h-full flex w-full gap-2">
+    <div class="h-full flex  w-full gap-2">
       <div
         class="flex-1 flex justify-center items-center"
         *ngFor="let item of submenu"
       >
         <button
           *ngIf="item.url"
-          class="w-full"
+          class="w-full text-gray-600"
           [routerLink]="item.url"
-          [routerLinkActive]="linkActiveClass"
+          routerLinkActive="!text-blue-500"
           (click)="submenuChanges.emit(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
@@ -26,7 +26,7 @@ import { Events } from 'layout/constants';
         </button>
         <button
           *ngIf="!item.url"
-          class="bordered"
+          class="bordered text-gray-600"
           (click)="dispatchAction(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
@@ -43,7 +43,7 @@ import { Events } from 'layout/constants';
   ],
 })
 export class BottomNavComponent {
-  @Input() linkActiveClass = 'text-blue-500';
+  @Input() linkActiveClass = '!text-blue-500';
   @Input() submenu: Submenu[];
   @Output() submenuChanges = new EventEmitter<Submenu>();
 

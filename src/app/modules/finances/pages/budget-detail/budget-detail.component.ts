@@ -127,22 +127,22 @@ export class BudgetDetailComponent implements OnInit {
     </div>
     <div class="flex gap-4">
       <button
-        class="mt-2 w-full border border-neutral-500 p-2 rounded-lg flex justify-center items-center text-neutral-500"
+        class="mt-2 w-full border border-neutral-500 p-2 rounded flex justify-center items-center text-neutral-500"
         mat-ripple
         (click)="close()"
       >
-        <mat-icon matPrefix class="mr-2">close</mat-icon>
-        <span class="mt-0.3">Cancelar</span>
+        <mat-icon matPrefix class="mr-1 material-icon-outlined">close</mat-icon>
+        <span>Cancelar</span>
       </button>
 
       <button
         type="button"
-        class="mt-2 w-full bg-red-500 p-2 rounded-lg flex justify-center items-center text-white"
+        class="mt-2 w-full bg-red-500 p-2 rounded flex justify-center items-center text-white"
         mat-ripple
         (click)="delete()"
       >
-        <mat-icon matPrefix class="mr-2">delete</mat-icon>
-        <span class="mt-0.5">Eliminar</span>
+        <mat-icon matPrefix class="mr-1">delete</mat-icon>
+        <span>Eliminar</span>
       </button>
     </div>
   `,
