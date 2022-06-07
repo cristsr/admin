@@ -1,26 +1,20 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { CategoryService } from 'modules/finances/services';
 import { Category, MovementFilter } from 'modules/finances/types';
-import {
-  combineLatest,
-  distinctUntilChanged,
-  ReplaySubject,
-  Subject,
-  take,
-} from 'rxjs';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isEqual } from 'lodash-es';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-movement-range',
   template: `
     <div class="flex flex-col p-2">
+      <!--Title-->
       <div class="flex pb-4 items-center justify-between">
         <div class="flex items-center gap-2">
           <mat-icon class="material-icons-outlined">filter_list</mat-icon>
@@ -33,6 +27,7 @@ import { isEqual } from 'lodash-es';
         [formGroup]="form"
         (submit)="onSubmit()"
       >
+        <!--Period-->
         <mat-form-field [appearance]="appearance" floatLabel="auto">
           <mat-label>Periodo</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">repeat</mat-icon>
@@ -46,6 +41,7 @@ import { isEqual } from 'lodash-es';
           </mat-select>
         </mat-form-field>
 
+        <!--Category-->
         <mat-form-field [appearance]="appearance" floatLabel="auto">
           <mat-label>Categoría</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
@@ -63,6 +59,7 @@ import { isEqual } from 'lodash-es';
           </mat-select>
         </mat-form-field>
 
+        <!--Order-->
         <mat-form-field [appearance]="appearance" floatLabel="auto">
           <mat-label>Ordenar por</mat-label>
           <mat-icon matPrefix class="text-purple-600 mr-2">sort</mat-icon>
@@ -76,7 +73,8 @@ import { isEqual } from 'lodash-es';
           </mat-select>
         </mat-form-field>
 
-        <div class="flex p-1.4 items-center">
+        <!--Movement type-->
+        <div class="flex p-1.4 items-center" formGroupName="type">
           <mat-icon class="text-purple-600 mr-2">swap_vert</mat-icon>
           <div class="flex flex-col">
             <label class="pb-1 text-sm text-[rgba(0,0,0,.8)]">
@@ -85,13 +83,13 @@ import { isEqual } from 'lodash-es';
 
             <div class="flex mt-2 gap-4">
               <mat-checkbox color="primary" formControlName="expense">
-                Gasto
+                Gastos
               </mat-checkbox>
               <mat-checkbox color="primary" formControlName="income">
-                Ingreso
+                Ingresos
               </mat-checkbox>
             </div>
-            <mat-error class="pt-1" *ngIf="form.invalid">
+            <mat-error class="pt-1" *ngIf="form.get('type').invalid">
               Seleccione un valor
             </mat-error>
           </div>
@@ -119,9 +117,14 @@ import { isEqual } from 'lodash-es';
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovementFilterComponent implements OnInit, OnDestroy {
+export class MovementFilterComponent implements OnInit {
   categories: Category[];
+
+  form: FormGroup;
+
+  appearance: MatFormFieldAppearance = 'standard';
 
   periods = [
     {
@@ -163,20 +166,12 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
     },
   ];
 
-  selected: string;
-  form: UntypedFormGroup;
-  appearance: MatFormFieldAppearance = 'standard';
-
-  #categoriesLoaded = new ReplaySubject<void>(1);
-  #unsubscribeAll = new Subject<void>();
-
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private categoryService: CategoryService,
-
+    private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA)
     private data: MovementFilter,
-    private dialogRef: MatDialogRef<any>,
   ) {}
 
   ngOnInit(): void {
@@ -185,128 +180,78 @@ export class MovementFilterComponent implements OnInit, OnDestroy {
     this.fillForm();
   }
 
-  ngOnDestroy(): void {
-    this.#unsubscribeAll.next();
-    this.#unsubscribeAll.complete();
-  }
-
   buildForm(): void {
+    // Initialize form
     this.form = this.fb.group({
       period: [null],
       category: [{ id: null, name: 'Todas' }],
       order: [null],
-      income: [true],
-      expense: [true],
+      type: this.fb.group({
+        expense: [null],
+        income: [null],
+      }),
+    });
+  }
+
+  setupObservers(): void {
+    // Load categories
+    this.categoryService.categories.subscribe({
+      next: (data: Category[]) => {
+        this.categories = data;
+      },
+    });
+
+    // Error handling
+    this.form.get('type').valueChanges.subscribe({
+      next: ({ income, expense }) => {
+        // If none is selected, show error message
+        if (!expense && !income) {
+          this.form.get('type').setErrors({ required: true });
+          return;
+        }
+
+        // Hide error message
+        this.form.get('type').setErrors(null);
+      },
     });
   }
 
   fillForm(): void {
     const { period, category, order, type } = this.data;
 
-    if (period) {
-      const value = this.periods.find((v) => v.value === period);
-      this.form.get('period').setValue(value);
-    }
-
-    if (category) {
-      const fillCategory = (): void => {
-        const value = this.categories.find((v) => v.id === category);
-        this.form.get('category').setValue(value);
-      };
-
-      !!this.categories?.length
-        ? fillCategory()
-        : this.#categoriesLoaded.pipe(take(1)).subscribe(fillCategory);
-    }
-
-    if (order) {
-      const value = this.order.find((v) => v.value === order);
-      this.form.get('order').setValue(value);
-    }
-
-    if (type) {
-      this.form.get('expense').setValue(false);
-      this.form.get('income').setValue(false);
-
-      for (const value of type.split(',')) {
-        this.form.get(value)?.setValue(true);
-      }
-    }
-  }
-
-  setupObservers(): void {
-    // Load categories
-    this.categoryService.categories.pipe().subscribe({
-      next: (categories: Category[]) => {
-        this.categories = categories;
-        this.#categoriesLoaded.next();
-        this.#categoriesLoaded.complete();
+    this.form.patchValue({
+      period: this.periods.find((v) => v.value === period),
+      category: this.categories?.find((v) => v.id === category),
+      order: this.order.find((v) => v.value === order),
+      type: {
+        income: type.income,
+        expense: type.expense,
       },
     });
-
-    // Type validation
-    combineLatest([
-      this.form.controls.income.valueChanges,
-      this.form.controls.expense.valueChanges,
-    ])
-      .pipe(distinctUntilChanged((a, b) => isEqual(a, b)))
-      .subscribe({
-        next: ([income, expense]) => {
-          if (!income && !expense) {
-            this.form.controls.income.setValidators([Validators.requiredTrue]);
-            this.form.controls.expense.setValidators([Validators.requiredTrue]);
-          } else {
-            this.form.controls.income.clearValidators();
-            this.form.controls.expense.clearValidators();
-          }
-
-          this.form.controls.income.updateValueAndValidity();
-          this.form.controls.expense.updateValueAndValidity();
-        },
-      });
   }
 
   onSubmit(): void {
-    this.form.updateValueAndValidity();
-
     if (this.form.invalid) {
       return;
     }
 
-    const filterOptions: any = {};
+    const value = this.form.value;
 
-    const { value } = this.form;
+    const filterOptions: MovementFilter = {
+      period: value.period.value,
+      category: value.category?.id,
+      order: value.order.value,
+      type: value.type,
+    };
 
-    filterOptions.period = value.period.value;
-
-    if (value.category.id) {
-      filterOptions.category = value.category.id;
-    }
-
-    filterOptions.order = value.order.value;
-
-    const type = [];
-
-    if (value.income) {
-      type.push('income');
-    }
-
-    if (value.expense) {
-      type.push('expense');
-    }
-
-    if (!!type.length) {
-      filterOptions.type = type.join(',');
-    }
-
-    this.dialogRef.close(filterOptions as MovementFilter);
-  }
-
-  compare(t1: any, t2: any): boolean {
-    return t1?.id === t2?.id;
+    this.dialogRef.close(filterOptions);
   }
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  compare(t1: any, t2: any): boolean {
+    return t1?.id === t2?.id;
   }
 }

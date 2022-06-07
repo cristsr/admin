@@ -24,10 +24,14 @@ export interface MovementFilter {
   period: Period;
   order: MovementOrder;
   category?: number;
-  type?: string;
+  type?: {
+    income: boolean;
+    expense: boolean;
+  };
 }
 
-export interface MovementQuery extends MovementFilter {
+export interface MovementQuery extends Omit<MovementFilter, 'type'> {
+  type: string;
   date: string;
 }
 
