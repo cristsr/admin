@@ -37,7 +37,6 @@ export class SummaryComponent implements OnInit {
   expenses: Expenses;
   categoryExpenses: CategoryExpense[];
   lastMovements: Movement[];
-
   #unsubscribeAll = new Subject<void>();
 
   constructor(
@@ -153,7 +152,7 @@ export class SummaryComponent implements OnInit {
         this.balance = data.balance;
         this.expenses = data.expenses;
         this.lastMovements = data.movements;
-        this.updatePieChart();
+        this.updatePieChart().then();
         this.cd.detectChanges();
       },
     });
@@ -194,9 +193,9 @@ export class SummaryComponent implements OnInit {
     });
   }
 
-  changeExpenseView(view: 'daily' | 'weekly' | 'monthly'): void {
+  changeExpenseView(view: ExpensePeriod): void {
     this.expensePeriod = view;
-    this.updatePieChart();
+    this.updatePieChart().then();
     this.cd.detectChanges();
   }
 
