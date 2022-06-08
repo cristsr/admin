@@ -2,14 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { pluck, Subject, takeUntil, merge } from 'rxjs';
+import { Subject, takeUntil, merge } from 'rxjs';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
-import { EventEmitter2 } from 'eventemitter2';
-import { Events } from 'layout/constants';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import {
   Balance,
   CategoryExpense,
@@ -20,6 +20,8 @@ import {
   Summary,
 } from 'modules/finances/types';
 import { SummaryService } from 'modules/finances/services';
+import { EventEmitterService } from 'core/services';
+import { MovementFormComponent } from 'modules/finances/components';
 
 @Component({
   selector: 'app-summary',
@@ -27,7 +29,7 @@ import { SummaryService } from 'modules/finances/services';
   styleUrls: ['./summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   @ViewChild('expenseChart') pieChartRef: ChartComponent;
 
   pieOptions: ApexOptions;
@@ -40,17 +42,32 @@ export class SummaryComponent implements OnInit {
   #unsubscribeAll = new Subject<void>();
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private summaryService: SummaryService,
-    private eventEmitter: EventEmitter2,
     private cd: ChangeDetectorRef,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private bottomSheet: MatBottomSheet,
+    private emitter: EventEmitterService,
+    private summaryService: SummaryService,
   ) {}
 
   ngOnInit(): void {
+    const { data } = this.activatedRoute.snapshot.data;
     this.setupPieChart();
+    this.setupProperties(data);
     this.setupObservers();
-    this.setupListeners();
+  }
+
+  ngOnDestroy(): void {
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
+  }
+
+  setupProperties(data: Summary) {
+    this.balance = data.balance;
+    this.expenses = data.expenses;
+    this.lastMovements = data.movements;
+    this.updatePieChart().then();
+    this.cd.detectChanges();
   }
 
   setupPieChart(): void {
@@ -140,31 +157,26 @@ export class SummaryComponent implements OnInit {
   }
 
   setupObservers(): void {
-    // Merge observables into one
-    const summarySource = merge(
-      this.activatedRoute.data.pipe(pluck('data')),
-      this.summaryService.summary(),
-    ).pipe(takeUntil(this.#unsubscribeAll));
+    // Subscribe to summary data when reload is requested
+    this.summaryService
+      .summary()
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (data: Summary) => {
+          console.log('[SummaryComponent] data', data);
+          this.setupProperties(data);
+        },
+      });
 
-    // Subscribe to summary data when data is resolved or updated
-    summarySource.subscribe({
-      next: (data: Summary) => {
-        console.log('Summary data', data);
-        this.balance = data.balance;
-        this.expenses = data.expenses;
-        this.lastMovements = data.movements;
-        this.updatePieChart().then();
-        this.cd.detectChanges();
-      },
-    });
-  }
-
-  setupListeners(): void {
-    // Fetch data again
-    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
-      console.log('Fetching data again');
-      this.summaryService.next();
-    });
+    merge(
+      this.emitter.on('movement:created'),
+      this.emitter.on('movement:updated'),
+    )
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe(() => {
+        console.log('[SummaryComponent] fetching data again');
+        this.summaryService.next();
+      });
   }
 
   async updatePieChart(): Promise<void> {
@@ -205,6 +217,15 @@ export class SummaryComponent implements OnInit {
       queryParams: {
         category: data.category.id,
         period: this.expensePeriod,
+      },
+    });
+  }
+
+  showMovementDetail(movement: Movement): void {
+    this.bottomSheet.open(MovementFormComponent, {
+      data: {
+        action: 'read',
+        movement,
       },
     });
   }

@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DateTime, Interval } from 'luxon';
 import { formatInterval } from 'core/utils';
 import { Budget, BudgetDetail, Movement } from 'modules/finances/types';
@@ -14,7 +16,9 @@ import {
   MovementFormComponent,
 } from 'modules/finances/components';
 import { BudgetService } from 'modules/finances/services';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EventEmitterService } from 'core/services';
+import { merge, Subject, takeUntil } from 'rxjs';
+import { NavService } from 'layout/services';
 
 @Component({
   selector: 'app-budget-detail',
@@ -22,17 +26,20 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./budget-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetDetailComponent implements OnInit {
+export class BudgetDetailComponent implements OnInit, OnDestroy {
   budget: Budget;
   movements: Movement[];
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
     private cd: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
-    private budgetService: BudgetService,
     private router: Router,
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
+    private navService: NavService,
+    private emitter: EventEmitterService,
+    private budgetService: BudgetService,
   ) {}
 
   ngOnInit(): void {
@@ -40,13 +47,28 @@ export class BudgetDetailComponent implements OnInit {
     this.budget = data.budget;
     this.movements = data.movements;
     this.cd.detectChanges();
+    this.setupObservers();
+
+    this.navService.nextConfig({});
   }
 
-  formatInterval(): string {
-    const start = DateTime.fromISO(this.budget.startDate);
-    const end = DateTime.fromISO(this.budget.endDate);
-    const interval = Interval.fromDateTimes(start, end);
-    return formatInterval(interval);
+  ngOnDestroy(): void {
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
+  }
+
+  setupObservers(): void {
+    merge(
+      this.emitter.on('movement:created'),
+      this.emitter.on('movement:updated'),
+    )
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (data: Movement) => {
+          this.budgetService.patchBudget(data);
+          this.getBudgetMovements();
+        },
+      });
   }
 
   showMovementDetail(movement: Movement): void {
@@ -96,6 +118,13 @@ export class BudgetDetailComponent implements OnInit {
         this.cd.detectChanges();
       },
     });
+  }
+
+  formatInterval(): string {
+    const start = DateTime.fromISO(this.budget.startDate);
+    const end = DateTime.fromISO(this.budget.endDate);
+    const interval = Interval.fromDateTimes(start, end);
+    return formatInterval(interval);
   }
 
   deleteBudget(): void {

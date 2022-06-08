@@ -247,7 +247,7 @@ export class MovementFilterComponent implements OnInit {
 
     const filterOptions: MovementFilter = {
       period: value.period.value,
-      category: value.category?.id,
+      category: value.category?.id ?? null,
       order: value.order.value,
       type: value.type,
     };

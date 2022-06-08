@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { EventEmitter2 } from 'eventemitter2';
 import { Submenu } from 'layout/types';
 import { Events } from 'layout/constants';
+import { EventEmitterService } from 'core/services';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -47,9 +47,9 @@ export class BottomNavComponent {
   @Input() submenu: Submenu[];
   @Output() submenuChanges = new EventEmitter<Submenu>();
 
-  constructor(private eventEmitter: EventEmitter2) {}
+  constructor(private emitter: EventEmitterService) {}
 
   dispatchAction(action: Submenu): void {
-    this.eventEmitter.emit(Events.BOTTOM_NAV_ACTION, action);
+    this.emitter.emit(Events.BOTTOM_NAV_ACTION, action);
   }
 }

@@ -88,7 +88,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
     this.navService.config.subscribe({
       next: (config: NavConfig) => {
         this.navConfig = config;
-        console.log('navConfig', this.navConfig);
+        // console.log('navConfig', this.navConfig);
         this.cd.detectChanges();
       },
     });

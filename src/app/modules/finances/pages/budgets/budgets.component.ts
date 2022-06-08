@@ -8,7 +8,7 @@ import {
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BudgetFormComponent } from 'modules/finances/components/budget-form';
 import { BudgetService } from 'modules/finances/services';
-import { Budget, Movement } from 'modules/finances/types';
+import { Budget, BudgetAverage } from 'modules/finances/types';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -18,8 +18,8 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetsComponent implements OnInit, OnDestroy {
+  average: BudgetAverage;
   budgets: Budget[];
-  movements: Movement[];
   #unsubscribeAll = new Subject<void>();
 
   constructor(
@@ -45,6 +45,13 @@ export class BudgetsComponent implements OnInit, OnDestroy {
         this.budgets = budgets;
         this.cd.detectChanges();
       });
+
+    this.budgetService.average.pipe(takeUntil(this.#unsubscribeAll)).subscribe({
+      next: (data: BudgetAverage) => {
+        console.log('average', data);
+        this.average = data;
+      },
+    });
   }
 
   openBudgetForm(): void {

@@ -73,31 +73,30 @@ import { Menu } from 'layout/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements Panable {
-  showSidebar = false;
-  isMobile: boolean;
-  horizontalPaning: boolean;
-  previousDelta: number;
-  private panVelocity = 1.5;
-  private cancelAnimations = new Subject<void>();
+  @ViewChild('container', { static: true }) container: ElementRef;
 
   @Input() menu: Menu[];
   @Output() menuChanges = new EventEmitter<Menu>();
 
-  @ViewChild('container', { static: true }) container: ElementRef;
+  showSidebar = false;
+  horizontalPaning: boolean;
+  previousDelta: number;
+  #panVelocity = 1.5;
+  #cancelAnimations = new Subject<void>();
 
   get range(): number {
-    return this._range;
+    return this.#range;
   }
   set range(value: number) {
     if (value < 0) {
-      this._range = 0;
+      this.#range = 0;
     } else if (value > 100) {
-      this._range = 100;
+      this.#range = 100;
     } else {
-      this._range = value;
+      this.#range = value;
     }
   }
-  private _range = 0;
+  #range = 0;
 
   constructor(
     @Inject(WINDOW) private window: Window,
@@ -204,19 +203,25 @@ export class SidebarComponent implements Panable {
 
     this.previousDelta = event.deltaX;
 
+    if (isRight(event.direction)) {
+      if (this.range < 5) {
+        return;
+      }
+    }
+
     this.render();
   }
 
   normalizeDelta(delta: number): number {
-    const result = (delta / this.window.innerWidth) * this.panVelocity;
+    const result = (delta / this.window.innerWidth) * this.#panVelocity;
     return result * 100;
   }
 
   animateSidebar(start: number, end: number, duration = 100): void {
-    this.cancelAnimations.next();
+    this.#cancelAnimations.next();
 
     translateAnimationFrame(start, end, duration)
-      .pipe(takeUntil(this.cancelAnimations))
+      .pipe(takeUntil(this.#cancelAnimations))
       .subscribe((x) => this.handleTranslateAnimation(x));
   }
 

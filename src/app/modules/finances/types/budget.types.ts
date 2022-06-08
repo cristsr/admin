@@ -34,3 +34,9 @@ export interface BudgetFormData {
   action: BudgetActions;
   budget?: Budget;
 }
+
+export interface BudgetAverage {
+  percentage: number;
+  spent: number;
+  total: number;
+}
