@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { pluck, Subject, takeUntil, merge } from 'rxjs';
 import { ApexOptions, ChartComponent } from 'ng-apexcharts';
 import { EventEmitter2 } from 'eventemitter2';
@@ -32,12 +32,11 @@ export class SummaryComponent implements OnInit {
 
   pieOptions: ApexOptions;
   chartOptions: ApexOptions;
-  expensePeriod: ExpensePeriod = 'daily';
+  expensePeriod: ExpensePeriod = 'day';
   balance: Balance;
   expenses: Expenses;
   categoryExpenses: CategoryExpense[];
   lastMovements: Movement[];
-
   #unsubscribeAll = new Subject<void>();
 
   constructor(
@@ -45,6 +44,7 @@ export class SummaryComponent implements OnInit {
     private summaryService: SummaryService,
     private eventEmitter: EventEmitter2,
     private cd: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -153,7 +153,7 @@ export class SummaryComponent implements OnInit {
         this.balance = data.balance;
         this.expenses = data.expenses;
         this.lastMovements = data.movements;
-        this.updatePieChart();
+        this.updatePieChart().then();
         this.cd.detectChanges();
       },
     });
@@ -194,14 +194,19 @@ export class SummaryComponent implements OnInit {
     });
   }
 
-  changeExpenseView(view: 'daily' | 'weekly' | 'monthly'): void {
+  changeExpenseView(view: ExpensePeriod): void {
     this.expensePeriod = view;
-    this.updatePieChart();
+    this.updatePieChart().then();
     this.cd.detectChanges();
   }
 
-  showCategoryMovements(i: CategoryExpense) {
-    return;
+  showCategoryMovements(data: CategoryExpense) {
+    this.router.navigate(['/finances/movements'], {
+      queryParams: {
+        category: data.category.id,
+        period: this.expensePeriod,
+      },
+    });
   }
 
   configureBar(): void {

@@ -6,7 +6,7 @@
           <mat-icon>navigate_before</mat-icon>
         </button>
       </div>
-      <div class="text-sm font-medium">{{ dateLabel }}</div>
+      <div class="text-sm font-medium" (click)="onReset()">{{ dateLabel }}</div>
       <div class="flex justify-end">
         <button mat-icon-button aria-label="next" (click)="onNext()">
           <mat-icon>navigate_next</mat-icon>

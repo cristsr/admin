@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Period, Movement, MovementFilter } from 'modules/finances/types';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { filter, merge, pluck, Subject, takeUntil } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MovementService } from 'modules/finances/services';
 import {
@@ -28,6 +28,7 @@ import { NavService } from 'layout/services';
 import { MatDialog } from '@angular/material/dialog';
 import { EventEmitter2 } from 'eventemitter2';
 import { Events } from 'layout/constants';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-movements',
@@ -36,31 +37,28 @@ import { Events } from 'layout/constants';
 })
 export class MovementsComponent implements OnInit, OnDestroy {
   movements: Movement[];
-  period: Period = 'week';
+  period: Period = 'day';
   dateIndex = 0;
   date: string;
   dateLabel: string;
 
-  filterOptions: MovementFilter = {
-    period: 'week',
-    order: 'date',
-    type: 'income,expense',
-  };
+  filterOptions: MovementFilter;
 
-  private unsubscribeAll = new Subject<void>();
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private movementService: MovementService,
+    private activatedRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef,
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
-    private navService: NavService,
     private eventEmitter: EventEmitter2,
+    private navService: NavService,
+    private movementService: MovementService,
   ) {}
 
   ngOnInit(): void {
     this.setupObservers();
-    this.fetchMovements();
+    this.setupListeners();
 
     this.navService.nextConfig({
       buttons: [
@@ -71,59 +69,57 @@ export class MovementsComponent implements OnInit, OnDestroy {
       ],
     });
 
-    this.changeDetectorRef.detectChanges();
+    this.cd.detectChanges();
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
     // Remove buttons from nav
-    this.navService.nextConfig({
-      buttons: [],
-    });
+    this.navService.nextConfig({ buttons: [] });
   }
 
   setupObservers(): void {
-    this.movementService.movements
-      .pipe(takeUntil(this.unsubscribeAll))
+    this.activatedRoute.data
+      .pipe(pluck('data', 'filterOptions'), takeUntil(this.#unsubscribeAll))
       .subscribe({
-        next: (response: Movement[]) => {
-          this.movements = response;
-          this.changeDetectorRef.detectChanges();
-          console.log(this.movements);
+        next: (data: MovementFilter) => {
+          console.log('[MovementsComponent] filterOptions', data);
+          this.filterOptions = data;
+          this.period = data.period;
+          this.updateDate();
         },
       });
 
+    const movements = merge(
+      this.activatedRoute.data.pipe(pluck('data', 'movements')),
+      this.movementService.movements,
+    );
+
+    movements.pipe(takeUntil(this.#unsubscribeAll)).subscribe({
+      next: (response: Movement[]) => {
+        this.movements = response;
+        this.cd.detectChanges();
+        console.log('[MovementsComponent] movements', this.movements);
+      },
+    });
+
     this.navService.action
       .pipe(
-        takeUntil(this.unsubscribeAll),
+        takeUntil(this.#unsubscribeAll),
         filter((action) => action === 'filter'),
       )
       .subscribe(() => {
         this.showMovementFilter();
       });
-
-    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
-      // If movement was created, fetch movements again
-      this.fetchMovements();
-    });
   }
 
-  showMovementDetail(movement: Movement): void {
-    this.bottomSheet
-      .open(MovementFormComponent, {
-        data: {
-          action: 'read',
-          movement,
-        },
-      })
-      .afterDismissed()
-      .subscribe((result) => {
-        // If movement was updated, fetch movements again
-        if (result) {
-          this.fetchMovements();
-        }
-      });
+  setupListeners() {
+    this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
+      // If movement was created, fetch movements again
+      this.updateDate();
+      this.fetchMovements();
+    });
   }
 
   showMovementFilter(): void {
@@ -143,35 +139,69 @@ export class MovementsComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.filterOptions = filterOptions;
+        console.log('filterOptions', filterOptions);
 
-        console.log(this.filterOptions);
-
-        if (!this.filterOptions.period) {
-          return;
-        }
         this.dateIndex = 0;
-        this.period = this.filterOptions.period;
+        this.filterOptions = filterOptions;
+        this.period = filterOptions.period;
+        this.updateDate();
         this.fetchMovements();
-        this.changeDetectorRef.detectChanges();
+        this.cd.detectChanges();
+      });
+  }
+
+  showMovementDetail(movement: Movement): void {
+    this.bottomSheet
+      .open(MovementFormComponent, {
+        data: {
+          action: 'read',
+          movement,
+        },
+      })
+      .afterDismissed()
+      .subscribe({
+        next: (result) => {
+          // If movement was updated, fetch movements again
+          if (result) {
+            this.updateDate();
+            this.fetchMovements();
+          }
+        },
       });
   }
 
   fetchMovements(): void {
-    this.updateDate();
-    this.movementService.fetch({
+    const type = Object.entries(this.filterOptions.type)
+      .filter(([, value]) => value)
+      .map(([key]) => key)
+      .join(',');
+
+    this.movementService.next({
       ...this.filterOptions,
       date: this.date,
+      type,
     });
   }
 
   onBefore(): void {
     this.dateIndex--;
+    this.updateDate();
     this.fetchMovements();
   }
 
   onNext(): void {
     this.dateIndex++;
+    this.updateDate();
+    this.fetchMovements();
+  }
+
+  onReset(): void {
+    if (this.dateIndex === 0) {
+      return;
+    }
+
+    this.dateIndex = 0;
+    this.updateDate();
     this.fetchMovements();
   }
 

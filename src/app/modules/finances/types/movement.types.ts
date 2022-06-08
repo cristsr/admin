@@ -1,4 +1,5 @@
 import { Category, Subcategory } from './category.types';
+import { ExpensePeriod } from 'modules/finances/types/summary.types';
 
 export type MovementType = 'income' | 'expense';
 
@@ -23,11 +24,15 @@ export interface UpdateMovement extends Partial<CreateMovement> {}
 export interface MovementFilter {
   period: Period;
   order: MovementOrder;
-  category?: number;
-  type?: string;
+  category?: number | null;
+  type?: {
+    income: boolean;
+    expense: boolean;
+  };
 }
 
-export interface MovementQuery extends MovementFilter {
+export interface MovementQuery extends Omit<MovementFilter, 'type'> {
+  type: string;
   date: string;
 }
 
@@ -46,4 +51,9 @@ export type MovementOrder = 'date' | 'amount';
 export interface MovementFormData {
   action: MovementFormAction;
   movement?: Movement;
+}
+
+export interface MovementParams {
+  category: number;
+  period: ExpensePeriod;
 }

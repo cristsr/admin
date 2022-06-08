@@ -45,9 +45,9 @@
     <div class="flex justify-between">
       <div class="text-lg font-medium pb-2 md:pb-0">
         <ng-container [ngSwitch]="expensePeriod">
-          <span *ngSwitchCase="'daily'">Gastos Diarios</span>
-          <span *ngSwitchCase="'weekly'">Gastos Semanales</span>
-          <span *ngSwitchCase="'monthly'">Gastos Mensuales</span>
+          <span *ngSwitchCase="'day'">Gastos Diarios</span>
+          <span *ngSwitchCase="'week'">Gastos Semanales</span>
+          <span *ngSwitchCase="'month'">Gastos Mensuales</span>
         </ng-container>
       </div>
       <div class="ml-2 -mt-2 -mr-3">
@@ -59,15 +59,15 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="changeExpenseView('daily')">
+          <button mat-menu-item (click)="changeExpenseView('day')">
             <mat-icon>today</mat-icon>
             <span>Diario</span>
           </button>
-          <button mat-menu-item (click)="changeExpenseView('weekly')">
+          <button mat-menu-item (click)="changeExpenseView('week')">
             <mat-icon>date_range</mat-icon>
             <span>Semanal</span>
           </button>
-          <button mat-menu-item (click)="changeExpenseView('monthly')">
+          <button mat-menu-item (click)="changeExpenseView('month')">
             <mat-icon>calendar_month</mat-icon>
             <span>Mensual</span>
           </button>
@@ -97,14 +97,14 @@
 
     <div class="flex flex-col gap-2">
       <app-list-item
-        *ngFor="let category of categoryExpenses; index as i"
-        [icon-color]="category.color"
-        [icon]="category.icon"
-        [title]="category.name"
-        [subtitle]="'$' + (category.amount | number)"
-        [value]="category.percentage + '%'"
+        *ngFor="let expense of categoryExpenses"
+        [icon-color]="expense.category.color"
+        [icon]="expense.category.icon"
+        [title]="expense.category.name"
+        [subtitle]="'$' + (expense.amount | number)"
+        [value]="expense.percentage + '%'"
         value-color="purple-500"
-        (click)="showCategoryMovements(category)"
+        (click)="showCategoryMovements(expense)"
       ></app-list-item>
     </div>
   </div>
