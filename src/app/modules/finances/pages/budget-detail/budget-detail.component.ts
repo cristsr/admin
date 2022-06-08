@@ -18,7 +18,6 @@ import {
 import { BudgetService } from 'modules/finances/services';
 import { EventEmitterService } from 'core/services';
 import { merge, Subject, takeUntil } from 'rxjs';
-import { NavService } from 'layout/services';
 
 @Component({
   selector: 'app-budget-detail',
@@ -37,7 +36,6 @@ export class BudgetDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
-    private navService: NavService,
     private emitter: EventEmitterService,
     private budgetService: BudgetService,
   ) {}
@@ -48,8 +46,6 @@ export class BudgetDetailComponent implements OnInit, OnDestroy {
     this.movements = data.movements;
     this.cd.detectChanges();
     this.setupObservers();
-
-    this.navService.nextConfig({});
   }
 
   ngOnDestroy(): void {

@@ -2,24 +2,21 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 
-import { DOCUMENT } from '@angular/common';
-import { WINDOW } from 'core/config';
-import { Submenu, Menu, NavMainAction, NavConfig } from 'layout/types';
+import { Submenu, Menu } from 'layout/types';
 import { Subject } from 'rxjs';
-import { SidebarComponent } from 'layout/components';
 import { LayoutMenu } from 'layout/layout.config';
-import { NavService } from 'layout/services';
+import { EventEmitterService } from 'core/services';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-default-layout',
   template: `
-    <div appPan [target]="sidebar">
+    <!-- Container -->
+    <div appPan [target]="sidebar" class="flex flex-col">
       <!-- Sidebar -->
       <app-sidebar
         [menu]="menu"
@@ -27,32 +24,18 @@ import { NavService } from 'layout/services';
         #sidebar
       ></app-sidebar>
 
+      <!-- Content -->
       <div class="w-screen h-screen flex flex-col box-content">
         <!-- Navbar -->
+        <app-nav class="flex-none"></app-nav>
 
-        <app-nav
-          class="flex-none"
-          [title]="navConfig.title"
-          [icon]="navConfig.icon"
-          [action]="navConfig.action"
-          [buttons]="navConfig.buttons"
-          (actionChanges)="navMainAction($event)"
-          (buttonChanges)="navAction($event)"
-        >
-        </app-nav>
-
+        <!-- Router outlet -->
         <div class="bg-[#EDEDF5] overflow-hidden grow">
           <router-outlet></router-outlet>
         </div>
 
         <!-- BottomNav -->
-        <app-bottom-nav
-          *ngIf="showBottomNav"
-          class="flex-none"
-          linkActiveClass="text-blue-500"
-          [submenu]="submenu"
-        >
-        </app-bottom-nav>
+        <app-bottom-nav class="flex-none" [submenu]="submenu"></app-bottom-nav>
       </div>
     </div>
   `,
@@ -62,21 +45,12 @@ import { NavService } from 'layout/services';
 export class DefaultLayoutComponent implements OnInit, OnDestroy {
   menu: Menu[] = LayoutMenu;
   submenu: Submenu[];
-  navConfig: NavConfig;
-
-  private unsubscribeAll = new Subject<void>();
-
-  @ViewChild(SidebarComponent) sidebar: SidebarComponent;
-
-  get showBottomNav(): boolean {
-    return true;
-  }
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
-    @Inject(WINDOW) private window: Window,
-    @Inject(DOCUMENT) private document: Document,
+    private activatedRoute: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private navService: NavService,
+    private emitter: EventEmitterService,
   ) {}
 
   ngOnInit(): void {
@@ -85,11 +59,9 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
-    this.navService.config.subscribe({
-      next: (config: NavConfig) => {
-        this.navConfig = config;
-        // console.log('navConfig', this.navConfig);
-        this.cd.detectChanges();
+    this.activatedRoute.data.subscribe({
+      next: (data) => {
+        console.log('[DefaultLayoutComponent] data', data);
       },
     });
   }
@@ -103,36 +75,19 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
 
     this.submenu = defaultMenu.submenu;
 
-    // Update title
-    this.navService.nextConfig({
-      title: defaultMenu.title,
-    });
+    // Hack to update title
+    setTimeout(() => {
+      this.emitter.emit('nav:title', defaultMenu.title);
+    }, 0);
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
   }
 
   selectMenu(menu: Menu): void {
     this.submenu = menu.submenu;
-    this.navConfig.title = menu.title;
-
-    // Update title
-    this.navService.nextConfig({
-      title: menu.title,
-    });
-  }
-
-  navMainAction(action: NavMainAction): void {
-    console.log(action);
-    if (action === 'toggle') {
-      this.sidebar.toggleSidebar();
-    }
-    this.navService.nextMainAction(action);
-  }
-
-  navAction(action: string): void {
-    this.navService.nextAction(action);
+    this.emitter.emit('nav:title', menu.title);
   }
 }

@@ -6,15 +6,17 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnInit,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { WINDOW } from 'core/config';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { translateAnimationFrame } from 'core/utils';
 import { Menu } from 'layout/types';
+import { EventEmitterService } from 'core/services';
 
 @Component({
   selector: 'app-sidebar',
@@ -65,14 +67,15 @@ import { Menu } from 'layout/types';
     <!-- overlay -->
     <div
       *ngIf="showSidebar"
-      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-[2000]"
+      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] absolute z-[2000]"
+      [style.opacity]="range / 100"
       (click)="hideSidebar()"
     ></div>
   `,
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements Panable {
+export class SidebarComponent implements Panable, OnInit {
   @ViewChild('container', { static: true }) container: ElementRef;
 
   @Input() menu: Menu[];
@@ -102,7 +105,17 @@ export class SidebarComponent implements Panable {
     @Inject(WINDOW) private window: Window,
     private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
+    private emitter: EventEmitterService,
   ) {}
+
+  ngOnInit(): void {
+    this.emitter
+      .on('nav:main:click')
+      .pipe(filter((type) => type === 'toggle'))
+      .subscribe(() => {
+        this.toggleSidebar();
+      });
+  }
 
   onLinkClick(menu: Menu): void {
     this.menuChanges.next(menu);

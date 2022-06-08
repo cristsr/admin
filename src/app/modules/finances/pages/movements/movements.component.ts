@@ -24,7 +24,6 @@ import {
   formatInterval,
 } from 'core/utils';
 import { capitalize, isEqual } from 'lodash-es';
-import { NavService } from 'layout/services';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EventEmitterService } from 'core/services';
@@ -49,30 +48,24 @@ export class MovementsComponent implements OnInit, OnDestroy {
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
     private emitter: EventEmitterService,
-    private navService: NavService,
     private movementService: MovementService,
   ) {}
 
   ngOnInit(): void {
     this.setupProperties();
     this.setupObservers();
-    this.navService.nextConfig({
-      buttons: [
-        {
-          tag: 'filter',
-          icon: 'filter_list',
-        },
-      ],
-    });
-
-    this.cd.detectChanges();
+    this.emitter.emit('nav:buttons', [
+      {
+        tag: 'filter',
+        icon: 'filter_list',
+      },
+    ]);
   }
 
   ngOnDestroy(): void {
     this.#unsubscribeAll.next();
     this.#unsubscribeAll.complete();
-    // Remove buttons from nav
-    this.navService.nextConfig({ buttons: [] });
+    this.emitter.emit('nav:buttons', []);
   }
 
   setupProperties(): void {
@@ -108,16 +101,15 @@ export class MovementsComponent implements OnInit, OnDestroy {
         },
       });
 
-    // Subscribe to nav actions
-    this.navService.action
+    // Subscribe to nav button actions
+    this.emitter
+      .on('nav:button:click')
       .pipe(
         takeUntil(this.#unsubscribeAll),
-        filter((action) => action === 'filter'),
+        filter((tag) => tag === 'filter'),
       )
-      .subscribe({
-        next: () => {
-          this.showMovementFilter();
-        },
+      .subscribe(() => {
+        this.showMovementFilter();
       });
   }
 

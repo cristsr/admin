@@ -15,10 +15,10 @@ export interface NavConfig {
   icon?: string;
   action?: NavMainAction;
   title?: string;
-  buttons?: NavButtons[];
+  buttons?: NavButton[];
 }
 
-export interface NavButtons {
+export interface NavButton {
   icon: string;
   tag: string;
 }
