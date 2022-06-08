@@ -34,7 +34,7 @@ export class SummaryService {
     return this.#fetch.pipe(switchMap(() => this.fetchSummary()));
   }
 
-  next(): any {
+  next(): void {
     this.#fetch.next();
   }
 
@@ -63,8 +63,10 @@ export class SummaryService {
           // Reduce each categoryExpense
           (state, expense) => {
             state.series.push(expense.amount);
-            state.labels.push(expense.name);
-            state.colors.push(this.colorService.classToHex(expense.color));
+            state.labels.push(expense.category.name);
+            state.colors.push(
+              this.colorService.classToHex(expense.category.color),
+            );
             return state;
           },
           // Initial state

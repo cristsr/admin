@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Period, Movement, MovementFilter } from 'modules/finances/types';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { filter, merge, pluck, Subject, takeUntil } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MovementService } from 'modules/finances/services';
 import {
@@ -42,15 +42,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
   date: string;
   dateLabel: string;
 
-  filterOptions: MovementFilter = {
-    period: 'day',
-    order: 'date',
-    category: null,
-    type: {
-      income: true,
-      expense: true,
-    },
-  };
+  filterOptions: MovementFilter;
 
   #unsubscribeAll = new Subject<void>();
 
@@ -67,7 +59,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setupObservers();
     this.setupListeners();
-    this.fetchMovements();
 
     this.navService.nextConfig({
       buttons: [
@@ -89,15 +80,29 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
-    this.movementService.movements
-      .pipe(takeUntil(this.#unsubscribeAll))
+    this.activatedRoute.data
+      .pipe(pluck('data', 'filterOptions'), takeUntil(this.#unsubscribeAll))
       .subscribe({
-        next: (response: Movement[]) => {
-          this.movements = response;
-          this.cd.detectChanges();
-          console.log(this.movements);
+        next: (data: MovementFilter) => {
+          console.log('[MovementsComponent] filterOptions', data);
+          this.filterOptions = data;
+          this.period = data.period;
+          this.updateDate();
         },
       });
+
+    const movements = merge(
+      this.activatedRoute.data.pipe(pluck('data', 'movements')),
+      this.movementService.movements,
+    );
+
+    movements.pipe(takeUntil(this.#unsubscribeAll)).subscribe({
+      next: (response: Movement[]) => {
+        this.movements = response;
+        this.cd.detectChanges();
+        console.log('[MovementsComponent] movements', this.movements);
+      },
+    });
 
     this.navService.action
       .pipe(
@@ -112,6 +117,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
   setupListeners() {
     this.eventEmitter.on(Events.BOTTOM_NAV_ACTION_DONE, () => {
       // If movement was created, fetch movements again
+      this.updateDate();
       this.fetchMovements();
     });
   }
@@ -133,16 +139,12 @@ export class MovementsComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.filterOptions = filterOptions;
-
-        console.log(this.filterOptions);
-
-        if (!this.filterOptions.period) {
-          return;
-        }
+        console.log('filterOptions', filterOptions);
 
         this.dateIndex = 0;
-        this.period = this.filterOptions.period;
+        this.filterOptions = filterOptions;
+        this.period = filterOptions.period;
+        this.updateDate();
         this.fetchMovements();
         this.cd.detectChanges();
       });
@@ -161,6 +163,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
         next: (result) => {
           // If movement was updated, fetch movements again
           if (result) {
+            this.updateDate();
             this.fetchMovements();
           }
         },
@@ -168,14 +171,12 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   fetchMovements(): void {
-    this.updateDate();
-
     const type = Object.entries(this.filterOptions.type)
       .filter(([, value]) => value)
       .map(([key]) => key)
       .join(',');
 
-    this.movementService.fetch({
+    this.movementService.next({
       ...this.filterOptions,
       date: this.date,
       type,
@@ -184,11 +185,13 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
   onBefore(): void {
     this.dateIndex--;
+    this.updateDate();
     this.fetchMovements();
   }
 
   onNext(): void {
     this.dateIndex++;
+    this.updateDate();
     this.fetchMovements();
   }
 
@@ -198,6 +201,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     }
 
     this.dateIndex = 0;
+    this.updateDate();
     this.fetchMovements();
   }
 

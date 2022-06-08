@@ -198,6 +198,14 @@ export class MovementFilterComponent implements OnInit {
     this.categoryService.categories.subscribe({
       next: (data: Category[]) => {
         this.categories = data;
+
+        if (this.form.get('category').value) {
+          return;
+        }
+        // Fill category
+        this.form
+          .get('category')
+          .patchValue(data.find((v) => v.id === this.data.category));
       },
     });
 

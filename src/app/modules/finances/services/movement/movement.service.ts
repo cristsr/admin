@@ -17,11 +17,11 @@ export class MovementService {
   constructor(private movementRepository: MovementRepository) {}
 
   get movements(): Observable<Movement[]> {
-    return this.#query.pipe(
-      switchMap((query) => {
-        return this.movementRepository.getAll(query);
-      }),
-    );
+    return this.#query.pipe(switchMap((query) => this.fetchMovements(query)));
+  }
+
+  fetchMovements(query: MovementQuery): Observable<Movement[]> {
+    return this.movementRepository.getAll(query);
   }
 
   create(movement: CreateMovement): Observable<any> {
@@ -32,7 +32,7 @@ export class MovementService {
     return this.movementRepository.update(id, movement);
   }
 
-  fetch(query: MovementQuery): void {
+  next(query: MovementQuery): void {
     this.#query.next(query);
   }
 }

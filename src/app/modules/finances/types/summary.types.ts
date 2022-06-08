@@ -1,6 +1,7 @@
 import { Movement } from 'modules/finances/types/movement.types';
+import { Category } from 'modules/finances/types/category.types';
 
-export type ExpensePeriod = 'daily' | 'weekly' | 'monthly';
+export type ExpensePeriod = 'day' | 'week' | 'month';
 
 export interface Balance {
   balance: number;
@@ -12,10 +13,8 @@ export interface Balance {
 
 export interface CategoryExpense {
   amount: number;
-  name: string;
-  color: string;
-  icon: string;
   percentage: number;
+  category: Omit<Category, 'subcategories'>;
 }
 
 export type ExpensesRaw = {
