@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, switchMap, tap } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 import {
   CreateMovement,
   Movement,
@@ -7,7 +7,6 @@ import {
   UpdateMovement,
 } from 'modules/finances/types';
 import { MovementRepository } from 'modules/finances/repositories';
-import { BudgetService } from 'modules/finances/services';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +14,7 @@ import { BudgetService } from 'modules/finances/services';
 export class MovementService {
   #query = new Subject<MovementQuery>();
 
-  constructor(
-    private movementRepository: MovementRepository,
-    private budgetService: BudgetService,
-  ) {}
+  constructor(private movementRepository: MovementRepository) {}
 
   get movements(): Observable<Movement[]> {
     return this.#query.pipe(switchMap((query) => this.fetchMovements(query)));
@@ -29,19 +25,11 @@ export class MovementService {
   }
 
   create(movement: CreateMovement): Observable<Movement> {
-    return this.movementRepository.create(movement).pipe(
-      tap((movement) => {
-        this.budgetService.patchBudget(movement);
-      }),
-    );
+    return this.movementRepository.create(movement);
   }
 
   update(id: number, movement: UpdateMovement): Observable<Movement> {
-    return this.movementRepository.update(id, movement).pipe(
-      tap((movement) => {
-        this.budgetService.patchBudget(movement);
-      }),
-    );
+    return this.movementRepository.update(id, movement);
   }
 
   next(query: MovementQuery): void {

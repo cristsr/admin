@@ -11,20 +11,20 @@
 
     <div class="flex flex-col pt-4">
       <app-progress
-        [progress]="average.percentage"
+        [progress]="average?.percentage"
         color="bg-indigo-400"
       ></app-progress>
       <div class="flex justify-between pt-4">
         <div class="text-sm font-medium">
           Gastado:
           <div class="text-indigo-400 inline">
-            ${{ average.spent | thousandSuffix }}
+            ${{ average?.spent | thousandSuffix }}
           </div>
         </div>
         <div class="text-sm font-medium">
           Total:
           <div class="text-green-400 inline">
-            ${{ average.total | thousandSuffix }}
+            ${{ average?.total | thousandSuffix }}
           </div>
         </div>
       </div>

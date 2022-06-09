@@ -69,15 +69,9 @@ export class BudgetService {
   }
 
   getBudgetById(id: number): Observable<Budget> {
-    // Return from cache if available
-    if (this.#budgets.value) {
-      return this.budgets.pipe(
-        map((budgets) => budgets.find((b) => b.id === id)),
-      );
-    }
-
-    // Otherwise, fetch from server
-    return this.budgetRepository.getOne(id);
+    return this.budgetRepository
+      .getOne(id)
+      .pipe(updateArrayItem(this.#budgets));
   }
 
   getBudgetMovements(budgetId: number): Observable<Movement[]> {
@@ -99,11 +93,6 @@ export class BudgetService {
       return;
     }
 
-    const spent = budget.spent + movement.amount;
-
-    budget.spent = spent;
-    budget.percentage = Math.round((spent / budget.amount) * 100);
-
-    this.#budgets.next(value);
+    this.getBudgetById(budget.id).subscribe();
   }
 }

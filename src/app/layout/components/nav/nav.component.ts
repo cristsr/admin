@@ -25,7 +25,9 @@ import { EventEmitterService } from 'core/services';
       <div>
         <ng-container *ngFor="let button of buttons">
           <button mat-icon-button (click)="buttonClick(button)">
-            <mat-icon>{{ button.icon }}</mat-icon>
+            <mat-icon class="material-icons-outlined">
+              {{ button.icon }}
+            </mat-icon>
           </button>
         </ng-container>
       </div>
@@ -52,9 +54,23 @@ export class NavComponent implements OnInit {
     console.log('[NavComponent] setupObservers');
 
     this.emitter.on('nav:main').subscribe({
-      next: ({ icon, action }) => {
-        icon && (this.icon = icon);
-        action && (this.action = action);
+      next: (type: NavMainAction) => {
+        if (type === 'toggle') {
+          this.action = 'toggle';
+          this.icon = 'menu';
+          this.cd.detectChanges();
+          return;
+        }
+
+        if (type === 'back') {
+          this.action = 'back';
+          this.icon = 'arrow_back';
+          this.cd.detectChanges();
+          return;
+        }
+
+        this.action = 'close';
+        this.icon = 'close';
         this.cd.detectChanges();
       },
     });
