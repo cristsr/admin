@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { BudgetRepository } from 'modules/finances/repositories';
 import {
   Budget,
+  BudgetAverage,
   CreateBudget,
   Movement,
   UpdateBudget,
@@ -18,16 +19,35 @@ import {
   providedIn: 'root',
 })
 export class BudgetService {
-  #budgets = new BehaviorSubject<Budget[] | null>(null);
+  #budgets = new BehaviorSubject<Budget[]>(null);
 
   constructor(private budgetRepository: BudgetRepository) {}
 
   get budgets(): Observable<Budget[]> {
     if (!this.#budgets.value) {
-      return this.budgetRepository.getAll().pipe(setArrayItems(this.#budgets));
+      return this.budgetRepository.getAll().pipe(
+        setArrayItems(this.#budgets),
+        switchMap(() => this.#budgets.asObservable()),
+      );
     }
 
     return this.#budgets.asObservable();
+  }
+
+  get average(): Observable<BudgetAverage> {
+    return this.budgets.pipe(
+      map((budgets) => {
+        const total = budgets.reduce((acc, budget) => acc + budget.amount, 0);
+        const spent = budgets.reduce((acc, budget) => acc + budget.spent, 0);
+        const percentage = Math.round((spent / total) * 100);
+
+        return {
+          percentage,
+          spent,
+          total,
+        };
+      }),
+    );
   }
 
   create(budget: CreateBudget): Observable<Budget> {
@@ -49,18 +69,30 @@ export class BudgetService {
   }
 
   getBudgetById(id: number): Observable<Budget> {
-    // Return from cache if available
-    if (this.#budgets.value) {
-      return this.budgets.pipe(
-        map((budgets) => budgets.find((b) => b.id === id)),
-      );
-    }
-
-    // Otherwise fetch from server
-    return this.budgetRepository.getOne(id);
+    return this.budgetRepository
+      .getOne(id)
+      .pipe(updateArrayItem(this.#budgets));
   }
 
   getBudgetMovements(budgetId: number): Observable<Movement[]> {
     return this.budgetRepository.movements(budgetId);
+  }
+
+  patchBudget(movement: Movement): void {
+    const value = this.#budgets.value;
+
+    if (!value) {
+      return;
+    }
+
+    const budget = value.find(
+      (b: Budget) => b.category.id === movement.category.id,
+    );
+
+    if (!budget) {
+      return;
+    }
+
+    this.getBudgetById(budget.id).subscribe();
   }
 }

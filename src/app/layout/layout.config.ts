@@ -1,4 +1,4 @@
-import { Menu, NavConfig } from 'layout/types';
+import { Menu } from 'layout/types';
 
 export const LayoutMenu: Menu[] = [
   {
@@ -85,10 +85,3 @@ export const LayoutMenu: Menu[] = [
     url: 'settings',
   },
 ];
-
-export const NavbarConfig: NavConfig = {
-  title: 'Admin',
-  icon: 'menu',
-  action: 'toggle',
-  buttons: [],
-};

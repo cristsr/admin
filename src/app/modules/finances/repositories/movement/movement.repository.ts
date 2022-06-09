@@ -20,8 +20,8 @@ export class MovementRepository {
     this.apiUrl = config.get(ENV.FINANCES_API) + 'movements/';
   }
 
-  create(movement: CreateMovement): Observable<any> {
-    return this.http.post(this.apiUrl, movement);
+  create(movement: CreateMovement): Observable<Movement> {
+    return this.http.post<Movement>(this.apiUrl, movement);
   }
 
   getAll(query: MovementQuery): Observable<Movement[]> {

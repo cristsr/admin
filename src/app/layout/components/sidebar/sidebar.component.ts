@@ -6,15 +6,17 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnInit,
   Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { WINDOW } from 'core/config';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { translateAnimationFrame } from 'core/utils';
 import { Menu } from 'layout/types';
+import { EventEmitterService } from 'core/services';
 
 @Component({
   selector: 'app-sidebar',
@@ -65,45 +67,55 @@ import { Menu } from 'layout/types';
     <!-- overlay -->
     <div
       *ngIf="showSidebar"
-      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] opacity-75 absolute z-[2000]"
+      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] absolute z-[2000]"
+      [style.opacity]="range / 100"
       (click)="hideSidebar()"
     ></div>
   `,
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements Panable {
-  showSidebar = false;
-  isMobile: boolean;
-  horizontalPaning: boolean;
-  previousDelta: number;
-  private panVelocity = 1.5;
-  private cancelAnimations = new Subject<void>();
+export class SidebarComponent implements Panable, OnInit {
+  @ViewChild('container', { static: true }) container: ElementRef;
 
   @Input() menu: Menu[];
   @Output() menuChanges = new EventEmitter<Menu>();
 
-  @ViewChild('container', { static: true }) container: ElementRef;
+  showSidebar = false;
+  horizontalPaning: boolean;
+  previousDelta: number;
+  #panVelocity = 1.5;
+  #cancelAnimations = new Subject<void>();
 
   get range(): number {
-    return this._range;
+    return this.#range;
   }
   set range(value: number) {
     if (value < 0) {
-      this._range = 0;
+      this.#range = 0;
     } else if (value > 100) {
-      this._range = 100;
+      this.#range = 100;
     } else {
-      this._range = value;
+      this.#range = value;
     }
   }
-  private _range = 0;
+  #range = 0;
 
   constructor(
     @Inject(WINDOW) private window: Window,
     private renderer: Renderer2,
     private changeDetectorRef: ChangeDetectorRef,
+    private emitter: EventEmitterService,
   ) {}
+
+  ngOnInit(): void {
+    this.emitter
+      .on('nav:main:click')
+      .pipe(filter((type) => type === 'toggle'))
+      .subscribe(() => {
+        this.toggleSidebar();
+      });
+  }
 
   onLinkClick(menu: Menu): void {
     this.menuChanges.next(menu);
@@ -204,19 +216,25 @@ export class SidebarComponent implements Panable {
 
     this.previousDelta = event.deltaX;
 
+    if (isRight(event.direction)) {
+      if (this.range < 5) {
+        return;
+      }
+    }
+
     this.render();
   }
 
   normalizeDelta(delta: number): number {
-    const result = (delta / this.window.innerWidth) * this.panVelocity;
+    const result = (delta / this.window.innerWidth) * this.#panVelocity;
     return result * 100;
   }
 
   animateSidebar(start: number, end: number, duration = 100): void {
-    this.cancelAnimations.next();
+    this.#cancelAnimations.next();
 
     translateAnimationFrame(start, end, duration)
-      .pipe(takeUntil(this.cancelAnimations))
+      .pipe(takeUntil(this.#cancelAnimations))
       .subscribe((x) => this.handleTranslateAnimation(x));
   }
 

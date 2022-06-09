@@ -1,4 +1,4 @@
-import { Injector, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -12,8 +12,7 @@ import { WINDOW } from 'core/config';
 import { ConfigModule } from 'core/services/config';
 import { validator } from 'environment';
 
-import { ThemeService } from 'core/services/theme/theme.service';
-import { EventEmitter2 } from 'eventemitter2';
+import { ThemeService } from 'core/services';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,19 +39,7 @@ import { EventEmitter2 } from 'eventemitter2';
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig,
     },
-    {
-      provide: EventEmitter2,
-      useValue: new EventEmitter2({
-        wildcard: true,
-      }),
-    },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  static injector: Injector;
-
-  constructor(injector: Injector) {
-    AppModule.injector = injector;
-  }
-}
+export class AppModule {}

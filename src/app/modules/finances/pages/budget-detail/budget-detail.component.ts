@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DateTime, Interval } from 'luxon';
 import { formatInterval } from 'core/utils';
 import { Budget, BudgetDetail, Movement } from 'modules/finances/types';
@@ -14,7 +16,8 @@ import {
   MovementFormComponent,
 } from 'modules/finances/components';
 import { BudgetService } from 'modules/finances/services';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EventEmitterService } from 'core/services';
+import { filter, first, merge, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-budget-detail',
@@ -22,40 +25,119 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./budget-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BudgetDetailComponent implements OnInit {
+export class BudgetDetailComponent implements OnInit, OnDestroy {
   budget: Budget;
   movements: Movement[];
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
     private cd: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
-    private budgetService: BudgetService,
     private router: Router,
     private bottomSheet: MatBottomSheet,
     private dialog: MatDialog,
+    private emitter: EventEmitterService,
+    private budgetService: BudgetService,
   ) {}
 
   ngOnInit(): void {
+    this.setupProperties();
+    this.setupObservers();
+  }
+
+  ngOnDestroy(): void {
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
+    this.emitter.emit('nav:buttons', []);
+    this.emitter.emit('nav:main', 'toggle');
+  }
+
+  setupProperties(): void {
     const data: BudgetDetail = this.activatedRoute.snapshot.data.data;
     this.budget = data.budget;
     this.movements = data.movements;
+    this.emitter.emit('nav:main', 'back');
+    // Set nav buttons
+    this.emitter.emit('nav:buttons', [
+      {
+        tag: 'delete',
+        icon: 'remove_circle_outline',
+      },
+      {
+        tag: 'update',
+        icon: 'edit',
+      },
+    ]);
     this.cd.detectChanges();
   }
 
-  formatInterval(): string {
-    const start = DateTime.fromISO(this.budget.startDate);
-    const end = DateTime.fromISO(this.budget.endDate);
-    const interval = Interval.fromDateTimes(start, end);
-    return formatInterval(interval);
+  setupObservers(): void {
+    merge(
+      this.emitter.on('movement:created'),
+      this.emitter.on('movement:updated'),
+    )
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: () => {
+          this.getBudget();
+          this.getBudgetMovements();
+        },
+      });
+
+    // Subscribe to nav buttons clicks
+    this.emitter
+      .on('nav:button:click')
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (tag: string) => {
+          if (tag === 'update') {
+            this.updateBudget();
+          }
+
+          if (tag === 'delete') {
+            this.deleteBudget();
+          }
+        },
+      });
+
+    // Back to budgets list
+    this.emitter
+      .on('nav:main:click')
+      .pipe(
+        takeUntil(this.#unsubscribeAll),
+        filter((action) => action === 'back'),
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['./finances/budgets']);
+        },
+      });
   }
 
-  showMovementDetail(movement: Movement): void {
-    this.bottomSheet.open(MovementFormComponent, {
-      data: {
-        action: 'read',
-        movement,
-      },
-    });
+  getBudget(): void {
+    const id = this.budget.id;
+    this.budgetService
+      .getBudgetById(id)
+      .pipe(first())
+      .subscribe({
+        next: (budget: Budget) => {
+          this.budget = budget;
+          this.cd.detectChanges();
+        },
+      });
+  }
+
+  getBudgetMovements(): void {
+    const id = this.budget.id;
+    this.budgetService
+      .getBudgetMovements(id)
+      .pipe(first())
+      .subscribe({
+        next: (movements: Movement[]) => {
+          this.movements = movements;
+          this.cd.detectChanges();
+        },
+      });
   }
 
   updateBudget(): void {
@@ -67,13 +149,9 @@ export class BudgetDetailComponent implements OnInit {
         },
       })
       .afterDismissed()
+      .pipe(filter((result) => !!result))
       .subscribe({
         next: (result: Budget | null) => {
-          // Do nothing if result is null
-          if (!result) {
-            return;
-          }
-
           // If category is different, then reload movements
           if (this.budget.category.id !== result.category.id) {
             this.budget = result;
@@ -81,21 +159,11 @@ export class BudgetDetailComponent implements OnInit {
             return;
           }
 
+          // If category is the same, then update budget
           this.budget = result;
           this.cd.detectChanges();
         },
       });
-  }
-
-  getBudgetMovements(): void {
-    const id = this.budget.id;
-
-    this.budgetService.getBudgetMovements(id).subscribe({
-      next: (movements: Movement[]) => {
-        this.movements = movements;
-        this.cd.detectChanges();
-      },
-    });
   }
 
   deleteBudget(): void {
@@ -115,6 +183,22 @@ export class BudgetDetailComponent implements OnInit {
           });
         },
       });
+  }
+
+  showMovementDetail(movement: Movement): void {
+    this.bottomSheet.open(MovementFormComponent, {
+      data: {
+        action: 'read',
+        movement,
+      },
+    });
+  }
+
+  formatInterval(): string {
+    const start = DateTime.fromISO(this.budget.startDate);
+    const end = DateTime.fromISO(this.budget.endDate);
+    const interval = Interval.fromDateTimes(start, end);
+    return formatInterval(interval);
   }
 }
 

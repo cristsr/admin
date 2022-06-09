@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY ./ /app/
 
-RUN npm install ci
+RUN npm install ci --force
 
 ARG configuration=production
 

@@ -24,11 +24,11 @@ export class MovementService {
     return this.movementRepository.getAll(query);
   }
 
-  create(movement: CreateMovement): Observable<any> {
+  create(movement: CreateMovement): Observable<Movement> {
     return this.movementRepository.create(movement);
   }
 
-  update(id: number, movement: UpdateMovement): Observable<any> {
+  update(id: number, movement: UpdateMovement): Observable<Movement> {
     return this.movementRepository.update(id, movement);
   }
 

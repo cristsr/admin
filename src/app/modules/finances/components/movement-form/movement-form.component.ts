@@ -21,6 +21,7 @@ import {
   MovementFormAction,
 } from 'modules/finances/types';
 import { Subject, takeUntil } from 'rxjs';
+import { EventEmitterService } from 'core/services';
 
 @Component({
   selector: 'app-movement-form',
@@ -45,9 +46,10 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: UntypedFormBuilder,
+    private bottomSheetRef: MatBottomSheetRef,
+    private emitter: EventEmitterService,
     private categoryService: CategoryService,
     private movementService: MovementService,
-    private bottomSheetRef: MatBottomSheetRef,
     @Inject(MAT_BOTTOM_SHEET_DATA)
     private data: MovementFormData | null,
   ) {}
@@ -194,8 +196,9 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
   createMovement(movement: CreateMovement): void {
     this.movementService.create(movement).subscribe({
-      next: () => {
-        this.bottomSheetRef.dismiss('create');
+      next: (data: Movement) => {
+        this.bottomSheetRef.dismiss();
+        this.emitter.emit('movement:created', data);
       },
       error: (err) => {
         alert('Error al crear el movimiento');
@@ -208,8 +211,9 @@ export class MovementFormComponent implements OnInit, OnDestroy {
     const id = this.movement.id;
 
     this.movementService.update(id, movement).subscribe({
-      next: () => {
-        this.bottomSheetRef.dismiss('update');
+      next: (data: Movement) => {
+        this.bottomSheetRef.dismiss();
+        this.emitter.emit('movement:updated', data);
       },
       error: (err) => {
         alert('Error al actualizar el movimiento');

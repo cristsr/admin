@@ -126,6 +126,7 @@
         [subtitle]="movement.category?.name"
         [value]="'$' + (movement.amount | number)"
         [value-color]="movement.type === 'income' ? 'green-500' : 'red-500'"
+        (click)="showMovementDetail(movement)"
       >
       </app-list-item>
     </div>

@@ -8,8 +8,9 @@ import {
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BudgetFormComponent } from 'modules/finances/components/budget-form';
 import { BudgetService } from 'modules/finances/services';
-import { Budget, Movement } from 'modules/finances/types';
+import { Budget, BudgetAverage, Movement } from 'modules/finances/types';
 import { Subject, takeUntil } from 'rxjs';
+import { EventEmitterService } from 'core/services';
 
 @Component({
   selector: 'app-budgets',
@@ -18,14 +19,15 @@ import { Subject, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetsComponent implements OnInit, OnDestroy {
+  average: BudgetAverage;
   budgets: Budget[];
-  movements: Movement[];
   #unsubscribeAll = new Subject<void>();
 
   constructor(
-    private budgetService: BudgetService,
     private bottomSheet: MatBottomSheet,
     private cd: ChangeDetectorRef,
+    private emitter: EventEmitterService,
+    private budgetService: BudgetService,
   ) {}
 
   ngOnInit(): void {
@@ -38,13 +40,28 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
+    this.emitter
+      .on('movement:created')
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (data: Movement) => {
+          this.budgetService.patchBudget(data);
+        },
+      });
+
     this.budgetService.budgets
       .pipe(takeUntil(this.#unsubscribeAll))
       .subscribe((budgets: Budget[]) => {
-        console.log('budgets', budgets);
         this.budgets = budgets;
         this.cd.detectChanges();
       });
+
+    this.budgetService.average.pipe(takeUntil(this.#unsubscribeAll)).subscribe({
+      next: (data: BudgetAverage) => {
+        this.average = data;
+        this.cd.detectChanges();
+      },
+    });
   }
 
   openBudgetForm(): void {
