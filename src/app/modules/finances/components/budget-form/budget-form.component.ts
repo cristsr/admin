@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
 export class BudgetFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
   action: BudgetActions = 'create';
-  appearance: MatFormFieldAppearance = 'standard';
+  appearance: MatFormFieldAppearance = 'outline';
   categories: Category[];
   tittle = {
     create: 'Crear presupuesto',

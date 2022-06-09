@@ -1,5 +1,5 @@
-<div class="flex flex-col p-4">
-  <div class="flex pb-4 items-center justify-between">
+<div class="flex flex-col p-4 gap-2">
+  <div class="flex items-center justify-between text-stone-600 h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons-outlined"
         >account_balance_wallet</mat-icon
@@ -9,13 +9,13 @@
   </div>
 
   <form
-    class="flex flex-col w-full gap-2"
+    class="flex flex-col w-full gap-2 pt-2"
     [formGroup]="form"
     (submit)="onSubmit()"
   >
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Categoría</mat-label>
-      <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
+      <mat-icon matPrefix class="text-blue-600 mr-2">category</mat-icon>
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
           {{
@@ -33,7 +33,7 @@
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix class="text-purple-600 mr-2">
+      <mat-icon matPrefix class="text-blue-600 mr-2">
         drive_file_rename_outline
       </mat-icon>
       <mat-label>Nombre</mat-label>
@@ -41,7 +41,7 @@
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix class="text-purple-600 mr-2">attach_money</mat-icon>
+      <mat-icon matPrefix class="text-blue-600 mr-2">attach_money</mat-icon>
       <mat-label>Total</mat-label>
       <input
         matInput
@@ -73,7 +73,7 @@
       </button>
 
       <button
-        class="mt-2 w-full bg-purple-500 p-2 rounded flex justify-center items-center text-white"
+        class="mt-2 w-full bg-blue-500 p-2 rounded flex justify-center items-center text-white"
         mat-ripple
       >
         <mat-icon matPrefix class="mr-2"> save </mat-icon>
