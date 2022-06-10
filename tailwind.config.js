@@ -1,10 +1,4 @@
 const colors = require('tailwindcss/colors');
-const { guessProductionMode } = require('@ngneat/tailwind');
-
-process.env.TAILWIND_MODE = guessProductionMode() ? 'build' : 'watch';
-
-console.log(`Running Tailwind in ${process.env.TAILWIND_MODE} mode`);
-
 const mapColors = Object.keys(colors).join('|');
 
 module.exports = {
