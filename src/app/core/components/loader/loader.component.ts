@@ -24,7 +24,6 @@ export class LoaderComponent implements OnInit {
       .on('loader:show')
       .pipe(distinctUntilChanged())
       .subscribe((show: boolean) => {
-        console.log('[LoaderComponent] Update loader state', show);
         this.show = show;
       });
   }
