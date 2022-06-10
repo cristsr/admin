@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { filter, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { EventEmitterService } from 'core/services';
 import { Events } from 'layout/constants';
-import { Submenu } from 'layout/types';
 import { MovementFormComponent } from 'modules/finances/components';
 
 @Component({
@@ -23,12 +22,11 @@ export class FinancesComponent implements OnInit, OnDestroy {
       .on(Events.BOTTOM_NAV_ACTION)
       .pipe(
         takeUntil(this.#unsubscribeAll),
-        filter((action: Submenu) => action.tag === 'add-movement'),
-        switchMap(() => this.openBottomSheet()),
+        filter((tag) => tag === 'add-movement'),
       )
       .subscribe({
-        next: (result) => {
-          console.log('[FinancesComponent] afterDismissed result', result);
+        next: () => {
+          this.bottomSheet.open(MovementFormComponent);
         },
       });
   }
@@ -36,9 +34,5 @@ export class FinancesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.#unsubscribeAll.next();
     this.#unsubscribeAll.complete();
-  }
-
-  openBottomSheet(): Observable<any> {
-    return this.bottomSheet.open(MovementFormComponent).afterDismissed();
   }
 }

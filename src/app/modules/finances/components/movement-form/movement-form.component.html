@@ -1,27 +1,29 @@
-<div class="flex flex-col p-4">
-  <div class="flex pb-4 items-center justify-between">
+<div class="flex flex-col p-4 gap-2">
+  <div class="flex items-center justify-between text-stone-600 h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons">swap_vert</mat-icon>
       <div class="text-xl font-medium">{{ tittle[action] }}</div>
     </div>
 
-    <!--    <div class="text-xl font-medium">{{ tittle[action] }}</div>-->
-    <button
-      class="flex justify-center items-center w-8 h-8"
-      *ngIf="action === 'read'"
-      (click)="editMovement()"
-    >
+    <button *ngIf="action === 'read'" mat-icon-button (click)="editMovement()">
       <mat-icon>edit</mat-icon>
     </button>
+
+    <!--    <button-->
+    <!--      class="flex justify-center items-center w-8 h-8"-->
+    <!--      *ngIf="action === 'read'"-->
+    <!--    >-->
+    <!--      -->
+    <!--    </button>-->
   </div>
 
   <form
-    class="flex flex-col w-full gap-2 {{ form.get('type')?.value }}"
+    class="flex flex-col w-full gap {{ form.get('type')?.value }}"
     [formGroup]="form"
     (submit)="onSubmit()"
   >
     <!--Movement type-->
-    <div class="flex pt-2 pb-1.4 items-center">
+    <div class="flex pt-2 pb-3 items-center">
       <mat-icon class="text-{{ formColor }} mr-2">swap_vert</mat-icon>
       <div class="flex flex-col">
         <label class="pb-1 text-[14px] text-[rgba(0,0,0,.6)]">
@@ -126,10 +128,10 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="flex justify-end" *ngIf="action === 'read'">
+    <div class="flex gap-8 pt-1" *ngIf="action === 'read'">
       <button
         type="button"
-        class="mt-2 w-1/2 border border-neutral-400 p-2 rounded flex justify-center items-center text-neutral-500"
+        class="w-full border border-neutral-300 p-2 rounded flex justify-center items-center text-neutral-400"
         mat-ripple
         (click)="closeDialog()"
       >
@@ -138,12 +140,13 @@
         </mat-icon>
         <span>Cancelar</span>
       </button>
+      <div class="flex w-full"></div>
     </div>
 
-    <div class="flex gap-8" *ngIf="action !== 'read'">
+    <div class="flex gap-8 pt-1" *ngIf="action !== 'read'">
       <button
         type="button"
-        class="mt-2 w-full border border-neutral-500 p-2 rounded flex justify-center items-center text-neutral-500"
+        class="w-full border border-neutral-200 p-2 rounded flex justify-center items-center text-neutral-400"
         mat-ripple
         (click)="closeDialog()"
       >
@@ -154,7 +157,7 @@
       </button>
 
       <button
-        class="mt-2 w-full p-2 rounded flex justify-center items-center text-white bg-{{
+        class="w-full p-2 rounded flex justify-center items-center text-white bg-{{
           formColor
         }}"
         mat-ripple

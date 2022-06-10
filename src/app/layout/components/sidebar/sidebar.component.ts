@@ -67,7 +67,7 @@ import { EventEmitterService } from 'core/services';
     <!-- overlay -->
     <div
       *ngIf="showSidebar"
-      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] absolute z-[2000]"
+      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] z-[2000]"
       [style.opacity]="range / 100"
       (click)="hideSidebar()"
     ></div>

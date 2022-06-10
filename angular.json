@@ -37,11 +37,12 @@
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
             "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "extractLicenses": true,
+            "buildOptimizer": true,
+            "sourceMap": false,
+            "optimization": true,
+            "namedChunks": true,
+            "aot": true
           },
           "configurations": {
             "production": {

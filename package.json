@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
-    "build": "ng build -c production --aot=true --build-optimizer",
+    "build": "ng build -c production",
     "build:stats": "ng build -c production --aot=true --build-optimizer  --stats-json",
     "analyze": "webpack-bundle-analyzer dist/admin/stats.json",
     "sync": "npm run build && npx cap sync",
