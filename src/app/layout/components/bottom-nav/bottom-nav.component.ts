@@ -50,6 +50,6 @@ export class BottomNavComponent {
   constructor(private emitter: EventEmitterService) {}
 
   dispatchAction(action: Submenu): void {
-    this.emitter.emit(Events.BOTTOM_NAV_ACTION, action);
+    this.emitter.emit(Events.BOTTOM_NAV_ACTION, action.tag);
   }
 }

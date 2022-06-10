@@ -2,17 +2,16 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { validator } from 'environment';
+import { HammerConfig, WINDOW } from 'core/config';
+import { ConfigModule, ThemeService } from 'core/services';
+import { HttpInterceptor } from 'core/interceptors';
+import { LoaderModule } from 'core/components';
+import { LayoutModule } from 'layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutModule } from 'layout/layout.module';
-import { HammerConfig } from 'core/config';
-import { WINDOW } from 'core/config';
-import { ConfigModule } from 'core/services/config';
-import { validator } from 'environment';
-
-import { ThemeService } from 'core/services';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +27,7 @@ import { ThemeService } from 'core/services';
     NgApexchartsModule,
     BrowserAnimationsModule,
     LayoutModule,
+    LoaderModule,
   ],
   providers: [
     ThemeService,
@@ -38,6 +38,11 @@ import { ThemeService } from 'core/services';
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptor,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],
