@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-import { PanModule } from 'core/directives/pan/pan.module';
-
+import { PanModule } from 'core/directives';
+import { LoaderModule, AlertModule } from 'core/components';
 import { BottomNavModule, SidebarModule, NavModule } from 'layout/components';
 import { DefaultLayoutComponent } from './default.component';
 
@@ -16,6 +15,8 @@ import { DefaultLayoutComponent } from './default.component';
     NavModule,
     BottomNavModule,
     PanModule,
+    LoaderModule,
+    AlertModule,
   ],
   exports: [DefaultLayoutComponent],
 })

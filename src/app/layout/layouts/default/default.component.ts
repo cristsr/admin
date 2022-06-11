@@ -15,6 +15,13 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-default-layout',
   template: `
+    <!-- Progress bar Loader-->
+    <!--<div class="fixed w-full" *ngIf="showLoader">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>-->
+
+    <app-alert></app-alert>
+
     <!-- Container -->
     <div appPan [target]="sidebar" class="flex flex-col">
       <!-- Sidebar -->
@@ -46,6 +53,7 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   menu: Menu[] = LayoutMenu;
   submenu: Submenu[];
   #unsubscribeAll = new Subject<void>();
+  showLoader = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,6 +62,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('[DefaultLayoutComponent] ngOnInit');
+
     this.setupObservers();
     this.setupDefaultMenu();
   }

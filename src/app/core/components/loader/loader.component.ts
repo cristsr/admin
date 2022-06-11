@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { EventEmitterService } from 'core/services';
 import { distinctUntilChanged } from 'rxjs';
 
@@ -13,19 +18,26 @@ import { distinctUntilChanged } from 'rxjs';
     </div>
   `,
   styleUrls: ['./loader.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent implements OnInit {
   show = false;
 
-  constructor(private emitter: EventEmitterService) {}
+  constructor(
+    private cd: ChangeDetectorRef,
+    private emitter: EventEmitterService,
+  ) {}
 
   ngOnInit(): void {
+    console.log('[LoaderComponent] ngOnInit');
+
     this.emitter
       .on('loader:show')
       .pipe(distinctUntilChanged())
       .subscribe((show: boolean) => {
-        console.log('[LoaderComponent] Update loader state', show);
+        console.log('[LoaderComponent] loader:show', show);
         this.show = show;
+        this.cd.detectChanges();
       });
   }
 }

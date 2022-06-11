@@ -191,7 +191,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     if (!this.categoryExpenses.length) {
       await this.pieChartRef.updateOptions({
         series: [1],
-        labels: [],
+        labels: [''],
         colors: ['#e3e3e3'],
         stroke: { show: false },
       });
@@ -200,9 +200,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
     await this.pieChartRef.updateOptions({
       ...expense.chart,
-      stroke: {
-        show: true,
-      },
+      stroke: { show: true },
     });
   }
 
