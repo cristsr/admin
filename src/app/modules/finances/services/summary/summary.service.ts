@@ -23,6 +23,7 @@ export class SummaryService {
   ) {}
 
   fetchSummary(): Observable<Summary> {
+    console.log('[SummaryService] fetchSummary');
     return forkJoin({
       balance: this.balance(),
       movements: this.lastMovements(),

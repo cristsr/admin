@@ -15,6 +15,9 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-default-layout',
   template: `
+    <app-loader></app-loader>
+    <app-alert></app-alert>
+
     <!-- Container -->
     <div appPan [target]="sidebar" class="flex flex-col">
       <!-- Sidebar -->
@@ -54,6 +57,8 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('[DefaultLayoutComponent] ngOnInit');
+
     this.setupObservers();
     this.setupDefaultMenu();
   }
