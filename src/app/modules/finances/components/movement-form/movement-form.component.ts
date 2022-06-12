@@ -32,7 +32,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
   categories: Category[];
   subcategories: Subcategory[];
-  appearance: MatFormFieldAppearance = 'outline';
+  appearance: MatFormFieldAppearance = 'standard';
   action: MovementFormAction = 'create';
   movement: Movement;
   formColor: 'red-400' | 'blue-500' = 'red-400';

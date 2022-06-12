@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CapitalizeModule } from 'core/pipes/capitalize/capitalize.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [MovementFilterComponent],
@@ -24,6 +25,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CapitalizeModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatButtonModule,
   ],
 })
 export class MovementFilterModule {}

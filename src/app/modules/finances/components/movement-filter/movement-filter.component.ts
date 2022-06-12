@@ -30,7 +30,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <!--Period-->
         <mat-form-field [appearance]="appearance" floatLabel="auto">
           <mat-label>Periodo</mat-label>
-          <mat-icon matPrefix class="text-purple-600 mr-2">repeat</mat-icon>
+          <mat-icon matPrefix color="primary" class="mr-2">repeat</mat-icon>
           <mat-select formControlName="period" [compareWith]="compare">
             <mat-select-trigger>
               {{ form.get('period').value.label | capitalize }}
@@ -44,7 +44,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <!--Category-->
         <mat-form-field [appearance]="appearance" floatLabel="auto">
           <mat-label>Categoría</mat-label>
-          <mat-icon matPrefix class="text-purple-600 mr-2">category</mat-icon>
+          <mat-icon matPrefix color="primary" class="mr-2">category</mat-icon>
           <mat-select formControlName="category" [compareWith]="compare">
             <mat-select-trigger>
               {{ form.get('category').value?.name | capitalize }}
@@ -62,7 +62,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <!--Order-->
         <mat-form-field [appearance]="appearance" floatLabel="auto">
           <mat-label>Ordenar por</mat-label>
-          <mat-icon matPrefix class="text-purple-600 mr-2">sort</mat-icon>
+          <mat-icon matPrefix color="primary" class="mr-2">sort</mat-icon>
           <mat-select formControlName="order" [compareWith]="compare">
             <mat-select-trigger>
               {{ form.get('order').value?.label | capitalize }}
@@ -75,7 +75,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
         <!--Movement type-->
         <div class="flex p-1.4 items-center" formGroupName="type">
-          <mat-icon class="text-purple-600 mr-2">swap_vert</mat-icon>
+          <mat-icon color="primary" class="mr-2">swap_vert</mat-icon>
           <div class="flex flex-col">
             <label class="pb-1 text-sm text-[rgba(0,0,0,.8)]">
               Tipo de movimiento
@@ -95,21 +95,19 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
           </div>
         </div>
 
-        <div class="flex gap-8 pt-2">
+        <div class="flex gap-8 pt-4">
           <button
+            mat-stroked-button
+            color="accent"
             type="button"
-            class="mt-2 w-full border border-neutral-400 p-2 rounded flex justify-center items-center text-neutral-500"
-            mat-ripple
+            class="w-full"
             (click)="closeDialog()"
           >
             <mat-icon matPrefix class="mr-1">close</mat-icon>
             <span>Cancelar</span>
           </button>
 
-          <button
-            class="mt-2 w-full p-2 rounded flex justify-center items-center text-white bg-purple-500"
-            mat-ripple
-          >
+          <button mat-flat-button color="primary" class="w-full">
             <mat-icon matPrefix class="mr-1">save</mat-icon>
             <span>Aplicar</span>
           </button>
