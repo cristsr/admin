@@ -18,7 +18,7 @@
   </div>
 
   <form
-    class="flex flex-col w-full gap {{ form.get('type')?.value }}"
+    class="flex flex-col w-full gap-2 {{ form.get('type')?.value }}"
     [formGroup]="form"
     (submit)="onSubmit()"
   >
@@ -49,6 +49,7 @@
     <mat-form-field
       (click)="picker.open()"
       [appearance]="appearance"
+      color="accent"
       floatLabel="auto"
     >
       <mat-icon matPrefix class="text-{{ formColor }} mr-2">today</mat-icon>

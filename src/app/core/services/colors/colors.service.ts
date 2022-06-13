@@ -5,7 +5,9 @@ import * as Colors from 'tailwindcss/colors';
   providedIn: 'root',
 })
 export class ColorsService {
-  constructor() {}
+  constructor() {
+    console.log('ColorsService', Colors);
+  }
 
   classToHex(cssClass: string): string {
     const split = cssClass.split('-');
