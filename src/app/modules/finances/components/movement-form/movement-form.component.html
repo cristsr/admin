@@ -8,22 +8,15 @@
     <button *ngIf="action === 'read'" mat-icon-button (click)="editMovement()">
       <mat-icon>edit</mat-icon>
     </button>
-
-    <!--    <button-->
-    <!--      class="flex justify-center items-center w-8 h-8"-->
-    <!--      *ngIf="action === 'read'"-->
-    <!--    >-->
-    <!--      -->
-    <!--    </button>-->
   </div>
 
   <form
-    class="flex flex-col w-full gap-2 {{ form.get('type')?.value }}"
+    class="flex flex-col w-full gap {{ form.get('type')?.value }}"
     [formGroup]="form"
     (submit)="onSubmit()"
   >
     <!--Movement type-->
-    <div class="flex pt-2 pb-3 items-center">
+    <div class="flex pt-2 pb-2 items-center">
       <mat-icon class="text-{{ formColor }} mr-2">swap_vert</mat-icon>
       <div class="flex flex-col">
         <label class="pb-1 text-[14px] text-[rgba(0,0,0,.6)]">
@@ -49,7 +42,6 @@
     <mat-form-field
       (click)="picker.open()"
       [appearance]="appearance"
-      color="accent"
       floatLabel="auto"
     >
       <mat-icon matPrefix class="text-{{ formColor }} mr-2">today</mat-icon>
@@ -129,7 +121,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="flex gap-8 pt-1" *ngIf="action === 'read'">
+    <div class="flex gap-8" *ngIf="action === 'read'">
       <button
         type="button"
         class="w-full border border-neutral-300 p-2 rounded flex justify-center items-center text-neutral-400"
@@ -144,7 +136,7 @@
       <div class="flex w-full"></div>
     </div>
 
-    <div class="flex gap-8 pt-1" *ngIf="action !== 'read'">
+    <div class="flex gap-8" *ngIf="action !== 'read'">
       <button
         type="button"
         class="w-full border border-neutral-200 p-2 rounded flex justify-center items-center text-neutral-400"

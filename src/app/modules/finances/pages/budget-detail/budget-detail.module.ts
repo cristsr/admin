@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { ListItemModule, ProgressModule } from 'core/components';
 import { ThousandSuffixesModule } from 'core/pipes';
+import { ContentComponent } from 'layout/components';
 import {
   MovementListModule,
   MovementFormModule,
@@ -30,6 +31,7 @@ import { BudgetDetailRoutingModule } from './budget-detail-routing.module';
     ThousandSuffixesModule,
     MovementListModule,
     GroupMovementModule,
+    ContentComponent,
   ],
 })
 export class BudgetDetailModule {}

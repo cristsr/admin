@@ -44,6 +44,16 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'scheduled',
+        data: {
+          tag: 'scheduled',
+        },
+        loadChildren: () =>
+          import('./pages/scheduled/scheduled.module').then(
+            (m) => m.ScheduledModule,
+          ),
+      },
+      {
         path: '',
         redirectTo: 'summary',
         pathMatch: 'full',
