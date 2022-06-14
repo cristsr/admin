@@ -6,3 +6,5 @@ export * from './nav/nav.module';
 
 export * from './sidebar/sidebar.component';
 export * from './sidebar/sidebar.module';
+
+export * from './content/content.component';

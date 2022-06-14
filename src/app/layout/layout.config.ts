@@ -32,9 +32,9 @@ export const LayoutMenu: Menu[] = [
         url: 'finances/budgets',
       },
       {
-        icon: 'category',
-        title: 'Categorías',
-        url: 'finances/categories',
+        icon: 'schedule',
+        title: 'Programados',
+        url: 'finances/scheduled',
       },
     ],
   },

@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ListItemModule } from 'core/components';
 import { CapitalizeModule } from 'core/pipes';
+import { ContentComponent } from 'layout/components';
 import { MovementListModule } from 'modules/finances/components';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryComponent } from './summary.component';
@@ -24,6 +25,7 @@ import { SummaryComponent } from './summary.component';
     MovementListModule,
     ListItemModule,
     CapitalizeModule,
+    ContentComponent,
   ],
   providers: [DecimalPipe],
 })
