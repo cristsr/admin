@@ -8,6 +8,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BudgetFormComponent } from './budget-form.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [BudgetFormComponent],
@@ -20,6 +21,7 @@ import { BudgetFormComponent } from './budget-form.component';
     MatRippleModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatButtonModule,
   ],
 })
 export class BudgetFormModule {}
