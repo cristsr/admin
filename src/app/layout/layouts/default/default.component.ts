@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { Submenu, Menu } from 'layout/types';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { LayoutMenu } from 'layout/layout.config';
 import { EventEmitterService } from 'core/services';
 import { ActivatedRoute } from '@angular/router';
@@ -16,9 +16,9 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-default-layout',
   template: `
     <!-- Progress bar Loader-->
-    <!--<div class="fixed w-full" *ngIf="showLoader">
+    <div class="fixed w-full" *ngIf="showLoader">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>-->
+    </div>
 
     <app-alert></app-alert>
 
@@ -69,6 +69,16 @@ export class DefaultLayoutComponent implements OnInit, OnDestroy {
   }
 
   setupObservers(): void {
+    this.emitter
+      .on('loader:show')
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (show: boolean) => {
+          this.showLoader = show;
+          this.cd.detectChanges();
+        },
+      });
+
     this.activatedRoute.data.subscribe({
       next: (data) => {
         console.log('[DefaultLayoutComponent] data', data);

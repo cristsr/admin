@@ -10,18 +10,12 @@
     </button>
   </div>
 
-  <form
-    class="flex flex-col w-full gap {{ form.get('type')?.value }}"
-    [formGroup]="form"
-    (submit)="onSubmit()"
-  >
+  <form class="flex flex-col w-full" [formGroup]="form" (submit)="onSubmit()">
     <!--Movement type-->
-    <div class="flex pt-2 pb-2 items-center">
-      <mat-icon class="text-{{ formColor }} mr-2">swap_vert</mat-icon>
+    <div class="flex py-2 items-center">
+      <mat-icon color="primary" class="mr-2">swap_vert</mat-icon>
       <div class="flex flex-col">
-        <label class="pb-1 text-[14px] text-[rgba(0,0,0,.6)]">
-          Tipo de movimiento
-        </label>
+        <span class="text-[14px]"> Tipo de movimiento </span>
         <mat-radio-group
           aria-label="Select an option"
           class="flex my-2 gap-4"
@@ -44,7 +38,7 @@
       [appearance]="appearance"
       floatLabel="auto"
     >
-      <mat-icon matPrefix class="text-{{ formColor }} mr-2">today</mat-icon>
+      <mat-icon matPrefix color="primary" class="mr-2">today</mat-icon>
       <mat-label>Fecha</mat-label>
       <input
         matInput
@@ -60,14 +54,14 @@
     <!--Description-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Descripción</mat-label>
-      <mat-icon matPrefix class="text-{{ formColor }} mr-2">mode_edit</mat-icon>
+      <mat-icon matPrefix color="primary" class="mr-2">mode_edit</mat-icon>
       <input matInput formControlName="description" autocomplete="off" />
     </mat-form-field>
 
     <!--Amount-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Total</mat-label>
-      <mat-icon matPrefix class="text-{{ formColor }} mr-2 !focus:shadow-none">
+      <mat-icon matPrefix color="primary" class="mr-2 !focus:shadow-none">
         monetization_on
       </mat-icon>
       <input
@@ -81,7 +75,7 @@
     <!--Category-->
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Categoría</mat-label>
-      <mat-icon matPrefix class="text-{{ formColor }} mr-2">category</mat-icon>
+      <mat-icon matPrefix color="primary" class="mr-2">category</mat-icon>
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
           {{
@@ -104,7 +98,8 @@
       <mat-icon
         *ngIf="form.get('category').value"
         matPrefix
-        class="text-{{ formColor }} mr-2"
+        color="primary"
+        class="mr-2"
       >
         {{ form.get('category').value.icon }}
       </mat-icon>
@@ -121,7 +116,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div class="flex gap-8" *ngIf="action === 'read'">
+    <div class="flex gap-8 pt-3" *ngIf="action === 'read'">
       <button
         type="button"
         class="w-full border border-neutral-300 p-2 rounded flex justify-center items-center text-neutral-400"
@@ -136,11 +131,12 @@
       <div class="flex w-full"></div>
     </div>
 
-    <div class="flex gap-8" *ngIf="action !== 'read'">
+    <div class="flex gap-8 pt-3" *ngIf="action !== 'read'">
       <button
+        mat-stroked-button
+        color="accent"
         type="button"
         class="w-full border border-neutral-200 p-2 rounded flex justify-center items-center text-neutral-400"
-        mat-ripple
         (click)="closeDialog()"
       >
         <mat-icon matPrefix class="mr-1 material-icons-outlined">
@@ -150,10 +146,9 @@
       </button>
 
       <button
-        class="w-full p-2 rounded flex justify-center items-center text-white bg-{{
-          formColor
-        }}"
-        mat-ripple
+        mat-flat-button
+        color="primary"
+        class="w-full rounded flex justify-center items-center text-white"
       >
         <mat-icon matPrefix class="mr-1">save</mat-icon>
         <span>Guardar</span>

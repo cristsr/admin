@@ -5,6 +5,7 @@ import { PanModule } from 'core/directives';
 import { LoaderModule, AlertModule } from 'core/components';
 import { BottomNavModule, SidebarModule, NavModule } from 'layout/components';
 import { DefaultLayoutComponent } from './default.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [DefaultLayoutComponent],
@@ -17,6 +18,7 @@ import { DefaultLayoutComponent } from './default.component';
     PanModule,
     LoaderModule,
     AlertModule,
+    MatProgressBarModule,
   ],
   exports: [DefaultLayoutComponent],
 })
