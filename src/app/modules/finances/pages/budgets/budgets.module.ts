@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ProgressModule } from 'core/components';
+import { CardComponent, ProgressModule } from 'core/components';
 import { ContentComponent } from 'layout/components';
 import { BudgetFormModule } from 'modules/finances/components';
 import { ThousandSuffixesModule } from 'core/pipes';
@@ -24,6 +24,7 @@ import { BudgetsComponent } from './budgets.component';
     MatDialogModule,
     BudgetFormModule,
     ContentComponent,
+    CardComponent,
   ],
 })
 export class BudgetsModule {}

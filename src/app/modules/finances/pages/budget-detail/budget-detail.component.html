@@ -1,6 +1,6 @@
 <app-content>
   <!--Header-->
-  <div class="flex flex-col gap-4 rounded-xl shadow p-4 bg-white p-6">
+  <app-card>
     <!--Icon Title-->
     <div class="flex flex-col gap-4 items-center">
       <div
@@ -56,7 +56,7 @@
         <div>{{ formatInterval() }}</div>
       </div>
     </div>
-  </div>
+  </app-card>
 
   <div class="gap-4 rounded-xl px-6 py-4">
     <div class="text-lg font-medium flex items-center">
@@ -74,16 +74,13 @@
 
   <div class="grow flex flex-col rounded-xl gap-4">
     <ng-container *ngIf="!!movements?.length">
-      <div
-        class="flex flex-col rounded-xl shadow p-6 bg-white"
-        *ngFor="let item of movements | groupMovement"
-      >
+      <app-card *ngFor="let item of movements | groupMovement">
         <app-movement-list
           [groupMovement]="item"
           (movementClick)="showMovementDetail($event)"
         >
         </app-movement-list>
-      </div>
+      </app-card>
     </ng-container>
   </div>
 </app-content>

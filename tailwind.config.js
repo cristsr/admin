@@ -2,6 +2,7 @@ const colors = require('tailwindcss/colors');
 const mapColors = Object.keys(colors).join('|');
 
 module.exports = {
+  darkMode: 'class',
   content: ['./src/**/*.{html,ts,css,scss,sass}'],
   safelist: [
     {
