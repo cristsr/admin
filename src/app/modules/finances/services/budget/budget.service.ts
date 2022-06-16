@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
+import { Observable, share, Subject, switchMap, tap } from 'rxjs';
 import { BudgetRepository } from 'modules/finances/repositories';
 import {
   Budget,
@@ -8,91 +8,63 @@ import {
   Movement,
   UpdateBudget,
 } from 'modules/finances/types';
-import {
-  setArrayItems,
-  insertArrayItem,
-  removeArrayItem,
-  updateArrayItem,
-} from 'core/state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BudgetService {
-  #budgets = new BehaviorSubject<Budget[]>(null);
+  #fetch = new Subject<void>();
+  #average = new Subject<BudgetAverage>();
 
   constructor(private budgetRepository: BudgetRepository) {}
 
-  get budgets(): Observable<Budget[]> {
-    if (!this.#budgets.value) {
-      return this.budgetRepository.getAll().pipe(
-        setArrayItems(this.#budgets),
-        switchMap(() => this.#budgets.asObservable()),
-      );
-    }
+  next(): void {
+    this.#fetch.next();
+  }
 
-    return this.#budgets.asObservable();
+  get budgets(): Observable<Budget[]> {
+    return this.#fetch.pipe(switchMap(() => this.fetchBudgets()));
   }
 
   get average(): Observable<BudgetAverage> {
-    return this.budgets.pipe(
-      map((budgets) => {
-        const total = budgets.reduce((acc, budget) => acc + budget.amount, 0);
-        const spent = budgets.reduce((acc, budget) => acc + budget.spent, 0);
-        const percentage = Math.round((spent / total) * 100);
+    return this.#average.asObservable().pipe(share());
+  }
 
-        return {
-          percentage,
-          spent,
-          total,
-        };
-      }),
-    );
+  fetchBudgets(): Observable<Budget[]> {
+    return this.budgetRepository
+      .getAll()
+      .pipe(tap((budgets) => this.calculateAverage(budgets)));
   }
 
   create(budget: CreateBudget): Observable<Budget> {
-    return this.budgetRepository
-      .create(budget)
-      .pipe(insertArrayItem(this.#budgets));
+    return this.budgetRepository.create(budget);
   }
 
   update(id: number, budget: UpdateBudget): Observable<Budget> {
-    return this.budgetRepository
-      .update(id, budget)
-      .pipe(updateArrayItem(this.#budgets));
+    return this.budgetRepository.update(id, budget);
   }
 
   remove(id: number): Observable<number> {
-    return this.budgetRepository
-      .remove(id)
-      .pipe(removeArrayItem(this.#budgets));
+    return this.budgetRepository.remove(id);
   }
 
   getBudgetById(id: number): Observable<Budget> {
-    return this.budgetRepository
-      .getOne(id)
-      .pipe(updateArrayItem(this.#budgets));
+    return this.budgetRepository.getOne(id);
   }
 
   getBudgetMovements(budgetId: number): Observable<Movement[]> {
     return this.budgetRepository.movements(budgetId);
   }
 
-  patchBudget(movement: Movement): void {
-    const value = this.#budgets.value;
+  private calculateAverage(budgets: Budget[]): void {
+    const total = budgets.reduce((acc, budget) => acc + budget.amount, 0);
+    const spent = budgets.reduce((acc, budget) => acc + budget.spent, 0);
+    const percentage = Math.round((spent / total) * 100);
 
-    if (!value) {
-      return;
-    }
-
-    const budget = value.find(
-      (b: Budget) => b.category.id === movement.category.id,
-    );
-
-    if (!budget) {
-      return;
-    }
-
-    this.getBudgetById(budget.id).subscribe();
+    this.#average.next({
+      percentage,
+      spent,
+      total,
+    });
   }
 }

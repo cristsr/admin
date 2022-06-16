@@ -40,3 +40,8 @@ export interface BudgetAverage {
   spent: number;
   total: number;
 }
+
+export interface BudgetPage {
+  budgets: Budget[];
+  average: BudgetAverage;
+}
