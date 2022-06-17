@@ -17,12 +17,11 @@
       <div class="flex flex-col">
         <span class="text-[14px]"> Tipo de movimiento </span>
         <mat-radio-group
-          aria-label="Select an option"
           class="flex my-2 gap-4"
           color="primary"
           formControlName="type"
         >
-          <mat-radio-button class="mr-4 text-[rgba(0,0,0,.8)]" value="expense">
+          <mat-radio-button class="mr-4" value="expense">
             Gasto
           </mat-radio-button>
           <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">
@@ -118,8 +117,10 @@
 
     <div class="flex gap-8 pt-3" *ngIf="action === 'read'">
       <button
+        mat-stroked-button
+        color="accent"
         type="button"
-        class="w-full border border-neutral-300 p-2 rounded flex justify-center items-center text-neutral-400"
+        class="w-full"
         mat-ripple
         (click)="closeDialog()"
       >

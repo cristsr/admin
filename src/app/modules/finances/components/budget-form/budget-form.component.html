@@ -11,7 +11,7 @@
   <form class="flex flex-col w-full" [formGroup]="form" (submit)="onSubmit()">
     <mat-form-field [appearance]="appearance" floatLabel="auto">
       <mat-label>Categoría</mat-label>
-      <mat-icon matPrefix class="text-blue-600 mr-2">category</mat-icon>
+      <mat-icon matPrefix color="primary" class="mr-2">category</mat-icon>
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
           {{
@@ -29,7 +29,7 @@
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix class="text-blue-600 mr-2">
+      <mat-icon matPrefix color="primary" class="mr-2">
         drive_file_rename_outline
       </mat-icon>
       <mat-label>Nombre</mat-label>
@@ -37,7 +37,7 @@
     </mat-form-field>
 
     <mat-form-field [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix class="text-blue-600 mr-2">attach_money</mat-icon>
+      <mat-icon matPrefix color="primary" class="mr-2">attach_money</mat-icon>
       <mat-label>Total</mat-label>
       <input
         matInput
@@ -47,7 +47,7 @@
       />
     </mat-form-field>
 
-    <div class="flex py-3">
+    <div class="flex py-4">
       <mat-slide-toggle color="primary" formControlName="repeat">
         Repetir
       </mat-slide-toggle>

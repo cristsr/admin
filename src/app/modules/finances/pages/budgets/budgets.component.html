@@ -1,5 +1,6 @@
 <app-content>
-  <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
+  <app-card>
+    <!--    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">-->
     <div class="flex justify-between">
       <div class="text-lg font-medium">Presupuesto Total</div>
       <div class="ml-2 -mt-2 -mr-3">
@@ -29,9 +30,10 @@
         </div>
       </div>
     </div>
-  </div>
+    <!--    </div>-->
+  </app-card>
 
-  <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">
+  <app-card>
     <div class="flex justify-between">
       <div class="text-lg font-medium">Presupuestos</div>
       <div class="ml-2 -mt-2 -mr-3">
@@ -47,7 +49,7 @@
 
     <!-- Budgets -->
     <div
-      class="flex items-center pt-6"
+      class="flex items-center"
       *ngFor="let item of budgets"
       [routerLink]="[item.id, 'details']"
     >
@@ -77,5 +79,5 @@
         ></app-progress>
       </div>
     </div>
-  </div>
+  </app-card>
 </app-content>

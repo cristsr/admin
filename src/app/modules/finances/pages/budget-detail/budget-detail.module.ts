@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
-import { ListItemModule, ProgressModule } from 'core/components';
+import { CardComponent, ListItemModule, ProgressModule } from 'core/components';
 import { ThousandSuffixesModule } from 'core/pipes';
 import { ContentComponent } from 'layout/components';
 import {
@@ -32,6 +32,7 @@ import { BudgetDetailRoutingModule } from './budget-detail-routing.module';
     MovementListModule,
     GroupMovementModule,
     ContentComponent,
+    CardComponent,
   ],
 })
 export class BudgetDetailModule {}
