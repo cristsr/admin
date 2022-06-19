@@ -1,6 +1,8 @@
 @use '@angular/material' as mat;
 @use "sass:map";
 
+$palete: dark;
+
 @include mat.core();
 
 /* Generate Primary, Accent and Warn palettes */
@@ -45,6 +47,9 @@ $palettes: ();
     CSS Custom Properties to dynamically switch the colors. */
 body.light,
 body .light {
+  @debug "/n";
+  @debug mat.$indigo-palette;
+
   $base-light-theme: mat.define-light-theme((
     color: ($palettes)
   ));

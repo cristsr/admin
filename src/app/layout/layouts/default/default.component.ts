@@ -37,7 +37,7 @@ import { ActivatedRoute } from '@angular/router';
         <app-nav class="flex-none"></app-nav>
 
         <!-- Router outlet -->
-        <div class="bg-[#EDEDF5] overflow-hidden grow">
+        <div class="overflow-hidden grow">
           <router-outlet></router-outlet>
         </div>
 

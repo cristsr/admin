@@ -8,7 +8,10 @@ export class EventEmitterService {
   #emitter = new Subject<Emitter>();
 
   emit<T>(event: string, data?: T): void {
-    this.#emitter.next({ event, data: data ?? null });
+    this.#emitter.next({
+      event,
+      data: data ?? null,
+    });
   }
 
   on<T>(event: string): Observable<T> {

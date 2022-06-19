@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, share, Subject, switchMap, tap } from 'rxjs';
+import { Observable, Subject, switchMap, tap } from 'rxjs';
 import { BudgetRepository } from 'modules/finances/repositories';
 import {
   Budget,
@@ -27,7 +27,7 @@ export class BudgetService {
   }
 
   get average(): Observable<BudgetAverage> {
-    return this.#average.asObservable().pipe(share());
+    return this.#average.asObservable();
   }
 
   fetchBudgets(): Observable<Budget[]> {
@@ -57,8 +57,17 @@ export class BudgetService {
   }
 
   private calculateAverage(budgets: Budget[]): void {
-    const total = budgets.reduce((acc, budget) => acc + budget.amount, 0);
-    const spent = budgets.reduce((acc, budget) => acc + budget.spent, 0);
+    const { total, spent } = budgets.reduce(
+      (state, budget) => ({
+        total: state.total + budget.amount,
+        spent: state.spent + budget.spent,
+      }),
+      {
+        total: 0,
+        spent: 0,
+      },
+    );
+
     const percentage = Math.round((spent / total) * 100);
 
     this.#average.next({
