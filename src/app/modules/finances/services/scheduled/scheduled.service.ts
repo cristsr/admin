@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, switchMap } from 'rxjs';
+import { Observable, of, Subject, switchMap } from 'rxjs';
 import { ScheduledRepository } from 'modules/finances/repositories';
 import {
   CreateScheduled,
   Scheduled,
+  ScheduledAverage,
   UpdateScheduled,
 } from 'modules/finances/types';
+import { List } from 'core/types';
 
 @Injectable({
   providedIn: 'root',
@@ -13,19 +15,51 @@ import {
 export class ScheduledService {
   #fetch = new Subject<void>();
   #average = new Subject<any>();
+  #recurrent: List[] = [
+    {
+      id: 0,
+      label: 'Nunca',
+      value: null,
+    },
+    {
+      id: 1,
+      label: 'día',
+      value: 'day',
+    },
+    {
+      id: 1,
+      label: 'semana',
+      value: 'week',
+    },
+    {
+      id: 1,
+      label: 'mes',
+      value: 'month',
+    },
+    {
+      id: 1,
+      label: 'año',
+      value: 'year',
+    },
+  ];
 
   constructor(private scheduledService: ScheduledRepository) {}
-
-  next(): void {
-    this.#fetch.next();
-  }
 
   get scheduled(): Observable<Scheduled[]> {
     return this.#fetch.pipe(switchMap(() => this.fetchScheduled()));
   }
 
-  get average(): Observable<any> {
-    return this.#average.asObservable();
+  get average(): Observable<ScheduledAverage> {
+    // return this.#average.asObservable();
+    return of({}); // TODO
+  }
+
+  get recurrent(): Observable<List[]> {
+    return of(this.#recurrent);
+  }
+
+  next(): void {
+    this.#fetch.next();
   }
 
   fetchScheduled(): Observable<Scheduled[]> {

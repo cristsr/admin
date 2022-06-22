@@ -1,0 +1,155 @@
+<div class="flex flex-col p-4 gap-2">
+  <div class="flex items-center justify-between text-stone-600 h-[40px]">
+    <div class="flex items-center gap-2">
+      <mat-icon class="material-icons-outlined"
+        >account_balance_wallet</mat-icon
+      >
+      <div *ngIf="action === 'create'" class="text-xl font-medium">
+        Crear Transacción Programada
+      </div>
+      <div *ngIf="action === 'update'" class="text-xl font-medium">
+        Editar Transacción Programada
+      </div>
+    </div>
+  </div>
+
+  <form class="flex flex-col w-full" [formGroup]="form" (submit)="onSubmit()">
+    <!--Movement type-->
+    <div class="flex py-2 items-center">
+      <mat-icon color="primary" class="mr-2">swap_vert</mat-icon>
+      <div class="flex flex-col">
+        <span class="text-[14px]"> Tipo de movimiento </span>
+        <mat-radio-group
+          class="flex my-2 gap-4"
+          color="primary"
+          formControlName="type"
+        >
+          <mat-radio-button class="mr-4" value="expense">
+            Gasto
+          </mat-radio-button>
+          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">
+            Ingreso
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <!--Name -->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-icon matPrefix color="primary" class="mr-2">
+        drive_file_rename_outline
+      </mat-icon>
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" autocomplete="off" />
+    </mat-form-field>
+
+    <!--Amount-->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-icon matPrefix color="primary" class="mr-2">attach_money</mat-icon>
+      <mat-label>Total</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="amount"
+        autocomplete="off"
+      />
+    </mat-form-field>
+
+    <!--Date-->
+    <mat-form-field
+      (click)="picker.open()"
+      [appearance]="appearance"
+      floatLabel="auto"
+    >
+      <mat-icon matPrefix color="primary" class="mr-2">today</mat-icon>
+      <mat-label>Fecha</mat-label>
+      <input
+        matInput
+        type="datetime"
+        formControlName="date"
+        readonly
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!--Recurrent-->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-label>Recurrente</mat-label>
+      <mat-icon matPrefix color="primary" class="mr-2">sort</mat-icon>
+      <mat-select formControlName="recurrent" [compareWith]="compare">
+        <mat-select-trigger>
+          {{ form.get('recurrent').value?.label | capitalize }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let item of recurrent" [value]="item">
+          {{ item.label | capitalize }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--Category-->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-label>Categoría</mat-label>
+      <mat-icon matPrefix color="primary" class="mr-2">category</mat-icon>
+      <mat-select formControlName="category" [compareWith]="compare">
+        <mat-select-trigger>
+          {{
+            form.get('category').value?.name ?? 'Seleccione una categoría'
+              | titlecase
+          }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let item of categories" [value]="item">
+          <mat-icon matPrefix class="text-{{ item.color }}">{{
+            item.icon
+          }}</mat-icon>
+          {{ item.name | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--Subcategory-->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-label>Subcategoría</mat-label>
+      <mat-icon
+        *ngIf="form.get('category').value"
+        matPrefix
+        color="primary"
+        class="mr-2"
+      >
+        {{ form.get('category').value.icon }}
+      </mat-icon>
+      <mat-select formControlName="subcategory" [compareWith]="compare">
+        <mat-select-trigger>
+          {{
+            form.get('subcategory').value?.name ?? 'Seleccione una subcategoría'
+              | capitalize
+          }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let item of subcategories" [value]="item">
+          {{ item.name | capitalize }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="flex gap-8 pt-3">
+      <button
+        mat-stroked-button
+        color="accent"
+        type="button"
+        class="w-full"
+        (click)="closeDialog()"
+      >
+        <mat-icon matPrefix class="mr-2 material-icons-outlined">
+          close
+        </mat-icon>
+        <span>Cancelar</span>
+      </button>
+
+      <button mat-flat-button color="primary" class="w-full" mat-ripple>
+        <mat-icon matPrefix class="mr-2"> save </mat-icon>
+        <span>Guardar</span>
+      </button>
+    </div>
+  </form>
+</div>
