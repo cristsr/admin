@@ -1,62 +1,42 @@
 <app-content>
   <app-card>
-    <app-list-item
-      icon-color="yellow-500"
-      icon="settings"
-      title="Servicio de gas"
-      subtitle="20/10/2020"
-      value="$60.000"
-      value-color="blue-500"
-    >
-    </app-list-item>
-    <app-list-item
-      icon-color="yellow-500"
-      icon="settings"
-      title="Favorite"
-      subtitle="Favorite"
-      value="Favorite"
-      value-color="red"
-    >
-    </app-list-item>
-    <app-list-item
-      icon-color="yellow-500"
-      icon="settings"
-      title="Favorite"
-      subtitle="Favorite"
-      value="Favorite"
-      value-color="red"
-    >
-    </app-list-item>
-  </app-card>
-
-  <app-card> hola </app-card>
-
-  <div class="grid grid-cols-2 gap-[inherit]">
-    <app-card class="items-center">
-      <div
-        class="flex items-center justify-center h-16 w-16 rounded-full shadow bg-blue-500"
+    <div class="flex justify-between">
+      <span class="text-lg font-medium">Programados</span>
+      <div class="ml-2 -mt-2 -mr-3">
+        <button mat-icon-button (click)="openScheduledForm()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col gap-2">
+      <app-list-item
+        icon-color="yellow-500"
+        icon="settings"
+        title="Servicio de gas"
+        subtitle="20/10/2020"
+        value="$60.000"
+        value-color="blue-500"
+        (click)="openScheduledForm()"
       >
-        <span class="text-4xl w-10 h-10 text-center">
-          <mat-icon class="text-white" inline> settings </mat-icon>
-        </span>
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <h2 class="!mb-0 !leading-none text-center">$50</h2>
-        <span class="text-center">Pago programado pago </span>
-      </div>
-    </app-card>
-
-    <app-card>
-      <!--    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">-->
-      Hola mundo 2
-      <!--    </div>-->
-    </app-card>
-
-    <app-card>
-      <!--    <div class="flex flex-col col-span-4 rounded-xl shadow p-6 bg-white">-->
-      Hola mundo 3
-      <!--    </div>-->
-    </app-card>
-  </div>
+      </app-list-item>
+      <app-list-item
+        icon-color="yellow-500"
+        icon="settings"
+        title="Favorite"
+        subtitle="Favorite"
+        value="Favorite"
+        value-color="red"
+      >
+      </app-list-item>
+      <app-list-item
+        icon-color="yellow-500"
+        icon="settings"
+        title="Favorite"
+        subtitle="Favorite"
+        value="Favorite"
+        value-color="red"
+      >
+      </app-list-item>
+    </div>
+  </app-card>
 </app-content>

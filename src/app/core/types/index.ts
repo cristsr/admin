@@ -11,3 +11,9 @@ export interface PaginableQuery {
   page: number;
   perPage: number;
 }
+
+export interface List {
+  id: number;
+  label: string;
+  value: string;
+}
