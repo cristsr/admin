@@ -31,7 +31,6 @@ import { MovementFormComponent } from 'modules/finances/components';
 })
 export class SummaryComponent implements OnInit, OnDestroy {
   @ViewChild('expenseChart') pieChartRef: ChartComponent;
-
   pieOptions: ApexOptions;
   chartOptions: ApexOptions;
   expensePeriod: ExpensePeriod = 'day';
