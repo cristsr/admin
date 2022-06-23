@@ -62,11 +62,16 @@ export class ScheduledComponent implements OnInit, OnDestroy {
       });
   }
 
-  openScheduledForm(): void {
+  openScheduledForm(scheduled?: Scheduled): void {
+    const data: any = {};
+
+    if (scheduled) {
+      data.scheduled = scheduled;
+      data.action = 'read';
+    }
+
     this.bottomSheet
-      .open(ScheduledFormComponent, {
-        // panelClass: ['!min-h-full'],
-      })
+      .open(ScheduledFormComponent, { data })
       .afterDismissed()
       .subscribe({
         next: () => {

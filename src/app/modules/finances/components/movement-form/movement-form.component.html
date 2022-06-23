@@ -2,7 +2,15 @@
   <div class="flex items-center justify-between text-stone-600 h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons">swap_vert</mat-icon>
-      <div class="text-xl font-medium">{{ tittle[action] }}</div>
+      <div class="text-xl font-medium" *ngIf="action === 'read'">
+        Movimiento
+      </div>
+      <div class="text-xl font-medium" *ngIf="action === 'create'">
+        Agregar movimiento
+      </div>
+      <div class="text-xl font-medium" *ngIf="action === 'update'">
+        Editar movimiento
+      </div>
     </div>
 
     <button *ngIf="action === 'read'" mat-icon-button (click)="editMovement()">
@@ -24,9 +32,7 @@
           <mat-radio-button class="mr-4" value="expense">
             Gasto
           </mat-radio-button>
-          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">
-            Ingreso
-          </mat-radio-button>
+          <mat-radio-button value="income">Ingreso</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>

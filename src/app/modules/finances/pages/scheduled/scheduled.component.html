@@ -10,31 +10,14 @@
     </div>
     <div class="flex flex-col gap-2">
       <app-list-item
-        icon-color="yellow-500"
-        icon="settings"
-        title="Servicio de gas"
-        subtitle="20/10/2020"
-        value="$60.000"
-        value-color="blue-500"
-        (click)="openScheduledForm()"
-      >
-      </app-list-item>
-      <app-list-item
-        icon-color="yellow-500"
-        icon="settings"
-        title="Favorite"
-        subtitle="Favorite"
-        value="Favorite"
-        value-color="red"
-      >
-      </app-list-item>
-      <app-list-item
-        icon-color="yellow-500"
-        icon="settings"
-        title="Favorite"
-        subtitle="Favorite"
-        value="Favorite"
-        value-color="red"
+        *ngFor="let item of scheduled"
+        [icon-color]="item.category.color"
+        [icon]="item.category.icon"
+        [title]="item.description"
+        [subtitle]="item.date"
+        [value]="'$' + (item.amount | number)"
+        [value-color]="item.type === 'income' ? 'green-500' : 'red-500'"
+        (click)="openScheduledForm(item)"
       >
       </app-list-item>
     </div>
