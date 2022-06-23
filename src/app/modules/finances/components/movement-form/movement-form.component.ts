@@ -35,14 +35,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   appearance: MatFormFieldAppearance = 'standard';
   action: MovementFormAction = 'create';
   movement: Movement;
-  formColor: 'red-400' | 'blue-500' = 'red-400';
-  tittle = {
-    create: 'Agregar movimiento',
-    update: 'Editar movimiento',
-    read: 'Detalle del movimiento',
-  };
-
-  private unsubscribeAll = new Subject<void>();
+  #unsubscribeAll = new Subject<void>();
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -66,8 +59,8 @@ export class MovementFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
+    this.#unsubscribeAll.next();
+    this.#unsubscribeAll.complete();
   }
 
   buildForm(): void {
@@ -83,7 +76,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
   setupObservers(): void {
     this.categoryService.categories
-      .pipe(takeUntil(this.unsubscribeAll))
+      .pipe(takeUntil(this.#unsubscribeAll))
       .subscribe({
         next: (data: Category[]) => {
           this.categories = data;
@@ -91,7 +84,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
       });
 
     this.categoryService.subcategories
-      .pipe(takeUntil(this.unsubscribeAll))
+      .pipe(takeUntil(this.#unsubscribeAll))
       .subscribe({
         next: (data: Subcategory[]) => {
           this.subcategories = data;
@@ -101,22 +94,12 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
     this.form
       .get('category')
-      .valueChanges.pipe(takeUntil(this.unsubscribeAll))
+      .valueChanges.pipe(takeUntil(this.#unsubscribeAll))
       .subscribe({
         next: (category: Category) => {
           this.categoryService.fetchSubcategories(category);
           this.resetSubcategory();
           this.disableSubcategory();
-        },
-      });
-
-    // Type switch changes
-    this.form
-      .get('type')
-      .valueChanges.pipe(takeUntil(this.unsubscribeAll))
-      .subscribe({
-        next: (type: string) => {
-          this.formColor = type === 'expense' ? 'red-400' : 'blue-500';
         },
       });
   }

@@ -4,13 +4,19 @@
       <mat-icon class="material-icons-outlined"
         >account_balance_wallet</mat-icon
       >
+      <div *ngIf="action === 'read'" class="text-xl font-medium">
+        Movimiento Programado
+      </div>
       <div *ngIf="action === 'create'" class="text-xl font-medium">
-        Crear Transacción Programada
+        Crear Movimiento Programado
       </div>
       <div *ngIf="action === 'update'" class="text-xl font-medium">
-        Editar Transacción Programada
+        Editar Movimiento Programado
       </div>
     </div>
+    <button *ngIf="action === 'read'" mat-icon-button (click)="setEditForm()">
+      <mat-icon class="mat-icon-outlined">edit</mat-icon>
+    </button>
   </div>
 
   <form class="flex flex-col w-full" [formGroup]="form" (submit)="onSubmit()">
@@ -34,27 +40,6 @@
       </div>
     </div>
 
-    <!--Name -->
-    <mat-form-field [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix color="primary" class="mr-2">
-        drive_file_rename_outline
-      </mat-icon>
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name" autocomplete="off" />
-    </mat-form-field>
-
-    <!--Amount-->
-    <mat-form-field [appearance]="appearance" floatLabel="auto">
-      <mat-icon matPrefix color="primary" class="mr-2">attach_money</mat-icon>
-      <mat-label>Total</mat-label>
-      <input
-        matInput
-        type="number"
-        formControlName="amount"
-        autocomplete="off"
-      />
-    </mat-form-field>
-
     <!--Date-->
     <mat-form-field
       (click)="picker.open()"
@@ -72,6 +57,27 @@
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!--Description -->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-icon matPrefix color="primary" class="mr-2">
+        drive_file_rename_outline
+      </mat-icon>
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="description" autocomplete="off" />
+    </mat-form-field>
+
+    <!--Amount-->
+    <mat-form-field [appearance]="appearance" floatLabel="auto">
+      <mat-icon matPrefix color="primary" class="mr-2">attach_money</mat-icon>
+      <mat-label>Total</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="amount"
+        autocomplete="off"
+      />
     </mat-form-field>
 
     <!--Recurrent-->

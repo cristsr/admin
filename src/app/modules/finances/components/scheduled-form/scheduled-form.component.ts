@@ -52,7 +52,7 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
 
     this.buildForm();
     this.setupObservers();
-    this.fillForm();
+    this.setupForm();
   }
 
   ngOnDestroy(): void {
@@ -62,13 +62,13 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this.form = this.fb.group({
-      type: [null, Validators.required],
-      name: [null, Validators.required],
+      type: ['expense', Validators.required],
+      date: [new Date(), Validators.required],
+      description: [null, Validators.required],
       amount: [null, [Validators.required, Validators.min(0)]],
+      recurrent: [null, Validators.required],
       category: [null, Validators.required],
       subcategory: [null, Validators.required],
-      date: [null, Validators.required],
-      recurrent: [null, Validators.required],
     });
   }
 
@@ -86,16 +86,71 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
           this.recurrent = data;
         },
       });
+
+    this.categoryService.subcategories
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (data: Subcategory[]) => {
+          this.subcategories = data;
+          this.enableSubcategory();
+        },
+      });
+
+    this.form
+      .get('category')
+      .valueChanges.pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (category: Category) => {
+          this.categoryService.fetchSubcategories(category);
+          this.resetSubcategory();
+          this.disableSubcategory();
+        },
+      });
+  }
+
+  setupForm(): void {
+    if (this.action === 'read') {
+      this.fillForm();
+      this.form.disable({ emitEvent: false });
+    }
+
+    if (this.action === 'create') {
+      this.disableSubcategory();
+    }
   }
 
   fillForm(): void {
     if (this.scheduled) {
       this.form.patchValue({
-        name: this.scheduled.name,
+        type: this.scheduled.type,
+        date: this.scheduled.date,
+        description: this.scheduled.description,
         amount: this.scheduled.amount,
         category: this.scheduled.category,
+        subcategory: this.scheduled.subcategory,
+        recurrent: this.recurrent?.find(
+          (v) => v.value === this.scheduled.recurrent,
+        ),
       });
     }
+  }
+
+  disableSubcategory(): void {
+    this.form.get('subcategory').disable();
+  }
+
+  enableSubcategory(): void {
+    if (this.action === 'read') {
+      return;
+    }
+    this.form.get('subcategory').enable();
+  }
+
+  resetSubcategory(): void {
+    if (this.action === 'read') {
+      return;
+    }
+    this.form.get('subcategory').setValue(null);
   }
 
   onSubmit(): void {
@@ -108,12 +163,13 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
     const value = this.form.value;
 
     const payload = {
-      name: value.name,
-      amount: value.amount,
-      recurrent: value.recurrent,
       type: value.type,
-      date: '',
+      date: value.date,
+      description: value.description,
+      amount: value.amount,
+      recurrent: value.recurrent.value,
       category: value.category.id,
+      subcategory: value.subcategory.id,
     };
 
     console.log('payload', payload);
@@ -144,7 +200,6 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
 
   update(scheduled: UpdateScheduled): void {
     const id = this.scheduled.id;
-
     this.scheduledService.update(id, scheduled).subscribe({
       next: (result) => {
         console.log('updated scheduled result', result);
@@ -163,5 +218,10 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
 
   compare(t1: any, t2: any): boolean {
     return t1?.id === t2?.id;
+  }
+
+  setEditForm() {
+    this.action = 'update';
+    this.form.enable({ emitEvent: false });
   }
 }
