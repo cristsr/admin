@@ -1,7 +1,7 @@
 <app-content>
   <!-- Balance -->
   <app-card>
-    <div class="flex pb-3">
+    <div class="flex">
       <mat-icon class="text-blue-500">task_alt</mat-icon>
       <div class="pl-1 text-lg font-medium">Balance Total</div>
     </div>
@@ -13,7 +13,7 @@
   <div class="flex gap-4 justify-between">
     <!-- Incomes -->
     <app-card mat-ripple class="flex-1">
-      <div class="flex pb-2">
+      <div class="flex">
         <mat-icon class="text-green-500">trending_up</mat-icon>
         <div class="pl-1 text font-medium">Ingresos</div>
       </div>
@@ -24,7 +24,7 @@
 
     <!-- Expenses -->
     <app-card mat-ripple class="flex-1">
-      <div class="flex pb-2">
+      <div class="flex">
         <mat-icon class="text-red-500">trending_down</mat-icon>
         <div class="pl-1 text font-medium">Gastos</div>
       </div>
@@ -37,7 +37,7 @@
   <app-card>
     <!-- Card header -->
     <div class="flex justify-between">
-      <div class="text-lg font-medium pb-2 md:pb-0">
+      <div class="text-lg font-medium md:pb-0">
         <ng-container [ngSwitch]="expensePeriod">
           <span *ngSwitchCase="'day'">Gastos Diarios</span>
           <span *ngSwitchCase="'week'">Gastos Semanales</span>
