@@ -22,7 +22,7 @@ import { Menu } from 'layout/types';
 import { EventEmitterService } from 'core/services';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'app-navigation',
   standalone: true,
   imports: [CommonModule, RouterModule, MatRippleModule],
   template: `

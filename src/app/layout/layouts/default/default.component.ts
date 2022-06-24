@@ -22,7 +22,7 @@ import { NavigationService } from 'layout/services';
     <!-- Container -->
     <div appPan [target]="sidebar" class="flex flex-col">
       <!-- Sidebar -->
-      <app-sidebar [menu]="menu" #sidebar></app-sidebar>
+      <app-navigation [menu]="menu" #sidebar></app-navigation>
 
       <!-- Content -->
       <div class="w-screen h-screen flex flex-col box-content">
