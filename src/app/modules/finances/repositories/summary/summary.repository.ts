@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ENV } from 'environment';
-import { ConfigService } from 'core/services/config';
+import { environment } from 'env';
 import { Balance, ExpensesRaw, Movement } from 'modules/finances/types';
 
 @Injectable({
@@ -11,8 +10,8 @@ import { Balance, ExpensesRaw, Movement } from 'modules/finances/types';
 export class SummaryRepository {
   private readonly apiUrl: string;
 
-  constructor(private httpClient: HttpClient, private config: ConfigService) {
-    this.apiUrl = config.get(ENV.FINANCES_API) + 'summary/';
+  constructor(private httpClient: HttpClient) {
+    this.apiUrl = environment.financesApi + 'summary/';
   }
 
   balance(): Observable<Balance> {

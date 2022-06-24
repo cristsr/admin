@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from 'core/services/config';
-import { ENV } from 'environment';
 import { map, Observable } from 'rxjs';
+import { environment } from 'env';
 import {
   CreateScheduled,
   Scheduled,
@@ -13,29 +12,31 @@ import {
   providedIn: 'root',
 })
 export class ScheduledRepository {
-  private readonly apiUrl: string;
+  readonly #apiUrl: string;
 
-  constructor(private httpClient: HttpClient, private config: ConfigService) {
-    this.apiUrl = config.get(ENV.FINANCES_API) + 'scheduled/';
+  constructor(private httpClient: HttpClient) {
+    this.#apiUrl = environment.financesApi + 'scheduled/';
   }
 
   create(budget: CreateScheduled): Observable<Scheduled> {
-    return this.httpClient.post<Scheduled>(this.apiUrl, budget);
+    return this.httpClient.post<Scheduled>(this.#apiUrl, budget);
   }
 
   getAll(): Observable<Scheduled[]> {
-    return this.httpClient.get<Scheduled[]>(this.apiUrl);
+    return this.httpClient.get<Scheduled[]>(this.#apiUrl);
   }
 
   getOne(id: number): Observable<Scheduled> {
-    return this.httpClient.get<Scheduled>(this.apiUrl + id);
+    return this.httpClient.get<Scheduled>(this.#apiUrl + id);
   }
 
   update(id: number, budget: UpdateScheduled): Observable<Scheduled> {
-    return this.httpClient.patch<Scheduled>(this.apiUrl + id, budget);
+    return this.httpClient.patch<Scheduled>(this.#apiUrl + id, budget);
   }
 
   remove(id: number): Observable<number> {
-    return this.httpClient.delete<number>(this.apiUrl + id).pipe(map(() => id));
+    return this.httpClient
+      .delete<number>(this.#apiUrl + id)
+      .pipe(map(() => id));
   }
 }

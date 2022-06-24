@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  financesApi: 'https://finances-ms-dev.herokuapp.com/api/v1/',
 };
 
 /*
