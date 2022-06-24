@@ -63,20 +63,22 @@ export class ScheduledComponent implements OnInit, OnDestroy {
   }
 
   openScheduledForm(scheduled?: Scheduled): void {
-    const data: any = {};
-
-    if (scheduled) {
-      data.scheduled = scheduled;
-      data.action = 'read';
-    }
+    let data = {
+      scheduled,
+      action: 'read',
+    };
 
     this.bottomSheet
-      .open(ScheduledFormComponent, { data })
+      .open(ScheduledFormComponent, {
+        data: scheduled && data,
+      })
       .afterDismissed()
       .subscribe({
-        next: () => {
-          // Reload scheduled
-          this.scheduledService.next();
+        next: (result) => {
+          if (result) {
+            // Reload scheduled
+            this.scheduledService.next();
+          }
         },
       });
   }

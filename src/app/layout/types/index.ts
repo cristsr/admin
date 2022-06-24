@@ -6,7 +6,7 @@ export interface Menu {
   submenu?: Submenu[];
 }
 
-export interface Submenu extends Omit<Menu, 'submenu' | 'nav'> {
+export interface Submenu extends Omit<Menu, 'submenu'> {
   type?: 'link' | 'action';
   tag?: string;
 }

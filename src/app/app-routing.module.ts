@@ -51,6 +51,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/health/health.module').then((m) => m.HealthModule),
       },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./modules/settings/settings.module').then(
+            (m) => m.SettingsModule,
+          ),
+      },
     ],
   },
 ];

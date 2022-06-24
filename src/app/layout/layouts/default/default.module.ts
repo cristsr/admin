@@ -2,8 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PanModule } from 'core/directives';
-import { LoaderModule, AlertModule } from 'core/components';
-import { BottomNavModule, SidebarModule, NavModule } from 'layout/components';
+import { AlertModule, LoaderComponent } from 'core/components';
+import {
+  BottomNavModule,
+  NavComponent,
+  NavigationComponent,
+} from 'layout/components';
 import { DefaultLayoutComponent } from './default.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
@@ -12,13 +16,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   imports: [
     CommonModule,
     RouterModule,
-    SidebarModule,
-    NavModule,
     BottomNavModule,
     PanModule,
-    LoaderModule,
     AlertModule,
     MatProgressBarModule,
+    NavigationComponent,
+    LoaderComponent,
+    NavComponent,
   ],
   exports: [DefaultLayoutComponent],
 })

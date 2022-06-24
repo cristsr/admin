@@ -8,28 +8,21 @@ import {
 
 import { Submenu, Menu } from 'layout/types';
 import { Subject, takeUntil } from 'rxjs';
-import { LayoutMenu } from 'layout/layout.config';
 import { EventEmitterService } from 'core/services';
-import { ActivatedRoute } from '@angular/router';
+import { NavigationService } from 'layout/services';
 
 @Component({
   selector: 'app-default-layout',
   template: `
     <!-- Progress bar Loader-->
-    <div class="fixed w-full" *ngIf="showLoader">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>
+    <app-loader></app-loader>
 
     <app-alert></app-alert>
 
     <!-- Container -->
     <div appPan [target]="sidebar" class="flex flex-col">
       <!-- Sidebar -->
-      <app-sidebar
-        [menu]="menu"
-        (menuChanges)="selectMenu($event)"
-        #sidebar
-      ></app-sidebar>
+      <app-sidebar [menu]="menu" #sidebar></app-sidebar>
 
       <!-- Content -->
       <div class="w-screen h-screen flex flex-col box-content">
@@ -42,7 +35,11 @@ import { ActivatedRoute } from '@angular/router';
         </div>
 
         <!-- BottomNav -->
-        <app-bottom-nav class="flex-none" [submenu]="submenu"></app-bottom-nav>
+        <app-bottom-nav
+          *ngIf="!!submenu"
+          class="flex-none"
+          [submenu]="submenu"
+        ></app-bottom-nav>
       </div>
     </div>
   `,
@@ -50,64 +47,43 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefaultLayoutComponent implements OnInit, OnDestroy {
-  menu: Menu[] = LayoutMenu;
-  submenu: Submenu[];
+  menu: Menu[];
+  submenu: Submenu[] | null;
   #unsubscribeAll = new Subject<void>();
-  showLoader = false;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private emitter: EventEmitterService,
+    private navigationService: NavigationService,
   ) {}
 
   ngOnInit(): void {
-    console.log('[DefaultLayoutComponent] ngOnInit');
-
     this.setupObservers();
-    this.setupDefaultMenu();
   }
 
   setupObservers(): void {
-    this.emitter
-      .on('loader:show')
+    this.navigationService.config
       .pipe(takeUntil(this.#unsubscribeAll))
       .subscribe({
-        next: (show: boolean) => {
-          this.showLoader = show;
-          this.cd.detectChanges();
+        next: (menu: Menu[]) => {
+          this.menu = menu;
+          this.cd.markForCheck();
         },
       });
 
-    this.activatedRoute.data.subscribe({
-      next: (data) => {
-        console.log('[DefaultLayoutComponent] data', data);
-      },
-    });
-  }
-
-  setupDefaultMenu(): void {
-    const defaultMenu = this.menu.find((v: Menu) => v.default);
-
-    if (!defaultMenu) {
-      return;
-    }
-
-    this.submenu = defaultMenu.submenu;
-
-    // Hack to update title
-    setTimeout(() => {
-      this.emitter.emit('nav:title', defaultMenu.title);
-    }, 0);
+    this.navigationService.currentMenu
+      .pipe(takeUntil(this.#unsubscribeAll))
+      .subscribe({
+        next: (menu: Menu) => {
+          this.submenu = menu.submenu;
+          this.emitter.emit('nav:title', menu.title);
+          this.cd.detectChanges();
+        },
+      });
   }
 
   ngOnDestroy(): void {
     this.#unsubscribeAll.next();
     this.#unsubscribeAll.complete();
-  }
-
-  selectMenu(menu: Menu): void {
-    this.submenu = menu.submenu;
-    this.emitter.emit('nav:title', menu.title);
   }
 }

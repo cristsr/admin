@@ -4,11 +4,16 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { NavButton, NavMainAction } from 'layout/types';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { EventEmitterService } from 'core/services';
+import { NavButton, NavMainAction } from 'layout/types';
 
 @Component({
   selector: 'app-nav',
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   host: {
     class: 'h-14 shadow z-10',
   },
