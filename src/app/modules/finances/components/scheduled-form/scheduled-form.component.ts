@@ -189,7 +189,7 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.#unsubscribeAll))
       .subscribe({
         next: () => {
-          this.closeDialog();
+          this.closeDialog(true);
         },
         error: (err) => {
           alert(err.message);
@@ -203,7 +203,7 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
     this.scheduledService.update(id, scheduled).subscribe({
       next: (result) => {
         console.log('updated scheduled result', result);
-        this.closeDialog();
+        this.closeDialog(true);
       },
       error: (err) => {
         alert(err.message);
@@ -212,8 +212,8 @@ export class ScheduledFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  closeDialog(): void {
-    this.bottomSheetRef.dismiss();
+  closeDialog(result?: any): void {
+    this.bottomSheetRef.dismiss(result);
   }
 
   compare(t1: any, t2: any): boolean {

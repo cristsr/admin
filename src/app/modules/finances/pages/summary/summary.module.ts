@@ -5,9 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { CardComponent, ListItemModule } from 'core/components';
+import {
+  ContentComponent,
+  CardComponent,
+  ListItemModule,
+} from 'core/components';
 import { CapitalizeModule } from 'core/pipes';
-import { ContentComponent } from 'layout/components';
 import { MovementListModule } from 'modules/finances/components';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryComponent } from './summary.component';

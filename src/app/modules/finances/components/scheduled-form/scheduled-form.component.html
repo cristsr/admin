@@ -1,18 +1,18 @@
 <div class="flex flex-col p-4 gap-2">
-  <div class="flex items-center justify-between text-stone-600 h-[40px]">
+  <div class="flex items-center justify-between h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons-outlined"
         >account_balance_wallet</mat-icon
       >
-      <div *ngIf="action === 'read'" class="text-xl font-medium">
+      <span *ngIf="action === 'read'" class="text-xl font-medium">
         Movimiento Programado
-      </div>
-      <div *ngIf="action === 'create'" class="text-xl font-medium">
+      </span>
+      <span *ngIf="action === 'create'" class="text-xl font-medium">
         Crear Movimiento Programado
-      </div>
-      <div *ngIf="action === 'update'" class="text-xl font-medium">
+      </span>
+      <span *ngIf="action === 'update'" class="text-xl font-medium">
         Editar Movimiento Programado
-      </div>
+      </span>
     </div>
     <button *ngIf="action === 'read'" mat-icon-button (click)="setEditForm()">
       <mat-icon class="mat-icon-outlined">edit</mat-icon>

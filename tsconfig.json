@@ -18,6 +18,7 @@
     ],
     "paths": {
       "environment": ["src/app/environment"],
+      "env": ["src/environments/environment.ts"],
       "core/*": ["src/app/core/*"],
       "layout/*": ["src/app/layout/*"],
       "modules/*": ["src/app/modules/*"]

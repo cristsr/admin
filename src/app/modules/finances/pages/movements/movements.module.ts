@@ -5,13 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
-import { CardComponent, ListItemModule } from 'core/components';
+import {
+  ContentComponent,
+  CardComponent,
+  ListItemModule,
+} from 'core/components';
 import { DatetimeModule } from 'core/pipes';
 import { MovementListModule } from 'modules/finances/components';
 import { MovementsComponent } from './movements.component';
 import { MovementsRoutingModule } from './movements-routing.module';
 import { GroupMovementModule } from 'modules/finances/pipes/group-movement/group-movement.module';
-import { ContentComponent } from 'layout/components';
 
 @NgModule({
   declarations: [MovementsComponent],

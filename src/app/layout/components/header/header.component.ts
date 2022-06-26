@@ -4,13 +4,18 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { NavButton, NavMainAction } from 'layout/types';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { EventEmitterService } from 'core/services';
+import { NavButton, NavMainAction } from 'layout/types';
 
 @Component({
-  selector: 'app-nav',
+  selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   host: {
-    class: 'h-14 shadow z-10',
+    class: 'h-14 shadow z-10 bg-white dark:bg-slate-800 dark:text-white',
   },
   template: `
     <div class="h-full flex justify-between items-center px-4">
@@ -35,7 +40,7 @@ import { EventEmitterService } from 'core/services';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavComponent implements OnInit {
+export class HeaderComponent implements OnInit {
   icon = 'menu';
   action: NavMainAction = 'toggle';
   title: string;

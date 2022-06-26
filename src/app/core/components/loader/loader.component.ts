@@ -2,26 +2,28 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { distinctUntilChanged, Subscription } from 'rxjs';
 import { EventEmitterService } from 'core/services';
-import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-loader',
+  standalone: true,
+  imports: [CommonModule, MatProgressBarModule],
   template: `
-    <div
-      *ngIf="show"
-      class="absolute top-0 left-0 right-0 bottom-0 bg-gray-500 z-[9999] opacity-80 flex items-center justify-center"
-    >
-      <span class="loader"></span>
+    <div class="fixed w-full" *ngIf="show">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   `,
-  styleUrls: ['./loader.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
   show = false;
+  #subscription: Subscription;
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -29,15 +31,16 @@ export class LoaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('[LoaderComponent] ngOnInit');
-
-    this.emitter
+    this.#subscription = this.emitter
       .on('loader:show')
       .pipe(distinctUntilChanged())
       .subscribe((show: boolean) => {
-        console.log('[LoaderComponent] loader:show', show);
         this.show = show;
         this.cd.detectChanges();
       });
+  }
+
+  ngOnDestroy() {
+    this.#subscription.unsubscribe();
   }
 }

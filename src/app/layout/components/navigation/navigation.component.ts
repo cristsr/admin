@@ -11,7 +11,10 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { WINDOW } from 'core/config';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatRippleModule } from '@angular/material/core';
+import { WINDOW } from 'core/constants';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { translateAnimationFrame } from 'core/utils';
@@ -19,7 +22,9 @@ import { Menu } from 'layout/types';
 import { EventEmitterService } from 'core/services';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'app-navigation',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatRippleModule],
   template: `
     <!-- Sidebar -->
     <div
@@ -67,24 +72,28 @@ import { EventEmitterService } from 'core/services';
     <!-- overlay -->
     <div
       *ngIf="showSidebar"
-      class="absolute top-0 bottom-0 left-0 right-0 bg-[#0009] z-[2000]"
+      class="absolute top-0 bottom-0 left-0 right-0 h-screen bg-[#0009] z-[2000]"
       [style.opacity]="range / 100"
       (click)="hideSidebar()"
     ></div>
   `,
-  styleUrls: ['./sidebar.component.scss'],
+  styles: [
+    `
+      .active {
+        @apply bg-blue-500 text-white;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent implements Panable, OnInit {
+export class NavigationComponent implements Panable, OnInit {
   @ViewChild('container', { static: true }) container: ElementRef;
-
   @Input() menu: Menu[];
   @Output() menuChanges = new EventEmitter<Menu>();
-
   showSidebar = false;
   horizontalPaning: boolean;
   previousDelta: number;
-  #panVelocity = 1.5;
+  #panVelocity = 1;
   #cancelAnimations = new Subject<void>();
 
   get range(): number {
@@ -188,7 +197,7 @@ export class SidebarComponent implements Panable, OnInit {
         end = 100;
       }
     } else {
-      if (this.range < 70) {
+      if (this.range < 85) {
         end = 0;
       } else {
         end = 100;
@@ -230,7 +239,7 @@ export class SidebarComponent implements Panable, OnInit {
     return result * 100;
   }
 
-  animateSidebar(start: number, end: number, duration = 100): void {
+  animateSidebar(start: number, end: number, duration = 200): void {
     this.#cancelAnimations.next();
 
     translateAnimationFrame(start, end, duration)

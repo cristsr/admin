@@ -1,24 +1,22 @@
 import { Menu } from 'layout/types';
 
-export const LayoutMenu: Menu[] = [
+export const NavigationConfig: Menu[] = [
   {
     icon: 'account_balance',
     title: 'Finanzas',
-    url: 'finances',
-    default: true,
+    url: '/finances',
     submenu: [
       {
-        default: true,
         icon: 'pie_chart_outline',
         title: 'Resumen',
         tag: 'summary',
-        url: 'finances/summary',
+        url: '/finances/summary',
       },
       {
         icon: 'timeline',
         title: 'Movimientos',
         tag: 'movements',
-        url: 'finances/movements',
+        url: '/finances/movements',
       },
       {
         icon: 'add',
@@ -29,59 +27,28 @@ export const LayoutMenu: Menu[] = [
         icon: 'attach_money',
         title: 'Presupuestos',
         tag: 'budget',
-        url: 'finances/budgets',
+        url: '/finances/budgets',
       },
       {
         icon: 'schedule',
         title: 'Programados',
-        url: 'finances/scheduled',
+        url: '/finances/scheduled',
       },
     ],
   },
   {
     icon: 'school',
     title: 'Educación',
-    url: 'education',
-    submenu: [
-      {
-        icon: 'description',
-        title: 'Resumen',
-        url: 'finances/summary',
-        type: 'link',
-      },
-      {
-        icon: 'timeline',
-        title: 'Movimientos',
-        url: 'finances/movements',
-        type: 'link',
-      },
-      {
-        icon: 'attach_money',
-        title: 'Presupuestos',
-        url: 'finances/budgets',
-        type: 'link',
-      },
-      {
-        icon: 'attach_money',
-        title: 'Presupuetos',
-        url: 'finances/budgets',
-        type: 'link',
-      },
-    ],
-  },
-  {
-    icon: 'description',
-    title: 'Resumen',
-    url: 'education2',
+    url: '/education',
   },
   {
     icon: 'health_and_safety',
     title: 'Salud',
-    url: 'health',
+    url: '/health',
   },
   {
     icon: 'settings',
     title: 'Ajustes',
-    url: 'settings',
+    url: '/settings',
   },
 ];
