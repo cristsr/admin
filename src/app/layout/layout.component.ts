@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { pluck } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -14,8 +15,8 @@ export class LayoutComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe({
-      next: ({ layout }) => (this.layout = layout),
+    this.activatedRoute.data.pipe(pluck('layout')).subscribe({
+      next: (layout) => (this.layout = layout),
     });
   }
 }

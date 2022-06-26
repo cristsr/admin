@@ -1,30 +1,67 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { ColorsService } from 'core/services';
+import { pick } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  constructor(@Inject(DOCUMENT) private document: Document) {
+  #theme = new BehaviorSubject('indigo');
+  #themes = new ReplaySubject(1);
+  #allowedThemes = new BehaviorSubject([
+    'indigo',
+    'blue',
+    'amber',
+    'emerald',
+    'rose',
+  ]);
+
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private colors: ColorsService,
+  ) {
     this.initializeTheme();
-    this.listenThemeChanges();
+    this.configureThemes();
+    this.setupObservers();
   }
 
-  initializeTheme(): void {
-    console.log('called initialize theme');
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      console.log('theme is set', theme);
-    }
-  }
+  setupObservers(): void {
+    this.#theme.asObservable().subscribe({
+      next: (theme) => {
+        // Remove previous theme class
+        this.document.body.classList.forEach((className) => {
+          if (className.startsWith('theme-')) {
+            this.document.body.classList.remove(className);
+          }
+        });
 
-  listenThemeChanges(): void {
-    of('').subscribe((theme) => {
-      this.document.body.className = `${theme}-theme`;
-      localStorage.setItem('theme', theme);
+        // Add new theme class
+        this.document.body.classList.add(`theme-${theme}`);
+        localStorage.setItem('theme', theme);
+      },
     });
   }
 
-  toggleTheme(): void {}
+  configureThemes(): void {
+    const themes = pick(this.colors.getColors(), this.#allowedThemes.value);
+    this.#themes.next(themes);
+    console.log('themes', themes);
+  }
+
+  initializeTheme(): void {
+    const theme = localStorage.getItem('theme');
+    if (theme) {
+      this.setTheme(theme);
+    }
+  }
+
+  get allowedThemes(): Observable<string[]> {
+    return this.#allowedThemes.asObservable();
+  }
+
+  setTheme(theme: string): void {
+    this.#theme.next(theme);
+  }
 }

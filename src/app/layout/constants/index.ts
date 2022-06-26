@@ -8,3 +8,5 @@ export enum Events {
 export const NAVIGATION_CONFIG = new InjectionToken<Menu[]>(
   'NAVIGATION_CONFIG',
 );
+
+export const BOTTOM_NAV_ACTION = 'BOTTOM_NAV_ACTION';

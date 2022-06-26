@@ -28,7 +28,7 @@ import { NavigationService } from 'layout/services';
       <!-- Content -->
       <div class="w-screen h-screen flex flex-col box-content">
         <!-- Navbar -->
-        <app-nav class="flex-none"></app-nav>
+        <app-header class="flex-none"></app-header>
 
         <!-- Router outlet -->
         <div class="overflow-hidden grow">

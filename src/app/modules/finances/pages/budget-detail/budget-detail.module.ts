@@ -3,9 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
-import { CardComponent, ListItemModule, ProgressModule } from 'core/components';
+import {
+  ContentComponent,
+  CardComponent,
+  ListItemModule,
+  ProgressModule,
+} from 'core/components';
 import { ThousandSuffixesModule } from 'core/pipes';
-import { ContentComponent } from 'layout/components';
 import {
   MovementListModule,
   MovementFormModule,

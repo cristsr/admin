@@ -14,7 +14,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
-import { WINDOW } from 'core/config';
+import { WINDOW } from 'core/constants';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { translateAnimationFrame } from 'core/utils';

@@ -6,9 +6,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { validator } from 'environment';
-import { HammerConfig, splashFactory, WINDOW } from 'core/config';
-import { ConfigModule, ThemeService } from 'core/services';
+import { WINDOW } from 'core/constants';
+import { HammerConfig, splashFactory } from 'core/config';
 import { HttpInterceptor } from 'core/interceptors';
 import { LayoutModule } from 'layout/layout.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,10 +18,6 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ConfigModule.forRoot({
-      path: '/assets/config.json',
-      validate: validator,
-    }),
     HammerModule,
     HttpClientModule,
     NgApexchartsModule,
@@ -30,7 +25,6 @@ import { AppComponent } from './app.component';
     LayoutModule,
   ],
   providers: [
-    ThemeService,
     {
       provide: WINDOW,
       useValue: window,

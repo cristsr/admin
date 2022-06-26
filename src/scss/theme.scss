@@ -3,6 +3,97 @@
 
 $palete: dark;
 
+@debug mat.$indigo-palette;
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+
+// Background palette for light themes.
+//$light-theme-background-palette: (
+//  status-bar: map.get($grey-palette, 300),
+//  app-bar:    map.get($grey-palette, 100),
+//  background: map.get($grey-palette, 50),
+//  hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+//  card:       white,
+//  dialog:     white,
+//  disabled-button: rgba(black, 0.12),
+//  raised-button: white,
+//  focused-button: $dark-focused,
+//  selected-button: map.get($grey-palette, 300),
+//  selected-disabled-button: map.get($grey-palette, 400),
+//  disabled-button-toggle: map.get($grey-palette, 200),
+//  unselected-chip: map.get($grey-palette, 300),
+//  disabled-list-option: map.get($grey-palette, 200),
+//  tooltip: map.get($grey-palette, 700),
+//);
+//
+//// Background palette for dark themes.
+//$dark-theme-background-palette: (
+//  status-bar: black,
+//  app-bar:    map.get($grey-palette, 900),
+//  background: #303030,
+//  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+//  card:       map.get($grey-palette, 800),
+//  dialog:     map.get($grey-palette, 800),
+//  disabled-button: rgba(white, 0.12),
+//  raised-button: map.get($grey-palette, 800),
+//  focused-button: $light-focused,
+//  selected-button: map.get($grey-palette, 900),
+//  selected-disabled-button: map.get($grey-palette, 800),
+//  disabled-button-toggle: black,
+//  unselected-chip: map.get($grey-palette, 700),
+//  disabled-list-option: rgba(white, 0.12),
+//  tooltip: map.get($grey-palette, 700),
+//);
+//
+//// Foreground palette for light themes.
+//$light-theme-foreground-palette: (
+//  base:              black,
+//  divider:           $dark-dividers,
+//  dividers:          $dark-dividers,
+//  disabled:          $dark-disabled-text,
+//  disabled-button:   rgba(black, 0.26),
+//  disabled-text:     $dark-disabled-text,
+//  elevation:         black,
+//  hint-text:         $dark-disabled-text,
+//  secondary-text:    $dark-secondary-text,
+//  icon:              rgba(black, 0.54),
+//  icons:             rgba(black, 0.54),
+//  text:              rgba(black, 0.87),
+//  slider-min:        rgba(black, 0.87),
+//  slider-off:        rgba(black, 0.26),
+//  slider-off-active: rgba(black, 0.38),
+//);
+//
+//// Foreground palette for dark themes.
+//$dark-theme-foreground-palette: (
+//  base:              white,
+//  divider:           $light-dividers,
+//  dividers:          $light-dividers,
+//  disabled:          $light-disabled-text,
+//  disabled-button:   rgba(white, 0.3),
+//  disabled-text:     $light-disabled-text,
+//  elevation:         black,
+//  hint-text:         $light-disabled-text,
+//  secondary-text:    $light-secondary-text,
+//  icon:              white,
+//  icons:             white,
+//  text:              white,
+//  slider-min:        white,
+//  slider-off:        rgba(white, 0.3),
+//  slider-off-active: rgba(white, 0.3),
+//);
+
+
 @include mat.core();
 
 /* Generate Primary, Accent and Warn palettes */
