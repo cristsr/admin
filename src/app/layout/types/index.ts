@@ -24,3 +24,8 @@ export interface NavButton {
 }
 
 export type NavMainAction = 'toggle' | 'close' | 'back';
+
+export interface ThemeConfig {
+  name: string;
+  main: string;
+}

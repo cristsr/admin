@@ -15,7 +15,7 @@ import { EventEmitterService } from 'core/services';
   standalone: true,
   imports: [CommonModule, MatProgressBarModule],
   template: `
-    <div class="fixed w-full" *ngIf="show">
+    <div class="fixed w-full z-[1000]" *ngIf="show">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   `,

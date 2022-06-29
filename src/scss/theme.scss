@@ -1,9 +1,10 @@
 @use '@angular/material' as mat;
+
 @use "sass:map";
 
 $palete: dark;
 
-@debug mat.$indigo-palette;
+//@debug mat.$indigo-palette;
 
 $dark-primary-text: rgba(black, 0.87);
 $dark-secondary-text: rgba(black, 0.54);
@@ -20,7 +21,7 @@ $light-focused: rgba(white, 0.12);
 // Background palette for light themes.
 //$light-theme-background-palette: (
 //  status-bar: map.get($grey-palette, 300),
-//  app-bar:    map.get($grey-palette, 100),
+//  bar:    map.get($grey-palette, 100),
 //  background: map.get($grey-palette, 50),
 //  hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
 //  card:       white,
@@ -39,7 +40,7 @@ $light-focused: rgba(white, 0.12);
 //// Background palette for dark themes.
 //$dark-theme-background-palette: (
 //  status-bar: black,
-//  app-bar:    map.get($grey-palette, 900),
+//  bar:    map.get($grey-palette, 900),
 //  background: #303030,
 //  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
 //  card:       map.get($grey-palette, 800),
@@ -100,35 +101,35 @@ $light-focused: rgba(white, 0.12);
 $palettes: ();
 @each $name in (primary, accent, warn) {
   $palettes: map.merge($palettes, (#{$name}: (
-    50: var(--app-#{$name}-50),
-    100: var(--app-#{$name}-100),
-    200: var(--app-#{$name}-200),
-    300: var(--app-#{$name}-300),
-    400: var(--app-#{$name}-400),
-    500: var(--app-#{$name}-500),
-    600: var(--app-#{$name}-600),
-    700: var(--app-#{$name}-700),
-    800: var(--app-#{$name}-800),
-    900: var(--app-#{$name}-900),
+    50: var(--#{$name}-50),
+    100: var(--#{$name}-100),
+    200: var(--#{$name}-200),
+    300: var(--#{$name}-300),
+    400: var(--#{$name}-400),
+    500: var(--#{$name}-500),
+    600: var(--#{$name}-600),
+    700: var(--#{$name}-700),
+    800: var(--#{$name}-800),
+    900: var(--#{$name}-900),
     contrast: (
-      50: var(--app-contrast-#{$name}-50),
-      100: var(--app-contrast-#{$name}-100),
-      200: var(--app-contrast-#{$name}-200),
-      300: var(--app-contrast-#{$name}-300),
-      400: var(--app-contrast-#{$name}-400),
-      500: var(--app-contrast-#{$name}-500),
-      600: var(--app-contrast-#{$name}-600),
-      700: var(--app-contrast-#{$name}-700),
-      800: var(--app-contrast-#{$name}-800),
-      900: var(--app-contrast-#{$name}-900)
+      50: var(--contrast-#{$name}-50),
+      100: var(--contrast-#{$name}-100),
+      200: var(--contrast-#{$name}-200),
+      300: var(--contrast-#{$name}-300),
+      400: var(--contrast-#{$name}-400),
+      500: var(--contrast-#{$name}-500),
+      600: var(--contrast-#{$name}-600),
+      700: var(--contrast-#{$name}-700),
+      800: var(--contrast-#{$name}-800),
+      900: var(--contrast-#{$name}-900)
     ),
-    default: var(--app-#{$name}),
-    lighter: var(--app-#{$name}-100),
-    darker: var(--app-#{$name}-700),
-    text: var(--app-#{$name}),
-    default-contrast: var(--app-contrast-#{$name}),
-    lighter-contrast: var(--app-contrast-#{$name}-100),
-    darker-contrast: var(--app-contrast-#{$name}-700)
+    default: var(--#{$name}-main),
+    lighter: var(--#{$name}-100),
+    darker: var(--#{$name}-700),
+    text: var(--#{$name}-main),
+    default-contrast: var(--contrast-#{$name}-main),
+    lighter-contrast: var(--contrast-#{$name}-100),
+    darker-contrast: var(--contrast-#{$name}-700)
   )));
 }
 
@@ -138,8 +139,7 @@ $palettes: ();
     CSS Custom Properties to dynamically switch the colors. */
 body.light,
 body .light {
-  @debug "/n";
-  @debug mat.$indigo-palette;
+  //@debug mat.$indigo-palette;
 
   $base-light-theme: mat.define-light-theme((
     color: ($palettes)
@@ -171,7 +171,7 @@ body .light {
       ),
       background: (
         status-bar: #CBD5E1, /* blueGray.300 */
-        app-bar: #FFFFFF,
+        bar: #FFFFFF,
         background: #F1F5F9, /* blueGray.100 */
         hover: rgba(148, 163, 184, 0.12), /* blueGray.400 + opacity */
         card: #FFFFFF,
@@ -225,7 +225,7 @@ body .dark {
       ),
       background: (
         status-bar: #0F172A, /* blueGray.900 */
-        app-bar: #0F172A, /* blueGray.900 */
+        bar: #0F172A, /* blueGray.900 */
         background: #0F172A, /* blueGray.900 */
         hover: rgba(255, 255, 255, 0.05),
         card: #1E293B, /* blueGray.800 */

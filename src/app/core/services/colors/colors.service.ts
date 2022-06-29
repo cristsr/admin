@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { COLORS } from 'core/constants';
+import { COLORS } from 'layout/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -29,5 +29,9 @@ export class ColorsService {
 
   getColors(): Record<string, any> {
     return this.colors;
+  }
+
+  getColorHue(color: string, hue: string): string {
+    return this.colors[color][hue];
   }
 }
