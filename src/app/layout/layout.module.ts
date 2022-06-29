@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { COLORS } from 'core/constants';
-import { colorsConfig } from 'core/config';
+import { NavigationConfig, colorsConfig, themeConfig } from 'layout/config';
 import { DefaultLayoutModule, EmptyLayoutModule } from 'layout/layouts';
-import { NAVIGATION_CONFIG } from 'layout/constants';
-import { NavigationConfig } from 'layout/layout.config';
+import { NAVIGATION_CONFIG, COLORS } from 'layout/constants';
 import { NavigationService } from 'layout/services';
 import { LayoutComponent } from './layout.component';
 import { ThemeService } from 'core/services';
+import { HttpClient } from '@angular/common/http';
 
 const layoutModules = [EmptyLayoutModule, DefaultLayoutModule];
 
@@ -23,6 +22,12 @@ const layoutModules = [EmptyLayoutModule, DefaultLayoutModule];
     {
       provide: COLORS,
       useFactory: colorsConfig,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: themeConfig,
+      deps: [HttpClient, ThemeService],
+      multi: true,
     },
   ],
 })
