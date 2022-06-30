@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ColorsService } from 'core/services';
 import { ThemeConfig } from 'layout/types';
 
 @Injectable({
@@ -10,10 +9,8 @@ export class ThemeService {
   #current: string;
   #themeConfig: ThemeConfig[] = [];
 
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private colors: ColorsService,
-  ) {
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    this.setTheme('indigo'); // Default theme
     this.setThemeFromCache();
   }
 
@@ -28,7 +25,7 @@ export class ThemeService {
   configureThemes(config: ThemeConfig[]): void {
     this.#themeConfig = config.map(({ name, main }) => ({
       name,
-      main: this.colors.getColorHue(name, main),
+      main: [name, '-', main].join(''),
     }));
     console.log('themes', this.#themeConfig);
   }
@@ -44,6 +41,7 @@ export class ThemeService {
     // Add new theme class
     this.document.body.classList.add(theme);
     localStorage.setItem('theme', theme);
+    this.#current = theme;
   }
 
   private setThemeFromCache(): void {

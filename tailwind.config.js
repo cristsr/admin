@@ -10,7 +10,7 @@ module.exports = {
     ...config.colors.map((v) => v.name),
     {
       pattern: new RegExp(
-        `(bg|text|border)-(${mapColors})-(100|200|300|400|500)`,
+        `(bg|text|border)-(${mapColors})-(100|200|300|400|500|600|700)`,
       ),
     },
   ],
