@@ -23,10 +23,6 @@
     {
       "name": "violet",
       "main": 500
-    },
-    {
-      "name": "green",
-      "main": 500
     }
   ],
   "accent": {

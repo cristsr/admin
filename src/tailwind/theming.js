@@ -32,7 +32,6 @@ const generateContrast = (scheme) => {
 
 const generatePalette = ({ name, main, palette }) => {
   const scheme = createScheme(name, main);
-
   const schemaEntries = Object.entries(scheme);
 
   const colors = cssProps(schemaEntries, palette);

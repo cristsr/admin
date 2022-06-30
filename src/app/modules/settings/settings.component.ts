@@ -24,6 +24,6 @@ export class SettingsComponent implements OnInit {
 
   setTheme(theme: any): void {
     console.log('setTheme', theme);
-    this.themeService.setTheme(theme.target.value);
+    this.themeService.setTheme(theme);
   }
 }
