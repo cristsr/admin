@@ -2,12 +2,10 @@
   <app-card>
     <div class="grid grid-cols-2 gap-4">
       <button
-        class="p-2 rounded-full bg-slate-200 inset-2 box-content"
+        class="p-2 rounded-full bg-slate-100 dark:bg-gray-500 box-border border-2 border-slate-100"
         *ngFor="let theme of themeConfig"
         (click)="setTheme(theme.name)"
-        [ngClass]="
-          theme.name === current.name && 'border-2 border-' + theme.main
-        "
+        [ngClass]="theme.name === current.name && 'border-' + theme.main"
       >
         <div class="flex items-center justify-center gap-2">
           <div class="flex-0 w-3 h-3 rounded-full bg-{{ theme.main }}"></div>

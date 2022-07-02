@@ -5,7 +5,7 @@ import { Component, HostBinding, Input } from '@angular/core';
   standalone: true,
   host: {
     class:
-      'bg-[#EDEDF5] dark:bg-gray-500 p-4 flex flex-col h-full overflow-y-auto',
+      'bg-slate-100 dark:bg-gray-500 p-4 flex flex-col h-full overflow-y-auto',
   },
   template: `<ng-content></ng-content>`,
 })
