@@ -38,15 +38,16 @@ import { EventEmitterService } from 'core/services';
           *ngIf="item.url"
           class="w-full text-gray-600"
           [routerLink]="item.url"
-          routerLinkActive="!text-blue-500"
+          routerLinkActive="!text-[color:var(--primary-main)]"
           (click)="submenuChanges.emit(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
           <div class="text-xs tracking-tight">{{ item.title }}</div>
         </button>
+
         <button
           *ngIf="!item.url"
-          class="bordered text-gray-600"
+          class="bordered text-[color:var(--primary-main)]"
           (click)="dispatchAction(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
@@ -57,7 +58,7 @@ import { EventEmitterService } from 'core/services';
   styles: [
     `
       .bordered {
-        @apply rounded-full w-10 h-10 border-solid border border-black flex justify-center items-center;
+        @apply rounded-full w-10 h-10 border-solid border border-[color:var(--primary-main)] flex justify-center items-center;
       }
     `,
   ],

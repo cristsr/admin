@@ -10,7 +10,6 @@ export class ThemeService {
   #themeConfig: ThemeConfig[] = [];
 
   constructor(@Inject(DOCUMENT) private document: Document) {
-    this.setTheme('indigo'); // Default theme
     this.setThemeFromCache();
   }
 
@@ -32,19 +31,20 @@ export class ThemeService {
 
   setTheme(theme: string): void {
     this.document.body.classList.forEach((className) => {
-      if (this.themeConfig.some(({ name }) => name.includes(className))) {
+      if (className.startsWith('theme-')) {
         // Remove previous theme class
         this.document.body.classList.remove(className);
       }
     });
 
     // Add new theme class
-    this.document.body.classList.add(theme);
+    this.document.body.classList.add('theme-' + theme);
     localStorage.setItem('theme', theme);
     this.#current = theme;
   }
 
   private setThemeFromCache(): void {
+    console.log('[ThemeService] setThemeFromCache', this.#current);
     const theme = localStorage.getItem('theme');
     if (theme) {
       this.setTheme(theme);

@@ -42,10 +42,10 @@ const generatePalette = ({ name, main, palette }) => {
   return Object.fromEntries([...colors, ...contrast]);
 };
 
-const theming = ({ addComponents }) => {
+const theming = ({ e, addUtilities }) => {
   const primaryEntries = config.colors.map((config) => {
     const palette = generatePalette({ ...config, palette: 'primary' });
-    return [`.${config.name}`, palette];
+    return ['body.theme-' + config.name, palette];
   });
 
   const primary = Object.fromEntries(primaryEntries);
@@ -60,7 +60,7 @@ const theming = ({ addComponents }) => {
     },
   };
 
-  addComponents(themes);
+  addUtilities(themes);
 };
 
 module.exports = plugin(theming);
