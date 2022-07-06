@@ -26,7 +26,7 @@ import { EventEmitterService } from 'core/services';
   ],
   host: {
     class:
-      'py-1.5 z-10 px-2 border-t border-t-neutral-200 dark:border-t-gray-500 dark:bg-slate-800 dark:text-white',
+      'py-1.5 px-2 z-10 border-t border-t-neutral-200 fg-light dark:bg-dark dark:text-white dark:border-t-gray-700',
   },
   template: `
     <div class="h-full flex  w-full gap-2">
@@ -36,9 +36,9 @@ import { EventEmitterService } from 'core/services';
       >
         <button
           *ngIf="item.url"
-          class="w-full text-gray-600"
+          class="w-full text-gray-600 dark:text-gray-200"
           [routerLink]="item.url"
-          routerLinkActive="!text-[color:var(--primary-main)]"
+          routerLinkActive="!text-primary"
           (click)="submenuChanges.emit(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
@@ -47,7 +47,7 @@ import { EventEmitterService } from 'core/services';
 
         <button
           *ngIf="!item.url"
-          class="bordered text-[color:var(--primary-main)]"
+          class="bordered text-primary"
           (click)="dispatchAction(item)"
         >
           <mat-icon>{{ item.icon }}</mat-icon>
@@ -58,7 +58,7 @@ import { EventEmitterService } from 'core/services';
   styles: [
     `
       .bordered {
-        @apply rounded-full w-10 h-10 border-solid border border-[color:var(--primary-main)] flex justify-center items-center;
+        @apply rounded-full w-10 h-10 border-solid border border-primary flex justify-center items-center;
       }
     `,
   ],

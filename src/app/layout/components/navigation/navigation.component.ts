@@ -14,9 +14,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { WINDOW } from 'core/constants';
 import { isHorizontal, isNone, isRight, Panable } from 'core/directives/pan';
-import { filter, Subject, takeUntil } from 'rxjs';
 import { translateAnimationFrame } from 'core/utils';
 import { Menu } from 'layout/types';
 import { EventEmitterService } from 'core/services';
@@ -24,11 +25,11 @@ import { EventEmitterService } from 'core/services';
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatRippleModule],
+  imports: [CommonModule, RouterModule, MatRippleModule, MatIconModule],
   template: `
     <!-- Sidebar -->
     <div
-      class="w-[250px] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-[3000] flex flex-col shadow-sm"
+      class="w-[280px] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-[3000] flex flex-col shadow-sm dark:bg-dark"
       [class.flex]="showSidebar"
       [class.hidden]="!showSidebar"
       #container
@@ -42,7 +43,9 @@ import { EventEmitterService } from 'core/services';
             alt=""
           />
         </div>
-        <div class="flex items-center flex-col pt-4">
+        <div
+          class="flex items-center flex-col pt-4 text-neutral-600 dark:text-neutral-300"
+        >
           <div class="leading-normal font-medium">Cristian Puenguenan</div>
           <div class="leading-normal text-xs font-medium">
             styven21121@gmail.com
@@ -51,25 +54,24 @@ import { EventEmitterService } from 'core/services';
       </div>
 
       <!-- Menu -->
-      <ul class="pt-6">
-        <li *ngFor="let menuItem of menu; index as i">
-          <div
-            matRipple
-            class="rounded-xl flex items-center py-3 my-2 text-gray-800"
-            (click)="onLinkClick(menuItem)"
-            [routerLink]="menuItem.url"
-            routerLinkActive="active"
-          >
-            <span class="pl-3 pr-4 material-icons-outlined">{{
-              menuItem.icon
-            }}</span>
-            <span class="text-base font-medium">{{ menuItem.title }}</span>
-          </div>
-        </li>
-      </ul>
+      <div class="pt-6 flex flex-col gap-4">
+        <div
+          *ngFor="let menuItem of menu; index as i"
+          matRipple
+          class="rounded-lg flex items-center py-2 px-4 text-neutral-600 dark:text-neutral-300"
+          (click)="onLinkClick(menuItem)"
+          [routerLink]="menuItem.url"
+          routerLinkActive="active"
+        >
+          <mat-icon class="material-icons-outlined text-primary">
+            {{ menuItem.icon }}
+          </mat-icon>
+          <span class="pl-4 text-base font-medium">{{ menuItem.title }}</span>
+        </div>
+      </div>
     </div>
 
-    <!-- overlay -->
+    <!-- Backdrop -->
     <div
       *ngIf="showSidebar"
       class="absolute top-0 bottom-0 left-0 right-0 h-screen bg-[#0009] z-[2000]"
@@ -80,7 +82,11 @@ import { EventEmitterService } from 'core/services';
   styles: [
     `
       .active {
-        @apply bg-blue-500 text-white;
+        @apply bg-primary text-white;
+      }
+
+      .active > mat-icon {
+        color: white !important;
       }
     `,
   ],

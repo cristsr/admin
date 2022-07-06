@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from 'core/services';
-import { ThemeConfig } from 'layout/types';
+import { Scheme, ThemeConfig } from 'layout/types';
 
 @Component({
   selector: 'app-settings',
@@ -10,12 +10,16 @@ import { ThemeConfig } from 'layout/types';
 export class SettingsComponent implements OnInit {
   constructor(private themeService: ThemeService) {}
 
-  get current(): ThemeConfig {
-    return this.themeService.current;
+  get currentTheme(): ThemeConfig {
+    return this.themeService.currentTheme;
   }
 
   get themeConfig(): ThemeConfig[] {
     return this.themeService.themeConfig;
+  }
+
+  get scheme(): Scheme {
+    return this.themeService.scheme;
   }
 
   ngOnInit(): void {
@@ -25,5 +29,10 @@ export class SettingsComponent implements OnInit {
   setTheme(theme: any): void {
     console.log('setTheme', theme);
     this.themeService.setTheme(theme);
+  }
+
+  toggleScheme({ checked }): void {
+    this.themeService.setScheme(checked ? 'dark' : 'light');
+    console.log('toggleScheme', checked);
   }
 }

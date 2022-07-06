@@ -14,11 +14,8 @@ module.exports = {
       ),
     },
   ],
-  theme: {
-    colors,
-  },
   plugins: [
-    require('./src/tailwind/theming'),
     require('@tailwindcss/typography'),
+    require('./src/tailwind/theming'),
   ],
 };

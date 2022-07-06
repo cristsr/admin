@@ -29,3 +29,5 @@ export interface ThemeConfig {
   name: string;
   main: string;
 }
+
+export type Scheme = 'light' | 'dark';

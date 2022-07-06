@@ -15,7 +15,8 @@ import { NavButton, NavMainAction } from 'layout/types';
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule],
   host: {
-    class: 'h-14 shadow z-10 bg-white dark:bg-slate-800 dark:text-white',
+    class:
+      'h-14 shadow z-10 bg-white dark:bg-dark dark:text-white dark:border-b dark:border-b-neutral-800',
   },
   template: `
     <div class="h-full flex justify-between items-center px-4">
