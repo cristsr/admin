@@ -15,14 +15,13 @@
       <mat-select formControlName="category" [compareWith]="compare">
         <mat-select-trigger>
           {{
-            form.get('category').value?.name ?? 'Seleccione una categoría'
-              | titlecase
+            valueOf('category')?.name ?? 'Seleccione una categoría' | titlecase
           }}
         </mat-select-trigger>
         <mat-option *ngFor="let item of categories" [value]="item">
-          <mat-icon matPrefix class="text-{{ item.color }}">{{
-            item.icon
-          }}</mat-icon>
+          <mat-icon matPrefix class="text-{{ item.color }}">
+            {{ item.icon }}
+          </mat-icon>
           {{ item.name | titlecase }}
         </mat-option>
       </mat-select>

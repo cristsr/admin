@@ -64,7 +64,6 @@ import { EventEmitterService } from 'core/services';
   ],
 })
 export class BottomNavComponent {
-  @Input() linkActiveClass = '!text-blue-500';
   @Input() submenu: Submenu[];
   @Output() submenuChanges = new EventEmitter<Submenu>();
 
