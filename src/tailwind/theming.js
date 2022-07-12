@@ -63,12 +63,14 @@ const theming = ({ addUtilities }) => {
 
   addUtilities(themes);
 
+  const grayish = colors.neutral;
+
   const utils = {
     '.bg-light': {
-      backgroundColor: colors.slate[100],
+      backgroundColor: grayish[100],
     },
     '.bg-dark': {
-      backgroundColor: colors.slate[900],
+      backgroundColor: grayish[900],
     },
     '.bg-primary': {
       backgroundColor: 'var(--primary-main)',
@@ -84,13 +86,14 @@ const theming = ({ addUtilities }) => {
       backgroundColor: colors.white,
     },
     '.fg-dark': {
-      backgroundColor: colors.slate[800],
+      backgroundColor: grayish[800],
     },
 
     '.text-primary': {
       color: 'var(--primary-main)',
     },
     '.text-secondary': {},
+
     '.text-accent': {
       color: 'var(--accent-main)',
     },
@@ -110,6 +113,59 @@ const theming = ({ addUtilities }) => {
   };
 
   addUtilities(utils);
+
+  // white rgb(255, 255, 255)
+  // black rgb(0, 0, 0)
+  const material = {
+    ':root': {
+      // Common variables
+      '--light-primary-text': '#FFFFFF',
+      '--light-secondary-text': 'rgba(255, 255, 255, 0.7)',
+      '--light-disabled-text': 'rgba(255, 255, 255, 0.5)',
+      '--light-dividers': 'rgba(255, 255, 255, 0.12)',
+      '--light-focused': 'rgba(255, 255, 255, 0.12)',
+
+      '--dark-primary-text': 'rgba(0, 0, 0, 0.87)',
+      '--dark-secondary-text': 'rgba(0, 0, 0, 0.54)',
+      '--dark-disabled-text': 'rgba(0, 0, 0, 0.38)',
+      '--dark-dividers': 'rgba(0, 0, 0, 0.12)',
+      '--dark-focused': 'rgba(0, 0, 0, 0.12)',
+
+      // Background palette for light theme.
+      '--bg-light-status-bar': grayish[300],
+      '--bg-light-bar': grayish[100],
+      '--bg-light-background': grayish[50],
+      '--bg-light-hover': '',
+      '--bg-light-card': '',
+      '--bg-light-dialog': '',
+      '--bg-light-disabled-button': '',
+      '--bg-light-raised-button': '',
+      '--bg-light-selected-button': grayish[300],
+      '--bg-light-selected-disabled-button': grayish[400],
+      '--bg-light-disabled-button-toggle': grayish[200],
+      '--bg-light-unselected-chip': grayish[300],
+      '--bg-light-disabled-list-option': grayish[200],
+      '--bg-light-tooltip': grayish[700],
+
+      // Background palette for dark theme.
+      '--bg-dark-status-bar': grayish[900],
+      '--bg-dark-bar': grayish[900],
+      '--bg-dark-background': grayish[900],
+      '--bg-dark-hover': '',
+      '--bg-dark-card': grayish[800],
+      '--bg-dark-dialog': grayish[800],
+      '--bg-dark-disabled-button': '',
+      '--bg-dark-raised-button': grayish[800],
+      '--bg-dark-selected-button': grayish[900],
+      '--bg-dark-selected-disabled-button': grayish[800],
+      '--bg-dark-disabled-button-toggle': '',
+      '--bg-dark-unselected-chip': grayish[700],
+      '--bg-dark-disabled-list-option': '',
+      '--bg-dark-tooltip': grayish[700],
+    },
+  };
+
+  addUtilities(material);
 };
 
 module.exports = plugin(theming);
