@@ -119,16 +119,28 @@ const theming = ({ addUtilities }) => {
   const material = {
     ':root': {
       // Common variables
+      // '--light-primary-text': '#FFFFFF',
+      // '--light-secondary-text': 'rgba(255, 255, 255, 0.7)',
+      // '--light-disabled-text': 'rgba(255, 255, 255, 0.5)',
+      // '--light-dividers': 'rgba(255, 255, 255, 0.12)',
+      // '--light-focused': 'rgba(255, 255, 255, 0.12)',
+
+      // '--dark-primary-text': 'rgba(0, 0, 0, 0.87)',
+      // '--dark-secondary-text': 'rgba(0, 0, 0, 0.54)',
+      // '--dark-disabled-text': 'rgba(0, 0, 0, 0.38)',
+      // '--dark-dividers': 'rgba(0, 0, 0, 0.12)',
+      // '--dark-focused': 'rgba(0, 0, 0, 0.12)',
+
       '--light-primary-text': '#FFFFFF',
       '--light-secondary-text': 'rgba(255, 255, 255, 0.7)',
       '--light-disabled-text': 'rgba(255, 255, 255, 0.5)',
       '--light-dividers': 'rgba(255, 255, 255, 0.12)',
-      '--light-focused': 'rgba(255, 255, 255, 0.12)',
+      '--light-focused': grayish[200],
 
       '--dark-primary-text': 'rgba(0, 0, 0, 0.87)',
-      '--dark-secondary-text': 'rgba(0, 0, 0, 0.54)',
-      '--dark-disabled-text': 'rgba(0, 0, 0, 0.38)',
-      '--dark-dividers': 'rgba(0, 0, 0, 0.12)',
+      '--dark-secondary-text': grayish[500],
+      '--dark-disabled-text': grayish[400],
+      '--dark-dividers': grayish[200],
       '--dark-focused': 'rgba(0, 0, 0, 0.12)',
 
       // Background palette for light theme.
