@@ -2,6 +2,7 @@ const plugin = require('tailwindcss/plugin');
 const tailwindColors = require('tailwindcss/colors');
 const chroma = require('chroma-js');
 const config = require('../assets/tailwind.json');
+const colors = require('tailwindcss/colors');
 
 const createScheme = (name, main) => ({
   ...tailwindColors[name],
@@ -42,7 +43,7 @@ const generatePalette = ({ name, main, palette }) => {
   return Object.fromEntries([...colors, ...contrast]);
 };
 
-const theming = ({ e, addUtilities }) => {
+const theming = ({ addUtilities }) => {
   const primaryEntries = config.colors.map((config) => {
     const palette = generatePalette({ ...config, palette: 'primary' });
     return ['body.theme-' + config.name, palette];
@@ -61,6 +62,54 @@ const theming = ({ e, addUtilities }) => {
   };
 
   addUtilities(themes);
+
+  const utils = {
+    '.bg-light': {
+      backgroundColor: colors.slate[100],
+    },
+    '.bg-dark': {
+      backgroundColor: colors.slate[900],
+    },
+    '.bg-primary': {
+      backgroundColor: 'var(--primary-main)',
+    },
+    '.bg-accent': {
+      backgroundColor: 'var(--accent-main)',
+    },
+    '.bg-warn': {
+      backgroundColor: 'var(--warn-main)',
+    },
+
+    '.fg-light': {
+      backgroundColor: colors.white,
+    },
+    '.fg-dark': {
+      backgroundColor: colors.slate[800],
+    },
+
+    '.text-primary': {
+      color: 'var(--primary-main)',
+    },
+    '.text-secondary': {},
+    '.text-accent': {
+      color: 'var(--accent-main)',
+    },
+    '.text-warn': {
+      color: 'var(--warn-main)',
+    },
+
+    '.border-primary': {
+      border: '1px solid var(--primary-main)',
+    },
+    '.border-accent': {
+      border: '1px solid var(--accent-main)',
+    },
+    '.border-warn': {
+      border: '1px solid var(--warn-main)',
+    },
+  };
+
+  addUtilities(utils);
 };
 
 module.exports = plugin(theming);

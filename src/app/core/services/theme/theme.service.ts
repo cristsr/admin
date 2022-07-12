@@ -1,24 +1,30 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ThemeConfig } from 'layout/types';
+import { Scheme, ThemeConfig } from 'layout/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  #current: string;
+  #currentTheme: string;
+  #scheme: Scheme;
   #themeConfig: ThemeConfig[] = [];
 
   constructor(@Inject(DOCUMENT) private document: Document) {
     this.setThemeFromCache();
+    this.setSchemeFromCache();
   }
 
-  get current(): ThemeConfig {
-    return this.#themeConfig.find(({ name }) => name === this.#current);
+  get currentTheme(): ThemeConfig {
+    return this.#themeConfig.find(({ name }) => name === this.#currentTheme);
   }
 
   get themeConfig(): ThemeConfig[] {
     return this.#themeConfig;
+  }
+
+  get scheme(): Scheme {
+    return this.#scheme;
   }
 
   configureThemes(config: ThemeConfig[]): void {
@@ -40,14 +46,35 @@ export class ThemeService {
     // Add new theme class
     this.document.body.classList.add('theme-' + theme);
     localStorage.setItem('theme', theme);
-    this.#current = theme;
+    this.#currentTheme = theme;
+  }
+
+  setScheme(scheme: Scheme): void {
+    if (scheme === 'dark') {
+      this.document.body.classList.remove('light');
+      this.document.body.classList.add('dark');
+    }
+
+    if (scheme === 'light') {
+      this.document.body.classList.remove('dark');
+      this.document.body.classList.add('light');
+    }
+
+    localStorage.setItem('scheme', scheme);
+    this.#scheme = scheme;
   }
 
   private setThemeFromCache(): void {
-    console.log('[ThemeService] setThemeFromCache', this.#current);
     const theme = localStorage.getItem('theme');
     if (theme) {
       this.setTheme(theme);
+    }
+  }
+
+  private setSchemeFromCache(): void {
+    const scheme = <Scheme>localStorage.getItem('scheme');
+    if (scheme) {
+      this.setScheme(scheme);
     }
   }
 }
