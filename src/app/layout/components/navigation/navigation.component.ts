@@ -29,7 +29,7 @@ import { EventEmitterService } from 'core/services';
   template: `
     <!-- Sidebar -->
     <div
-      class="w-[280px] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-[3000] flex flex-col shadow-sm dark:bg-dark"
+      class="w-[280px] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-[3000] flex flex-col shadow-sm dark:fg-dark"
       [class.flex]="showSidebar"
       [class.hidden]="!showSidebar"
       #container
