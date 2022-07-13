@@ -4,7 +4,7 @@ import { Component, HostBinding, Input } from '@angular/core';
   selector: 'app-content',
   standalone: true,
   host: {
-    class: 'bg-light dark:bg-dark p-4 flex flex-col h-full overflow-y-auto',
+    class: 'flex flex-col p-4 h-full overflow-y-auto bg-default text-default',
   },
   template: `<ng-content></ng-content>`,
 })
@@ -13,6 +13,6 @@ export class ContentComponent {
 
   @HostBinding('class')
   get hostClasses() {
-    return ['gap-'.concat(this.gap)];
+    return ['gap-' + this.gap];
   }
 }

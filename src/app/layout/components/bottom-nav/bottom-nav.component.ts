@@ -26,7 +26,7 @@ import { EventEmitterService } from 'core/services';
   ],
   host: {
     class:
-      'py-1.5 px-2 z-10 border-t border-t-neutral-200 fg-light dark:bg-dark dark:text-white dark:border-t-gray-700',
+      'py-1.5 px-2 z-10 fg-default text-default border-t border-t-neutral-200 dark:border-t-gray-700',
   },
   template: `
     <div class="h-full flex  w-full gap-2">

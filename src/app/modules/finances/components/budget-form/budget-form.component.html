@@ -1,5 +1,5 @@
 <div class="flex flex-col p-4 gap-2">
-  <div class="flex items-center justify-between text-stone-600 h-[40px]">
+  <div class="flex items-center justify-between text-default h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons-outlined"
         >account_balance_wallet</mat-icon
@@ -55,15 +55,14 @@
     <div class="flex gap-8 pt-3">
       <button
         mat-stroked-button
-        color="accent"
         type="button"
         class="w-full"
         (click)="closeDialog()"
       >
-        <mat-icon matPrefix class="mr-2 material-icons-outlined">
+        <mat-icon matPrefix class="mr-2 material-icons-outlined text-default">
           close
         </mat-icon>
-        <span>Cancelar</span>
+        <span class="text-default">Cancelar</span>
       </button>
 
       <button mat-flat-button color="primary" class="w-full" mat-ripple>
