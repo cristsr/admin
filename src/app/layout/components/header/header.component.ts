@@ -16,7 +16,7 @@ import { NavButton, NavMainAction } from 'layout/types';
   imports: [CommonModule, MatIconModule, MatButtonModule],
   host: {
     class:
-      'h-14 shadow z-10 bg-white dark:bg-dark dark:text-white dark:border-b dark:border-b-neutral-800',
+      'h-14 shadow z-10 fg-default text-default dark:border-b dark:border-b-neutral-800',
   },
   template: `
     <div class="h-full flex justify-between items-center px-4">

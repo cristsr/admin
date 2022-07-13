@@ -1,5 +1,5 @@
 <div class="flex flex-col p-4 gap-2">
-  <div class="flex items-center justify-between text-stone-600 h-[40px]">
+  <div class="flex items-center justify-between text-default h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons">swap_vert</mat-icon>
       <div class="text-xl font-medium" *ngIf="action === 'read'">
@@ -23,7 +23,7 @@
     <div class="flex py-2 items-center">
       <mat-icon color="primary" class="mr-2">swap_vert</mat-icon>
       <div class="flex flex-col">
-        <span class="text-[14px]"> Tipo de movimiento </span>
+        <span class="text-[14px] text-secondary"> Tipo de movimiento </span>
         <mat-radio-group
           class="flex my-2 gap-4"
           color="primary"
@@ -141,15 +141,14 @@
     <div class="flex gap-8 pt-3" *ngIf="action !== 'read'">
       <button
         mat-stroked-button
-        color="accent"
         type="button"
-        class="w-full border border-neutral-200 p-2 rounded flex justify-center items-center text-neutral-400"
+        class="w-full border border-neutral-200 p-2 rounded flex justify-center items-center"
         (click)="closeDialog()"
       >
-        <mat-icon matPrefix class="mr-1 material-icons-outlined">
+        <mat-icon matPrefix class="mr-1 material-icons-outlined text-secondary">
           close
         </mat-icon>
-        <span>Cancelar</span>
+        <span class="text-secondary">Cancelar</span>
       </button>
 
       <button

@@ -16,7 +16,7 @@ export class ThemeService {
   }
 
   get currentTheme(): ThemeConfig {
-    return this.#themeConfig.find(({ name }) => name === this.#currentTheme);
+    return this.#themeConfig?.find(({ name }) => name === this.#currentTheme);
   }
 
   get themeConfig(): ThemeConfig[] {

@@ -29,7 +29,7 @@ import { EventEmitterService } from 'core/services';
   template: `
     <!-- Sidebar -->
     <div
-      class="w-[280px] absolute top-0 bottom-0 left-0 px-8 bg-white h-screen z-[3000] flex flex-col shadow-sm dark:fg-dark"
+      class="w-[280px] z-[3000] absolute top-0 bottom-0 left-0 px-8 h-screen flex flex-col shadow-sm fg-default text-default"
       [class.flex]="showSidebar"
       [class.hidden]="!showSidebar"
       #container
@@ -43,9 +43,7 @@ import { EventEmitterService } from 'core/services';
             alt=""
           />
         </div>
-        <div
-          class="flex items-center flex-col pt-4 text-neutral-600 dark:text-neutral-300"
-        >
+        <div class="flex items-center flex-col pt-4">
           <div class="leading-normal font-medium">Cristian Puenguenan</div>
           <div class="leading-normal text-xs font-medium">
             styven21121@gmail.com
@@ -58,7 +56,7 @@ import { EventEmitterService } from 'core/services';
         <div
           *ngFor="let menuItem of menu; index as i"
           matRipple
-          class="rounded-lg flex items-center py-2 px-4 text-neutral-600 dark:text-neutral-300"
+          class="rounded-lg flex items-center py-2 px-4"
           (click)="onLinkClick(menuItem)"
           [routerLink]="menuItem.url"
           routerLinkActive="active"
@@ -82,7 +80,7 @@ import { EventEmitterService } from 'core/services';
   styles: [
     `
       .active {
-        @apply bg-primary text-white;
+        @apply bg-primary text-white !important;
       }
 
       .active > mat-icon {

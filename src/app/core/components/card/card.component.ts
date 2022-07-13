@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-card',
   standalone: true,
   host: {
-    class:
-      'flex flex-col rounded-xl shadow p-6 gap-4 bg-white dark:fg-dark dark:text-white',
+    class: 'flex flex-col rounded-xl shadow p-6 gap-4 fg-default',
   },
   template: '<ng-content></ng-content>',
 })

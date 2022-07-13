@@ -16,7 +16,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     <div class="flex flex-col p-2">
       <!--Title-->
       <div class="flex pb-4 items-center justify-between">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 text-default">
           <mat-icon class="material-icons-outlined">filter_list</mat-icon>
           <div class="text-xl font-medium">Filtrar</div>
         </div>
@@ -77,7 +77,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <div class="flex p-1.4 items-center" formGroupName="type">
           <mat-icon color="primary" class="mr-2">swap_vert</mat-icon>
           <div class="flex flex-col">
-            <label class="pb-1 text-sm text-[rgba(0,0,0,.8)]">
+            <label class="pb-1 text-sm text-secondary">
               Tipo de movimiento
             </label>
 
@@ -98,13 +98,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <div class="flex gap-8 pt-4">
           <button
             mat-stroked-button
-            color="accent"
             type="button"
             class="w-full"
             (click)="closeDialog()"
           >
-            <mat-icon matPrefix class="mr-1">close</mat-icon>
-            <span>Cancelar</span>
+            <mat-icon matPrefix class="mr-1 text-default">close</mat-icon>
+            <span class="text-default">Cancelar</span>
           </button>
 
           <button mat-flat-button color="primary" class="w-full">

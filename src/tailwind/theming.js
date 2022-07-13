@@ -43,7 +43,7 @@ const generatePalette = ({ name, main, palette }) => {
   return Object.fromEntries([...colors, ...contrast]);
 };
 
-const theming = ({ addUtilities }) => {
+const theming = ({ addBase, addUtilities }) => {
   const primaryEntries = config.colors.map((config) => {
     const palette = generatePalette({ ...config, palette: 'primary' });
     return ['body.theme-' + config.name, palette];
@@ -61,87 +61,33 @@ const theming = ({ addUtilities }) => {
     },
   };
 
-  addUtilities(themes);
+  addBase(themes);
 
   const grayish = colors.neutral;
 
-  const utils = {
-    '.bg-light': {
-      backgroundColor: grayish[100],
-    },
-    '.bg-dark': {
-      backgroundColor: grayish[900],
-    },
-    '.bg-primary': {
-      backgroundColor: 'var(--primary-main)',
-    },
-    '.bg-accent': {
-      backgroundColor: 'var(--accent-main)',
-    },
-    '.bg-warn': {
-      backgroundColor: 'var(--warn-main)',
-    },
+  // Common vars
+  const lightDefaultText = grayish[300];
+  const lightSecondaryText = grayish[400];
 
-    '.fg-light': {
-      backgroundColor: colors.white,
-    },
-    '.fg-dark': {
-      backgroundColor: grayish[800],
-    },
-
-    '.text-primary': {
-      color: 'var(--primary-main)',
-    },
-    '.text-secondary': {},
-
-    '.text-accent': {
-      color: 'var(--accent-main)',
-    },
-    '.text-warn': {
-      color: 'var(--warn-main)',
-    },
-
-    '.border-primary': {
-      border: '1px solid var(--primary-main)',
-    },
-    '.border-accent': {
-      border: '1px solid var(--accent-main)',
-    },
-    '.border-warn': {
-      border: '1px solid var(--warn-main)',
-    },
-  };
-
-  addUtilities(utils);
+  const darkDefaultText = grayish[800];
+  const darkSecondaryText = grayish[600];
 
   // white rgb(255, 255, 255)
   // black rgb(0, 0, 0)
-  const material = {
+  const materialConfig = {
     ':root': {
       // Common variables
-      // '--light-primary-text': '#FFFFFF',
-      // '--light-secondary-text': 'rgba(255, 255, 255, 0.7)',
-      // '--light-disabled-text': 'rgba(255, 255, 255, 0.5)',
-      // '--light-dividers': 'rgba(255, 255, 255, 0.12)',
-      // '--light-focused': 'rgba(255, 255, 255, 0.12)',
-
-      // '--dark-primary-text': 'rgba(0, 0, 0, 0.87)',
-      // '--dark-secondary-text': 'rgba(0, 0, 0, 0.54)',
-      // '--dark-disabled-text': 'rgba(0, 0, 0, 0.38)',
-      // '--dark-dividers': 'rgba(0, 0, 0, 0.12)',
-      // '--dark-focused': 'rgba(0, 0, 0, 0.12)',
-
-      '--light-primary-text': '#FFFFFF',
-      '--light-secondary-text': 'rgba(255, 255, 255, 0.7)',
-      '--light-disabled-text': 'rgba(255, 255, 255, 0.5)',
-      '--light-dividers': 'rgba(255, 255, 255, 0.12)',
+      '--light-default-text': lightDefaultText,
+      '--light-secondary-text': lightSecondaryText,
+      '--light-disabled-text': grayish[500],
+      '--light-dividers': chroma(grayish[100]).alpha(0.12).css(),
       '--light-focused': grayish[200],
 
-      '--dark-primary-text': 'rgba(0, 0, 0, 0.87)',
-      '--dark-secondary-text': grayish[500],
+      '--dark-default-text': darkDefaultText,
+      '--dark-secondary-text': darkSecondaryText,
       '--dark-disabled-text': grayish[400],
       '--dark-dividers': grayish[200],
-      '--dark-focused': 'rgba(0, 0, 0, 0.12)',
+      '--dark-focused': grayish[500],
 
       // Background palette for light theme.
       '--bg-light-status-bar': grayish[300],
@@ -177,7 +123,59 @@ const theming = ({ addUtilities }) => {
     },
   };
 
-  addUtilities(material);
+  addBase(materialConfig);
+
+  const scheme = {
+    'body.light': {
+      '--bg-default': grayish[100],
+      '--fg-default': '#ffffff',
+      '--text-default': darkDefaultText,
+      '--text-secondary': darkSecondaryText,
+    },
+    'body.dark': {
+      '--bg-default': grayish[900],
+      '--fg-default': grayish[800],
+      '--text-default': lightDefaultText,
+      '--text-secondary': lightSecondaryText,
+    },
+  };
+
+  addUtilities(scheme);
+
+  const utils = {
+    '.bg-default': {
+      backgroundColor: 'var(--bg-default)',
+    },
+    '.bg-primary': {
+      backgroundColor: 'var(--primary-main)',
+    },
+
+    '.fg-default': {
+      backgroundColor: 'var(--fg-default)',
+    },
+
+    '.text-default': {
+      color: 'var(--text-default)',
+    },
+    '.text-primary': {
+      color: 'var(--primary-main)',
+    },
+    '.text-secondary': {
+      color: 'var(--text-secondary)',
+    },
+
+    '.border-primary': {
+      border: '1px solid var(--primary-main)',
+    },
+    '.border-accent': {
+      border: '1px solid var(--accent-main)',
+    },
+    '.border-warn': {
+      border: '1px solid var(--warn-main)',
+    },
+  };
+
+  addUtilities(utils);
 };
 
 module.exports = plugin(theming);
