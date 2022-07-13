@@ -1,5 +1,5 @@
 <div class="flex flex-col p-4 gap-2">
-  <div class="flex items-center justify-between h-[40px]">
+  <div class="flex items-center justify-between text-default h-[40px]">
     <div class="flex items-center gap-2">
       <mat-icon class="material-icons-outlined"
         >account_balance_wallet</mat-icon
@@ -24,7 +24,7 @@
     <div class="flex py-2 items-center">
       <mat-icon color="primary" class="mr-2">swap_vert</mat-icon>
       <div class="flex flex-col">
-        <span class="text-[14px]"> Tipo de movimiento </span>
+        <span class="text-[14px] text-secondary"> Tipo de movimiento </span>
         <mat-radio-group
           class="flex my-2 gap-4"
           color="primary"
@@ -33,9 +33,7 @@
           <mat-radio-button class="mr-4" value="expense">
             Gasto
           </mat-radio-button>
-          <mat-radio-button class="text-[rgba(0,0,0,.8)]" value="income">
-            Ingreso
-          </mat-radio-button>
+          <mat-radio-button value="income"> Ingreso </mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
@@ -141,15 +139,14 @@
     <div class="flex gap-8 pt-3">
       <button
         mat-stroked-button
-        color="accent"
         type="button"
         class="w-full"
         (click)="closeDialog()"
       >
-        <mat-icon matPrefix class="mr-2 material-icons-outlined">
+        <mat-icon matPrefix class="mr-2 material-icons-outlined text-default">
           close
         </mat-icon>
-        <span>Cancelar</span>
+        <span class="text-default">Cancelar</span>
       </button>
 
       <button mat-flat-button color="primary" class="w-full" mat-ripple>

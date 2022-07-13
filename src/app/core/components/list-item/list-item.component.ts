@@ -15,7 +15,7 @@ import { Component, Input } from '@angular/core';
 
         <div class="pl-3 flex flex-col">
           <div class="text-sm font-medium">{{ title | capitalize }}</div>
-          <div class="text-xs">{{ subtitle | capitalize }}</div>
+          <div class="text-xs text-secondary">{{ subtitle | capitalize }}</div>
         </div>
       </div>
       <div class="text-sm font-medium text-{{ valueColor }}">
