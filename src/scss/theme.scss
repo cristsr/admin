@@ -1,104 +1,36 @@
 @use '@angular/material' as mat;
-
 @use "sass:map";
-
-$palete: dark;
-
-//@debug mat.$indigo-palette;
-
-$dark-primary-text: rgba(black, 0.87);
-$dark-secondary-text: rgba(black, 0.54);
-$dark-disabled-text: rgba(black, 0.38);
-$dark-dividers: rgba(black, 0.12);
-$dark-focused: rgba(black, 0.12);
-$light-primary-text: white;
-$light-secondary-text: rgba(white, 0.7);
-$light-disabled-text: rgba(white, 0.5);
-$light-dividers: rgba(white, 0.12);
-$light-focused: rgba(white, 0.12);
-
-
-// Background palette for light themes.
-//$light-theme-background-palette: (
-//  status-bar: map.get($grey-palette, 300),
-//  bar:    map.get($grey-palette, 100),
-//  background: map.get($grey-palette, 50),
-//  hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
-//  card:       white,
-//  dialog:     white,
-//  disabled-button: rgba(black, 0.12),
-//  raised-button: white,
-//  focused-button: $dark-focused,
-//  selected-button: map.get($grey-palette, 300),
-//  selected-disabled-button: map.get($grey-palette, 400),
-//  disabled-button-toggle: map.get($grey-palette, 200),
-//  unselected-chip: map.get($grey-palette, 300),
-//  disabled-list-option: map.get($grey-palette, 200),
-//  tooltip: map.get($grey-palette, 700),
-//);
-//
-//// Background palette for dark themes.
-//$dark-theme-background-palette: (
-//  status-bar: black,
-//  bar:    map.get($grey-palette, 900),
-//  background: #303030,
-//  hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
-//  card:       map.get($grey-palette, 800),
-//  dialog:     map.get($grey-palette, 800),
-//  disabled-button: rgba(white, 0.12),
-//  raised-button: map.get($grey-palette, 800),
-//  focused-button: $light-focused,
-//  selected-button: map.get($grey-palette, 900),
-//  selected-disabled-button: map.get($grey-palette, 800),
-//  disabled-button-toggle: black,
-//  unselected-chip: map.get($grey-palette, 700),
-//  disabled-list-option: rgba(white, 0.12),
-//  tooltip: map.get($grey-palette, 700),
-//);
-//
-//// Foreground palette for light themes.
-//$light-theme-foreground-palette: (
-//  base:              black,
-//  divider:           $dark-dividers,
-//  dividers:          $dark-dividers,
-//  disabled:          $dark-disabled-text,
-//  disabled-button:   rgba(black, 0.26),
-//  disabled-text:     $dark-disabled-text,
-//  elevation:         black,
-//  hint-text:         $dark-disabled-text,
-//  secondary-text:    $dark-secondary-text,
-//  icon:              rgba(black, 0.54),
-//  icons:             rgba(black, 0.54),
-//  text:              rgba(black, 0.87),
-//  slider-min:        rgba(black, 0.87),
-//  slider-off:        rgba(black, 0.26),
-//  slider-off-active: rgba(black, 0.38),
-//);
-//
-//// Foreground palette for dark themes.
-//$dark-theme-foreground-palette: (
-//  base:              white,
-//  divider:           $light-dividers,
-//  dividers:          $light-dividers,
-//  disabled:          $light-disabled-text,
-//  disabled-button:   rgba(white, 0.3),
-//  disabled-text:     $light-disabled-text,
-//  elevation:         black,
-//  hint-text:         $light-disabled-text,
-//  secondary-text:    $light-secondary-text,
-//  icon:              white,
-//  icons:             white,
-//  text:              white,
-//  slider-min:        white,
-//  slider-off:        rgba(white, 0.3),
-//  slider-off-active: rgba(white, 0.3),
-//);
-
-
 @include mat.core();
 
-/* Generate Primary, Accent and Warn palettes */
+// Common variables
+
+//$light-primary-text: white;
+//$light-secondary-text: rgba(white, 0.7);
+//$light-disabled-text: rgba(white, 0.5);
+//$light-dividers: rgba(white, 0.12);
+//$light-focused: rgba(white, 0.12);
+
+//$dark-primary-text: rgba(black, 0.87);
+//$dark-secondary-text: rgba(black, 0.54);
+//$dark-disabled-text: rgba(black, 0.38);
+//$dark-dividers: rgba(black, 0.12);
+//$dark-focused: rgba(black, 0.12);
+
+$light-primary-text:         var(--light-primary-text);
+$light-secondary-text:       var(--light-secondary-text);
+$light-disabled-text:        var(--light-disabled-text);
+$light-dividers:             var(--light-dividers);
+$light-focused:              var(--light-focused);
+
+$dark-primary-text:          var(--dark-primary-text);
+$dark-secondary-text:        var(--dark-secondary-text);
+$dark-disabled-text:         var(--dark-disabled-text);
+$dark-dividers:              var(--dark-dividers);
+$dark-focused:               var(--dark-focused);
+
+// Generate Primary, Accent and Warn palettes
 $palettes: ();
+
 @each $name in (primary, accent, warn) {
   $palettes: map.merge($palettes, (#{$name}: (
     50: var(--#{$name}-50),
@@ -133,17 +65,66 @@ $palettes: ();
   )));
 }
 
-/* Generate Angular Material themes. Since we are using CSS Custom Properties,
-    we don't have to generate a separate Angular Material theme for each color
-    set. We can just create one light and one dark theme and then switch the
-    CSS Custom Properties to dynamically switch the colors. */
-body.light,
-body .light {
-  //@debug mat.$indigo-palette;
-
+body.light, body .light {
   $base-light-theme: mat.define-light-theme((
     color: ($palettes)
   ));
+
+  // Background palette for light themes.
+  //$light-background: (
+  //  status-bar: map.get(mat.$grey-palette, 300),                  // --bg-light-status-bar
+  //  bar:    map.get(mat.$grey-palette, 100),                      // --bg-light-bar
+  //  background: map.get(mat.$grey-palette, 50),                   // --bg-light-background
+  //  hover:      rgba(black, 0.04),                                // --bg-light-hover
+  //  card:       white,                                            // --bg-light-card
+  //  dialog:     white,                                            // --bg-light-dialog
+  //  disabled-button: rgba(black, 0.12),                           // --bg-light-disabled-button
+  //  raised-button: white,                                         // --bg-light-raised-button
+  //  focused-button: $dark-focused,
+  //  selected-button: map.get(mat.$grey-palette, 300),             // --bg-light-selected-button
+  //  selected-disabled-button: map.get(mat.$grey-palette, 400),    // --bg-light-selected-disabled-button
+  //  disabled-button-toggle: map.get(mat.$grey-palette, 200),      // --bg-light-disabled-button-toggle
+  //  unselected-chip: map.get(mat.$grey-palette, 300),             // --bg-light-unselected-chip
+  //  disabled-list-option: map.get(mat.$grey-palette, 200),        // --bg-light-disabled-list-option
+  //  tooltip: map.get(mat.$grey-palette, 700),                     // --bg-light-tooltip
+  //);
+
+  $light-background: (
+    status-bar:                  var(--bg-light-status-bar),
+    bar:                         var(--bg-light-bar),
+    background:                  var(--bg-light-background),
+    hover:                       rgba(black, 0.04),                                // --bg-light-hover
+    card:                        white,                                            // --bg-light-card
+    dialog:                      white,                                            // --bg-light-dialog
+    disabled-button:             rgba(black, 0.12),                           // --bg-light-disabled-button
+    raised-button:               white,                                         // --bg-light-raised-button
+    focused-button:              $dark-focused,
+    selected-button:             var(--bg-light-selected-button),
+    selected-disabled-button:    var(--bg-light-selected-disabled-button),
+    disabled-button-toggle:      var(--bg-light-disabled-button-toggle),
+    unselected-chip:             var(--bg-light-unselected-chip),
+    disabled-list-option:        var(--bg-light-disabled-list-option),
+    tooltip:                     var(--bg-light-tooltip),
+  );
+
+  // Foreground palette for light themes.
+  $light-foreground: (
+    base:                        black,                  // --fg-light-base
+    divider:                     $dark-dividers,         //
+    dividers:                    $dark-dividers,         //
+    disabled:                    $dark-disabled-text,    //
+    disabled-button:             rgba(black, 0.26),      // --fg-light-disabled-button
+    disabled-text:               $dark-disabled-text,    //
+    elevation:                   black,                  // --fg-light-elevation
+    hint-text:                   $dark-disabled-text,    //
+    secondary-text:              $dark-secondary-text,   //
+    icon:                        rgba(black, 0.54),      // --fg-light-icon
+    icons:                       rgba(black, 0.54),      // --fg-light-icons
+    text:                        rgba(black, 0.87),      // --fg-light-text
+    slider-min:                  rgba(black, 0.87),      // --fg-light-slider-min
+    slider-off:                  rgba(black, 0.26),      // --fg-light-slider-off
+    slider-off-active:           rgba(black, 0.38),      // --fg-light-slider-off-active
+  );
 
   $light-theme: (
     color: (
@@ -151,53 +132,73 @@ body .light {
       accent: map.get(map.get($base-light-theme, color), accent),
       warn: map.get(map.get($base-light-theme, color), warn),
       is-dark: map.get(map.get($base-light-theme, color), is-dark),
-      foreground: (
-        base: #000000,
-        divider: #94A3B8,
-        dividers: #94A3B8, /* blueGray.200 */
-        disabled: #94A3B8, /* blueGray.400 */
-        disabled-button: #94A3B8, /* blueGray.400 */
-        disabled-text: #94A3B8, /* blueGray.400 */
-        elevation: #000000,
-        hint-text: #94A3B8, /* blueGray.400 */
-        secondary-text: #64748B, /* blueGray.500 */
-        icon: #64748B, /* blueGray.500 */
-        icons: #64748B, /* blueGray.500 */
-        mat-icon: #64748B, /* blueGr.500 */
-        text: #1E293B, /* blueGray.800 */
-        slider-min: #1E293B, /* blueGray.800 */
-        slider-off: #CBD5E1, /* blueGray.300 */
-        slider-off-active: #94A3B8 /* blueGray.400 */
-      ),
-      background: (
-        status-bar: #CBD5E1, /* blueGray.300 */
-        bar: #FFFFFF,
-        background: #F1F5F9, /* blueGray.100 */
-        hover: rgba(148, 163, 184, 0.12), /* blueGray.400 + opacity */
-        card: #FFFFFF,
-        dialog: #FFFFFF,
-        disabled-button: rgba(148, 163, 184, 0.38), /* blueGray.400 + opacity */
-        raised-button: #FFFFFF,
-        focused-button: #64748B, /* blueGray.500 */
-        selected-button: #E2E8F0, /* blueGray.200 */
-        selected-disabled-button: #E2E8F0, /* blueGray.200 */
-        disabled-button-toggle: #CBD5E1, /* blueGray.300 */
-        unselected-chip: #E2E8F0, /* blueGray.200 */
-        disabled-list-option: #CBD5E1, /* blueGray.300 */
-        tooltip: #1E293B /* blueGray.800 */
-      )
+      foreground: $light-foreground,
+      background: $light-background,
     )
   );
 
-  /* Use all-component-colors to only generate the colors */
   @include mat.all-component-colors($light-theme);
 }
 
-body.dark,
-body .dark {
+body.dark, body .dark {
   $base-dark-theme: mat.define-dark-theme((
     color: ($palettes)
   ));
+
+  // Background palette for dark themes.
+  //$dark-background: (
+  //  status-bar:                  black,                                 // --bg-dark-status-bar
+  //  bar:                         map.get(mat.$grey-palette, 900),       // --bg-dark-bar
+  //  background:                  #303030,                               // --bg-dark-background
+  //  hover:                       rgba(white, 0.04),                     // --bg-dark-hover
+  //  card:                        map.get(mat.$grey-palette, 800),       // --bg-dark-card
+  //  dialog:                      map.get(mat.$grey-palette, 800),       // --bg-dark-dialog
+  //  disabled-button:             rgba(white, 0.12),                     // --bg-dark-disabled-button
+  //  raised-button:               map.get(mat.$grey-palette, 800),       // --bg-dark-raised-button
+  //  focused-button:              $light-focused,                        //
+  //  selected-button:             map.get(mat.$grey-palette, 900),       // --bg-dark-selected-button
+  //  selected-disabled-button:    map.get(mat.$grey-palette, 800),       // --bg-dark-selected-disabled-button
+  //  disabled-button-toggle:      black,                                 // --bg-dark-disabled-button-toggle
+  //  unselected-chip:             map.get(mat.$grey-palette, 700),       // --bg-dark-unselected-chip
+  //  disabled-list-option:        rgba(white, 0.12),                     // --bg-dark-disabled-list-option
+  //  tooltip:                     map.get(mat.$grey-palette, 700),       // --bg-dark-tooltip
+  //);
+  $dark-background: (
+    status-bar:                  var(--bg-dark-status-bar),
+    bar:                         var(--bg-dark-bar),
+    background:                  var(--bg-dark-background),
+    hover:                       rgba(white, 0.04),                     // --bg-dark-hover
+    card:                        var(--bg-dark-card),
+    dialog:                      var(--bg-dark-dialog),
+    disabled-button:             rgba(white, 0.12),                     // --bg-dark-disabled-button
+    raised-button:               var(--bg-dark-raised-button),
+    focused-button:              $light-focused,
+    selected-button:             var(--bg-dark-selected-button),
+    selected-disabled-button:    var(--bg-dark-selected-disabled-button),
+    disabled-button-toggle:      black,                                 // --bg-dark-disabled-button-toggle
+    unselected-chip:             var(--bg-dark-unselected-chip),
+    disabled-list-option:        rgba(white, 0.12),                     // --bg-dark-disabled-list-option
+    tooltip:                     var(--bg-dark-tooltip),
+  );
+
+  //// Foreground palette for dark themes.
+  $dark-foreground: (
+    base:                        white,                      // --fg-dark-base
+    divider:                     $light-dividers,            //
+    dividers:                    $light-dividers,            //
+    disabled:                    $light-disabled-text,       //
+    disabled-button:             rgba(white, 0.3),           // --fg-dark-disabled-button
+    disabled-text:               $light-disabled-text,       //
+    elevation:                   black,                      // --fg-dark-elevation
+    hint-text:                   $light-disabled-text,       //
+    secondary-text:              $light-secondary-text,      //
+    icon:                        white,                      // --fg-dark-icon
+    icons:                       white,                      // --fg-dark-icons
+    text:                        white,                      // --fg-dark-text
+    slider-min:                  white,                      // --fg-dark-slider-min
+    slider-off:                  rgba(white, 0.3),           // --fg-dark-slider-off
+    slider-off-active:           rgba(white, 0.3),           // --fg-dark-slider-off-active
+  );
 
   $dark-theme: (
     color: (
@@ -205,44 +206,87 @@ body .dark {
       accent: map.get(map.get($base-dark-theme, color), accent),
       warn: map.get(map.get($base-dark-theme, color), warn),
       is-dark: map.get(map.get($base-dark-theme, color), is-dark),
-      foreground: (
-        base: #FFFFFF,
-        divider: rgba(241, 245, 249, 0.12), /* blueGray.100 + opacity */
-        dividers: rgba(241, 245, 249, 0.12), /* blueGray.100 + opacity */
-        disabled: #475569, /* blueGray.600 */
-        disabled-button: #1E293B, /* blueGray.800 */
-        disabled-text: #475569, /* blueGray.600 */
-        elevation: #000000,
-        hint-text: #64748B, /* blueGray.500 */
-        secondary-text: #94A3B8, /* blueGray.400 */
-        icon: #F1F5F9, /* blueGray.100 */
-        icons: #F1F5F9, /* blueGray.100 */
-        mat-icon: #94A3B8, /* blueGray.400 */
-        text: #FFFFFF,
-        slider-min: #FFFFFF,
-        slider-off: #64748B, /* blueGray.500 */
-        slider-off-active: #94A3B8 /* blueGray.400 */
-      ),
-      background: (
-        status-bar: #0F172A, /* blueGray.900 */
-        bar: #0F172A, /* blueGray.900 */
-        background: #0F172A, /* blueGray.900 */
-        hover: rgba(255, 255, 255, 0.05),
-        card: #1E293B, /* blueGray.800 */
-        dialog: #1E293B, /* blueGray.800 */
-        disabled-button: rgba(15, 23, 42, 0.38), /* blueGray.900 + opacity */
-        raised-button: #0F172A, /* blueGray.900 */
-        focused-button: #E2E8F0, /* blueGray.200 */
-        selected-button: rgba(255, 255, 255, 0.05),
-        selected-disabled-button: #1E293B, /* blueGray.800 */
-        disabled-button-toggle: #0F172A, /* blueGray.900 */
-        unselected-chip: #475569, /* blueGray.600 */
-        disabled-list-option: #E2E8F0, /* blueGray.200 */
-        tooltip: #64748B /* blueGray.500 */
-      )
+      foreground: $dark-foreground,
+      background: $dark-background,
     )
   );
 
-  /* Use all-component-colors to only generate the colors */
   @include mat.all-component-colors($dark-theme);
 }
+
+
+// Light
+//background: (
+//  status-bar: #CBD5E1, /* blueGray.300 */
+//  bar: #FFFFFF,
+//  background: #F1F5F9, /* blueGray.100 */
+//  hover: rgba(148, 163, 184, 0.12), /* blueGray.400 + opacity */
+//  card: #FFFFFF,
+//  dialog: #FFFFFF,
+//  disabled-button: rgba(148, 163, 184, 0.38), /* blueGray.400 + opacity */
+//  raised-button: #FFFFFF,
+//  focused-button: #64748B, /* blueGray.500 */
+//  selected-button: #E2E8F0, /* blueGray.200 */
+//  selected-disabled-button: #E2E8F0, /* blueGray.200 */
+//  disabled-button-toggle: #CBD5E1, /* blueGray.300 */
+//  unselected-chip: #E2E8F0, /* blueGray.200 */
+//  disabled-list-option: #CBD5E1, /* blueGray.300 */
+//  tooltip: #1E293B /* blueGray.800 */
+//)
+//foreground: (
+//  base: #000000,
+//  divider: #94A3B8,
+//  dividers: #94A3B8, /* blueGray.200 */
+//  disabled: #94A3B8, /* blueGray.400 */
+//  disabled-button: #94A3B8, /* blueGray.400 */
+//  disabled-text: #94A3B8, /* blueGray.400 */
+//  elevation: #000000,
+//  hint-text: #94A3B8, /* blueGray.400 */
+//  secondary-text: #64748B, /* blueGray.500 */
+//  icon: #64748B, /* blueGray.500 */
+//  icons: #64748B, /* blueGray.500 */
+//  mat-icon: #64748B, /* blueGr.500 */
+//  text: #1E293B, /* blueGray.800 */
+//  slider-min: #1E293B, /* blueGray.800 */
+//  slider-off: #CBD5E1, /* blueGray.300 */
+//  slider-off-active: #94A3B8 /* blueGray.400 */
+//),
+
+
+// Dark
+//background: (
+//  status-bar: #0F172A, /* blueGray.900 */
+//  bar: #0F172A, /* blueGray.900 */
+//  background: #0F172A, /* blueGray.900 */
+//  hover: rgba(255, 255, 255, 0.05),
+//  card: #1E293B, /* blueGray.800 */
+//  dialog: #1E293B, /* blueGray.800 */
+//  disabled-button: rgba(15, 23, 42, 0.38), /* blueGray.900 + opacity */
+//  raised-button: #0F172A, /* blueGray.900 */
+//  focused-button: #E2E8F0, /* blueGray.200 */
+//  selected-button: rgba(255, 255, 255, 0.05),
+//  selected-disabled-button: #1E293B, /* blueGray.800 */
+//  disabled-button-toggle: #0F172A, /* blueGray.900 */
+//  unselected-chip: #475569, /* blueGray.600 */
+//  disabled-list-option: #E2E8F0, /* blueGray.200 */
+//  tooltip: #64748B /* blueGray.500 */
+//)
+//foreground: (
+//  base: #FFFFFF,
+//  divider: rgba(241, 245, 249, 0.12), /* blueGray.100 + opacity */
+//  dividers: rgba(241, 245, 249, 0.12), /* blueGray.100 + opacity */
+//  disabled: #475569, /* blueGray.600 */
+//  disabled-button: #1E293B, /* blueGray.800 */
+//  disabled-text: #475569, /* blueGray.600 */
+//  elevation: #000000,
+//  hint-text: #64748B, /* blueGray.500 */
+//  secondary-text: #94A3B8, /* blueGray.400 */
+//  icon: #F1F5F9, /* blueGray.100 */
+//  icons: #F1F5F9, /* blueGray.100 */
+//  mat-icon: #94A3B8, /* blueGray.400 */
+//  text: #FFFFFF,
+//  slider-min: #FFFFFF,
+//  slider-off: #64748B, /* blueGray.500 */
+//  slider-off-active: #94A3B8 /* blueGray.400 */
+//),
+

@@ -45,8 +45,8 @@ export class BudgetFormComponent implements OnInit, OnDestroy {
     private data: BudgetFormData | null,
   ) {}
 
-  valueOf<T>(key: string): T {
-    return this.form.get(key).value;
+  valueOf(key: string): any | null {
+    return this.form.get(key)?.value;
   }
 
   ngOnInit(): void {
