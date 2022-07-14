@@ -10,16 +10,24 @@
     </div>
   </app-card>
   <app-card>
+    <div class="text-md font-semibold text-secondary">THEME</div>
     <div class="grid grid-cols-2 gap-4">
       <button
-        class="p-2 rounded-full bg-slate-100 dark:bg-gray-500 box-border border-2 border-slate-100"
         *ngFor="let theme of themeConfig"
+        class="p-2 rounded-full bg-default box-border border-2"
+        [class.border-transparent]="theme.name !== currentTheme?.name"
+        [ngClass]="theme.name === currentTheme?.name && 'border-' + theme.main"
         (click)="setTheme(theme.name)"
-        [ngClass]="theme.name === currentTheme.name && 'border-' + theme.main"
       >
         <div class="flex items-center justify-center gap-2">
           <div class="flex-0 w-3 h-3 rounded-full bg-{{ theme.main }}"></div>
-          <span class="text font-medium"> {{ theme.name | capitalize }}</span>
+          <span
+            class="text font-medium text-secondary"
+            [class.text-default]="theme.name === currentTheme?.name"
+            [class.text-secondary]="theme.name !== currentTheme?.name"
+          >
+            {{ theme.name | capitalize }}
+          </span>
         </div>
       </button>
     </div>

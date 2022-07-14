@@ -69,7 +69,7 @@ const theming = ({ addBase, addUtilities }) => {
   const lightDefaultText = grayish[300];
   const lightSecondaryText = grayish[400];
 
-  const darkDefaultText = grayish[800];
+  const darkDefaultText = grayish[700];
   const darkSecondaryText = grayish[600];
 
   // white rgb(255, 255, 255)

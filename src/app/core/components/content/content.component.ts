@@ -4,7 +4,8 @@ import { Component, HostBinding, Input } from '@angular/core';
   selector: 'app-content',
   standalone: true,
   host: {
-    class: 'flex flex-col p-4 h-full overflow-y-auto bg-default text-default',
+    class:
+      'flex flex-col gap-5 p-5 h-full overflow-y-auto bg-default text-default',
   },
   template: `<ng-content></ng-content>`,
 })

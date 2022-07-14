@@ -22,6 +22,13 @@ export class SettingsComponent implements OnInit {
     return this.themeService.scheme;
   }
 
+  get buttonClass(): any {
+    return {
+      'bg-default': this.scheme === 'light',
+      'bg-dark': this.scheme === 'dark',
+    };
+  }
+
   ngOnInit(): void {
     return;
   }
