@@ -32,5 +32,41 @@
   "warn": {
     "name": "red",
     "main": 500
+  },
+  "palettes": {
+    "primary": [
+      {
+        "color": "indigo",
+        "hue": 500
+      },
+      {
+        "color": "blue",
+        "hue": 500
+      },
+      {
+        "color": "amber",
+        "hue": 500
+      },
+      {
+        "color": "emerald",
+        "hue": 600
+      },
+      {
+        "color": "rose",
+        "hue": 500
+      },
+      {
+        "color": "violet",
+        "hue": 500
+      }
+    ],
+    "accent": {
+      "color": "slate",
+      "hue": 800
+    },
+    "warn": {
+      "color": "red",
+      "hue": 500
+    }
   }
 }

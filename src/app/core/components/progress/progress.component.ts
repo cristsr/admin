@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-progress',
-  host: { class: 'flex bg-gray-100 rounded-full' },
+  host: { class: 'flex bg-default rounded-full' },
   template: `
     <div
       matRipple

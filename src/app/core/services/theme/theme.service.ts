@@ -6,7 +6,7 @@ import { Scheme, ThemeConfig } from 'layout/types';
   providedIn: 'root',
 })
 export class ThemeService {
-  #currentTheme: string;
+  #currentTheme: string = 'blue';
   #scheme: Scheme;
   #themeConfig: ThemeConfig[] = [];
 

@@ -4,10 +4,12 @@ const chroma = require('chroma-js');
 const config = require('../assets/tailwind.json');
 const colors = require('tailwindcss/colors');
 
-const createScheme = (name, main) => ({
-  ...tailwindColors[name],
-  main: tailwindColors[name][main],
-});
+const createScheme = (config) => {
+  const { color, hue } = config;
+  const scheme = tailwindColors[color];
+  scheme.main = scheme[hue];
+  return scheme;
+};
 
 const cssProps = (scheme, name) => {
   return scheme.map(([key, value]) => [`--${name}-${key}`, value]);
@@ -15,71 +17,66 @@ const cssProps = (scheme, name) => {
 
 const generateContrast = (scheme) => {
   const dark = scheme.reduce((acc, [_, color]) => {
-    if (chroma.contrast(color, '#FFFFFF') > chroma.contrast(acc, '#FFFFFF')) {
-      return color;
-    }
-
-    return acc;
+    return chroma.contrast(color, '#FFFFFF') > chroma.contrast(acc, '#FFFFFF')
+      ? color
+      : acc;
   }, '#FFFFFF');
 
   return scheme.map(([key, color]) => {
-    if (chroma.contrast(color, dark) > chroma.contrast(color, '#FFFFFF')) {
-      return [key, dark];
-    }
-
-    return [key, '#FFFFFF'];
+    return chroma.contrast(color, dark) > chroma.contrast(color, '#FFFFFF')
+      ? [key, dark]
+      : [key, '#FFFFFF'];
   });
 };
 
-const generatePalette = ({ name, main, palette }) => {
-  const scheme = createScheme(name, main);
+const generatePalette = (scheme, paletteName) => {
   const schemaEntries = Object.entries(scheme);
-
-  const colors = cssProps(schemaEntries, palette);
-
+  const colors = cssProps(schemaEntries, paletteName);
   const contrastEntries = generateContrast(schemaEntries);
-  const contrast = cssProps(contrastEntries, `contrast-${palette}`);
-
+  const contrast = cssProps(contrastEntries, `contrast-${paletteName}`);
   return Object.fromEntries([...colors, ...contrast]);
 };
 
-const theming = ({ addBase, addUtilities }) => {
-  const primaryEntries = config.colors.map((config) => {
-    const palette = generatePalette({ ...config, palette: 'primary' });
-    return ['body.theme-' + config.name, palette];
-  });
+const generatePalettes = () => {
+  const palettes = config.palettes;
 
-  const primary = Object.fromEntries(primaryEntries);
-  const accent = generatePalette({ ...config.accent, palette: 'accent' });
-  const warn = generatePalette({ ...config.warn, palette: 'warn' });
+  const primary = Object.fromEntries(
+    palettes.primary.map((config) => {
+      const palette = generatePalette(createScheme(config), 'primary');
+      return ['body.theme-' + config.color, palette];
+    }),
+  );
+  const accent = generatePalette(createScheme(palettes.accent), 'accent');
+  const warn = generatePalette(createScheme(palettes.warn), 'warn');
 
-  const themes = {
+  return {
     ...primary,
     body: {
       ...accent,
       ...warn,
     },
   };
+};
 
-  addBase(themes);
+const theming = ({ addBase, addUtilities }) => {
+  const palettes = generatePalettes();
+  addBase(palettes);
 
-  const grayish = colors.neutral;
+  const grayish = colors.slate;
 
   // Common vars
   const lightDefaultText = grayish[300];
   const lightSecondaryText = grayish[400];
 
-  const darkDefaultText = grayish[800];
+  const darkDefaultText = grayish[700];
   const darkSecondaryText = grayish[600];
 
-  // white rgb(255, 255, 255)
-  // black rgb(0, 0, 0)
   const materialConfig = {
     ':root': {
       // Common variables
       '--light-default-text': lightDefaultText,
       '--light-secondary-text': lightSecondaryText,
-      '--light-disabled-text': grayish[500],
+      '--light-disabled-text': grayish[400],
       '--light-dividers': chroma(grayish[100]).alpha(0.12).css(),
       '--light-focused': grayish[200],
 
