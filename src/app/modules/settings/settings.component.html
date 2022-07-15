@@ -1,7 +1,7 @@
 <app-content>
   <app-card>
     <div class="flex justify-between">
-      <span class="font-medium">Modo oscuro</span>
+      <span class="font-medium text-md text-secondary">Modo oscuro</span>
       <mat-slide-toggle
         color="primary"
         (change)="toggleScheme($event)"
@@ -10,7 +10,7 @@
     </div>
   </app-card>
   <app-card>
-    <div class="text-md font-semibold text-secondary">THEME</div>
+    <div class="text-md font-semibold text-secondary">Tema</div>
     <div class="grid grid-cols-2 gap-4">
       <button
         *ngFor="let theme of themeConfig"
