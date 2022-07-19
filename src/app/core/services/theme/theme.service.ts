@@ -11,6 +11,7 @@ export class ThemeService {
   #themeConfig: ThemeConfig[] = [];
 
   constructor(@Inject(DOCUMENT) private document: Document) {
+    this.#currentTheme = this.getDefaultTheme();
     this.setThemeFromCache();
     this.setSchemeFromCache();
   }
@@ -75,6 +76,17 @@ export class ThemeService {
     const scheme = <Scheme>localStorage.getItem('scheme');
     if (scheme) {
       this.setScheme(scheme);
+    }
+  }
+
+  private getDefaultTheme(): string {
+    const { classList } = this.document.body;
+
+    for (let i = 0; i < classList.length; i++) {
+      const className = classList[i];
+      if (className.startsWith('theme-')) {
+        return className.split('theme-')[1];
+      }
     }
   }
 }
