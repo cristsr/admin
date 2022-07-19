@@ -12,6 +12,7 @@ export class ThemeService {
 
   constructor(@Inject(DOCUMENT) private document: Document) {
     this.#currentTheme = this.getDefaultTheme();
+    this.#scheme = this.getDefaultScheme();
     this.setThemeFromCache();
     this.setSchemeFromCache();
   }
@@ -88,5 +89,18 @@ export class ThemeService {
         return className.split('theme-')[1];
       }
     }
+  }
+
+  private getDefaultScheme(): Scheme {
+    const { classList } = this.document.body;
+
+    for (let i = 0; i < classList.length; i++) {
+      const className = classList[i];
+      if (className.includes('light')) {
+        return 'light';
+      }
+    }
+
+    return 'dark';
   }
 }
