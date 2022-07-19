@@ -6,7 +6,6 @@ export enum Events {
 }
 
 export const COLORS = new InjectionToken('COLORS');
-export const THEME_CONFIG = new InjectionToken('THEME_CONFIG');
 export const NAVIGATION_CONFIG = new InjectionToken<Menu[]>(
   'NAVIGATION_CONFIG',
 );
