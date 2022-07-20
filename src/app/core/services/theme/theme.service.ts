@@ -18,7 +18,7 @@ export class ThemeService {
   }
 
   get currentTheme(): ThemeConfig {
-    return this.#themeConfig?.find(({ name }) => name === this.#currentTheme);
+    return this.#themeConfig?.find(({ color }) => color === this.#currentTheme);
   }
 
   get themeConfig(): ThemeConfig[] {
@@ -30,9 +30,9 @@ export class ThemeService {
   }
 
   configureThemes(config: ThemeConfig[]): void {
-    this.#themeConfig = config.map(({ name, main }) => ({
-      name,
-      main: [name, '-', main].join(''),
+    this.#themeConfig = config.map(({ color, hue }) => ({
+      color: color,
+      hue: [color, '-', hue].join(''),
     }));
     console.log('themes', this.#themeConfig);
   }

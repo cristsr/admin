@@ -26,8 +26,8 @@ export interface NavButton {
 export type NavMainAction = 'toggle' | 'close' | 'back';
 
 export interface ThemeConfig {
-  name: string;
-  main: string;
+  color: string;
+  hue: string;
 }
 
 export type Scheme = 'light' | 'dark';

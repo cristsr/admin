@@ -7,7 +7,7 @@ module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{html,ts,css,scss,sass}'],
   safelist: [
-    ...config.colors.map((v) => 'theme-' + v.name),
+    ...config.palettes.primary.map((v) => 'theme-' + v.color),
     {
       pattern: new RegExp(
         `(bg|text|border)-(${mapColors})-(100|200|300|400|500|600|700)`,
