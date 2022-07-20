@@ -36,7 +36,7 @@ import { EventEmitterService } from 'core/services';
       >
         <button
           *ngIf="item.url"
-          class="w-full text-gray-600 dark:text-gray-200"
+          class="w-full text-default"
           [routerLink]="item.url"
           routerLinkActive="!text-primary"
           (click)="submenuChanges.emit(item)"
