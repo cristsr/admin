@@ -1,38 +1,4 @@
 {
-  "colors": [
-    {
-      "name": "indigo",
-      "main": 500
-    },
-    {
-      "name": "blue",
-      "main": 500
-    },
-    {
-      "name": "amber",
-      "main": 500
-    },
-    {
-      "name": "emerald",
-      "main": 600
-    },
-    {
-      "name": "rose",
-      "main": 500
-    },
-    {
-      "name": "violet",
-      "main": 500
-    }
-  ],
-  "accent": {
-    "name": "slate",
-    "main": 800
-  },
-  "warn": {
-    "name": "red",
-    "main": 500
-  },
   "palettes": {
     "primary": [
       {

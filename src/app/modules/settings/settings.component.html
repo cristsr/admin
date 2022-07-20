@@ -15,18 +15,18 @@
       <button
         *ngFor="let theme of themeConfig"
         class="p-2 rounded-full bg-default box-border border-2"
-        [class.border-transparent]="theme.name !== currentTheme?.name"
-        [ngClass]="theme.name === currentTheme?.name && 'border-' + theme.main"
-        (click)="setTheme(theme.name)"
+        [class.border-transparent]="theme.color !== currentTheme?.color"
+        [ngClass]="theme.color === currentTheme?.color && 'border-' + theme.hue"
+        (click)="setTheme(theme.color)"
       >
         <div class="flex items-center justify-center gap-2">
-          <div class="flex-0 w-3 h-3 rounded-full bg-{{ theme.main }}"></div>
+          <div class="flex-0 w-3 h-3 rounded-full bg-{{ theme.hue }}"></div>
           <span
             class="text font-medium text-secondary"
-            [class.text-default]="theme.name === currentTheme?.name"
-            [class.text-secondary]="theme.name !== currentTheme?.name"
+            [class.text-default]="theme.color === currentTheme?.color"
+            [class.text-secondary]="theme.color !== currentTheme?.color"
           >
-            {{ theme.name | capitalize }}
+            {{ theme.color | capitalize }}
           </span>
         </div>
       </button>

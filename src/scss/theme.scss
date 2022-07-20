@@ -2,7 +2,7 @@
 @use "sass:map";
 @include mat.core();
 
-// @debug mat.$indigo-palette;
+ @debug mat.$indigo-palette;
 
 // Common variables
 $light-default-text:         var(--light-default-text);

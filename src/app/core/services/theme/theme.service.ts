@@ -12,12 +12,13 @@ export class ThemeService {
 
   constructor(@Inject(DOCUMENT) private document: Document) {
     this.#currentTheme = this.getDefaultTheme();
+    this.#scheme = this.getDefaultScheme();
     this.setThemeFromCache();
     this.setSchemeFromCache();
   }
 
   get currentTheme(): ThemeConfig {
-    return this.#themeConfig?.find(({ name }) => name === this.#currentTheme);
+    return this.#themeConfig?.find(({ color }) => color === this.#currentTheme);
   }
 
   get themeConfig(): ThemeConfig[] {
@@ -29,9 +30,9 @@ export class ThemeService {
   }
 
   configureThemes(config: ThemeConfig[]): void {
-    this.#themeConfig = config.map(({ name, main }) => ({
-      name,
-      main: [name, '-', main].join(''),
+    this.#themeConfig = config.map(({ color, hue }) => ({
+      color: color,
+      hue: [color, '-', hue].join(''),
     }));
     console.log('themes', this.#themeConfig);
   }
@@ -88,5 +89,18 @@ export class ThemeService {
         return className.split('theme-')[1];
       }
     }
+  }
+
+  private getDefaultScheme(): Scheme {
+    const { classList } = this.document.body;
+
+    for (let i = 0; i < classList.length; i++) {
+      const className = classList[i];
+      if (className.includes('light')) {
+        return 'light';
+      }
+    }
+
+    return 'dark';
   }
 }
