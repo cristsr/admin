@@ -6,6 +6,7 @@ import { Component, HostBinding, Input } from '@angular/core';
   host: {
     class:
       'flex flex-col gap-5 p-5 h-full overflow-y-auto bg-default text-default',
+    role: 'presentation',
   },
   template: `<ng-content></ng-content>`,
 })
