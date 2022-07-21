@@ -98,8 +98,7 @@ export class NavigationComponent implements Panable, OnInit {
   horizontalPaning: boolean;
   previousDelta: number;
   #panVelocity = 1.5;
-  #cancelAnimations = new Subject<void>();
-  #isClosing = false;
+  #isAnimating = false;
 
   get range(): number {
     return this.#range;
@@ -147,11 +146,9 @@ export class NavigationComponent implements Panable, OnInit {
   }
 
   hideSidebar(): void {
-    if (this.#isClosing) {
+    if (this.#isAnimating) {
       return;
     }
-
-    this.#isClosing = true;
 
     this.animateSidebar(100, 0);
   }
@@ -251,14 +248,14 @@ export class NavigationComponent implements Panable, OnInit {
   }
 
   animateSidebar(start: number, end: number, duration = 200): void {
-    this.#cancelAnimations.next();
+    this.#isAnimating = true;
 
-    translateAnimationFrame(start, end, duration)
-      .pipe(takeUntil(this.#cancelAnimations))
-      .subscribe({
-        next: (x) => this.handleTranslateAnimation(x),
-        complete: () => (this.#isClosing = false),
-      });
+    translateAnimationFrame(start, end, duration).subscribe({
+      next: (x) => this.handleTranslateAnimation(x),
+      complete: () => {
+        this.#isAnimating = false;
+      },
+    });
   }
 
   handleTranslateAnimation(percentage: number): void {
