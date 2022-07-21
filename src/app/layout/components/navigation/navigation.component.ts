@@ -56,7 +56,7 @@ import { EventEmitterService } from 'core/services';
         <div
           *ngFor="let menuItem of menu; index as i"
           matRipple
-          class="rounded-lg flex items-center py-2 px-4"
+          class="rounded-lg flex items-center py-2 px-4 cursor-pointer"
           (click)="onLinkClick(menuItem)"
           [routerLink]="menuItem.url"
           routerLinkActive="active"
@@ -97,8 +97,8 @@ export class NavigationComponent implements Panable, OnInit {
   showSidebar = false;
   horizontalPaning: boolean;
   previousDelta: number;
-  #panVelocity = 1;
-  #cancelAnimations = new Subject<void>();
+  #panVelocity = 1.5;
+  #isAnimating = false;
 
   get range(): number {
     return this.#range;
@@ -146,6 +146,10 @@ export class NavigationComponent implements Panable, OnInit {
   }
 
   hideSidebar(): void {
+    if (this.#isAnimating) {
+      return;
+    }
+
     this.animateSidebar(100, 0);
   }
 
@@ -244,11 +248,14 @@ export class NavigationComponent implements Panable, OnInit {
   }
 
   animateSidebar(start: number, end: number, duration = 200): void {
-    this.#cancelAnimations.next();
+    this.#isAnimating = true;
 
-    translateAnimationFrame(start, end, duration)
-      .pipe(takeUntil(this.#cancelAnimations))
-      .subscribe((x) => this.handleTranslateAnimation(x));
+    translateAnimationFrame(start, end, duration).subscribe({
+      next: (x) => this.handleTranslateAnimation(x),
+      complete: () => {
+        this.#isAnimating = false;
+      },
+    });
   }
 
   handleTranslateAnimation(percentage: number): void {

@@ -42,9 +42,11 @@ export class NavigationService {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe({
         next: (e: NavigationEnd) => {
+          const url = e.urlAfterRedirects.split('?')[0];
+
           main: for (const menu of this.navConfig) {
             if (!menu.submenu) {
-              if (menu.url !== e.urlAfterRedirects) {
+              if (menu.url !== url) {
                 continue;
               }
 
@@ -58,7 +60,7 @@ export class NavigationService {
                 continue;
               }
 
-              if (submenu.url === e.urlAfterRedirects) {
+              if (submenu.url === url) {
                 this.setCurrentMenu(menu);
 
                 break main;
