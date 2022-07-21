@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   financesApi: 'https://finances-ms-dev.herokuapp.com/api/v1/',
+  // financesApi: 'http://localhost:5000/api/v1/',
 };
 
 /*

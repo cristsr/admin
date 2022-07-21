@@ -20,7 +20,7 @@ import {
   Summary,
 } from 'modules/finances/types';
 import { SummaryService } from 'modules/finances/services';
-import { EventEmitterService } from 'core/services';
+import { ColorsService, EventEmitterService } from 'core/services';
 import { MovementFormComponent } from 'modules/finances/components';
 
 @Component({
@@ -47,6 +47,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     private bottomSheet: MatBottomSheet,
     private emitter: EventEmitterService,
     private summaryService: SummaryService,
+    private colors: ColorsService,
   ) {}
 
   ngOnInit(): void {
@@ -107,7 +108,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
               name: {
                 show: true,
                 fontSize: '8px',
-                color: '#000',
+                color: this.colors.properties.default,
                 formatter: (val: string): string => {
                   return val.charAt(0).toUpperCase() + val.slice(1);
                 },
@@ -117,13 +118,14 @@ export class SummaryComponent implements OnInit, OnDestroy {
                 fontSize: '22px',
                 fontWeight: 'bold',
                 fontFamily: 'Open Sans',
+                color: this.colors.properties.default,
                 formatter: (val: string): string => {
                   return '$' + parseInt(val, 10).toLocaleString();
                 },
               },
               total: {
                 show: true,
-                color: '#000',
+                color: this.colors.properties.default,
                 label: 'Total',
                 formatter: (val: any): string => {
                   if (!this.categoryExpenses?.length) {
