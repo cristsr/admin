@@ -97,7 +97,7 @@ export class NavigationComponent implements Panable, OnInit {
   showSidebar = false;
   horizontalPaning: boolean;
   previousDelta: number;
-  #panVelocity = 1;
+  #panVelocity = 1.5;
   #cancelAnimations = new Subject<void>();
 
   get range(): number {
