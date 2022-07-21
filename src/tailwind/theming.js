@@ -164,12 +164,6 @@ const theming = ({ addBase, addUtilities }) => {
     '.border-primary': {
       border: '1px solid var(--primary-main)',
     },
-    '.border-accent': {
-      border: '1px solid var(--accent-main)',
-    },
-    '.border-warn': {
-      border: '1px solid var(--warn-main)',
-    },
   };
 
   addUtilities(utils);

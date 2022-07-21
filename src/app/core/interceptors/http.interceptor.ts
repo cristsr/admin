@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { finalize, Observable } from 'rxjs';
 import { EventEmitterService } from 'core/services';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class HttpInterceptor implements NgHttpInterceptor {
@@ -16,10 +17,24 @@ export class HttpInterceptor implements NgHttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
+    // Local date
+    const date = DateTime.local();
+
+    // Set headers
+    const httpRequest = request.clone({
+      setHeaders: {
+        'x-time-zone': date.zoneName,
+        'x-time-zone-offset': date.offset.toString(),
+      },
+    });
+
+    // Show loader
     this.emitter.emit('loader:show', true);
 
-    return next.handle(request).pipe(
+    // Send request
+    return next.handle(httpRequest).pipe(
       finalize(() => {
+        // Hide loader
         this.emitter.emit('loader:show', false);
       }),
     );

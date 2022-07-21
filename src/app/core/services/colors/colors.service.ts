@@ -1,12 +1,32 @@
 import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { WINDOW } from 'core/constants';
 import { COLORS } from 'layout/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColorsService {
-  constructor(@Inject(COLORS) private colors: Record<string, any>) {
-    console.log('Colors', colors);
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window,
+    @Inject(COLORS) private colors: Record<string, any>,
+  ) {}
+
+  get properties(): Record<string, string> {
+    return {
+      default: this.window
+        .getComputedStyle(this.document.body)
+        .getPropertyValue('--text-default'),
+
+      primary: this.window
+        .getComputedStyle(this.document.body)
+        .getPropertyValue('--primary-main'),
+
+      secondary: this.window
+        .getComputedStyle(this.document.body)
+        .getPropertyValue('--text-secondary'),
+    };
   }
 
   classToHex(cssClass: string): string {
@@ -25,13 +45,5 @@ export class ColorsService {
     console.warn(`Could not convert ${cssClass} to hex`);
 
     return '';
-  }
-
-  getColors(): Record<string, any> {
-    return this.colors;
-  }
-
-  getColorHue(color: string, hue: string): string {
-    return this.colors[color][hue];
   }
 }
