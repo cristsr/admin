@@ -3,7 +3,10 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-list-item',
   template: `
-    <div mat-ripple class="flex justify-between items-center rounded-xl py-2">
+    <div
+      mat-ripple
+      class="flex justify-between items-center rounded-xl py-2 cursor-pointer"
+    >
       <div class="flex items-center">
         <div
           class="rounded-full w-8 h-8 flex justify-center items-center bg-{{

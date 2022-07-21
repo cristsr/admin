@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <div
       matRipple
-      class="flex flex-col rounded-full text-center"
+      class="flex flex-col rounded-full text-center cursor-pointer"
       [class]="color"
       [style.width]="progress"
     >

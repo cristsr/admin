@@ -56,7 +56,7 @@ import { EventEmitterService } from 'core/services';
         <div
           *ngFor="let menuItem of menu; index as i"
           matRipple
-          class="rounded-lg flex items-center py-2 px-4"
+          class="rounded-lg flex items-center py-2 px-4 cursor-pointer"
           (click)="onLinkClick(menuItem)"
           [routerLink]="menuItem.url"
           routerLinkActive="active"
